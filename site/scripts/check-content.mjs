@@ -48,10 +48,10 @@ for (const [id, slug] of Object.entries(slugs)) sources[id] = `insights/${slug}.
 // Deliberate exclusions from the verbatim check, each with its reason:
 //   TT-PG-001-B08  Home stats: shown only as "Selected Experience" tiles once verified (C-02–C-07)
 //   TT-PG-004-B04  Team profiles: publish per person when confirmed (D-07)
-//   TT-PG-001-B07  Home fit list: consolidated onto /services#fit (D-14); Home shows a teaser
 // (TT-PG-001-B02's headline "Clarity before Execution." is checked: it is the Method eyebrow.
-//  Every carousel line, including "Want to learn more?", is checked.)
-const notVerbatim = new Set(['TT-PG-001-B08', 'TT-PG-004-B04', 'TT-PG-001-B07']);
+//  Every carousel line, including "Want to learn more?", is checked. The Home fit list is shown
+//  in full again, as in the Home page Word file (D-32).)
+const notVerbatim = new Set(['TT-PG-001-B08', 'TT-PG-004-B04']);
 
 const failures = [];
 const warnings = [];
@@ -67,6 +67,15 @@ for (const b of blocks) {
     if (notVerbatim.has(`${b.block_id}:${line}`)) continue;
     checked++;
     if (!html.includes(line)) failures.push(`${b.block_id} → ${file}: missing "${line.slice(0, 80)}…"`);
+  }
+  // Button labels: "CTA: Label > url" must appear as the label of a link on the page.
+  for (const l of b.text) {
+    const m = /^CTA2?:\s*(.+?)\s*>/.exec(l);
+    if (!m) continue;
+    checked++;
+    const r = raw(review, file);
+    const labels = [...r.matchAll(/<a [^>]*>([\s\S]*?)<\/a>/g)].map((a) => norm(decode(a[1])));
+    if (!labels.some((t) => t.includes(m[1]))) failures.push(`${b.block_id} → ${file}: button "${m[1]}" missing`);
   }
   if (b.heading) { checked++; if (!html.includes(norm(b.heading))) failures.push(`${b.block_id} → ${file}: heading missing "${b.heading}"`); }
 }

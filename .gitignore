@@ -13,3 +13,7 @@ dist-public/
 .env
 .env.*
 !.env.example
+
+# Company Word documents dropped in the root for review: internal (one contains pricing);
+# their text is already archived in docs/website-architecture. This repository is public.
+/*.docx

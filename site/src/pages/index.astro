@@ -11,6 +11,7 @@ import CtaBand from '../components/CtaBand.astro';
 import MethodPath from '../components/MethodPath.astro';
 import NodeGrid from '../components/NodeGrid.astro';
 import FaultLines from '../components/FaultLines.astro';
+import FitList from '../components/FitList.astro';
 import { block, lines, cards, steps, callout, fitlist, carouselPairs, ctas, team } from '../lib/content';
 import { insightById, insightHref, visibleInsights, visibleById } from '../lib/insights';
 import { isVisibleInsight, CASE_STUDIES } from '../lib/routes';
@@ -26,7 +27,7 @@ const [methodTitle, methodLead, methodSub] = lines(block('TT-PG-001-B04'));
 const method = steps(block('TT-PG-001-B05'));
 const outcome = callout(block('TT-PG-001-B06'));
 const fit = fitlist(block('TT-PG-001-B07'));
-const [startConversation] = ctas(block('TT-PG-001-B09'));
+const [startConversation, seeOurWork] = ctas(block('TT-PG-001-B09'));
 const [aboutEyebrow, aboutTitle, aboutSub] = lines(block('TT-PG-004-B01'));
 const mack = team(block('TT-PG-004-B04'))[0];
 const founderIntro = mack.bio[0].split('. ')[0] + '.';
@@ -248,26 +249,23 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
     </section>
   )}
 
-  <section class="section section--tight section--mist" aria-labelledby="fit-h">
-    <div class="container fit-teaser">
-      <div style="display:grid;gap:18px;align-content:start">
+  {/* Full fit list, as documented in the Home page Word file (2026-10-30, D-32). */}
+  <section class="section section--mist" id="fit" aria-labelledby="fit-h">
+    <div class="container">
+      <div class="section-head">
         <h2 id="fit-h" data-split>Is this the right fit?</h2>
-        <p class="muted">{heroSub}</p>
-        <a class="link-arrow" href="/services#fit">See the full fit list <span class="arr" aria-hidden="true">→</span></a>
+        <p class="lead">{heroSub}</p>
       </div>
-      <div class="fit-col fit-col--yes reveal">
-        <h3><Icon name="check" />This is for you if</h3>
-        <ul>{fit.filter((f) => f.fit).slice(0, 3).map((f) => <li><Icon name="yes" class="" /><span>{f.text}</span></li>)}</ul>
-      </div>
+      <div class="reveal"><FitList items={fit} /></div>
     </div>
   </section>
 
-  <!-- 6 · Start a conversation -->
+  <!-- 6 · Start a conversation: CTA and CTA2 exactly as in the Home page Word file -->
   <CtaBand
     id="conversation"
     eyebrow="Start the conversation"
     line={opening.statement}
-    ctas={[{ label: startConversation.label, href: startConversation.href }, { label: 'Book a 30-minute intro call', href: contact.booking }]}
+    ctas={[{ label: startConversation.label, href: startConversation.href }, { label: seeOurWork.label, href: seeOurWork.href }, { label: 'Book a 30-minute intro call', href: contact.booking }]}
     photo={ctaPhoto}
   />
 </Base>
