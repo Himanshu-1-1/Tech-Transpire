@@ -141,7 +141,7 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
   <section class="section section--mist" id="experience" aria-labelledby="built-h">
     <div class:list={['container', 'founder', { 'founder--solo': !showFounder }]}>
       {showFounder && (
-        <figure class="founder-photo reveal">
+        <figure class="founder-photo reveal" style="--fp: 50% 16%">
           {mackPhoto
             ? <Image src={mackPhoto} alt={`${mack.name}, ${mack.role}`} widths={[440, 760]} sizes="(max-width: 819px) 360px, 440px" />
             : <div class="monogram" aria-hidden="true">MA</div>}

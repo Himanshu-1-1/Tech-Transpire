@@ -36,7 +36,11 @@ const portraits: Record<string, ImageMetadata | undefined> = {
   'Kranthi Kumar Goli': undefined,
   'Devjet Bag': undefined,
 };
-const initials = (name: string) => name.split(' ').filter((p) => /^[A-Z]/.test(p)).slice(0, 2).map((p) => p[0]).join('');
+// Framing per portrait in the 4:5 tile: focal point and zoom (Mack's photo is a 2:3 full-length shot).
+const framing: Record<string, string> = {
+  'Mack Akhani': '--fp: 62% 20%; --fz: 1.6',
+};
+const initials =(name: string) => name.split(' ').filter((p) => /^[A-Z]/.test(p)).slice(0, 2).map((p) => p[0]).join('');
 const people = team(teamBlock).filter((p) => isReview || isVerified(...gates[p.name]));
 ---
 <Base title="About | Tech Transpire" description="We built the company we always wanted to be part of: one that embraces complexity, challenges assumptions and refuses to execute without clarity.">
@@ -67,9 +71,9 @@ const people = team(teamBlock).filter((p) => isReview || isVerified(...gates[p.n
         <ul class="team">
           {people.map((p) => (
             <li class="person reveal" data-tilt>
-              <div class="portrait">
+              <div class="portrait" style={framing[p.name]}>
                 {portraits[p.name]
-                  ? <Image src={portraits[p.name]!} alt={`${p.name}, ${p.role}`} widths={[160, 300]} sizes="148px" />
+                  ? <Image src={portraits[p.name]!} alt={`${p.name}, ${p.role}`} widths={[300, 600]} sizes="(max-width: 519px) 120px, 148px" />
                   : <div class="monogram" aria-hidden="true">{initials(p.name)}</div>}
               </div>
               <div>

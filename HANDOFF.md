@@ -76,6 +76,7 @@ The machine used on 2026-10-29 had no system Node; a portable Node 22 from the s
 | 2026-10-30 | **D-32 Word files reviewed:** Home/Services/About match the archive; Home now shows the full fit list and "See Our Work →"; content check covers CTA labels (582 lines). Temp-TT draft = superseded (18). Word files gitignored (public repo) |
 | 2026-10-30 | **Hero fixes:** jiggle near the top (header shrink moved the page and re-crossed the scroll threshold; footprint now constant, new QA check, 47/47); chip data path now brand blue; underline hugs "Through Execution." (clip wipe instead of dash draw) |
 | 2026-10-30 | **On-page review markers off** (company request): amber tags, "Review build" strip and review notes hidden by default; `npm run dev:markers` / `REVIEW_MARKERS=1` brings them back. Items stay tracked in 12 and 19. Review build still shows unverified content and stays `noindex`; public build unchanged |
+| 2026-10-30 | **Mack Akhani photo** supplied by the company and placed (D-33, TT-AS-025): Home founder card and About team tile, framed per placement; rights to confirm |
 
 ## 5. Approved decisions (full text in 12 §5)
 
@@ -93,7 +94,7 @@ D-01 brand statement · D-02 signature offer · D-03 no AI page · D-04 pre-foun
 
 ## 7. Outstanding approvals and inputs (owner: company)
 
-1. **Photography:** the **hero photo is in place** (`hero-glass-office-skyline.png`, supplied 2026-10-29; confirm its rights, TT-AS-024). Still wanted in `docs/phase-2-design/assets/`: `Executive Lounge Meeting Overlooking the City.png` (closing band) and `Mack Akhani.png` (portrait). Note: the dev server must be restarted after adding files there.
+1. **Photography:** the **hero photo is in place** (`hero-glass-office-skyline.png`, supplied 2026-10-29; confirm its rights, TT-AS-024). **Mack Akhani photo in place (D-33).** Still wanted in `docs/phase-2-design/assets/`: `Executive Lounge Meeting Overlooking the City.png` (closing band). Note: the dev server must be restarted after adding files there.
 2. **Claims ([19](docs/website-architecture/19-article-claims-report.md)):** verify, or approve omissions, to release articles. Fastest path: the 005/010 engagement (C-05) and the 001/002 engagement figures; omissions for 001 (B08), 009 (stats + tag + heading), 010 (stats + sentence).
 3. **Launch-blocking wording:** H-01 "three times…" · C-15 "6-8 weeks" / "2 to 6 weeks" · C-17 "1 business day".
 4. **New copy:** N-02 theme lines and the "What we help you achieve" heading · "Selected Experience" intro line · N-04 labels and sentence · N-05 Healthcare · N-06 · N-13 · N-14 · N-16 · N-17 · small UI labels ("A good fit", "Already under way?", "Recovery in practice", concept-graphic labels such as "Stalled" / "Back on a defined path").
