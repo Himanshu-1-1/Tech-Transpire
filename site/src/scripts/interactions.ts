@@ -241,32 +241,42 @@ function heroDepth() {
   on(hero, 'pointerleave', () => set(0, 0));
 }
 
-/** Hero data path: links the floating chips from their measured positions, every frame while
- *  the hero is on screen, so it stays attached as they float (pointer depth, scroll, resize).
- *  Route: chip 01's right edge → chip 04's node; chip 04's lower edge → chip 05's right edge. */
+/** Hero data path: circuit-style traces linking the floating chips, drawn from their measured
+ *  positions every frame while the hero is on screen, so they stay attached as the chips float
+ *  (pointer depth, scroll, resize). Right angles with rounded corners; dot at the start, arrow
+ *  into the next step. Leg 0: chip 01 → chip 04. Leg 1: chip 04 → chip 05. */
+type Pt = [number, number];
+const trace = (pts: Pt[], r = 14) => pts.reduce((d, [x, y], i) => {
+  if (i === 0) return `M${x.toFixed(1)} ${y.toFixed(1)}`;
+  if (i === pts.length - 1) return `${d} L${x.toFixed(1)} ${y.toFixed(1)}`;
+  const [px, py] = pts[i - 1];
+  const [nx, ny] = pts[i + 1];
+  const k = Math.min(r, Math.hypot(x - px, y - py) / 2, Math.hypot(nx - x, ny - y) / 2);
+  const ux = Math.sign(x - px), uy = Math.sign(y - py), vx = Math.sign(nx - x), vy = Math.sign(ny - y);
+  return `${d} L${(x - ux * k).toFixed(1)} ${(y - uy * k).toFixed(1)} Q${x.toFixed(1)} ${y.toFixed(1)} ${(x + vx * k).toFixed(1)} ${(y + vy * k).toFixed(1)}`;
+}, '');
 function heroFlow() {
   const wrap = document.querySelector<HTMLElement>('.hero-chips');
   const svg = wrap?.querySelector<SVGSVGElement>('.hero-flow');
   const chips = wrap ? [...wrap.querySelectorAll<HTMLElement>('.chip-float')] : [];
   if (!wrap || !svg || chips.length < 3 || getComputedStyle(wrap).display === 'none') return;
-  const paths = [...svg.querySelectorAll<SVGPathElement>('path')];
+  const legs = [0, 1].map((i) => [...svg.querySelectorAll<SVGPathElement>(`path[data-leg="${i}"]`)]);
   let last = '';
   const draw = () => {
     const o = wrap.getBoundingClientRect();
-    const [a, b, c] = chips.map((el) => el.getBoundingClientRect());
-    const node = chips[1].querySelector('.chip-node')!.getBoundingClientRect();
-    const p = (x: number, y: number) => `${(x - o.left).toFixed(1)} ${(y - o.top).toFixed(1)}`;
-    const ay = a.top + a.height / 2;
-    const bx = node.left + node.width / 2;
-    const by = node.top + node.height / 2;
-    const cy = c.top + c.height / 2;
-    const reach1 = Math.max(40, (bx - a.right) * 0.55);
-    const d = `M${p(a.right + 6, ay)} C${p(a.right + reach1, ay)} ${p(bx - reach1, by)} ${p(bx - 9, by)}`
-      + ` M${p(b.left + b.width * 0.42, b.bottom + 4)} C${p(b.left + b.width * 0.42, b.bottom + (c.top - b.bottom) * 0.9)} ${p(c.right + 60, cy)} ${p(c.right + 6, cy)}`;
-    if (d === last) return;
-    last = d;
+    const [a, b, c] = chips.map((el) => { const r = el.getBoundingClientRect(); return { l: r.left - o.left, r: r.right - o.left, t: r.top - o.top, b: r.bottom - o.top, cx: r.left - o.left + r.width / 2, cy: r.top - o.top + r.height / 2 }; });
+    // Leg 0: out of chip 01's right edge, across, down, into chip 04's left edge.
+    const midX = b.l > a.r + 40 ? (a.r + b.l) / 2 : a.r + 24;
+    const leg0 = trace([[a.r + 4, a.cy], [midX, a.cy], [midX, b.cy], [b.l - 4, b.cy]]);
+    // Leg 1: down from under chip 04, across into chip 05's right edge.
+    const downX = Math.max(b.l + 26, c.r + 40);
+    const leg1 = trace([[downX, b.b + 4], [downX, c.cy], [c.r + 4, c.cy]]);
+    const key = leg0 + leg1;
+    if (key === last) return;
+    last = key;
     svg.setAttribute('viewBox', `0 0 ${o.width.toFixed(1)} ${o.height.toFixed(1)}`);
-    paths.forEach((el) => el.setAttribute('d', d));
+    legs[0].forEach((el) => el.setAttribute('d', leg0));
+    legs[1].forEach((el) => el.setAttribute('d', leg1));
   };
   draw();
   if (reduced()) return;

@@ -78,8 +78,14 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
         attached while they float. */}
     <div class="hero-chips" aria-hidden="true">
       <svg class="hero-flow" focusable="false">
-        <path class="flow-base" />
-        <path class="flow-pulse" pathLength="1" />
+        <defs>
+          <marker id="flow-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1 L9 5 L1 9 z" /></marker>
+          <marker id="flow-dot" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6"><circle cx="5" cy="5" r="3.6" /></marker>
+        </defs>
+        <path class="flow-base" data-leg="0" />
+        <path class="flow-base" data-leg="1" />
+        <path class="flow-pulse" data-leg="0" pathLength="1" />
+        <path class="flow-pulse flow-pulse--late" data-leg="1" pathLength="1" />
       </svg>
       {/* With the lounge photo the chips sit in the sky, clear of the people (lower right). */}
       <div class="chip-float" style={`--depth:22;--top:${lounge ? '10%' : '18%'};--left:${lounge ? '6%' : '12%'};--d:9`}><span class="chip-node"></span><span class="chip-n">01</span>{method[0].title}</div>
