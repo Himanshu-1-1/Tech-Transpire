@@ -1,0 +1,28 @@
+---
+// Legal pages rendered from their drafts. Built for review now; published once approved (D-13).
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import * as privacy from '../../../docs/website-architecture/drafts/privacy-policy-draft.md';
+import { isReview, approvals } from '../lib/site';
+
+export function getStaticPaths() {
+  return isReview || approvals.privacyPolicy ? [{ params: { legal: 'privacy-policy' } }] : [];
+}
+const { Content } = privacy;
+---
+<Base title="Privacy Policy | Tech Transpire" description="How Tech Transpire collects, uses and protects the information you share with us." draft="Privacy Policy is a first draft awaiting legal review (N-07)">
+  <PageHeader title="Privacy Policy" crumbs={[{ label: 'Home', href: '/' }, { label: 'Privacy Policy' }]} art={false} />
+  <section class="section">
+    <div class="container narrow legal-prose prose"><Content /></div>
+  </section>
+</Base>
+
+<style>
+  .legal-prose :global(h1) { display: none; }
+  .legal-prose :global(h2) { font-size: 1.45rem; margin-top: 1.2em; }
+  .legal-prose :global(h3) { font-size: 1.15rem; margin-top: .6em; }
+  .legal-prose :global(table) { width: 100%; border-collapse: collapse; font-size: 15px; display: block; overflow-x: auto; }
+  .legal-prose :global(th), .legal-prose :global(td) { border-bottom: 1px solid var(--line); padding: 10px 12px 10px 0; text-align: left; vertical-align: top; }
+  .legal-prose :global(blockquote) { border-left: 3px solid var(--sky); padding-left: 16px; color: var(--muted); }
+  .legal-prose :global(ul) { display: grid; gap: .4em; }
+</style>

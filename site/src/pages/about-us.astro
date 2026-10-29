@@ -1,0 +1,93 @@
+---
+// About (/about-us, D-23). Profiles publish individually once confirmed (D-07); the Akhani LLC
+// paragraph is N-06 Option B, subject to legal wording (D-08).
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Icon from '../components/Icon.astro';
+import Flag from '../components/Flag.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { block, lines, cards, team, ctas } from '../lib/content';
+import { isVerified } from '../lib/claims';
+import { asset } from '../lib/images';
+import { isReview, approvals } from '../lib/site';
+
+const [eyebrow, title, lead] = lines(block('TT-PG-004-B01'));
+const story = block('TT-PG-004-B02');
+const values = block('TT-PG-004-B03');
+const teamBlock = block('TT-PG-004-B04');
+const message = block('TT-PG-004-B05');
+const [workWithUs, caseStudies] = ctas(block('TT-PG-004-B06'));
+const [closingLine, ...statements] = [...lines(message)].reverse();
+
+// Gating per person: the claims each profile depends on (12 §3, D-07).
+const gates: Record<string, string[]> = {
+  'Mack Akhani': ['C-10', 'C-02', 'C-05', 'C-06', 'C-07'],
+  'Hemang Dwivedi': ['C-20'],
+  'Kranthi Kumar Goli': ['C-12'],
+  'Devjet Bag': ['C-13'],
+};
+const photos: Record<string, string> = { 'Mack Akhani': 'TT-AS-003', 'Hemang Dwivedi': 'TT-AS-004', 'Kranthi Kumar Goli': 'TT-AS-005', 'Devjet Bag': 'TT-AS-006' };
+const people = team(teamBlock).filter((p) => isReview || isVerified(...gates[p.name]));
+---
+<Base title="About | Tech Transpire" description="We built the company we always wanted to be part of: one that embraces complexity, challenges assumptions and refuses to execute without clarity.">
+  <PageHeader eyebrow={eyebrow} title={title} lead={lead} crumbs={[{ label: 'Home', href: '/' }, { label: 'About' }]} />
+
+  <section class="section" id="story" aria-labelledby="story-h">
+    <div class="container two-col">
+      <div class="section-head" style="margin:0"><h2 id="story-h">{story.heading}</h2></div>
+      <div class="prose">{story.text.map((p) => <p>{p}</p>)}</div>
+    </div>
+  </section>
+
+  <section class="section section--mist" id="values" aria-labelledby="values-h">
+    <div class="container">
+      <div class="section-head"><h2 id="values-h">{values.heading}</h2></div>
+      <ul class="grid grid-3">
+        {cards(values).map((v) => <li class="card reveal"><span class="icon-tile"><Icon name={v.icon} /></span><h3>{v.title}</h3><p>{v.body}</p></li>)}
+      </ul>
+    </div>
+  </section>
+
+  {people.length > 0 && (
+    <section class="section" id="team" aria-labelledby="team-h">
+      <div class="container">
+        <div class="section-head"><h2 id="team-h">{teamBlock.heading}</h2></div>
+        <ul class="team">
+          {people.map((p) => (
+            <li class="person reveal">
+              <Image src={asset(photos[p.name])} alt={`${p.name}, ${p.role}`} widths={[160, 280]} sizes="140px" />
+              <div>
+                <h3>{p.name}</h3>
+                <p class="role">{p.role}</p>
+                <div class="bio">{p.bio.map((b) => <p>{b}</p>)}</div>
+                <a class="li" href={p.linkedin} target="_blank" rel="noopener">LinkedIn profile →</a>
+                <Flag label={`Publishes when confirmed: ${gates[p.name].join(', ')}`} block />
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <section class="section section--mist" id="message" aria-labelledby="message-h">
+    <div class="container">
+      <div class="section-head"><h2 id="message-h">{message.heading}</h2></div>
+      <div class="quote-list" style="max-width:860px">
+        {statements.reverse().map((s) => <blockquote class="reveal">{s}</blockquote>)}
+      </div>
+    </div>
+  </section>
+
+  {(isReview || approvals.akhaniParagraph) && (
+    <section class="section section--tight" id="relationships" aria-labelledby="rel-h">
+      <div class="container narrow">
+        <h2 id="rel-h" style="font-size:1.4rem">Our company<Flag label="N-06 Option B · legal wording review" /></h2>
+        <p class="muted" style="margin-top:14px">Tech Transpire is a DBA of Akhani LLC. Akhani LLC also operates True Lean Solutions, which focuses on software development, automation, integration and implementation. Tech Transpire leads the advisory work: understanding the problem, aligning stakeholders and designing the plan. Where a client needs hands-on build capacity, we can introduce True Lean Solutions as one option.</p>
+      </div>
+    </section>
+  )}
+
+  <CtaBand line={closingLine} ctas={[workWithUs, caseStudies]} />
+</Base>

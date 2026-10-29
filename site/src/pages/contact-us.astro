@@ -1,0 +1,158 @@
+---
+// Contact (/contact-us, D-23). Form: approved field set (D-12, 06 §10), messages N-09.
+// Posts to /api/inquiry, the server function that creates the Zoho CRM lead and sends the
+// email notification (D-16, Phase 2 Step E). Success is shown only when the server confirms.
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Flag from '../components/Flag.astro';
+import { block, lines, paragraph } from '../lib/content';
+import { contact, approvals, isReview } from '../lib/site';
+
+const [, eyebrow] = lines(block('TT-PG-005-B01'));
+const startHeading = block('TT-PG-005-B02').heading;
+const fastest = lines(block('TT-PG-005-B02')).at(-1)!;
+const booking = block('TT-PG-005-B03');
+const bookingText = paragraph('TT-PG-005-B03', 'We prioritize');
+const next = block('TT-PG-005-B04');
+const nextSteps = lines(next).filter((_, n) => n % 2 === 1);
+const form = block('TT-PG-005-B05');
+const formIntro = paragraph('TT-PG-005-B05', 'Prefer to write first?');
+const success = paragraph('TT-PG-005-B05', 'Thank you');
+
+const interests = [
+  { value: 'discovery', label: 'Discovery and clarity' },
+  { value: 'blueprint', label: 'Execution blueprint' },
+  { value: 'implementation', label: 'Guided implementation' },
+  { value: 'recovery', label: 'Recovering a stalled or underperforming initiative' },
+  { value: 'referral', label: 'Referral or partnership' },
+  { value: 'other', label: 'Something else' },
+];
+const sources = ['LinkedIn', 'Facebook', 'Referral', 'Search', ...(isReview || approvals.newFormOptions ? ['Event or presentation', 'Existing client or colleague'] : []), 'Other'];
+---
+<Base title="Contact | Tech Transpire" description="Start a conversation with Tech Transpire. Book an intro call or send us a message — we will respond within one business day.">
+  <PageHeader eyebrow={eyebrow} title={startHeading} crumbs={[{ label: 'Home', href: '/' }, { label: 'Contact' }]} art={false} />
+
+  <section class="section">
+    <div class="container contact-grid">
+      <div style="display:grid;gap:40px">
+        <ul class="contact-list" aria-label="Contact details">
+          <li><span class="k">Email</span><a class="v" href={`mailto:${contact.email}`}>{contact.email}</a></li>
+          <li><span class="k">Phone</span><a class="v" href={`tel:${contact.tel}`}>{contact.phone}</a></li>
+          <li><span class="k">LinkedIn</span><a class="v" href={contact.linkedin} target="_blank" rel="noopener">Tech Transpire</a></li>
+        </ul>
+
+        <aside class="panel panel--navy on-navy" style="grid-template-columns:minmax(0,1fr);gap:16px" aria-labelledby="book-h">
+          <p class="eyebrow">{fastest}</p>
+          <h2 id="book-h" class="panel-title" style="margin:0">{booking.heading}</h2>
+          <p class="panel-body">{bookingText}</p>
+          <div><a class="btn btn-light" href={contact.booking} target="_blank" rel="noopener">Book your intro call <span class="arr" aria-hidden="true">→</span></a></div>
+        </aside>
+
+        <div>
+          <h2 style="font-size:1.4rem;margin-bottom:18px">{next.heading}</h2>
+          <ol class="next-steps">{nextSteps.map((s, n) => <li>{s}{n === 0 && <Flag label="C-17 · confirm" />}</li>)}</ol>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <h2 style="font-size:1.75rem">{form.heading}</h2>
+        <p class="muted" style="margin-top:8px">{formIntro}</p>
+        <form class="form" id="inquiry" action="/api/inquiry" method="post" novalidate data-success={success}>
+          <div class="form-status form-status--error" id="form-summary" role="alert" tabindex="-1" hidden></div>
+
+          <div class="field"><label for="f-name">Name</label><input id="f-name" name="name" autocomplete="name" required minlength="2" maxlength="120" data-msg="Please enter your name." /></div>
+          <div class="field"><label for="f-company">Company</label><input id="f-company" name="company" autocomplete="organization" required maxlength="120" data-msg="Please enter your company name." /></div>
+          <div class="field"><label for="f-email">Work email</label><input id="f-email" name="email" type="email" autocomplete="email" required maxlength="200" data-msg="Please enter your work email." data-msg-type="That email address doesn't look complete. Please check it." /></div>
+          <div class="field"><label for="f-phone">Phone <span class="opt">(optional)</span></label><input id="f-phone" name="phone" type="tel" autocomplete="tel" pattern="[0-9 +()\-]{7,20}" data-msg-type="Please check the phone number, or leave it blank." /></div>
+          <div class="field field--full">
+            <label for="f-interest">Area of interest</label>
+            <select id="f-interest" name="areaOfInterest" required data-msg="Please choose the option closest to what you'd like to discuss.">
+              <option value="">Select one</option>
+              {interests.map((o) => <option value={o.value}>{o.label}</option>)}
+            </select>
+          </div>
+          <div class="field field--full">
+            <label for="f-message">Message</label>
+            <textarea id="f-message" name="message" required minlength="20" maxlength="4000" aria-describedby="f-message-hint" data-msg="Please tell us a little more, a sentence or two is enough."></textarea>
+            <span class="hint" id="f-message-hint">What is the challenge you are facing? What have you tried so far? What does success look like?</span>
+          </div>
+          <div class="field field--full">
+            <label for="f-source">How did you hear about us? <span class="opt">(optional)</span></label>
+            <select id="f-source" name="source"><option value="">Select one</option>{sources.map((s) => <option>{s}</option>)}</select>
+            <Flag label="N-16 · two new options pending approval" />
+          </div>
+          <div class="hp" aria-hidden="true"><label for="f-website">Website</label><input id="f-website" name="website" tabindex="-1" autocomplete="off" /></div>
+          <input type="hidden" name="startedAt" id="f-started" />
+          <div class="field field--full">
+            <label class="consent" for="f-consent"><input id="f-consent" name="consent" type="checkbox" required data-msg="Please confirm you agree to the Privacy Policy so we can respond." /><span>I agree that Tech Transpire may use the information I've provided to respond to my enquiry, as described in the <a href="/privacy-policy">Privacy Policy</a>.</span></label>
+          </div>
+          <div class="field field--full"><button class="btn btn-primary" type="submit" style="justify-self:start">Send message</button></div>
+          <div class="form-status form-status--ok" id="form-ok" role="status" hidden></div>
+        </form>
+        <p class="muted" style="margin-top:24px;font-size:15px">Know an organization facing a high-stakes change? <a href="/services#fit">See who we work best with</a>, then introduce us, or choose “Referral or partnership” in the form above.<Flag label="N-13 · draft" /></p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const form = document.getElementById('inquiry') as HTMLFormElement | null;
+  if (form) {
+    const started = document.getElementById('f-started') as HTMLInputElement;
+    started.value = String(Date.now());
+    const summary = document.getElementById('form-summary')!;
+    const ok = document.getElementById('form-ok')!;
+    const interest = new URLSearchParams(location.search).get('interest');
+    const select = document.getElementById('f-interest') as HTMLSelectElement;
+    if (interest && [...select.options].some((o) => o.value === interest)) select.value = interest;
+
+    const fields = [...form.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('[name]:not([type=hidden]):not([name=website])')];
+    const errorFor = (el: (typeof fields)[number]) => {
+      if (el.validity.valid) return '';
+      if (el.validity.valueMissing || el.validity.tooShort) return el.dataset.msg ?? '';
+      return el.dataset.msgType ?? el.dataset.msg ?? '';
+    };
+    const show = (el: (typeof fields)[number], msg: string) => {
+      const field = el.closest('.field')!;
+      field.querySelector('.err')?.remove();
+      el.removeAttribute('aria-invalid');
+      field.removeAttribute('data-invalid');
+      if (!msg) return;
+      const id = `${el.id}-err`;
+      const err = Object.assign(document.createElement('span'), { className: 'err', id, textContent: msg });
+      field.append(err);
+      el.setAttribute('aria-invalid', 'true');
+      el.setAttribute('aria-describedby', [el.getAttribute('aria-describedby'), id].filter(Boolean).join(' '));
+      field.setAttribute('data-invalid', '');
+    };
+    fields.forEach((el) => el.addEventListener('blur', () => { if (el.closest('[data-invalid]')) show(el, errorFor(el)); }));
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      ok.hidden = true;
+      const invalid = fields.filter((el) => { const m = errorFor(el); show(el, m); return !!m; });
+      if (invalid.length) {
+        summary.textContent = 'Please check the highlighted fields.';
+        summary.hidden = false;
+        invalid[0].focus();
+        return;
+      }
+      summary.hidden = true;
+      const button = form.querySelector('button[type=submit]') as HTMLButtonElement;
+      button.disabled = true;
+      try {
+        const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+        if (!res.ok) throw new Error(String(res.status));
+        ok.textContent = form.dataset.success ?? '';
+        ok.hidden = false;
+        form.querySelectorAll<HTMLElement>('.field').forEach((f) => (f.hidden = true));
+      } catch {
+        summary.textContent = "Your message didn't go through. Please try again in a moment, or reach us directly at info@techtranspire.com or +1 (979) 479-2779.";
+        summary.hidden = false;
+        summary.focus();
+      } finally {
+        button.disabled = false;
+      }
+    });
+  }
+</script>

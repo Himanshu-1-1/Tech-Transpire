@@ -1,0 +1,22 @@
+---
+import Blueprint from './Blueprint.astro';
+export type Crumb = { label: string; href?: string };
+interface Props { eyebrow?: string; title: string; lead?: string; crumbs?: Crumb[]; art?: boolean }
+const { eyebrow, title, lead, crumbs = [], art = true } = Astro.props;
+---
+<section class="page-header">
+  {art && <div class="page-header-art"><Blueprint people={false} idSuffix="ph" /></div>}
+  <div class="container">
+    {crumbs.length > 0 && (
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <ol>
+          {crumbs.map((c) => <li>{c.href ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}</li>)}
+        </ol>
+      </nav>
+    )}
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h1>{title}<slot name="title-flag" /></h1>
+    {lead && <p class="lead">{lead}</p>}
+    <slot />
+  </div>
+</section>

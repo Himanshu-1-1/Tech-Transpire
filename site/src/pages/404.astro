@@ -1,0 +1,14 @@
+---
+// N-14 (draft).
+import Base from '../layouts/Base.astro';
+import Flag from '../components/Flag.astro';
+---
+<Base title="Page not found | Tech Transpire" description="We couldn't find that page.">
+  <section class="section">
+    <div class="container narrow" style="display:grid;gap:20px">
+      <p class="eyebrow">404</p>
+      <h1 style="font-size:clamp(2.2rem,1.6rem+2vw,3.2rem)">We couldn't find that page.<Flag label="N-14 · draft" /></h1>
+      <p class="lead">It may have moved when we rebuilt our site. Try <a href="/services">Expertise</a>, <a href="/insights">Insights</a> or <a href="/contact-us">Contact</a>, or go to the <a href="/">home page</a>.</p>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,17 @@
+---
+import Icon from './Icon.astro';
+interface Props { items: { fit: boolean; text: string }[]; yesTitle?: string; noTitle?: string }
+const { items, yesTitle = 'A good fit', noTitle = 'Not the right fit' } = Astro.props;
+const yes = items.filter((i) => i.fit);
+const no = items.filter((i) => !i.fit);
+---
+<div class="fit-grid">
+  <div class="fit-col fit-col--yes">
+    <h3><Icon name="check" />{yesTitle}</h3>
+    <ul>{yes.map((i) => <li><Icon name="yes" class="" /><span>{i.text}</span></li>)}</ul>
+  </div>
+  <div class="fit-col fit-col--no">
+    <h3><Icon name="shield" />{noTitle}</h3>
+    <ul>{no.map((i) => <li><Icon name="no" class="" /><span>{i.text}</span></li>)}</ul>
+  </div>
+</div>

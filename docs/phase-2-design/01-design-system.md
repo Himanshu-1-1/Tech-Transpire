@@ -1,7 +1,21 @@
-# 01 — Design System (Phase 2 proposal v1)
+# 01 — Design System (Phase 2, v2)
 
-**Status: proposal, awaiting design approval (Step C).** 2026-10-29.
-**Reference implementation:** [prototypes/home.html](prototypes/home.html), also published for review at the link in [HANDOFF.md](../../HANDOFF.md).
+**Status: Concept 06 direction approved conditionally (2026-10-29), pending review of the rendered screenshots. Typography still to choose (A or B).**
+**Implementation:** the design system is now code in [`site/src/styles/global.css`](../../site/src/styles/global.css) and [`site/src/components/`](../../site/src/components/). The v1 single-file prototype ([prototypes/home.html](prototypes/home.html)) is superseded and kept for the record.
+
+## Changes in v2 (company feedback, 2026-10-29)
+
+| Topic | v1 | v2 |
+|---|---|---|
+| Theme | Light and dark | **Light only**, with selective dark navy bands (closing CTA, signature-offer panel, booking panel, footer). Dark mode not required for launch |
+| Typography | Serif headings proposed | **Two versions for comparison**: A (modern sans, Inter Tight + Inter, closest to Concept 06) and B (Newsreader + Libre Franklin). Switched by `html[data-type]`; see [screenshots](screenshots/README.md) |
+| Hero visual | Blueprint illustration | **Premium architectural photography** per Concept 06 (files requested, [assets/README.md](assets/README.md)). The line illustration stays only as a supporting motif (inner page headers) and as the placeholder until photos arrive |
+| Hero eyebrow | "Business advisory & transformation" (new copy) | "Clarity · Alignment · Execution", the company's own lockup line (F-05, confirm) |
+| Results | Dashed "Awaiting evidence" slot | **"Track record" results band after the approach, before the final conversation.** Public build: verified results only, and the band is hidden until at least two are verified. Placeholders appear only in the review build |
+| Home narrative | Blueprint section order | Challenge → credibility ("Built from experience", founder) → approach (Method + The outcome) → outcomes (themes, results, insights) → conversation |
+| Outcome themes | Unbordered columns | Photo cards (Concept 06), using the cover of the article that best evidences each theme, linked to it |
+
+Sections 2–3 below describe v1 tokens; the light values still apply, and the dark-mode column is retired.
 
 This system adapts the design to the approved content. It does not change content to fit the design. Where the design raises an editorial question, the question is listed in §10 and not applied.
 

@@ -1,0 +1,153 @@
+---
+// Article template. Every block renders verbatim in source order (07 §3), with approved
+// corrections applied in lib/corrections. Case studies publish as authored (D-25).
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Flag from '../../components/Flag.astro';
+import FitList from '../../components/FitList.astro';
+import InsightCard from '../../components/InsightCard.astro';
+import { blocksOf, cards, steps, stats, callout, fitlist, ctas, lines, ICON_KEYS, type Block, type Card } from '../../lib/content';
+import { insights, insightById, TYPE_LABEL, type Insight } from '../../lib/insights';
+import { asset } from '../../lib/images';
+
+export function getStaticPaths() {
+  return insights.map((i) => ({ params: { slug: i.slug }, props: { insight: i } }));
+}
+const { insight: i } = Astro.props as { insight: Insight };
+
+const blocks = blocksOf(i.id).filter((b) => b.block_id !== `${i.id}-B01`);
+const ctaBlock = blocks.find((b) => b.block_type === 'cta');
+const actions = ctaBlock ? ctas(ctaBlock) : [];
+// A closing "Ready to …" section directly before the CTA becomes the CTA panel's text.
+const ctaIndex = ctaBlock ? blocks.indexOf(ctaBlock) : -1;
+const closing = ctaIndex > 0 && blocks[ctaIndex - 1].block_type === 'section' ? blocks[ctaIndex - 1] : undefined;
+
+type Item = { block: Block; extraCard?: Card };
+const items: Item[] = [];
+for (let k = 0; k < blocks.length; k++) {
+  const b = blocks[k];
+  if (b === ctaBlock || b === closing) continue;
+  // E-05: a cards block ending with a dangling icon key absorbs the next one-paragraph section.
+  const l = lines(b);
+  const next = blocks[k + 1];
+  if (b.block_type === 'cards' && ICON_KEYS.has(l[l.length - 1]) && next?.block_type === 'section' && next.text.length === 1) {
+    items.push({ block: b, extraCard: { icon: l[l.length - 1], title: next.heading, body: next.text[0] } });
+    k++;
+    continue;
+  }
+  items.push({ block: b });
+}
+
+// Article carousels alternate statement and attribution.
+function quotePairs(b: Block) {
+  const l = lines(b);
+  const out: { q: string; by?: string }[] = [];
+  for (let n = 0; n < l.length; n += 2) out.push({ q: l[n], by: l[n + 1] });
+  return out;
+}
+
+const sameAsTitle =(h: string) => h.trim().toLowerCase() === i.h1.trim().toLowerCase();
+const crumbs = [{ label: 'Home', href: '/' }, { label: 'Insights', href: '/insights' }, ...(i.type === 'case-study' ? [{ label: 'Case studies', href: '/insights/case-studies' }] : [])];
+const related = i.related.map(insightById);
+const reviewNotes: Record<string, string> = {
+  'TT-INS-003': 'E-09 · one unverified sentence withheld until C-14 is verified',
+  'TT-INS-007': 'C-18 · confirm pre-founding attribution',
+  'TT-INS-008': 'C-18 · confirm pre-founding attribution',
+  'TT-INS-009': 'C-18 · confirm pre-founding attribution',
+  'TT-INS-010': 'C-18 · confirm pre-founding attribution',
+};
+const site = Astro.site!.href.replace(/\/$/, '');
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'Article', headline: i.h1, description: i.excerpt, datePublished: i.dateIso, author: { '@type': 'Person', name: i.author }, publisher: { '@type': 'Organization', name: 'Tech Transpire' }, mainEntityOfPage: `${site}/insights/${i.slug}` },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [...crumbs, { label: i.cardTitle, href: `/insights/${i.slug}` }].map((c, n) => ({ '@type': 'ListItem', position: n + 1, name: c.label, item: `${site}${c.href}` })) },
+];
+---
+<Base title={`${i.cardTitle} | Tech Transpire`} description={i.excerpt} ogImage={asset(i.cover)} jsonLd={jsonLd}>
+  <header class="article-head">
+    <div class="container">
+      <div class="copy">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+          <ol>{crumbs.map((c) => <li><a href={c.href}>{c.label}</a></li>)}<li><span aria-current="page">{i.cardTitle}</span></li></ol>
+        </nav>
+        <p class="eyebrow">{TYPE_LABEL[i.type]}{i.industry ? ` · ${i.industry}` : ''}</p>
+        <h1 id="article-title">{i.h1}</h1>
+        {i.standfirst && <p class="standfirst">{i.standfirst}</p>}
+        <p class="article-meta"><span>{i.author}</span><time datetime={i.dateIso}>{i.dateLabel}</time><span>{i.readTime}</span></p>
+        {reviewNotes[i.id] && <Flag label={reviewNotes[i.id]} block />}
+      </div>
+      <div class="article-cover"><Image src={asset(i.cover)} alt="" widths={[600, 1000]} sizes="(max-width: 899px) 100vw, 480px" loading="eager" /></div>
+    </div>
+  </header>
+
+  <article class="article-body" aria-labelledby="article-title">
+    <div class="container flow">
+      {items.map(({ block: b, extraCard }) => {
+        const heading = b.heading && !sameAsTitle(b.heading) ? b.heading : '';
+        switch (b.block_type) {
+          case 'section':
+            return <section>{heading && <h2>{heading}</h2>}<div class="prose">{b.text.map((p) => <p>{p}</p>)}</div></section>;
+          case 'stats':
+            return (
+              <section class="glance">
+                <p class="eyebrow">{heading || 'At a Glance'}</p>
+                <dl>{stats(b).map((s) => <div><dt>{s.value}</dt><dd>{s.label}</dd></div>)}</dl>
+              </section>
+            );
+          case 'cards':
+            return (
+              <section>
+                {heading && <h2>{heading}</h2>}
+                <ul class="grid grid-2">
+                  {[...cards(b), ...(extraCard ? [extraCard] : [])].map((c) => <li class="card card--plain"><span class="icon-tile"><Icon name={c.icon} /></span><h3>{c.title}</h3><p>{c.body}</p></li>)}
+                </ul>
+                {extraCard && <Flag label="E-05 · fourth card restored from heading" block />}
+              </section>
+            );
+          case 'steps':
+            return <section>{heading && <h2>{heading}</h2>}<ol class="numbered">{steps(b).map((s) => <li><h3>{s.title}</h3><p>{s.body}</p></li>)}</ol></section>;
+          case 'callout': {
+            const c = callout(b);
+            return (
+              <aside class="panel panel--navy on-navy" style="grid-template-columns:minmax(0,1fr)">
+                <div><p class="eyebrow">{c.title}</p>{c.lead && <p class="panel-title">{c.lead}</p>}</div>
+                <div class="panel-body">
+                  {c.body.map((p) => <p>{p}</p>)}
+                  {c.tag && <p class="tag">{c.tag}</p>}
+                  {c.attribution && <p style="font-style:italic;color:var(--on-navy)">{c.attribution}</p>}
+                </div>
+              </aside>
+            );
+          }
+          case 'carousel':
+            return <section class="quote-list">{quotePairs(b).map((x) => <blockquote>{x.q}{x.by && <cite>{x.by}</cite>}</blockquote>)}</section>;
+          case 'fitlist':
+            return <section>{heading && <h2>{heading}</h2>}<FitList items={fitlist(b)} yesTitle="This is for you if" noTitle="It is not for you if" /></section>;
+          default:
+            return <section class="prose">{lines(b).map((p) => <p>{p}</p>)}</section>;
+        }
+      })}
+
+      {actions.length > 0 && (
+        <section class="article-cta on-navy" aria-labelledby="cta-h">
+          {closing ? <h2 id="cta-h">{closing.heading}</h2> : <p class="eyebrow" id="cta-h">Start the conversation</p>}
+          {closing?.text.map((p) => <p style="color:var(--on-navy-muted)">{p}</p>)}
+          <div class="ctas">
+            <a class="btn btn-light" href={actions[0].href}>{actions[0].label}</a>
+            {actions[1] && <a class="link-arrow" href={actions[1].href}>{actions[1].label} <span class="arr" aria-hidden="true">→</span></a>}
+          </div>
+        </section>
+      )}
+    </div>
+  </article>
+
+  <section class="section section--mist" aria-labelledby="rel-h">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <h2 id="rel-h">Related insights</h2>
+        <a class="link-arrow" href={i.expertise.href}>Related expertise: {i.expertise.label} <span class="arr" aria-hidden="true">→</span></a>
+      </div>
+      <ul class="grid grid-3">{related.map((r) => <InsightCard insight={r} />)}</ul>
+    </div>
+  </section>
+</Base>

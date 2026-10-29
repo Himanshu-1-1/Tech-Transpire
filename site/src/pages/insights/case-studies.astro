@@ -1,0 +1,29 @@
+---
+// Case studies (D-17). Lists the authored case studies as published (D-25). The listing adds
+// no summary statistics or achievements of its own.
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import Flag from '../../components/Flag.astro';
+import InsightCard from '../../components/InsightCard.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { insights } from '../../lib/insights';
+
+const caseStudies = insights.filter((i) => i.type === 'case-study');
+---
+<Base title="Case Studies | Tech Transpire" description="How structured discovery, Kaizen and value stream mapping moved stalled initiatives, with each engagement's context and attribution.">
+  <PageHeader
+    title="Case studies"
+    lead="Each case study describes one engagement: the client's situation, what was done, and what changed. Engagements led before Tech Transpire was founded are labelled as such."
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'Insights', href: '/insights' }, { label: 'Case studies' }]}
+  >
+    <Flag slot="title-flag" label="N-17 · draft lead" />
+  </PageHeader>
+  <section class="section" aria-labelledby="cs-h">
+    <div class="container">
+      <h2 id="cs-h" class="visually-hidden">All case studies</h2>
+      <ul class="grid grid-2">{caseStudies.map((i) => <InsightCard insight={i} />)}</ul>
+      <p style="margin-top:32px"><a class="link-arrow" href="/insights">All insights <span class="arr" aria-hidden="true">→</span></a></p>
+    </div>
+  </section>
+  <CtaBand eyebrow="Start the conversation" line="Talk to Us About a Stalled Initiative" ctas={[{ label: 'Talk to Us About a Stalled Initiative', href: '/contact-us?interest=recovery' }, { label: 'Transformation Recovery', href: '/services/transformation-recovery' }]} />
+</Base>

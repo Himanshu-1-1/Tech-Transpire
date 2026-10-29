@@ -1,0 +1,66 @@
+---
+// Transformation Recovery (N-04: one new sentence; everything else is existing text).
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import Icon from '../../components/Icon.astro';
+import Flag from '../../components/Flag.astro';
+import InsightCard from '../../components/InsightCard.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { block, steps, cards } from '../../lib/content';
+import { insightById } from '../../lib/insights';
+import { contact } from '../../lib/site';
+
+const step = steps(block('TT-PG-002-B04')).find((s) => s.title === 'Transformation Recovery')!;
+const card = cards(block('TT-PG-002-B05')).find((c) => c.title === 'Transformation Recovery')!;
+const signs = cards(block('TT-PG-001-B03')).filter((c) => ['Stalled or failing implementations', 'Executing the wrong plan', 'No clear ownership'].includes(c.title));
+const evidence = ['TT-INS-003', 'TT-INS-002', 'TT-INS-007'].map(insightById);
+const cta = { label: 'Talk to Us About a Stalled Initiative', href: '/contact-us?interest=recovery' }; // [E] TT-INS-002-B09
+---
+<Base
+  title="Transformation Recovery | Tech Transpire"
+  description="When an initiative is stalled or underperforming, we diagnose what went wrong, reset the plan, realign stakeholders and drive it to completion."
+>
+  <PageHeader eyebrow="Expertise" title={step.title} lead={step.body} crumbs={[{ label: 'Home', href: '/' }, { label: 'Expertise', href: '/services' }, { label: step.title }]}>
+    <div class="ctas" style="margin-top:8px"><a class="btn btn-primary" href={cta.href}>{cta.label}</a></div>
+  </PageHeader>
+
+  <section class="section" aria-labelledby="scope-h">
+    <div class="container two-col">
+      <div class="section-head" style="margin:0">
+        <p class="eyebrow">What it covers<Flag label="N-04 label" /></p>
+        <h2 id="scope-h">{card.title}</h2>
+      </div>
+      <div class="card card--plain">
+        <span class="icon-tile"><Icon name={card.icon} /></span>
+        <p class="lead">{card.body}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--mist" aria-labelledby="signs-h">
+    <div class="container">
+      <div class="section-head"><h2 id="signs-h">Signs you may need it<Flag label="N-04 label" /></h2></div>
+      <ul class="grid grid-3">
+        {signs.map((s) => <li class="card reveal"><span class="icon-tile"><Icon name={s.icon} /></span><h3>{s.title}</h3><p>{s.body}</p></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="ev-h">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <h2 id="ev-h">Recovery in practice<Flag label="New label · approve" /></h2>
+        <a class="link-arrow" href="/insights/case-studies">All case studies <span class="arr" aria-hidden="true">→</span></a>
+      </div>
+      <ul class="grid grid-3">{evidence.map((i) => <InsightCard insight={i} />)}</ul>
+      <p class="muted" style="margin-top:28px;max-width:70ch">
+        Recovery uses the same discipline as every engagement: understand the real problem first, then build the plan, then stay through delivery.<Flag label="N-04 · draft sentence" />
+        <a href="/services#engagement">See the full engagement path</a>.
+      </p>
+    </div>
+  </section>
+
+  <CtaBand eyebrow="Stalled or underperforming?" line={cta.label} ctas={[cta, { label: 'Book a 30-minute intro call', href: contact.booking }]}>
+    <Flag slot="flag" label="Eyebrow new · approve" />
+  </CtaBand>
+</Base>

@@ -1,0 +1,118 @@
+---
+// Industries landing and Healthcare (D-06). Built only in the review site until the Healthcare
+// draft (N-05) is approved; Industries then joins the primary navigation.
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import Icon from '../../components/Icon.astro';
+import Flag from '../../components/Flag.astro';
+import InsightCard from '../../components/InsightCard.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { block, cards, callout, paragraph } from '../../lib/content';
+import { insightById, insightHref } from '../../lib/insights';
+import { showIndustries, isReview } from '../../lib/site';
+import { D04_ATTRIBUTION } from '../../lib/claims';
+import { asset } from '../../lib/images';
+
+export function getStaticPaths() {
+  return showIndustries ? [{ params: { path: undefined } }, { params: { path: 'healthcare' } }] : [];
+}
+const isHealthcare = Astro.params.path === 'healthcare';
+
+// Situations: verbatim client and challenge excerpts (drafts/healthcare-page-draft.md).
+const situations = [
+  { title: 'Compliance-driven migrations under federal warnings', insight: 'TT-INS-002', quotes: [paragraph('TT-INS-002-B03', 'A healthcare compliance provider')], attribution: D04_ATTRIBUTION },
+  { title: 'Consolidating duplicate processing platforms for a regulated program', insight: 'TT-INS-003', quotes: [paragraph('TT-INS-003-B03', 'A healthcare compliance provider')], attribution: D04_ATTRIBUTION },
+  { title: 'Customer implementation in a healthcare e-learning platform', insight: 'TT-INS-005', quotes: [paragraph('TT-INS-005-B03', 'A healthcare e-learning platform')], attribution: callout(block('TT-INS-005-B08')).attribution },
+  { title: 'Purchasing across a multi-location, PE-backed care network', insight: 'TT-INS-009', quotes: [paragraph('TT-INS-009-B04', 'A private equity-backed eye care operator')], pending: true },
+  { title: 'Data loss at an unowned handoff', insight: 'TT-INS-008', quotes: [paragraph('TT-INS-008-B04', 'A healthcare client was experiencing data loss')], pending: true },
+].filter((s) => isReview || !s.pending);
+
+const components = cards(block('TT-PG-002-B05'));
+const comp = (t: string) => components.find((c) => c.title === t)!;
+const applies = [
+  { c: comp('Clarity & Discovery'), why: 'Finding where elapsed time and data loss really come from before changing systems', ev: ['TT-INS-005', 'TT-INS-008'] },
+  { c: comp('Execution & Delivery'), why: 'Consolidating platforms inherited through acquisition', ev: ['TT-INS-002', 'TT-INS-003'] },
+  { c: comp('Transformation Recovery'), why: 'Long-running migrations under compliance pressure', ev: ['TT-INS-002', 'TT-INS-003'] },
+  { c: comp('Adoption & Outcomes'), why: 'Keeping gains after the engagement ends', ev: ['TT-INS-010'] },
+];
+const related = ['TT-INS-002', 'TT-INS-003', 'TT-INS-005'].map(insightById);
+const consumer = insightById('TT-INS-004');
+const cta = [{ label: 'Start a Conversation', href: '/contact-us?interest=discovery' }];
+---
+{isHealthcare ? (
+  <Base title="Healthcare | Tech Transpire" description="Experience with compliance-driven migrations, regulated data, customer implementation and multi-location operations in healthcare organizations." draft="Healthcare page is draft N-05">
+    <PageHeader eyebrow="Industries" title="Healthcare" crumbs={[{ label: 'Home', href: '/' }, { label: 'Industries', href: '/industries' }, { label: 'Healthcare' }]}
+      lead="Healthcare organizations change under constraints that make a wrong plan unusually expensive: regulated data, reimbursement rules, compliance deadlines, and growth through acquisition that leaves several systems doing the same job.">
+      <p class="muted" style="max-width:62ch">The experience on this page comes from engagements in that environment. Each one is labelled with when and by whom it was led.<Flag label="N-05 · draft introduction" /></p>
+    </PageHeader>
+
+    <section class="section" aria-labelledby="sit-h">
+      <div class="container">
+        <div class="section-head"><h2 id="sit-h">Situations we have worked in<Flag label="N-05 label" /></h2></div>
+        <ol class="grid grid-2" style="list-style:none;padding:0">
+          {situations.map((s) => {
+            const i = insightById(s.insight);
+            return (
+              <li class="card reveal">
+                <h3>{s.title}<Flag label="N-05 label" /></h3>
+                {s.quotes.map((q) => <blockquote class="muted" style="border-left:3px solid var(--sky);padding-left:16px;font-size:15.5px">“{q}”</blockquote>)}
+                {s.attribution ? <p class="result-attr">{s.attribution}</p> : <p><Flag label="Attribution pending (C-18) · hidden in public build" /></p>}
+                <div class="card-links"><a href={insightHref(i)}>{i.cardTitle} →</a></div>
+              </li>
+            );
+          })}
+        </ol>
+      </div>
+    </section>
+
+    <section class="section section--mist" aria-labelledby="apply-h">
+      <div class="container">
+        <div class="section-head"><h2 id="apply-h">How the offer applies here<Flag label="N-05 · draft" /></h2></div>
+        <ul class="grid grid-2">
+          {applies.map((a) => (
+            <li class="card reveal">
+              <span class="icon-tile"><Icon name={a.c.icon} /></span>
+              <h3>{a.c.title}</h3>
+              <p><strong style="color:var(--ink)">{a.why}.</strong> {a.c.body}</p>
+              <div class="card-links">{a.ev.map((id) => { const i = insightById(id); return <a href={insightHref(i)}>{i.cardTitle}</a>; })}</div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="rel-h">
+      <div class="container">
+        <div class="section-head section-head--split"><h2 id="rel-h">Healthcare case studies</h2><a class="link-arrow" href="/insights">All insights <span class="arr" aria-hidden="true">→</span></a></div>
+        <ul class="grid grid-3">{related.map((i) => <InsightCard insight={i} />)}</ul>
+      </div>
+    </section>
+    <CtaBand eyebrow="Start the conversation" line="Most companies don't fail in execution, they fail before it begins." ctas={cta} />
+  </Base>
+) : (
+  <Base title="Industries | Tech Transpire" description="Where the Tech Transpire approach has been applied, starting with healthcare." draft="Industries is hidden from public navigation until N-05 is approved">
+    <PageHeader eyebrow="Industries" title="Industries" lead="Where our approach has been applied, and the evidence behind it." crumbs={[{ label: 'Home', href: '/' }, { label: 'Industries' }]}>
+      <Flag slot="title-flag" label="N-05 · draft lead" />
+    </PageHeader>
+    <section class="section" aria-labelledby="ind-h">
+      <div class="container">
+        <h2 id="ind-h" class="visually-hidden">Sectors</h2>
+        <a class="photo-card reveal" href="/industries/healthcare" style="display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);text-decoration:none;color:inherit">
+          <div class="ph" style="aspect-ratio:auto;min-height:320px"><Image src={asset('TT-AS-009')} alt="" widths={[700, 1100]} sizes="(max-width: 899px) 100vw, 55vw" /></div>
+          <div class="body" style="padding:clamp(28px,4vw,48px);justify-content:center">
+            <p class="eyebrow">Industry</p>
+            <h3 style="font-size:clamp(1.6rem,1.2rem+1vw,2.2rem)">Healthcare</h3>
+            <p>Healthcare organizations change under constraints that make a wrong plan unusually expensive: regulated data, reimbursement rules, compliance deadlines, and growth through acquisition that leaves several systems doing the same job.</p>
+            <span class="link-arrow" style="margin-top:8px">Explore healthcare experience <span class="arr" aria-hidden="true">→</span></span>
+          </div>
+        </a>
+        <div style="margin-top:56px">
+          <p class="eyebrow eyebrow--muted" style="margin-bottom:16px">Selected experience</p>
+          <ul class="grid grid-3"><InsightCard insight={consumer} /></ul>
+        </div>
+      </div>
+    </section>
+    <CtaBand eyebrow="Start the conversation" line="Most companies don't fail in execution, they fail before it begins." ctas={cta} />
+  </Base>
+)}

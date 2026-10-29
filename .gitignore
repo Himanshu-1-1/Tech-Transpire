@@ -6,6 +6,7 @@ Thumbs.db
 # Dependencies and build output (Phase 3)
 node_modules/
 dist/
+dist-public/
 .astro/
 
 # Secrets: Zoho / email credentials must never be committed

@@ -28,7 +28,9 @@ Phase 1 covers discovery, content preservation, information architecture and the
 | 13 | [13-implementation-roadmap.md](13-implementation-roadmap.md) | P0/P1/P2, phase sequence, risks |
 | 14 | [14-phase-one-approval.md](14-phase-one-approval.md) | Sign-off checklist |
 | 15 | [15-technical-remediation-checklist.md](15-technical-remediation-checklist.md) | Live-site fixes (owner actions) and migration/launch checks |
-| 16 | [16-open-decisions-matrix.md](16-open-decisions-matrix.md) | The eight unresolved decisions, with recommendations, awaiting sign-off |
+| 16 | [16-open-decisions-matrix.md](16-open-decisions-matrix.md) | Eight decisions with recommendations (all approved 2026-10-29) |
+| 17 | [17-approved-corrections-log.md](17-approved-corrections-log.md) | Exact before/after of every approved change to existing wording |
+| 18 | [18-drive-master-reconciliation.md](18-drive-master-reconciliation.md) | Master Drive folder review (MS-01 closed), including the superseded May 2026 draft |
 | — | [drafts/](drafts/) | New content for approval: Healthcare page, Privacy Policy, other N-xx items |
 
 ## Data and source files

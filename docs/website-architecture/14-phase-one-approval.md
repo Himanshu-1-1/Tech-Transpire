@@ -16,7 +16,7 @@
 
 | Status | Item | Blocking | Evidence |
 |---|---|---|---|
-| ◐ | Drive folders reviewed. Logo and blogs folders: ☑ reconciled (blogs identical to live). **Master folder: still private** | **Yes**, until the master folder is shared or the company confirms it contains no further website content | 01 §8 |
+| ☑ | Drive folders reviewed. Logo and blogs folders reconciled; **master folder reviewed 2026-10-29** via the company account: no further live content; superseded May draft recorded | Yes | 01 §8, 18 |
 | ☑ | Every live page inventoried with original URL | Yes | 02 |
 | ☑ | All 10 published articles and 2 drafts accounted for; Drive originals match word for word | Yes | 02 §C, 01 §8 |
 | ☑ | 125 / 125 content blocks mapped; nothing silently rewritten | Yes | 07 §3 |
@@ -42,20 +42,22 @@
 | ☑ | D-06 Industries: **approved** — include with Healthcare as the initial industry, built from approved source content; hidden from nav until content is ready if not approved by launch | Yes (both nav variants specified in 05; does not block Phase 2) |
 | ◐ | D-07 Team profiles: publish individually as confirmed | No |
 | ◐ | D-08 Akhani LLC footer + About paragraph: pick Option A or B; legal wording review | No |
-| ☐ | D-09 Article title handling (recommendation in 12) | No |
-| ☐ | D-10 Hold "Hidden Gaps" drafts | No |
-| ☐ | D-11 Editorial corrections E-01 – E-05 | No |
+| ☑ | D-09 Article title handling | No |
+| ☑ | D-10 Hold "Hidden Gaps" drafts | No |
+| ☑ | D-11 Editorial corrections E-01 – E-05 (E-02 = "busywork"); log in 17 | No |
 | ☑ | D-12 Contact form fields | Yes |
 | ◐ | D-13 Privacy Policy first draft ready; legal review pending | Launch blocker, not a Phase 2 blocker |
-| ☐ | D-14 Fit list canonical on Expertise | No |
-| ☐ | D-15 Platform / editing workflow (recommendation in 11) | No (needed before Phase 3) |
+| ☑ | D-14 Fit list canonical on Expertise | No |
+| ☑ | D-15 Platform: Astro (editing layer open) | No (needed before Phase 3) |
 | ◐ | D-16 Zoho CRM + email approved; feasibility checks open; analytics tool open | No (needed before Phase 3) |
-| ☐ | D-17 Case-studies listing page | No |
-| ☐ | D-18 Outcome themes as homepage section + taxonomy | Yes |
+| ☑ | D-17 Case-studies listing page (no unverified summary figures) | No |
+| ☑ | D-18 Outcome themes on the homepage; type filter only for now | Yes |
 | ☑ | D-19 Apex domain: in remediation checklist | No |
 | ☑ | D-20 `/blogs` and "See Our Work" CTAs | No |
 | ☑ | D-22 / D-23 Keep `/services`, `/about-us`, `/contact-us` | Yes |
-| ☐ | D-24 TT-INS-003 published without the C-14 sentence until validated | No |
+| ☑ | D-24 TT-INS-003 published without the C-14 sentence until validated | No |
+| ☑ | D-25 Case-study articles publish as authored; site-level results stay gated | No |
+| ☐ | D-26 Pricing; D-27 Location (raised by the Drive reconciliation, 18) | No |
 
 ## D. Claims governance (non-blocking for structure)
 

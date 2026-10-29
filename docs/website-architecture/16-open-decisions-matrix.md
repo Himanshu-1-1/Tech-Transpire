@@ -1,5 +1,7 @@
 # 16 — Open Decisions Matrix (for your sign-off)
 
+> **Decided 2026-10-29:** all eight approved as recommended, with clarifications on D-11 (E-02 = "busywork"), D-15 (Astro, with secure server-side Zoho integration), D-17 (no unverified results on the listing), D-18 (no theme filter unless the content supports it) and D-24. See [12 §5](12-gaps-and-decisions.md). The table below is kept as the record of what was recommended.
+
 **2026-10-29.** These eight decisions are recommended, not yet made. Nothing here is treated as approved until you say so. Each row: the decision, the options, my recommendation and why, and what it affects downstream. Full context for each is in [12 §5](12-gaps-and-decisions.md).
 
 Reply with the ID and your choice (e.g. "D-09 A, D-10 hold, D-14 yes…"), or "all recommended" to accept every recommendation below.

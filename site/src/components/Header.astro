@@ -1,0 +1,33 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import { primaryNav } from '../lib/site';
+import { logo } from '../lib/images';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const current = (href: string) => (path === href ? 'page' : path.startsWith(href + '/') ? 'true' : undefined);
+---
+<header class="site-header">
+  <div class="container hdr">
+    <a class="brand" href="/" aria-label="Tech Transpire home">
+      <Image src={logo} alt="" width={80} height={80} loading="eager" />
+      <span>Tech Transpire</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <ul>
+        {primaryNav.map((item) => <li><a href={item.href} aria-current={current(item.href)}>{item.label}</a></li>)}
+      </ul>
+    </nav>
+    <a class="btn btn-primary hdr-cta" href="/contact-us" aria-current={current('/contact-us')}>Contact</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-nav">
+      <Icon name="menu" class="icon" />Menu
+    </button>
+  </div>
+  <nav id="mobile-nav" class="mobile-nav" aria-label="Primary (mobile)" hidden>
+    <ul class="container">
+      <li><a href="/" aria-current={current('/')}>Home</a></li>
+      {primaryNav.map((item) => <li><a href={item.href} aria-current={current(item.href)}>{item.label}</a></li>)}
+      <li><a href="/contact-us" aria-current={current('/contact-us')}>Contact</a></li>
+    </ul>
+  </nav>
+</header>

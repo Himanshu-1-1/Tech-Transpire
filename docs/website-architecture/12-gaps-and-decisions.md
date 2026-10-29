@@ -43,7 +43,7 @@ Everything below is captured verbatim in [`source-archive/`](source-archive/) an
 | G-08 | Logo | — | **Resolved**: 5 logo files received (MS-03 closed) |
 | G-09 | Contact form | — | **Resolved in spec**: new field set approved (D-12) |
 | G-10 | Footer / legal | None exists | Footer line approved (D-08); Privacy draft prepared (D-13) |
-| G-11 | Master Drive folder | **Still private** (sign-in required, re-tested 2026-10-29) | Open (MS-01). The Google Sites project and the eCommerce fraud reference material cannot be reconciled until it is shared |
+| G-11 | Master Drive folder | Reviewed 2026-10-29 through the company's Google account (not shared publicly) | **Closed** (MS-01). Live pages match the archive; a superseded May 2026 draft and new photography are recorded in [18](18-drive-master-reconciliation.md) |
 
 ## 3. Claims and credentials register
 
@@ -69,7 +69,7 @@ Nothing in this table is published until its status is ✅. Pending items stay i
 | C-16 | "We guarantee the rigor, clarity, and honesty behind every recommendation" | TT-PG-004-B05 | 🟦 | Guarantees process, not results; recommended to keep |
 | C-17 | "Response within 1 business day" | TT-PG-005 | 🟦 | Confirm it can be met |
 | **C-18** | Engagement identity and timing for TT-INS-007, 008, 009, 010 | Those articles (they have no attribution line) | ⏳ **New** | For each: (a) was it led before Tech Transpire was founded? If so, add the D-04 line. (b) Is it the same engagement as TT-INS-003 / 002 / 005? Until answered they are separate engagements, and none of their figures are combined with other articles |
-| **C-19** | Source material for the $3M fraud-prevention outcome (global eCommerce) | Mentioned by the company; not on the site except the bio | ⏳ **New** | In the private master folder (MS-01) |
+| **C-19** | Source material for the $3M fraud-prevention outcome (global eCommerce) | Mentioned by the company; not on the site except the bio | ⏳ Source located (2026-10-29) | The May 2026 draft's "Fraud Prevention Program — Global eCommerce" summary ([18](18-drive-master-reconciliation.md)). A self-authored summary, not evidence: C-02 still needs supporting evidence |
 | **C-20** | Hemang Dwivedi bio and title | TT-PG-004-B04 | 🟦 | No issue raised. Confirm for publication, as for the other profiles |
 
 ## 4. New content (N-xx)
@@ -107,33 +107,38 @@ Drafts are in [`drafts/`](drafts/).
 | D-06 | Industries in navigation | ✅ **Approved** (2026-10-29, company) | Include Industries in the structure, Healthcare as the initial industry, built from **approved source content only** (no unverified claims). If sufficient approved content is not ready by launch, Industries is **hidden from primary navigation** until it is — the page and nav are specified for both the shown and hidden states (05), so this does not block Phase 2 |
 | D-07 | Team profiles | ✅◐ | Mack: approved subject to C-10. Kranthi: pending C-12. Devjet: pending C-13. Hemang: confirm (C-20). Unconfirmed profiles are hidden, not deleted |
 | D-08 | Akhani LLC disclosure | ✅ **Approved**, subject to legal wording | Footer line + short About paragraph; True Lean Solutions not promoted elsewhere |
-| D-09 | Article titles (Sheet vs Doc) | 🟦 | Doc H1 as page H1; Sheet title as card and SEO title |
-| D-10 | "Hidden Gaps" drafts | 🟦 | Hold as draft |
-| D-11 | Editorial corrections | 🟦 | Approve E-01–E-05 individually (§7) |
+| D-09 | Article titles (Sheet vs Doc) | ✅ **Approved** (2026-10-29) | Doc H1 as page H1; Sheet title as card and SEO title |
+| D-10 | "Hidden Gaps" drafts | ✅ **Approved** (2026-10-29) | Held as draft; excluded from launch |
+| D-11 | Editorial corrections | ✅ **Approved** (2026-10-29) | E-01–E-05 applied. E-02's intended word confirmed: "busywork". Exact record: [17](17-approved-corrections-log.md) |
 | D-12 | Contact form | ✅ **Approved** | Fields: Name, Company, Work email, Phone (optional), Area of interest, Message, plus optional "How did you hear about us?" (Facebook kept) and consent. Annual revenue removed. Spam protection included. Spec in [06 §10](06-page-blueprints.md#10-contact) |
 | D-13 | Legal pages | ✅◐ | Privacy Policy first draft prepared; legal review before publication. Accessibility and Terms in Phase 3/4 |
-| D-14 | Fit list placement | 🟦 | Canonical on Expertise (`/services#fit`), linked from Home |
-| D-15 | Platform and editing workflow | 🟦 | Static-generated site with content in version control; editing layer decided once editors are named (11) |
+| D-14 | Fit list placement | ✅ **Approved** (2026-10-29) | Canonical on Expertise (`/services#fit`); Home shows a short teaser linking to it |
+| D-15 | Platform and editing workflow | ✅ **Approved: Astro** (2026-10-29) | Must support the existing content models, SEO requirements, reusable components and a **secure server-side Zoho CRM integration**. Built in `site/`; record in [phase-2-design/02](../phase-2-design/02-technical-decision-record.md). Editing layer still decided once editors are named |
 | D-16 | Form destination, CRM | ✅ **Approved**, subject to feasibility | Zoho CRM lead + email notification ([11 §4a](11-technical-architecture.md)). Open: analytics tool; Zoho data centre and API access |
-| D-17 | Case-studies listing | 🟦 | `/insights/case-studies` |
-| D-18 | Outcome themes | 🟦 | Homepage section + Insight taxonomy, no pages |
+| D-17 | Case-studies listing | ✅ **Approved** (2026-10-29) | `/insights/case-studies`. **No unverified financial results, statistics or achievements** on the listing itself: it shows the authored case studies (D-25) and adds no summary figures |
+| D-18 | Outcome themes | ✅ **Approved** (2026-10-29) | The four themes are on the homepage. Insights filter only if enough correctly categorized content exists: the themes split 1 / 4–5 / 4 / 2 across 10 articles, so **no theme filter at launch**; Insights filters by content type. Add a theme filter when each theme has at least three articles |
 | D-19 | Apex domain | ✅ **Approved** | In the remediation checklist (R-01, B-03), after DNS/hosting are confirmed |
 | D-20 | "See Our Work" / `/blogs` CTAs | ✅ **Approved** | Interim live fix R-02/R-03 (owner action); new build points to `/insights/case-studies` |
 | D-21 | Drive access | ✅◐ | Logo and Blogs folders received and reconciled; **master folder still private** |
 | D-22 | Keep `/services`, label "Expertise" | ✅ **Approved** ("preserve existing valid URLs") | — |
 | D-23 | Keep `/about-us`, `/contact-us` | ✅ **Approved** | — |
-| **D-24** | TT-INS-003 while C-14 is pending | 🟦 **New** | Recommend: publish TT-INS-003 **without** the C-14 sentence until it is validated. That is a temporary omission, recorded as E-09, and the sentence is restored on verification. Alternative: hold the whole article |
+| D-24 | TT-INS-003 while C-14 is pending | ✅ **Approved** (2026-10-29) | Publish without the C-14 sentence once the rest of its content is approved (E-09); restore it on verification |
+| **D-25** | Case-study articles containing unverified figures (7 of 10 articles: TT-INS-002–005, 007, 009, 010) | ✅ **Approved: publish as authored** (2026-10-29) | Articles are the author's first-person accounts, already public, and publish verbatim with the pre-founding attribution line where it applies (D-04; C-18 still open for 007–010). **Site-level** results (Home results band, bios, Healthcare page figures) stay gated until verified |
+| **D-26** | Publish pricing ("Discovery from $20K", "Blueprint from $40K") found in the May 2026 draft | 🟦 **New** | Not on the live site. Recommend: not at launch; revisit once the offer page is live ([18](18-drive-master-reconciliation.md)) |
+| **D-27** | Show a location ("Based in Dallas-Fort Worth, TX", May 2026 draft) | 🟦 **New** | Recommend: yes, on Contact and in the Organization structured data, if still accurate |
 
 ## 6. Not recommended
 
 Five capability pages · AI & Digital Enablement page (until offering exists) · industry pages other than Healthcare · outcome-theme pages · individual profile pages at launch · FAQ page · partners page · whitepapers section · testimonials section (none exist) · True Lean Solutions in primary navigation or on Home · keeping the Docs → Apps Script → iframe rendering.
 
-## 7. Editorial corrections (existing wording vs suggested): none applied yet
+## 7. Editorial corrections (existing wording vs suggested)
+
+**2026-10-29:** E-01–E-05 and E-09 approved and applied at build time; F-01–F-04 and F-07 approved as punctuation-only and applied. The exact before/after record, and the open F-05/F-06 and new F-08–F-13 items, are in [17-approved-corrections-log.md](17-approved-corrections-log.md). The status column below is historical.
 
 | ID | Location | Existing wording | Suggested | Status |
 |---|---|---|---|---|
 | E-01 | TT-INS-002-B06 | "…after we stepped back, rexactlyan reverting…" | "…after we stepped back, rather than reverting…" | 🟦 typo |
-| E-02 | TT-INS-004-B02 | "returned to buil9work" | "returned to build work" (confirm intended word) | 🟦 typo |
+| E-02 | TT-INS-004-B02 | "returned to buil9work" | "returned to busywork" (intended word confirmed by the company) | ✅ applied |
 | E-03 | TT-PG-004-B04 | "Kranthi Architects enterprise-grade…" | "Kranthi architects enterprise-grade…" | 🟦 |
 | E-04 | TT-PG-004-B04; TT-INS-010-B10 | "TechTranspire" | "Tech Transpire" | 🟦 |
 | E-05 | TT-INS-001-B11 | Card title formatted as a heading | Restore as the fourth card | 🟦 formatting |

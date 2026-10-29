@@ -1,0 +1,17 @@
+---
+import { Image } from 'astro:assets';
+import { asset } from '../lib/images';
+import { TYPE_LABEL, insightHref, type Insight } from '../lib/insights';
+interface Props { insight: Insight; headingLevel?: 'h2' | 'h3' }
+const { insight: i, headingLevel = 'h3' } = Astro.props;
+const H = headingLevel;
+---
+<li class="photo-card reveal" data-type={i.type}>
+  <div class="ph"><Image src={asset(i.cover)} alt="" widths={[480, 800]} sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 380px" /></div>
+  <div class="body">
+    <div class="meta"><span class="type">{TYPE_LABEL[i.type]}</span><span>{i.readTime}</span></div>
+    <H><a href={insightHref(i)}>{i.cardTitle}</a></H>
+    <p>{i.excerpt}</p>
+    <div class="foot"><span>{i.author} · <time datetime={i.dateIso}>{i.dateLabel}</time></span><span class="go" aria-hidden="true">→</span></div>
+  </div>
+</li>

@@ -1,0 +1,113 @@
+---
+// Expertise (/services, D-22). Signature offer → engagement path → components → fit (canonical, D-14).
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import Icon from '../../components/Icon.astro';
+import Flag from '../../components/Flag.astro';
+import FitList from '../../components/FitList.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { block, lines, callout, steps, cards, fitlist, ctas } from '../../lib/content';
+import { insightById, insightHref } from '../../lib/insights';
+
+const [eyebrow, title, lead] = lines(block('TT-PG-002-B01'));
+const offer = block('TT-PG-002-B02');
+const signature = callout(block('TT-PG-002-B03'));
+const engagement = block('TT-PG-002-B04');
+const [discovery, blueprint, guided, recovery] = steps(engagement);
+const components = block('TT-PG-002-B05');
+const audience = block('TT-PG-002-B06');
+const [primary, secondary] = ctas(block('TT-PG-002-B07'));
+
+// Evidence links per component (06 §2, 08 §3.4).
+const evidence: Record<string, string[]> = {
+  'Clarity & Discovery': ['TT-INS-005', 'TT-INS-008', 'TT-INS-006'],
+  'Design & Alignment': ['TT-INS-006'],
+  'Execution & Delivery': ['TT-INS-004'],
+  'Transformation Recovery': ['TT-INS-002', 'TT-INS-003', 'TT-INS-007'],
+  'Adoption & Outcomes': ['TT-INS-010', 'TT-INS-009'],
+  'Ongoing Support': [],
+};
+---
+<Base
+  title="Implementation Clarity & Execution Blueprint | Tech Transpire"
+  description="A structured engagement that gives you clarity and confidence before you commit to execution: discovery, blueprint, guided implementation and recovery."
+  jsonLd={[{ '@context': 'https://schema.org', '@type': 'Service', name: title, provider: { '@type': 'Organization', name: 'Tech Transpire' }, description: lead }]}
+>
+  <PageHeader eyebrow={eyebrow} title={title} lead={lead} crumbs={[{ label: 'Home', href: '/' }, { label: 'Expertise' }]} />
+
+  <section class="section" aria-labelledby="offer-h">
+    <div class="container two-col">
+      <div class="section-head" style="margin:0"><h2 id="offer-h">{offer.heading}</h2></div>
+      <div class="prose">{offer.text.map((p) => <p>{p}</p>)}</div>
+    </div>
+    <div class="container" style="margin-top: clamp(40px, 5vw, 64px)">
+      <aside class="panel panel--navy on-navy" aria-labelledby="sig-h">
+        <div>
+          <p class="eyebrow" id="sig-h">{signature.title}</p>
+          <p class="panel-title">{signature.lead}</p>
+        </div>
+        <div class="panel-body">
+          {signature.body.map((p) => <p>{p}</p>)}
+          {signature.tag ? <p class="tag">{signature.tag}<Flag label="C-15 · confirm timeframe" /></p> : null}
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section section--mist" id="engagement" aria-labelledby="eng-h">
+    <div class="container">
+      <div class="section-head"><h2 id="eng-h">{engagement.heading}</h2></div>
+      <ol class="path">
+        {[discovery, blueprint, guided].map((s, i) => (
+          <li class="path-step reveal">
+            <span class="n">Step {i + 1}</span>
+            <h3>{s.title}</h3>
+            <p>{s.body}{i === 0 && <Flag label="C-15 · “2 to 6 weeks”" />}</p>
+          </li>
+        ))}
+      </ol>
+      <aside class="panel recovery-entry reveal" aria-labelledby="rec-h">
+        <div>
+          <p class="eyebrow">Already under way?<Flag label="New label · approve" /></p>
+          <h3 class="panel-title" id="rec-h">{recovery.title}</h3>
+        </div>
+        <div class="panel-body">
+          <p>{recovery.body}</p>
+          <a class="link-arrow" href="/services/transformation-recovery">{recovery.title} <span class="arr" aria-hidden="true">→</span></a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section" id="components" aria-labelledby="comp-h">
+    <div class="container">
+      <div class="section-head"><h2 id="comp-h">{components.heading}</h2></div>
+      <ul class="grid grid-3">
+        {cards(components).map((c) => (
+          <li class="card reveal" id={c.title.toLowerCase().replace(/[^a-z]+/g, '-')}>
+            <span class="icon-tile"><Icon name={c.icon} /></span>
+            <h3>{c.title}</h3>
+            <p>{c.body}</p>
+            {c.title === 'Transformation Recovery' ? (
+              <div class="card-links"><a href="/services/transformation-recovery">Transformation Recovery →</a></div>
+            ) : evidence[c.title]?.length ? (
+              <div class="card-links">{evidence[c.title].map((id) => { const i = insightById(id); return <a href={insightHref(i)}>{i.cardTitle}</a>; })}</div>
+            ) : null}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--mist" id="fit" aria-labelledby="fit-h">
+    <div class="container">
+      <div class="section-head"><h2 id="fit-h">{audience.heading}</h2></div>
+      <FitList items={fitlist(audience)} />
+      <p class="muted" style="margin-top:24px">
+        Know an organization facing a high-stakes change? Introduce us, or <a href="/contact-us?interest=referral">choose “Referral or partnership” when you get in touch</a>.<Flag label="N-13 · draft" />
+      </p>
+    </div>
+  </section>
+
+  <CtaBand eyebrow="Start the conversation" line={primary.label} ctas={[primary, secondary]} />
+</Base>
