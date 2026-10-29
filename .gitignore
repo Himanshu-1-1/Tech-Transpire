@@ -7,6 +7,7 @@ Thumbs.db
 node_modules/
 dist/
 dist-public/
+dist-pages/
 .astro/
 
 # Secrets: Zoho / email credentials must never be committed

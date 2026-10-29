@@ -52,7 +52,10 @@ npm run validate                        # both builds + tests + content/gating +
 npm run build && npm run preview -- --port 4322
 npm run qa                              # 47 browser checks against :4322
 npm run screenshots                     # 1440/768/390 into docs/phase-2-design/screenshots
+npm run deploy:pages                    # static review preview → gh-pages branch (D-34)
 ```
+
+**Shareable review preview (D-34):** https://himanshu-1-1.github.io/Tech-Transpire/ (GitHub Pages, `gh-pages` branch). It is the review build (all content, no on-page markers, `noindex`), static, under `/Tech-Transpire/`. It has no server, so the contact form shows its failure message. It does **not** update automatically: run `npm run deploy:pages` after changes. This is not the production launch (05 O-6 still applies).
 The machine used on 2026-10-29 had no system Node; a portable Node 22 from the session scratchpad was used. Install Node 22 LTS for ongoing work.
 
 ## 4. Completed milestones

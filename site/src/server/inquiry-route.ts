@@ -1,8 +1,10 @@
 // POST /api/inquiry — server-rendered (needs the server adapter); everything else is static.
+// Injected by astro.config.mjs for server builds only; the static GitHub Pages preview has no
+// server, so there the form shows its honest failure message.
 import type { APIRoute } from 'astro';
-import { handleInquiry, createRateLimiter } from '../../server/inquiry';
-import { zohoConfigFromEnv, createLead } from '../../server/zoho';
-import { mailConfigFromEnv, createMailer } from '../../server/mail';
+import { handleInquiry, createRateLimiter } from './inquiry';
+import { zohoConfigFromEnv, createLead } from './zoho';
+import { mailConfigFromEnv, createMailer } from './mail';
 
 export const prerender = false;
 

@@ -11,6 +11,8 @@
     "dev:markers": "cross-env REVIEW_MARKERS=1 astro dev",
     "build": "astro build",
     "build:public": "cross-env SITE_MODE=public astro build",
+    "build:pages": "cross-env PAGES=1 astro build && node scripts/pages-base.mjs dist-pages",
+    "deploy:pages": "npm run build:pages && node scripts/deploy-pages.mjs",
     "preview": "astro preview",
     "preview:public": "node dist-public/server/entry.mjs",
     "test": "node --experimental-strip-types --no-warnings --test tests/inquiry.test.ts",

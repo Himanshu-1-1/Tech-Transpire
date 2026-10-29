@@ -7,7 +7,7 @@
 | Part | File | State |
 |---|---|---|
 | Form (D-12 field set, N-09 messages, honeypot, start time, `?interest=` preselect) | `site/src/pages/contact-us.astro` | ✅ Built and browser-tested |
-| Server endpoint `POST /api/inquiry` | `site/src/pages/api/inquiry.ts` | ✅ Server-rendered via `@astrojs/node`; everything else stays static |
+| Server endpoint `POST /api/inquiry` | `site/src/server/inquiry-route.ts` (injected by `astro.config.mjs` in server builds) | ✅ Server-rendered via `@astrojs/node`; everything else stays static. Not present in the static GitHub Pages preview |
 | Validation, spam checks, delivery logic | `site/src/server/inquiry.ts` | ✅ Unit-tested |
 | Zoho CRM lead creation (OAuth refresh token → access token → `POST /crm/v8/Leads`) | `site/src/server/zoho.ts` | ✅ Unit-tested against a mocked Zoho API |
 | Email notification (SMTP, e.g. Zoho Mail) | `site/src/server/mail.ts` | ✅ Message format unit-tested; not yet sent through a real server |

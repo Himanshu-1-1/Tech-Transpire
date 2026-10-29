@@ -25,18 +25,36 @@ const redirects = Object.fromEntries(
     .map(([source, , , , target]) => [source, { status: 301, destination: target === '/insights/case-studies' ? caseStudies : target }]),
 );
 
+// PAGES=1 builds a static review preview for GitHub Pages, served under /Tech-Transpire/.
+// No server there: the contact form shows its honest failure message. Root-relative links are
+// prefixed after the build by scripts/pages-base.mjs.
+const pages = process.env.PAGES === '1';
+const PAGES_BASE = '/Tech-Transpire';
+
+// The contact endpoint exists only where a server runs (src/server/inquiry-route.ts).
+const inquiryRoute = {
+  name: 'inquiry-route',
+  hooks: {
+    'astro:config:setup': ({ injectRoute }) => injectRoute({ pattern: '/api/inquiry', entrypoint: './src/server/inquiry-route.ts', prerender: false }),
+  },
+};
+
 export default defineConfig({
-  site: 'https://www.techtranspire.com',
+  site: pages ? 'https://himanshu-1-1.github.io' : 'https://www.techtranspire.com',
+  base: pages ? PAGES_BASE : undefined,
   trailingSlash: 'never',
   // Directory output (contact-us/index.html) so any static host or the Node server resolves
   // /contact-us without a trailing slash. Canonical URLs are unchanged.
   build: { format: 'directory' },
-  outDir: mode === 'public' ? './dist-public' : './dist',
+  outDir: pages ? './dist-pages' : mode === 'public' ? './dist-public' : './dist',
   // Static pages plus one server route (/api/inquiry). The Node adapter runs on any Node host;
   // swap for @astrojs/netlify or @astrojs/vercel once hosting is chosen (D-16).
-  adapter: node({ mode: 'standalone' }),
+  adapter: pages ? undefined : node({ mode: 'standalone' }),
   redirects,
-  integrations: mode === 'public' ? [sitemap({ filter: (page) => !page.includes('/api/') })] : [],
+  integrations: [
+    ...(pages ? [] : [inquiryRoute]),
+    ...(mode === 'public' && !pages ? [sitemap({ filter: (page) => !page.includes('/api/') })] : []),
+  ],
   vite: {
     // Content and assets live in ../docs (Phase 1 archive), outside the Astro root.
     server: { fs: { allow: ['..'] } },
