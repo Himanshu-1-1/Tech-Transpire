@@ -727,6 +727,17 @@ a.v:hover { color: var(--blue); }
 @keyframes ping { 0% { transform: scale(.6); opacity: .9; } 80%, 100% { transform: scale(2.4); opacity: 0; } }
 @media (max-width: 1099px) { .hero-chips { display: none; } }
 
+/* Scroll-linked motion (values from scrollFx; .fx-scroll is absent without JS and under reduced motion).
+   The hero copy lifts and fades as it leaves, the photo drifts slower and eases in closer, the chips
+   rise at their own depths, card photos shift inside their frames, the footer line slides into place. */
+.fx-scroll .hero-copy { opacity: calc(1 - var(--hp, 0) * .85); translate: 0 calc(var(--hp, 0) * -80px); }
+.fx-scroll .hero-media > img { translate: 0 calc(var(--hp, 0) * 110px); scale: calc(1 + var(--hp, 0) * .08); }
+.fx-scroll .chip-float { top: calc(var(--top) - var(--hp, 0) * var(--depth) * 5px); }
+.fx-scroll .hero-flow { opacity: calc(1 - var(--hp, 0) * 3); }
+.fx-scroll .photo-card .ph img { scale: 1.14; translate: 0 calc(var(--pv, 0) * -8%); }
+.fx-scroll .foot-watermark { translate: var(--dx, 0px) 0; }
+.scroll-progress { height: 2px; }
+
 /* Method: continuous data flow after the draw sequence */
 .js .method.is-in .m-pulse { animation: pulse-loop 6s var(--ease-out) 2300ms infinite; }
 .method:not(.is-live) .m-pulse, .method:not(.is-live) .m-complex path { animation-play-state: paused; }
@@ -787,7 +798,7 @@ a.v:hover { color: var(--blue); }
 /* =========================================================================
    Scroll reveals (content is visible without JS and under reduced motion)
    ========================================================================= */
-.js .reveal { opacity: 0; transform: translateY(16px); transition: opacity var(--t-reveal) var(--ease-out), transform var(--t-reveal) var(--ease-out); transition-delay: calc(var(--i, 0) * 70ms); }
+.js .reveal { opacity: 0; transform: translateY(48px) scale(.985); transition: opacity 900ms var(--ease-out), transform 1100ms var(--ease-emph); transition-delay: calc(var(--i, 0) * 90ms); }
 .js .reveal.is-in { opacity: 1; transform: none; }
 .js .method.reveal, .js .concept.reveal, .js .path.reveal { transform: none; }
 

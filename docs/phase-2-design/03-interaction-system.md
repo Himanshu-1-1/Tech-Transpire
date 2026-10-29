@@ -16,6 +16,7 @@
 | **Signature method graphic (light)** | Home, "Our Method" | White→light-blue section with a soft aurora and a blueprint grid. Tangled lines and drifting particles resolve into a sky→deep-blue path with a glow. White glass nodes carry icons, number labels and slowly turning orbit rings; a data pulse loops along the path; the chevron glows at "Clarity" |
 | **Blueprint grid with data lanes** | Method (light) | `NodeGrid tone="light"`: faint grid; pulses run only along the bottom band, never behind text. SVG-native motion, paused off-screen and under reduced motion |
 | **Brand-blue closing band** | Every page | Gradient #0D3A72 → #2A73D9 (was near-black navy) with line-field motif, pointer glow and fine grain |
+| **Scroll-linked motion** | All pages | Page progress bar (2px, every page; articles keep their reading bar). Home hero: copy lifts and fades as it leaves, the photo drifts slower and eases closer, chips rise at their own depths. Card photos shift inside their frames as they pass. Footer "Clarity Before Change." slides into place at the end of the page. Reveals are stronger: 48px rise, 1.1s. All off under reduced motion (`.fx-scroll`) |
 | **Section rail** | Home, ≥ 1280px | Dots for Challenge · Experience · Method · Outcomes · Insights · Conversation; labels on hover; adapts on blue sections |
 | **Details** | Site-wide | Image mask reveals on cards; eyebrow leading rules; outcome-row accent line; scroll-linked engagement path (where supported); large outlined "Clarity Before Change." in the footer |
 

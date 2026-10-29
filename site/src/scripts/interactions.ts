@@ -146,6 +146,47 @@ function readingProgress() {
   on(window, 'scroll', raf(update), { passive: true });
 }
 
+/* ---------- Scroll-linked motion: page progress, hero exit, image parallax, footer drift ----------
+ * Values go into CSS variables; the styles that read them apply only under .fx-scroll,
+ * so without JS or under reduced motion nothing moves. */
+function scrollFx() {
+  const root = document.documentElement;
+  const motion = !reduced();
+  root.classList.toggle('fx-scroll', motion);
+  // Articles keep their own reading bar; every other page tracks the whole document.
+  let bar: HTMLElement | null = null;
+  if (!document.querySelector('.reading-progress')) {
+    bar = document.createElement('div');
+    bar.className = 'reading-progress scroll-progress';
+    bar.setAttribute('aria-hidden', 'true');
+    document.body.append(bar);
+  }
+  const hero = document.querySelector<HTMLElement>('.hero');
+  const mark = document.querySelector<HTMLElement>('.foot-watermark');
+  const footer = mark?.closest<HTMLElement>('.site-footer');
+  const live = new Set<HTMLElement>();
+  if (motion && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      for (const en of entries) en.isIntersecting ? live.add(en.target as HTMLElement) : live.delete(en.target as HTMLElement);
+    }, { rootMargin: '80px' });
+    document.querySelectorAll<HTMLElement>('.photo-card .ph').forEach((el) => io.observe(el));
+    observers.push(io);
+  }
+  const update = () => {
+    const vh = window.innerHeight;
+    const y = window.scrollY;
+    const max = root.scrollHeight - vh;
+    if (bar) bar.style.transform = `scaleX(${max > 0 ? Math.min(1, y / max).toFixed(4) : 0})`;
+    if (!motion) return;
+    if (hero) hero.style.setProperty('--hp', Math.min(1, y / Math.max(1, hero.offsetHeight)).toFixed(4));
+    live.forEach((el) => { const r = el.getBoundingClientRect(); el.style.setProperty('--pv', Math.max(-1, Math.min(1, (r.top + r.height / 2 - vh / 2) / vh)).toFixed(4)); });
+    if (mark && footer) mark.style.setProperty('--dx', `${Math.min(420, Math.max(0, footer.getBoundingClientRect().bottom - vh) * 0.5).toFixed(1)}px`);
+  };
+  update();
+  on(window, 'scroll', raf(update), { passive: true });
+  on(window, 'resize', raf(update), { passive: true });
+}
+
 /* ================= Pointer effects (fine pointers, motion allowed) ================= */
 
 /** Magnetic: element follows the pointer a few px; its arrow a little further. */
@@ -253,6 +294,7 @@ function init() {
   ambient();
   sectionRail();
   readingProgress();
+  scrollFx();
   if (finePointer() && !reduced()) {
     root.classList.add('fx-pointer');
     magnetic();
