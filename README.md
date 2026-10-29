@@ -12,4 +12,4 @@ Rebuild of [www.techtranspire.com](https://www.techtranspire.com).
 
 Start with the [Phase 1 Review Pack](docs/website-architecture/00-phase-one-review.md).
 
-> Keep this repository **private**: `docs/website-architecture/source-archive/` holds raw exports and pending, unverified claims.
+> **Note:** this repository is public. Claims marked pending in the [decisions register](docs/website-architecture/12-gaps-and-decisions.md) are unverified and are not approved for publication on the website.
