@@ -151,6 +151,8 @@ p { text-wrap: pretty; }
 .brand:hover img { transform: translateX(2px); }
 .wordmark { font: 400 22px/1 var(--f-body); letter-spacing: -0.025em; color: var(--ink); }
 .wordmark b { font-weight: 700; }
+.brand-text { display: grid; gap: 6px; }
+.brand-tag { font: 600 9.5px/1 var(--f-body); letter-spacing: .17em; text-transform: uppercase; color: var(--blue); white-space: nowrap; }
 .brand:hover { color: var(--ink); }
 .nav { margin-left: auto; }
 .nav ul { display: flex; gap: 40px; list-style: none; padding: 0; }
@@ -177,7 +179,7 @@ p { text-wrap: pretty; }
 .has-hero-header .site-header:has(.mobile-nav.is-open) { background: #fff; }
 @media (max-width: 939px) { .nav { display: none; } .menu-btn { display: inline-flex; margin-left: 0; } .hdr-cta { margin-left: auto; } .hdr { gap: 12px; } }
 @media (min-width: 940px) { .mobile-nav { display: none !important; } }
-@media (max-width: 519px) { .hdr-cta { display: none; } .wordmark { font-size: 19px; } .brand img { width: 38px; height: 38px; } }
+@media (max-width: 519px) { .hdr-cta { display: none; } .wordmark { font-size: 19px; } .brand img { width: 38px; height: 38px; } .brand-tag { font-size: 7.5px; letter-spacing: .12em; } }
 
 /* =========================================================================
    Hero (Home) — reference composition: copy left, architecture right, outcome row
@@ -748,7 +750,7 @@ a.v:hover { color: var(--blue); }
    Challenge ("Sounds Familiar?"): clean white, interactive fault lines, premium cards
    ========================================================================= */
 .challenge { position: relative; isolation: isolate; background: var(--paper); }
-.ch-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: clamp(24px, 4vw, 64px); align-items: center; margin-bottom: clamp(40px, 4.5vw, 64px); }
+.ch-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: clamp(24px, 4vw, 64px); align-items: end; margin-bottom: clamp(40px, 4.5vw, 64px); }
 .ch-head .section-head { margin-bottom: 0; }
 @media (max-width: 899px) { .ch-head { grid-template-columns: minmax(0, 1fr); } }
 
@@ -776,10 +778,14 @@ a.v:hover { color: var(--blue); }
 .flip-face { grid-area: 1 / 1; position: relative; display: grid; align-content: start; gap: 18px; padding: 34px clamp(24px, 2.4vw, 32px) 30px; border-radius: var(--radius-lg); overflow: hidden; }
 /* Front: a quote panel, deliberately unlike the white problem cards below: light-blue gradient,
    no hard border, a large blue quotation mark, and the prompt as a pill. */
-.flip-front { gap: 16px; padding-top: 26px; background: radial-gradient(120% 85% at 100% 0%, rgba(124, 196, 240, .30), transparent 60%), linear-gradient(160deg, #F5F9FF 0%, #E4EFFC 100%); border: 1px solid rgba(42, 115, 217, .10); box-shadow: 0 30px 60px -44px rgba(24, 89, 179, .5), inset 0 1px 0 rgba(255, 255, 255, .9); }
-.flip-quote { display: block; height: .5em; margin-bottom: 6px; font: 600 4.6rem/1 var(--f-display); background: linear-gradient(135deg, var(--sky), var(--blue)); -webkit-background-clip: text; background-clip: text; color: transparent; user-select: none; }
+.flip-front { gap: 14px; align-content: center; padding-block: 30px; background: radial-gradient(120% 85% at 100% 0%, rgba(124, 196, 240, .30), transparent 60%), linear-gradient(160deg, #F5F9FF 0%, #E4EFFC 100%); border: 1px solid rgba(42, 115, 217, .10); box-shadow: 0 30px 60px -44px rgba(24, 89, 179, .5), inset 0 1px 0 rgba(255, 255, 255, .9); }
+/* Quote marks frame the sentence: the same glyph above-left and, turned 180°, below-right, at equal gaps. */
+.flip-quote { display: block; height: .5em; font: 600 4.6rem/1 var(--f-display); background: linear-gradient(135deg, var(--sky), var(--blue)); -webkit-background-clip: text; background-clip: text; color: transparent; user-select: none; pointer-events: none; }
+.flip-quote--end { justify-self: end; transform: rotate(180deg); }
 .flip blockquote { position: relative; font: var(--display-weight) clamp(1.35rem, 1.1rem + .7vw, 1.7rem)/1.26 var(--f-display); letter-spacing: var(--display-track); text-wrap: balance; }
 .flip figcaption { position: relative; justify-self: start; display: inline-flex; align-items: center; padding: 8px 16px; border-radius: 999px; background: #fff; box-shadow: inset 0 0 0 1px rgba(42, 115, 217, .18), 0 6px 16px -10px rgba(24, 89, 179, .45); font-size: 14.5px; font-weight: 600; color: var(--blue); }
+/* Desktop: the question lives on the back of the card; the front keeps it for screen readers only. */
+.fx-pointer .flip figcaption { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; box-shadow: none; }
 .flip-back, .flip-hint { display: none; }
 
 .fx-pointer .flip { perspective: 1400px; min-height: 290px; }

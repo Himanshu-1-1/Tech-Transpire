@@ -14,6 +14,8 @@ const { n, statement, prompt, link } = Astro.props;
       <span class="flip-hint" aria-hidden="true"><Icon name="repeat" /></span>
       <span class="flip-quote" aria-hidden="true">“</span>
       <blockquote>{statement}</blockquote>
+      {/* Closing mark: the opening glyph turned 180°, so both sit the same distance from the sentence. */}
+      <span class="flip-quote flip-quote--end" aria-hidden="true">“</span>
       <figcaption>{prompt}</figcaption>
     </div>
     <div class="flip-face flip-back">

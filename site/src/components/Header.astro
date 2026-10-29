@@ -10,7 +10,11 @@ const current = (href: string) => (path === href ? 'page' : path.startsWith(href
   <div class="container hdr">
     <a class="brand" href="/" aria-label="Tech Transpire home">
       <Image src={logo} alt="" width={96} height={96} loading="eager" />
-      <span class="wordmark"><b>Tech</b> Transpire</span>
+      <span class="brand-text">
+        <span class="wordmark"><b>Tech</b> Transpire</span>
+        {/* Home only: the supporting line sits under the logo (company request 2026-10-30, D-29). */}
+        {path === '/' && <span class="brand-tag">Clarity. Alignment. Execution.</span>}
+      </span>
     </a>
     <nav class="nav" aria-label="Primary">
       <ul>
