@@ -10,6 +10,7 @@ import InsightCard from '../components/InsightCard.astro';
 import CtaBand from '../components/CtaBand.astro';
 import MethodPath from '../components/MethodPath.astro';
 import NodeGrid from '../components/NodeGrid.astro';
+import FaultLines from '../components/FaultLines.astro';
 import { block, lines, cards, steps, callout, fitlist, carouselPairs, ctas, team } from '../lib/content';
 import { insightById, insightHref, visibleInsights, visibleById } from '../lib/insights';
 import { isVisibleInsight, CASE_STUDIES } from '../lib/routes';
@@ -110,19 +111,24 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
   </nav>
 
   <!-- 2 · Understand the challenge -->
-  <section class="section" id="challenge" aria-labelledby="familiar-h">
+  <section class="section challenge" id="challenge" aria-labelledby="familiar-h" data-ambient>
     <div class="container">
-      <div class="section-head">
-        <h2 id="familiar-h" data-split>{opening.prompt}</h2>
-        <p class="lead">{seeWhatBreaks.statement}</p>
-        <a class="link-arrow" href="#method">{seeWhatBreaks.prompt} <span class="arr" aria-hidden="true">→</span></a>
+      <div class="ch-head">
+        <div class="section-head">
+          <h2 id="familiar-h" data-split>{opening.prompt}</h2>
+          <p class="lead">{seeWhatBreaks.statement}</p>
+          <a class="link-arrow" href="#method">{seeWhatBreaks.prompt} <span class="arr" aria-hidden="true">→</span></a>
+        </div>
+        <FaultLines />
       </div>
       <div class="statements">
-        {statements.map((s) => <figure class="statement reveal"><blockquote>{s.statement}</blockquote><figcaption>{s.prompt}</figcaption></figure>)}
+        {statements.map((s, i) => <figure class="statement reveal" data-tilt><span class="st-n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span><blockquote>{s.statement}</blockquote><figcaption>{s.prompt}</figcaption></figure>)}
       </div>
-      <ul class="grid grid-3" style="margin-top: clamp(52px, 5.5vw, 80px)">
-        {problems.map((p) => (
+      <ul class="grid grid-3 ch-cards">
+        {problems.map((p, i) => (
           <li class="card reveal" data-tilt>
+            <span class="ch-glow" aria-hidden="true"></span><span class="ch-bar" aria-hidden="true"></span>
+            <span class="ch-n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
             <span class="icon-tile"><Icon name={p.icon} /></span><h3>{p.title}</h3><p>{p.body}{p.title === 'Hidden misalignment' && <Flag label="H-01 · “three times” needs a source before launch" />}</p>
           </li>
         ))}

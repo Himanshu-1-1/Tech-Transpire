@@ -1,0 +1,131 @@
+---
+// "We see what breaks, before it breaks." Process lines pull in different directions and cross;
+// a lens of clarity follows the pointer (or sweeps on its own on touch screens), and wherever it
+// passes, the lines fall into straight, aligned paths. Decorative: aria-hidden, no text.
+const LINES = 7;
+---
+<div class="fault" aria-hidden="true" data-fault>
+  <svg focusable="false">
+    <defs>
+      <linearGradient id="fault-stroke" x1="0" x2="1" y1="0" y2="0">
+        <stop offset="0" stop-color="#9FB4CC" stop-opacity="0" />
+        <stop offset=".18" stop-color="#9FB4CC" stop-opacity=".7" />
+        <stop offset="1" stop-color="#9FB4CC" stop-opacity=".9" />
+      </linearGradient>
+      <linearGradient id="fault-aligned" x1="0" x2="1" y1="0" y2="0">
+        <stop offset="0" stop-color="#3E9FDE" stop-opacity="0" />
+        <stop offset=".5" stop-color="#2A73D9" />
+        <stop offset="1" stop-color="#3E9FDE" stop-opacity="0" />
+      </linearGradient>
+      <linearGradient id="fault-lens" x1="0" x2="1" y1="0" y2="0">
+        <stop offset="0" stop-color="#E6F1FC" stop-opacity="0" />
+        <stop offset=".5" stop-color="#E6F1FC" />
+        <stop offset="1" stop-color="#E6F1FC" stop-opacity="0" />
+      </linearGradient>
+      <clipPath id="fault-clip"><rect class="fault-clip" /></clipPath>
+    </defs>
+    <rect class="fault-lens" fill="url(#fault-lens)" />
+    <line class="fault-axis" />
+    <g class="fault-lines">{Array.from({ length: LINES }, () => <path />)}</g>
+    <g class="fault-aligned" clip-path="url(#fault-clip)">{Array.from({ length: LINES }, () => <path />)}</g>
+    <g class="fault-nodes">{Array.from({ length: LINES }, () => <circle r="3.5" />)}</g>
+  </svg>
+</div>
+
+<script>
+  function wire() {
+    const root = document.querySelector<HTMLElement>('[data-fault]:not([data-wired])');
+    if (!root) return;
+    root.dataset.wired = '';
+    const svg = root.querySelector('svg')!;
+    const loose = [...root.querySelectorAll<SVGPathElement>('.fault-lines path')];
+    const aligned = [...root.querySelectorAll<SVGPathElement>('.fault-aligned path')];
+    const nodes = [...root.querySelectorAll<SVGCircleElement>('.fault-nodes circle')];
+    const lens = root.querySelector<SVGRectElement>('.fault-lens')!;
+    const clip = root.querySelector<SVGRectElement>('.fault-clip')!;
+    const axis = root.querySelector<SVGLineElement>('.fault-axis')!;
+    const host = root.closest<HTMLElement>('section') ?? root;
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const N = loose.length;
+    const STEPS = 56;
+
+    let w = 0;
+    let h = 0;
+    const size = () => {
+      const r = root.getBoundingClientRect();
+      w = Math.max(1, r.width);
+      h = Math.max(1, r.height);
+      svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+    };
+    size();
+
+    let t = 0;
+    let focus = w * 0.62;
+    let goal = focus;
+    let pointer = false;
+    const lensW = () => Math.max(90, w * 0.2);
+
+    // Each line wanders by two out-of-phase waves; near the lens it calms to its own straight lane.
+    const draw = () => {
+      const spread = h / (N + 1);
+      const sigma = lensW() * 0.55;
+      for (let i = 0; i < N; i++) {
+        const base = spread * (i + 1);
+        let d = '';
+        for (let s = 0; s <= STEPS; s++) {
+          const x = (s / STEPS) * w;
+          const calm = Math.exp(-((x - focus) ** 2) / (2 * sigma * sigma));
+          const amp = h * 0.2 * (1 - calm);
+          const y = base
+            + amp * Math.sin(x * 0.008 + t * (0.45 + i * 0.06) + i * 1.9)
+            + amp * 0.45 * Math.sin(x * 0.019 - t * 0.55 + i * 0.7);
+          d += `${s ? 'L' : 'M'}${x.toFixed(1)} ${y.toFixed(1)}`;
+        }
+        loose[i].setAttribute('d', d);
+        aligned[i].setAttribute('d', d);
+        nodes[i].setAttribute('cx', focus.toFixed(1));
+        nodes[i].setAttribute('cy', base.toFixed(1));
+      }
+      const lw = lensW();
+      for (const r of [lens, clip]) {
+        r.setAttribute('x', (focus - lw / 2).toFixed(1));
+        r.setAttribute('y', '0');
+        r.setAttribute('width', lw.toFixed(1));
+        r.setAttribute('height', String(h));
+      }
+      axis.setAttribute('x1', focus.toFixed(1));
+      axis.setAttribute('x2', focus.toFixed(1));
+      axis.setAttribute('y1', '0');
+      axis.setAttribute('y2', String(h));
+    };
+
+    if (still) { draw(); return; }
+
+    host.addEventListener('pointermove', (e) => {
+      if (e.pointerType !== 'mouse') return;
+      const r = root.getBoundingClientRect();
+      goal = Math.min(w, Math.max(0, e.clientX - r.left));
+      pointer = true;
+      root.classList.add('is-tracking');
+    }, { passive: true });
+    host.addEventListener('pointerleave', () => { pointer = false; root.classList.remove('is-tracking'); });
+    window.addEventListener('resize', size, { passive: true });
+
+    let frame = 0;
+    const tick = () => {
+      frame = requestAnimationFrame(tick);
+      if (!host.classList.contains('is-live')) return;
+      t += 0.016;
+      if (!pointer) goal = w * (0.55 + 0.33 * Math.sin(t * 0.35));
+      focus += (goal - focus) * 0.08;
+      draw();
+    };
+    draw();
+    frame = requestAnimationFrame(tick);
+    document.addEventListener('astro:before-swap', () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('resize', size);
+    }, { once: true });
+  }
+  document.addEventListener('astro:page-load', wire);
+</script>

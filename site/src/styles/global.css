@@ -738,6 +738,77 @@ a.v:hover { color: var(--blue); }
 .fx-scroll .foot-watermark { translate: var(--dx, 0px) 0; }
 .scroll-progress { height: 2px; }
 
+/* =========================================================================
+   Challenge ("Sounds Familiar?"): clean white, interactive fault lines, premium cards
+   ========================================================================= */
+.challenge { position: relative; isolation: isolate; background: var(--paper); }
+.ch-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: clamp(24px, 4vw, 64px); align-items: center; margin-bottom: clamp(40px, 4.5vw, 64px); }
+.ch-head .section-head { margin-bottom: 0; }
+@media (max-width: 899px) { .ch-head { grid-template-columns: minmax(0, 1fr); } }
+
+/* Fault lines (FaultLines.astro): loose grey paths, aligned blue copies clipped to the lens. */
+.fault { position: relative; height: clamp(150px, 20vw, 280px); -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
+.fault svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.fault-lines path { fill: none; stroke: url(#fault-stroke); stroke-width: 1.2; stroke-dasharray: 5 6; }
+.fault-aligned path { fill: none; stroke: url(#fault-aligned); stroke-width: 2; stroke-linecap: round; }
+.fault-lens { opacity: .9; transition: opacity 400ms var(--ease-out); }
+.fault-axis { stroke: rgba(42, 115, 217, .35); stroke-width: 1; stroke-dasharray: 2 5; }
+.fault-nodes circle { fill: #fff; stroke: var(--blue); stroke-width: 1.5; filter: drop-shadow(0 0 5px rgba(62, 159, 222, .55)); }
+.fault.is-tracking .fault-nodes circle { fill: var(--blue); stroke: #fff; }
+.fx-scroll .fault svg { opacity: 0; transition: opacity 900ms var(--ease-out) 300ms; }
+.fx-scroll .challenge.is-live .fault svg { opacity: 1; }
+
+.challenge .section-head h2 { font-size: clamp(2.4rem, 1.4rem + 2.8vw, 3.9rem); }
+.challenge .section-head .lead { color: var(--ink-2); }
+
+/* Statements: frosted glass panels with a drawn gradient rule and an outlined index numeral. */
+.challenge .statements { gap: clamp(18px, 2vw, 28px); }
+.challenge .statement { padding: 34px clamp(24px, 2.4vw, 32px) 30px; gap: 18px; border-radius: var(--radius-lg); background: linear-gradient(180deg, #fff 40%, #F5F9FE); border: 1px solid var(--line); box-shadow: 0 24px 50px -40px rgba(11, 30, 56, .35); overflow: hidden; }
+.challenge .statement::before { left: clamp(24px, 2.4vw, 32px); right: clamp(24px, 2.4vw, 32px); top: 0; height: 3px; border-radius: 0 0 3px 3px; background: linear-gradient(90deg, var(--sky), var(--blue)); }
+.st-n { position: absolute; right: 18px; bottom: 6px; font: 500 clamp(3.4rem, 2.6rem + 1.8vw, 4.6rem)/1 var(--f-display); letter-spacing: -0.04em; color: transparent; -webkit-text-stroke: 1px rgba(24, 89, 179, .22); pointer-events: none; }
+.challenge .statement blockquote { position: relative; }
+.challenge .statement figcaption { position: relative; padding-right: 72px; }
+.challenge .statement figcaption { display: inline-flex; align-items: center; gap: 10px; }
+.challenge .statement figcaption::before { content: ''; width: 22px; height: 1.5px; background: currentColor; }
+
+/* Problem cards: frosted glass over the photograph. */
+.ch-cards { margin-top: clamp(40px, 4.5vw, 64px); }
+.challenge .card { background: #fff; border-color: var(--line); box-shadow: 0 20px 44px -38px rgba(11, 30, 56, .35); }
+.challenge .card:hover { border-color: #A9C3E6; }
+.challenge .card p { color: var(--ink-2); }
+.challenge .icon-tile { background: linear-gradient(140deg, #F2F8FE, #D8E9FA); box-shadow: inset 0 0 0 1px rgba(42, 115, 217, .14), 0 8px 18px -10px rgba(24, 89, 179, .5); }
+.challenge .card:hover .icon-tile { background: var(--grad-primary); }
+.ch-n { position: absolute; top: clamp(24px, 2.4vw, 32px); right: clamp(24px, 2.4vw, 32px); font: 600 12px/1 var(--f-body); letter-spacing: .16em; color: rgba(24, 89, 179, .5); }
+.ch-n::after { content: ''; display: inline-block; width: 18px; height: 1px; margin-left: 8px; vertical-align: middle; background: currentColor; transform-origin: left; transition: transform var(--t-card) var(--ease-emph); }
+.challenge .card:hover .ch-n::after { transform: scaleX(1.8); }
+
+/* Interactive states. Hover on desktop; on touch, the card nearest the middle of the screen
+   becomes .is-current while scrolling, so phones get the same feedback. */
+.ch-glow { position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none; opacity: 0; background: radial-gradient(380px circle at var(--sx, 50%) var(--sy, 0%), rgba(62, 159, 222, .16), rgba(42, 115, 217, .05) 45%, transparent 70%); transition: opacity 400ms var(--ease-out); }
+.ch-bar { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: linear-gradient(90deg, var(--sky), var(--blue), #0D3A72); transform: scaleX(0); transform-origin: left; transition: transform 700ms var(--ease-emph); }
+.challenge .card .icon-tile svg * { stroke-dasharray: 80; stroke-dashoffset: 0; }
+.challenge .card h3 { transition: color var(--t-card) var(--ease-out), translate 400ms var(--ease-emph); }
+.challenge .card:is(:hover, .is-current) .ch-glow { opacity: 1; }
+.challenge .card:is(:hover, .is-current) .ch-bar { transform: scaleX(1); }
+.challenge .card:is(:hover, .is-current) h3 { color: var(--blue); translate: 0 -2px; }
+.challenge .card:is(:hover, .is-current) .icon-tile { background: var(--grad-primary); color: #fff; transform: rotate(-4deg) scale(1.06); box-shadow: 0 14px 28px -12px rgba(24, 89, 179, .7); }
+.challenge .card:is(:hover, .is-current) .icon-tile svg * { animation: icon-draw 900ms var(--ease-emph) both; }
+.challenge .card:is(:hover, .is-current) .ch-n { color: var(--blue); }
+.challenge .card.is-current { background: rgba(255, 255, 255, .9); border-color: #A9C3E6; box-shadow: 0 30px 60px -32px rgba(24, 89, 179, .45), inset 0 1px 0 #fff; }
+.fx-pointer .challenge .card:hover { box-shadow: 0 40px 70px -34px rgba(24, 89, 179, .5), 0 0 0 1px rgba(62, 159, 222, .25), inset 0 1px 0 #fff; }
+@keyframes icon-draw { from { stroke-dashoffset: 80; } to { stroke-dashoffset: 0; } }
+/* Focus: the rest of the set steps back while one card is hovered. */
+.fx-pointer .challenge :is(.ch-cards, .statements):has(> :hover) > .reveal.is-in:not(:hover) { opacity: .62; filter: saturate(.7); transition: opacity 350ms var(--ease-out), filter 350ms var(--ease-out), transform var(--t-card) var(--ease-out); transition-delay: 0ms; }
+/* Statements: lift, thicker rule, the numeral fills with the brand gradient. */
+.challenge .statement { transition: opacity 900ms var(--ease-out), transform 1100ms var(--ease-emph), background-color 400ms, box-shadow 400ms; }
+.challenge .statement::before { transition: transform 900ms var(--ease-emph), height 300ms var(--ease-out); }
+.challenge .statement .st-n { transition: -webkit-text-stroke-color 400ms, translate 600ms var(--ease-emph); }
+.challenge .statement:is(:hover, .is-current) { background: rgba(255, 255, 255, .86); box-shadow: 0 40px 70px -36px rgba(24, 89, 179, .45), inset 0 1px 0 #fff; }
+.challenge .statement:is(:hover, .is-current)::before { height: 5px; }
+.challenge .statement:is(:hover, .is-current) .st-n { color: transparent; background: linear-gradient(135deg, var(--sky), var(--blue)); -webkit-background-clip: text; background-clip: text; -webkit-text-stroke-color: transparent; opacity: .32; translate: -4px -4px; }
+.challenge .statement:is(:hover, .is-current) figcaption::before { width: 34px; }
+.challenge .statement figcaption::before { transition: width 400ms var(--ease-emph); }
+
 /* Method: continuous data flow after the draw sequence */
 .js .method.is-in .m-pulse { animation: pulse-loop 6s var(--ease-out) 2300ms infinite; }
 .method:not(.is-live) .m-pulse, .method:not(.is-live) .m-complex path { animation-play-state: paused; }

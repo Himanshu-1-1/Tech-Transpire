@@ -71,6 +71,7 @@ The machine used on 2026-10-29 had no system Node; a portable Node 22 from the s
 | 2026-10-30 | **v4 premium layer** ([03](docs/phase-2-design/03-interaction-system.md)): page transitions, cursor v2, 3D tilt + gradient borders, word reveals, hero depth chips, light-blue signature method graphic, blueprint grid, brand-blue closing band, section rail. Palette: white + light blue + blue (footer stays navy). QA 46/46 |
 | 2026-10-30 | **D-31 exact live wording:** company supplied the live homepage text. F-01–F-04 withdrawn; "Clarity. Alignment. Execution."; original fit-list headings; "Want to learn more?" restored. 63/65 live lines verbatim (the other two are the withdrawn $3M+ label) |
 | 2026-10-30 | **Scroll-linked motion** (03): page progress bar, hero exit parallax, card-photo parallax, footer drift, stronger reveals. QA 46/46 |
+| 2026-10-30 | **"Sounds Familiar?" redesign:** clean white (a photo backdrop was tried and rejected by the company); interactive `FaultLines` SVG (lines fall into alignment under a lens that follows the pointer); interactive statement and problem cards (spotlight, icon redraw, accent bar, focus dimming; centre-of-screen highlight on touch). QA 46/46 |
 
 ## 5. Approved decisions (full text in 12 §5)
 

@@ -169,7 +169,7 @@ function scrollFx() {
     const io = new IntersectionObserver((entries) => {
       for (const en of entries) en.isIntersecting ? live.add(en.target as HTMLElement) : live.delete(en.target as HTMLElement);
     }, { rootMargin: '80px' });
-    document.querySelectorAll<HTMLElement>('.photo-card .ph').forEach((el) => io.observe(el));
+    document.querySelectorAll<HTMLElement>('.photo-card .ph, [data-pv]').forEach((el) => io.observe(el));
     observers.push(io);
   }
   const update = () => {
@@ -185,6 +185,17 @@ function scrollFx() {
   update();
   on(window, 'scroll', raf(update), { passive: true });
   on(window, 'resize', raf(update), { passive: true });
+}
+
+/** Touch: no hover, so the card crossing the middle of the screen takes the hover look. */
+function currentOnScroll() {
+  const els = document.querySelectorAll<HTMLElement>('.challenge .card, .challenge .statement');
+  if (!els.length || !('IntersectionObserver' in window)) return;
+  const io = new IntersectionObserver((entries) => {
+    for (const en of entries) en.target.classList.toggle('is-current', en.isIntersecting);
+  }, { rootMargin: '-44% 0px -44% 0px' });
+  els.forEach((el) => io.observe(el));
+  observers.push(io);
 }
 
 /* ================= Pointer effects (fine pointers, motion allowed) ================= */
@@ -304,6 +315,7 @@ function init() {
     cursorFx();
   } else {
     root.classList.remove('fx-pointer', 'fx-cursor');
+    if (!reduced()) currentOnScroll();
   }
 }
 
