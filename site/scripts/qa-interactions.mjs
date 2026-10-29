@@ -64,8 +64,8 @@ try {
     await new Promise((r) => setTimeout(r, 120));
     const mx = await page.evaluate(() => getComputedStyle(document.querySelector('.hero [data-magnetic]')).getPropertyValue('--mx'));
     check('Magnetic CTA follows the pointer by a few px', parseFloat(mx) > 0 && parseFloat(mx) <= 6, `--mx=${mx}`);
-    const halo = await page.evaluate(() => document.querySelector('.cursor-ring')?.dataset.state);
-    check('Cursor ring morphs over a button', halo === 'button');
+    const halo = await page.evaluate(() => document.querySelector('.cursor-dot')?.dataset.state);
+    check('Cursor dot grows over a button (no trailing ring)', halo === 'button' && (await page.$('.cursor-ring')) === null, `state=${halo}`);
     const dotPos = await page.evaluate(() => document.querySelector('.cursor-dot')?.style.transform ?? '');
     const [dx, dy] = (dotPos.match(/-?[\d.]+/g) ?? []).map(Number).slice(1);
     check('Cursor dot sits exactly at the pointer (±1px)', Math.abs(dx - (box.x + box.width * 0.9)) <= 1 && Math.abs(dy - (box.y + box.height * 0.5)) <= 1, dotPos);
@@ -77,10 +77,33 @@ try {
     const ib = await input.boundingBox();
     await page.mouse.move(ib.x + 20, ib.y + 10, { steps: 3 });
     await new Promise((r) => setTimeout(r, 80));
-    const haloInput = await page.evaluate(() => document.querySelector('.cursor-ring')?.dataset.state ?? '');
+    const haloInput = await page.evaluate(() => document.querySelector('.cursor-dot')?.dataset.state ?? '');
     const cursor = await page.evaluate(() => getComputedStyle(document.getElementById('f-name')).cursor);
     check('Over form fields the custom cursor hides and the native text cursor returns', haloInput === 'field' && cursor === 'text', `state=${haloInput} cursor=${cursor}`);
     await page.close();
+  }
+
+  // 3a. Flip statements: 3D flip on desktop hover; front card only on phones.
+  {
+    const page = await browser.newPage();
+    await page.setViewport({ width: 1440, height: 900 });
+    await page.goto(base + '/', { waitUntil: 'networkidle0' });
+    await page.evaluate(() => document.querySelector('.statements').scrollIntoView({ block: 'center' }));
+    await new Promise((r) => setTimeout(r, 1200));
+    const fb = await (await page.$('.flip')).boundingBox();
+    await page.mouse.move(fb.x + fb.width / 2, fb.y + fb.height / 2, { steps: 4 });
+    await new Promise((r) => setTimeout(r, 1200));
+    const t = await page.evaluate(() => getComputedStyle(document.querySelector('.flip-inner')).transform);
+    // rotateY(180deg) → matrix3d(-1, 0, …)
+    const flipped = /^matrix3d\(-1,/.test(t.replace(/\s/g, ''));
+    check('Desktop: statement card flips on hover', flipped, t.slice(0, 40));
+    await page.close();
+    const m = await browser.newPage();
+    await m.setViewport({ width: 390, height: 844, isMobile: true, hasTouch: true });
+    await m.goto(base + '/', { waitUntil: 'networkidle0' });
+    const mob = await m.evaluate(() => ({ back: getComputedStyle(document.querySelector('.flip-back')).display, quote: !!document.querySelector('.flip-front blockquote')?.textContent.trim() }));
+    check('Phone: statement cards stay simple (front only, no flip)', mob.back === 'none' && mob.quote, JSON.stringify(mob));
+    await m.close();
   }
 
   // 3b. Client-side navigation (view transitions): interactions re-initialise
@@ -100,7 +123,7 @@ try {
     await page.focus('.method-node[data-step="1"]');
     const active = await page.evaluate(() => document.querySelector('[data-method]').dataset.active);
     check('After navigating back, the method graphic is wired', active === '1');
-    const cursors = await page.evaluate(() => document.querySelectorAll('.cursor-ring').length);
+    const cursors = await page.evaluate(() => document.querySelectorAll('.cursor-dot').length);
     check('Exactly one custom cursor after navigations', cursors === 1, `${cursors}`);
     await page.close();
   }

@@ -12,6 +12,7 @@ import MethodPath from '../components/MethodPath.astro';
 import NodeGrid from '../components/NodeGrid.astro';
 import FaultLines from '../components/FaultLines.astro';
 import FitList from '../components/FitList.astro';
+import FlipStatement from '../components/FlipStatement.astro';
 import { block, lines, cards, steps, callout, fitlist, carouselPairs, ctas, team } from '../lib/content';
 import { insightById, insightHref, visibleInsights, visibleById } from '../lib/insights';
 import { isVisibleInsight, CASE_STUDIES } from '../lib/routes';
@@ -123,7 +124,7 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
         <FaultLines />
       </div>
       <div class="statements">
-        {statements.map((s, i) => <figure class="statement reveal" data-tilt><span class="st-n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span><blockquote>{s.statement}</blockquote><figcaption>{s.prompt}</figcaption></figure>)}
+        {statements.map((s, i) => <FlipStatement n={i} statement={s.statement} prompt={s.prompt} link={{ label: seeWhatBreaks.prompt, href: '#method' }} />)}
       </div>
       <ul class="grid grid-3 ch-cards">
         {problems.map((p, i) => (
@@ -197,7 +198,7 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
       </div>
       <ul class="grid grid-4">
         {themes.map((t) => (
-          <li class="photo-card reveal" data-tilt {...(t.linked ? { 'data-cursor': 'Read' } : {})}>
+          <li class="photo-card reveal" data-tilt>
             <div class="ph"><Image src={asset(t.article.cover)} alt="" widths={[400, 700]} sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 300px" /></div>
             <div class="body">
               <span class="icon-tile"><Icon name={t.icon} /></span>

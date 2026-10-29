@@ -50,7 +50,7 @@ npm run dev                             # review site, http://localhost:4321 (no
 npm run dev:markers                     # same, with amber tags + "Review build" strip (REVIEW_MARKERS=1)
 npm run validate                        # both builds + tests + content/gating + links (CI)
 npm run build && npm run preview -- --port 4322
-npm run qa                              # 47 browser checks against :4322
+npm run qa                              # 49 browser checks against :4322
 npm run screenshots                     # 1440/768/390 into docs/phase-2-design/screenshots
 npm run deploy:pages                    # static review preview → gh-pages branch (D-34)
 ```
@@ -80,6 +80,7 @@ The machine used on 2026-10-29 had no system Node; a portable Node 22 from the s
 | 2026-10-30 | **Hero fixes:** jiggle near the top (header shrink moved the page and re-crossed the scroll threshold; footprint now constant, new QA check, 47/47); chip data path now brand blue; underline hugs "Through Execution." (clip wipe instead of dash draw) |
 | 2026-10-30 | **On-page review markers off** (company request): amber tags, "Review build" strip and review notes hidden by default; `npm run dev:markers` / `REVIEW_MARKERS=1` brings them back. Items stay tracked in 12 and 19. Review build still shows unverified content and stays `noindex`; public build unchanged |
 | 2026-10-30 | **Mack Akhani photo** supplied by the company and placed (D-33, TT-AS-025): Home founder card and About team tile, framed per placement; rights to confirm |
+| 2026-10-30 | **Flip statements + dot cursor:** "Sounds Familiar?" statements flip in 3D on desktop to animated drawings (simple front cards on phones); trailing cursor ring removed, dot only. QA 49/49 |
 
 ## 5. Approved decisions (full text in 12 §5)
 

@@ -7,7 +7,8 @@
 | Effect | Where | Notes |
 |---|---|---|
 | **Page transitions** | All pages | Astro `ClientRouter` cross-fade. The interaction engine, method graphic, contact form and Insights filter re-initialise on every `astro:page-load` and clean up on `astro:before-swap` (QA-tested) |
-| **Cursor v2** | Desktop | Exact dot plus a trailing ring (`mix-blend-mode: difference`, so it inverts on any background). It grows over links and buttons and shows a "Read" label over article and theme cards. Over inputs it hides and the native text cursor returns. Off on touch and under reduced motion |
+| **Cursor v3** | Desktop | A single dot exactly at the pointer (`mix-blend-mode: difference`, so it inverts on any background). It grows over links and buttons and shrinks on press. The trailing ring and its labels were removed at the company's request (2026-10-30: "the circle following it looks like the site is heavy"). Over inputs it hides and the native text cursor returns. Off on touch and under reduced motion |
+| **Flip statements** | Home, "Sounds Familiar?" | `FlipStatement.astro`: desktop only (`.fx-pointer`). On hover or keyboard focus the card turns in 3D to a brand-blue back with an animated drawing for its statement (01 budget drains before the code; 02 wrong direction, then the real path to the target; 03 perfect tick on the wrong target, focus moves to the real one), the prompt in large type and "Want to learn more? →". Phones, touch and reduced motion: the simple front card only (company request) |
 | **3D tilt + glare** | All cards (`data-tilt`) | Up to ~6° toward the pointer, a soft light follows it, and the card lifts 5px |
 | **Animated gradient border** | Cards, photo cards, team | A conic sky→blue border turns while hovered (`@property --ang`) |
 | **Button light sweep** | Primary and light buttons | A diagonal sheen crosses on hover |

@@ -665,23 +665,16 @@ a.v:hover { color: var(--blue); }
    ========================================================================= */
 @property --ang { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
 
-/* Cursor: exact dot + trailing ring (inverts over any background) */
+/* Cursor: one exact dot that inverts over any background (no trailing ring) */
 .fx-cursor, .fx-cursor * { cursor: none !important; }
 .fx-cursor input:not([type='checkbox']):not([type='radio']), .fx-cursor textarea, .fx-cursor [contenteditable] { cursor: text !important; }
 .fx-cursor select, .fx-cursor input[type='checkbox'], .fx-cursor input[type='radio'] { cursor: pointer !important; }
-.cursor-dot, .cursor-ring { position: fixed; left: 0; top: 0; z-index: 400; width: 0; height: 0; pointer-events: none; mix-blend-mode: difference; will-change: transform; }
-.cursor-dot::before { content: ''; position: absolute; left: -3.5px; top: -3.5px; width: 7px; height: 7px; border-radius: 50%; background: #fff; transition: transform var(--t-hover) var(--ease-out), opacity var(--t-hover); }
-.cursor-ring::before { content: ''; position: absolute; left: -20px; top: -20px; width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid #fff; transition: transform 380ms var(--ease-emph), opacity var(--t-hover), background-color var(--t-hover), border-color var(--t-hover); }
-.cursor-ring[data-state='link']::before { transform: scale(1.4); }
-.cursor-ring[data-state='button']::before { transform: scale(1.9); background: rgba(255, 255, 255, .14); }
-.cursor-dot[data-state='button']::before { transform: scale(0); }
-.cursor-ring[data-state='label'] { mix-blend-mode: normal; }
-.cursor-ring[data-state='label']::before { transform: scale(2.3); background: var(--blue); border-color: transparent; box-shadow: 0 10px 30px -10px rgba(24, 89, 179, .8); }
-.cursor-dot[data-state='label']::before { transform: scale(0); }
-.cursor-label { position: absolute; left: 0; top: 0; transform: translate(-50%, -50%) scale(.6); font: 650 12px/1 var(--f-body); letter-spacing: .08em; text-transform: uppercase; color: #fff; opacity: 0; white-space: nowrap; transition: opacity var(--t-hover), transform 380ms var(--ease-emph); }
-.cursor-ring[data-state='label'] .cursor-label { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-.cursor-ring.is-down::before { transform: scale(.75); }
-.cursor-ring[data-state='field']::before, .cursor-dot[data-state='field']::before, .cursor-ring[data-state='out']::before, .cursor-dot[data-state='out']::before { opacity: 0; }
+.cursor-dot { position: fixed; left: 0; top: 0; z-index: 400; width: 0; height: 0; pointer-events: none; mix-blend-mode: difference; will-change: transform; }
+.cursor-dot::before { content: ''; position: absolute; left: -4px; top: -4px; width: 8px; height: 8px; border-radius: 50%; background: #fff; transition: transform 260ms var(--ease-emph), opacity var(--t-hover); }
+.cursor-dot[data-state='link']::before { transform: scale(2); }
+.cursor-dot[data-state='button']::before { transform: scale(2.6); }
+.cursor-dot.is-down::before { transform: scale(.7); }
+.cursor-dot[data-state='field']::before, .cursor-dot[data-state='out']::before { opacity: 0; }
 
 /* Tilt + glare */
 .fx-pointer [data-tilt] { transform-style: preserve-3d; }
@@ -770,13 +763,93 @@ a.v:hover { color: var(--blue); }
 
 /* Statements: frosted glass panels with a drawn gradient rule and an outlined index numeral. */
 .challenge .statements { gap: clamp(18px, 2vw, 28px); }
-.challenge .statement { padding: 34px clamp(24px, 2.4vw, 32px) 30px; gap: 18px; border-radius: var(--radius-lg); background: linear-gradient(180deg, #fff 40%, #F5F9FE); border: 1px solid var(--line); box-shadow: 0 24px 50px -40px rgba(11, 30, 56, .35); overflow: hidden; }
-.challenge .statement::before { left: clamp(24px, 2.4vw, 32px); right: clamp(24px, 2.4vw, 32px); top: 0; height: 3px; border-radius: 0 0 3px 3px; background: linear-gradient(90deg, var(--sky), var(--blue)); }
+/* Flip statements (FlipStatement.astro). Mobile, touch and reduced motion: the front card only.
+   Desktop with a mouse (.fx-pointer): a 3D flip to a brand-blue back with an animated drawing. */
+.flip { position: relative; display: grid; }
+.flip-inner { position: relative; display: grid; }
+.flip-face { grid-area: 1 / 1; position: relative; display: grid; align-content: start; gap: 18px; padding: 34px clamp(24px, 2.4vw, 32px) 30px; border-radius: var(--radius-lg); overflow: hidden; }
+.flip-front { background: linear-gradient(180deg, #fff 40%, #F5F9FE); border: 1px solid var(--line); box-shadow: 0 24px 50px -40px rgba(11, 30, 56, .35); }
+.flip-front::before { content: ''; position: absolute; top: 0; left: clamp(24px, 2.4vw, 32px); right: clamp(24px, 2.4vw, 32px); height: 3px; border-radius: 0 0 3px 3px; background: linear-gradient(90deg, var(--sky), var(--blue)); transform-origin: left; transition: transform 900ms var(--ease-emph); }
+.js .flip.reveal:not(.is-in) .flip-front::before { transform: scaleX(0); }
+.flip blockquote { position: relative; font: var(--display-weight) clamp(1.35rem, 1.1rem + .7vw, 1.7rem)/1.26 var(--f-display); letter-spacing: var(--display-track); text-wrap: balance; }
+.flip figcaption { position: relative; display: inline-flex; align-items: center; gap: 10px; padding-right: 72px; font-size: 15px; font-weight: 600; color: var(--blue); }
+.flip figcaption::before { content: ''; width: 22px; height: 1.5px; background: currentColor; }
 .st-n { position: absolute; right: 18px; bottom: 6px; font: 500 clamp(3.4rem, 2.6rem + 1.8vw, 4.6rem)/1 var(--f-display); letter-spacing: -0.04em; color: transparent; -webkit-text-stroke: 1px rgba(24, 89, 179, .22); pointer-events: none; }
-.challenge .statement blockquote { position: relative; }
-.challenge .statement figcaption { position: relative; padding-right: 72px; }
-.challenge .statement figcaption { display: inline-flex; align-items: center; gap: 10px; }
-.challenge .statement figcaption::before { content: ''; width: 22px; height: 1.5px; background: currentColor; }
+.flip-back, .flip-hint { display: none; }
+
+.fx-pointer .flip { perspective: 1400px; min-height: 290px; }
+.fx-pointer .flip-inner { transform-style: preserve-3d; transition: transform 950ms cubic-bezier(.2, .85, .25, 1); }
+.fx-pointer .flip-face { -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+.fx-pointer .flip-back { display: grid; transform: rotateY(180deg); gap: 14px; color: #fff; border: 1px solid rgba(255, 255, 255, .14); background: radial-gradient(120% 90% at 88% -10%, rgba(124, 196, 240, .38), transparent 55%), linear-gradient(140deg, #0D3A72, #1452A6 55%, #2A73D9); box-shadow: 0 40px 70px -34px rgba(13, 58, 114, .65); }
+.fx-pointer .flip:is(:hover, :focus-within) .flip-inner { transform: rotateY(180deg); }
+/* Depth while turning: the card lifts and its shadow spreads. */
+.fx-pointer .flip::after { content: ''; position: absolute; inset: 12% 8% -4%; z-index: -1; border-radius: 30px; background: rgba(24, 89, 179, .35); filter: blur(28px); opacity: 0; transition: opacity 600ms var(--ease-out); }
+.fx-pointer .flip:is(:hover, :focus-within)::after { opacity: 1; }
+/* Light sweep across the back as it arrives. */
+.fx-pointer .flip-back::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, .22) 50%, transparent 65%); transform: translateX(-120%); }
+.fx-pointer .flip:is(:hover, :focus-within) .flip-back::after { animation: card-sweep 1100ms var(--ease-out) 420ms both; }
+@keyframes card-sweep { to { transform: translateX(120%); } }
+.fx-pointer .flip-hint { position: absolute; top: 16px; right: 16px; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; color: var(--blue); background: var(--wash); box-shadow: inset 0 0 0 1px rgba(42, 115, 217, .16); transition: transform 600ms var(--ease-emph); }
+.fx-pointer .flip-hint svg { width: 16px; height: 16px; }
+.fx-pointer .flip:hover .flip-hint { transform: rotate(180deg); }
+.st-n--back { -webkit-text-stroke: 1px rgba(255, 255, 255, .22); }
+.flip-q { position: relative; font: 500 clamp(1.6rem, 1.2rem + 1vw, 2.1rem)/1.15 var(--f-display); letter-spacing: -0.01em; }
+.flip-link { position: relative; justify-self: start; display: inline-flex; gap: 8px; align-items: center; font-size: 15px; font-weight: 600; color: #BFE3FA; text-decoration: none; }
+.flip-link:hover { color: #fff; }
+.flip-link .arr { transition: transform var(--t-hover) var(--ease-out); }
+.flip-link:hover .arr { transform: translateX(4px); }
+
+/* Back drawings. Resting styles are the final frame; the keyframes play from the start state each
+   time the card turns (and not at all under reduced motion, which leaves the final frame). */
+.art { width: 100%; max-width: 280px; height: auto; overflow: visible; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.art :is(circle, rect, path, line) { transform-box: fill-box; }
+.fx-pointer .flip:is(:hover, :focus-within) .art * { animation-fill-mode: both; animation-timing-function: var(--ease-emph); }
+/* 01 · budget drains before the code */
+.art--budget .a-track { stroke: rgba(255, 255, 255, .45); stroke-width: 1.5; }
+.art--budget .a-fill { fill: #7CC4F0; transform-origin: left center; transform: scaleX(.1); }
+.art--budget .a-drops circle { fill: #BFE3FA; opacity: 0; }
+.art--budget .a-time { stroke: rgba(255, 255, 255, .35); stroke-width: 1.5; stroke-dasharray: 3 6; }
+.art--budget .a-runner { fill: #fff; transform: translateX(210px); }
+.art--budget .a-code { stroke: #fff; stroke-width: 2.4; }
+.fx-pointer .flip:is(:hover, :focus-within) .art--budget .a-fill { animation: a-drain 1900ms var(--ease-emph) 300ms both; }
+.fx-pointer .flip:is(:hover, :focus-within) .art--budget .a-drops circle { animation: a-drop 900ms var(--ease-emph) 500ms 2 both; }
+.fx-pointer .flip:is(:hover, :focus-within) .art--budget .a-drops circle:nth-child(2) { animation-delay: 750ms; }
+.fx-pointer .flip:is(:hover, :focus-within) .art--budget .a-drops circle:nth-child(3) { animation-delay: 1000ms; }
+.fx-pointer .flip:is(:hover, :focus-within) .art--budget .a-runner { animation: a-run 2100ms var(--ease-emph) 300ms both; animation-timing-function: linear; }
+.fx-pointer .flip:is(:hover, :focus-within) .art--budget .a-code { animation: a-appear 500ms var(--ease-emph) 2300ms both; }
+@keyframes a-drain { from { transform: scaleX(1); } }
+@keyframes a-drop { 0% { opacity: 0; transform: translateY(-6px); } 30% { opacity: 1; } 100% { opacity: 0; transform: translateY(16px); } }
+@keyframes a-run { from { transform: translateX(0); } }
+@keyframes a-appear { from { opacity: 0; transform: scale(.7); } }
+/* 02 · wrong direction, then the real path to the target */
+.art--plan .a-target circle { stroke: rgba(255, 255, 255, .7); stroke-width: 1.5; }
+.art--plan .a-target .a-bull { fill: #fff; stroke: none; }
+.art--plan .a-ring { stroke: #7CC4F0; stroke-width: 2; opacity: 0; transform-origin: center; }
+.art--plan .a-start { fill: #fff; }
+.art--plan .a-wrong { stroke: rgba(255, 255, 255, .4); stroke-width: 2; stroke-dasharray: .02 .025; }
+.art--plan .a-x { stroke: #FFB4A8; stroke-width: 2.2; }
+.art--plan .a-right { stroke: #7CC4F0; stroke-width: 3; stroke-dasharray: 1; filter: drop-shadow(0 0 6px rgba(124, 196, 240, .8)); }
+.fx-pointer .flip:is(:hover, :focus-within) .art--plan .a-wrong { animation: a-dash 900ms var(--ease-emph) 250ms both; }
+.fx-pointer .flip:is(:hover, :focus-within) .art--plan .a-x { animation: a-appear 300ms var(--ease-emph) 1100ms both; }
+.fx-pointer .flip:is(:hover, :focus-within) .art--plan .a-right { animation: a-draw 1100ms var(--ease-emph) 1350ms both; }
+.fx-pointer .flip:is(:hover, :focus-within) .art--plan .a-ring { animation: a-ping 1400ms var(--ease-emph) 2400ms 2 both; animation-timing-function: var(--ease-out); }
+@keyframes a-dash { from { opacity: 0; clip-path: inset(0 100% 0 0); } to { opacity: 1; clip-path: inset(0 0 0 0); } }
+@keyframes a-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes a-ping { from { opacity: .9; transform: scale(1); } to { opacity: 0; transform: scale(2); } }
+/* 03 · perfect answer on the wrong problem fades; focus moves to the real one */
+.art--problem .a-wrongt circle { stroke: rgba(255, 255, 255, .5); stroke-width: 1.5; stroke-dasharray: 4 5; }
+.art--problem .a-check { stroke: #fff; stroke-width: 3; stroke-dasharray: 1; }
+.art--problem .a-wrongt { opacity: .35; }
+.art--problem .a-realt circle { stroke: #7CC4F0; stroke-width: 1.8; }
+.art--problem .a-realt .a-core { fill: #fff; stroke: none; filter: drop-shadow(0 0 8px rgba(124, 196, 240, .9)); }
+.art--problem .a-cross { stroke: #fff; stroke-width: 1.6; transform: translateX(130px); }
+.fx-pointer .flip:is(:hover, :focus-within) .art--problem .a-check { animation: a-draw 600ms var(--ease-emph) 350ms both; }
+.fx-pointer .flip:is(:hover, :focus-within) .art--problem .a-wrongt { animation: a-fade 600ms var(--ease-emph) 1300ms both; }
+.fx-pointer .flip:is(:hover, :focus-within) .art--problem .a-cross { animation: a-move 1000ms var(--ease-emph) 1500ms both; }
+.fx-pointer .flip:is(:hover, :focus-within) .art--problem .a-realt { animation: a-glow 900ms var(--ease-emph) 2400ms both; }
+@keyframes a-fade { from { opacity: 1; } }
+@keyframes a-move { from { transform: translateX(0); } }
+@keyframes a-glow { 0% { opacity: .5; } 50% { opacity: 1; filter: drop-shadow(0 0 10px rgba(124, 196, 240, .9)); } 100% { opacity: 1; } }
 
 /* Problem cards: frosted glass over the photograph. */
 .ch-cards { margin-top: clamp(40px, 4.5vw, 64px); }
@@ -807,14 +880,6 @@ a.v:hover { color: var(--blue); }
 /* Focus: the rest of the set steps back while one card is hovered. */
 .fx-pointer .challenge :is(.ch-cards, .statements):has(> :hover) > .reveal.is-in:not(:hover) { opacity: .62; filter: saturate(.7); transition: opacity 350ms var(--ease-out), filter 350ms var(--ease-out), transform var(--t-card) var(--ease-out); transition-delay: 0ms; }
 /* Statements: lift, thicker rule, the numeral fills with the brand gradient. */
-.challenge .statement { transition: opacity 900ms var(--ease-out), transform 1100ms var(--ease-emph), background-color 400ms, box-shadow 400ms; }
-.challenge .statement::before { transition: transform 900ms var(--ease-emph), height 300ms var(--ease-out); }
-.challenge .statement .st-n { transition: -webkit-text-stroke-color 400ms, translate 600ms var(--ease-emph); }
-.challenge .statement:is(:hover, .is-current) { background: rgba(255, 255, 255, .86); box-shadow: 0 40px 70px -36px rgba(24, 89, 179, .45), inset 0 1px 0 #fff; }
-.challenge .statement:is(:hover, .is-current)::before { height: 5px; }
-.challenge .statement:is(:hover, .is-current) .st-n { color: transparent; background: linear-gradient(135deg, var(--sky), var(--blue)); -webkit-background-clip: text; background-clip: text; -webkit-text-stroke-color: transparent; opacity: .32; translate: -4px -4px; }
-.challenge .statement:is(:hover, .is-current) figcaption::before { width: 34px; }
-.challenge .statement figcaption::before { transition: width 400ms var(--ease-emph); }
 
 /* Method: continuous data flow after the draw sequence */
 .js .method.is-in .m-pulse { animation: pulse-loop 6s var(--ease-out) 2300ms infinite; }
@@ -888,10 +953,11 @@ a.v:hover { color: var(--blue); }
   .js .method .m-chevron, .js .concept .c-arrow { opacity: 1 !important; }
   .js .nodes .n-node { transform: none !important; }
   .js .statement::before, .js .path::before { --lx: 1 !important; }
-  .cursor-dot, .cursor-ring, .hero-flow, .chip-node::after, .rail { display: none !important; }
+  .js .flip .flip-front::before { transform: none !important; }
+  .cursor-dot, .hero-flow, .chip-node::after, .rail { display: none !important; }
   .btn, [data-tilt]:hover { transform: none !important; }
   .js .photo-card.reveal .ph { clip-path: none !important; }
   .underline { clip-path: none !important; }
   .hero-media::before { display: none; }
 }
-@media print { .site-header, .cta-band, .reading-progress, .cursor-dot, .cursor-ring, .rail, .hero-chips, .foot-watermark { display: none; } }
+@media print { .site-header, .cta-band, .reading-progress, .cursor-dot, .rail, .hero-chips, .foot-watermark { display: none; } }

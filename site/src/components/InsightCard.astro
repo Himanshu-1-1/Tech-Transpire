@@ -9,7 +9,7 @@ const { insight: i, headingLevel = 'h3' } = Astro.props;
 const H = headingLevel;
 const held = blockingClaims(i.id).length;
 ---
-<li class="photo-card reveal" data-type={i.type} data-tilt data-cursor="Read">
+<li class="photo-card reveal" data-type={i.type} data-tilt>
   <div class="ph"><Image src={asset(i.cover)} alt="" widths={[480, 800]} sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 400px" /></div>
   <div class="body">
     <div class="meta"><span class="type">{TYPE_LABEL[i.type]}</span><span>{i.readTime}</span></div>

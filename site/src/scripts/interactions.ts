@@ -189,7 +189,7 @@ function scrollFx() {
 
 /** Touch: no hover, so the card crossing the middle of the screen takes the hover look. */
 function currentOnScroll() {
-  const els = document.querySelectorAll<HTMLElement>('.challenge .card, .challenge .statement');
+  const els = document.querySelectorAll<HTMLElement>('.challenge .card');
   if (!els.length || !('IntersectionObserver' in window)) return;
   const io = new IntersectionObserver((entries) => {
     for (const en of entries) en.target.classList.toggle('is-current', en.isIntersecting);
@@ -241,54 +241,33 @@ function heroDepth() {
   on(hero, 'pointerleave', () => set(0, 0));
 }
 
-/** Cursor: an exact dot plus a trailing ring that morphs by context.
- *  The dot sits exactly at the pointer, so precision is never lost. Over form fields the
- *  custom cursor hides and the native one returns. */
-let cursor: { dot: HTMLElement; ring: HTMLElement; label: HTMLElement } | null = null;
-let ringPos = { x: -100, y: -100 };
-let target = { x: -100, y: -100 };
-let loop = 0;
-function ensureCursor() {
-  if (cursor && document.body.contains(cursor.dot)) return cursor;
-  const dot = document.createElement('div');
+/** Cursor: a single dot exactly at the pointer (no trailing ring, at the company's request,
+ *  2026-10-30). It grows a little over links and buttons and shrinks on press. Over form
+ *  fields it hides and the native text cursor returns. */
+let dot: HTMLElement | null = null;
+function ensureDot() {
+  if (dot && document.body.contains(dot)) return dot;
+  dot = document.createElement('div');
   dot.className = 'cursor-dot';
-  const ring = document.createElement('div');
-  ring.className = 'cursor-ring';
-  const label = document.createElement('span');
-  label.className = 'cursor-label';
-  ring.append(label);
-  [dot, ring].forEach((el) => { el.setAttribute('aria-hidden', 'true'); document.body.append(el); });
-  cursor = { dot, ring, label };
-  return cursor;
+  dot.setAttribute('aria-hidden', 'true');
+  document.body.append(dot);
+  return dot;
 }
 function cursorFx() {
-  const c = ensureCursor();
+  const d = ensureDot();
   document.documentElement.classList.add('fx-cursor');
-  const tick = () => {
-    ringPos.x += (target.x - ringPos.x) * 0.2;
-    ringPos.y += (target.y - ringPos.y) * 0.2;
-    c.ring.style.transform = `translate3d(${ringPos.x}px, ${ringPos.y}px, 0)`;
-    loop = Math.abs(target.x - ringPos.x) + Math.abs(target.y - ringPos.y) > 0.1 ? requestAnimationFrame(tick) : 0;
-  };
   on(document, 'pointermove', (e: PointerEvent) => {
     if (e.pointerType !== 'mouse') return;
-    target = { x: e.clientX, y: e.clientY };
-    c.dot.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
-    if (!loop) loop = requestAnimationFrame(tick);
+    d.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
     const t = e.target as HTMLElement;
     const field = t.closest('input, textarea, select, [contenteditable]');
-    const labelled = !field && t.closest<HTMLElement>('[data-cursor]');
-    const button = !field && !labelled && t.closest('.btn, [data-magnetic], .chip, .method-node, .menu-btn, button');
-    const link = !field && !labelled && !button && t.closest('a, [data-spotlight], [data-tilt]');
-    const state = field ? 'field' : labelled ? 'label' : button ? 'button' : link ? 'link' : '';
-    c.ring.dataset.state = state;
-    c.dot.dataset.state = state;
-    c.label.textContent = labelled ? labelled.dataset.cursor ?? '' : '';
-    document.documentElement.classList.toggle('cursor-dark', !!t.closest('.section--navy, .cta-band, .site-footer, .panel--navy, .article-cta, .review-bar'));
+    const button = !field && t.closest('.btn, [data-magnetic], .chip, .method-node, .menu-btn, button');
+    const link = !field && !button && t.closest('a, [data-spotlight], [data-tilt], [data-flip]');
+    d.dataset.state = field ? 'field' : button ? 'button' : link ? 'link' : '';
   }, { passive: true });
-  on(document, 'pointerdown', () => c.ring.classList.add('is-down'));
-  on(document, 'pointerup', () => c.ring.classList.remove('is-down'));
-  on(document.documentElement, 'pointerleave', () => { c.ring.dataset.state = 'out'; c.dot.dataset.state = 'out'; });
+  on(document, 'pointerdown', () => d.classList.add('is-down'));
+  on(document, 'pointerup', () => d.classList.remove('is-down'));
+  on(document.documentElement, 'pointerleave', () => { d.dataset.state = 'out'; });
 }
 
 /* ---------- Lifecycle ---------- */

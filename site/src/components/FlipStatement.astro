@@ -1,0 +1,56 @@
+---
+// "Sounds Familiar?" statement as a 3D flip card. Front: the statement and its prompt, verbatim.
+// Back: an animated drawing that acts the statement out, the prompt repeated large (decorative,
+// aria-hidden) and a link to Our Method. Desktop with a mouse only (.fx-pointer): flips on hover
+// and on keyboard focus (the link); the drawings replay on every flip. Phones, touch screens and
+// reduced motion show the front card alone (the company asked for a simple mobile version).
+import Icon from './Icon.astro';
+interface Props { n: number; statement: string; prompt: string; link: { label: string; href: string } }
+const { n, statement, prompt, link } = Astro.props;
+const num = String(n + 1).padStart(2, '0');
+---
+<figure class="flip reveal" data-flip>
+  <div class="flip-inner">
+    <div class="flip-face flip-front">
+      <span class="flip-hint" aria-hidden="true"><Icon name="repeat" /></span>
+      <blockquote>{statement}</blockquote>
+      <figcaption>{prompt}</figcaption>
+      <span class="st-n" aria-hidden="true">{num}</span>
+    </div>
+    <div class="flip-face flip-back">
+      <span class="st-n st-n--back" aria-hidden="true">{num}</span>
+      {n === 0 && (
+        /* Budget drains away before the first line of code appears. */
+        <svg class="art art--budget" viewBox="0 0 260 100" aria-hidden="true" focusable="false">
+          <rect class="a-track" x="16" y="30" width="172" height="20" rx="10" />
+          <rect class="a-fill" x="19" y="33" width="166" height="14" rx="7" />
+          <g class="a-drops"><circle cx="60" cy="58" r="2.5" /><circle cx="96" cy="58" r="2.5" /><circle cx="132" cy="58" r="2.5" /></g>
+          <line class="a-time" x1="16" y1="82" x2="226" y2="82" />
+          <circle class="a-runner" cx="16" cy="82" r="4" />
+          <g class="a-code"><path d="M214 28 l-11 12 l11 12" /><path d="M238 28 l11 12 l-11 12" /><path d="M231 24 l-10 32" /></g>
+        </svg>
+      )}
+      {n === 1 && (
+        /* Confident execution in the wrong direction, then the path that reaches the real target. */
+        <svg class="art art--plan" viewBox="0 0 260 100" aria-hidden="true" focusable="false">
+          <g class="a-target"><circle cx="222" cy="26" r="16" /><circle cx="222" cy="26" r="9" /><circle class="a-bull" cx="222" cy="26" r="3.5" /></g>
+          <circle class="a-ring" cx="222" cy="26" r="16" />
+          <circle class="a-start" cx="20" cy="70" r="5" />
+          <path class="a-wrong" d="M20 70 C 80 70, 130 92, 206 92" pathLength="1" />
+          <path class="a-x" d="M206 86 l10 12 M216 86 l-10 12" />
+          <path class="a-right" d="M20 70 C 92 66, 140 28, 202 26" pathLength="1" />
+        </svg>
+      )}
+      {n === 2 && (
+        /* A perfect result on the wrong problem fades; focus moves to the real one. */
+        <svg class="art art--problem" viewBox="0 0 260 100" aria-hidden="true" focusable="false">
+          <g class="a-wrongt"><circle cx="66" cy="50" r="28" /><path class="a-check" d="M52 51 l10 10 l19 -22" pathLength="1" /></g>
+          <g class="a-realt"><circle cx="196" cy="50" r="28" /><circle cx="196" cy="50" r="15" /><circle class="a-core" cx="196" cy="50" r="5" /></g>
+          <g class="a-cross"><circle cx="66" cy="50" r="36" /><path d="M66 6 v16 M66 78 v16 M22 50 h16 M94 50 h16" /></g>
+        </svg>
+      )}
+      <p class="flip-q" aria-hidden="true">{prompt}</p>
+      <a class="flip-link" href={link.href}>{link.label} <span class="arr" aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</figure>
