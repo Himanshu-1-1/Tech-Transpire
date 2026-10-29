@@ -4,7 +4,7 @@ import '@fontsource-variable/libre-franklin';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { isReview, SITE_NAME, location } from '../lib/site';
+import { isReview, showMarkers, SITE_NAME, location } from '../lib/site';
 import { logo } from '../lib/images';
 import { getImage } from 'astro:assets';
 import { ClientRouter } from 'astro:transitions';
@@ -61,7 +61,7 @@ const org = {
   </head>
   <body class:list={{ 'has-hero-header': heroHeader }}>
     <a class="skip-link" href="#main">Skip to main content</a>
-    {isReview && (
+    {showMarkers && (
       <div class="review-bar">
         <div class="container">
           <span><strong>Review build</strong> · not for publication · amber tags mark drafts and unverified items{draft ? ` · ${draft}` : ''}</span>

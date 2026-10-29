@@ -1,7 +1,7 @@
 ---
-// Internal review marker. Renders only in the review build; the public build strips it.
-import { isReview } from '../lib/site';
+// Internal review marker. Renders only in the review build with REVIEW_MARKERS=1; never in public.
+import { showMarkers } from '../lib/site';
 interface Props { label: string; ok?: boolean; block?: boolean }
 const { label, ok = false, block = false } = Astro.props;
 ---
-{isReview && <span class:list={['flag', { 'flag--ok': ok, 'flag--block': block }]}>{label}</span>}
+{showMarkers && <span class:list={['flag', { 'flag--ok': ok, 'flag--block': block }]}>{label}</span>}

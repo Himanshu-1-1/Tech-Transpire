@@ -40,6 +40,6 @@ export default defineConfig({
   vite: {
     // Content and assets live in ../docs (Phase 1 archive), outside the Astro root.
     server: { fs: { allow: ['..'] } },
-    define: { __SITE_MODE__: JSON.stringify(mode) },
+    define: { __SITE_MODE__: JSON.stringify(mode), __REVIEW_MARKERS__: JSON.stringify(process.env.REVIEW_MARKERS === '1') },
   },
 });

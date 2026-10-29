@@ -1,6 +1,10 @@
 // Site-wide configuration: build mode, navigation, contact details and approval switches.
 export const MODE = __SITE_MODE__;
 export const isReview = MODE === 'review';
+// On-page review markers (amber tags, the "Review build" strip, review notes). Off by default
+// at the company's request (2026-10-30); REVIEW_MARKERS=1 shows them for an approval session.
+// The items they mark stay tracked in docs/website-architecture/12 and 19.
+export const showMarkers = isReview && __REVIEW_MARKERS__;
 
 // Approval switches. Each flips to true when the decisions register records the approval.
 export const approvals = {

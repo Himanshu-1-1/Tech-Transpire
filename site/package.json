@@ -8,6 +8,7 @@
   },
   "scripts": {
     "dev": "astro dev",
+    "dev:markers": "cross-env REVIEW_MARKERS=1 astro dev",
     "build": "astro build",
     "build:public": "cross-env SITE_MODE=public astro build",
     "preview": "astro preview",

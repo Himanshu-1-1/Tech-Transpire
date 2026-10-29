@@ -46,10 +46,11 @@ Rebuilding **www.techtranspire.com** from scratch: preserve existing content ver
 
 ```
 cd site && npm ci                       # Node 22 LTS (.nvmrc)
-npm run dev                             # review site, http://localhost:4321
+npm run dev                             # review site, http://localhost:4321 (no on-page markers)
+npm run dev:markers                     # same, with amber tags + "Review build" strip (REVIEW_MARKERS=1)
 npm run validate                        # both builds + tests + content/gating + links (CI)
 npm run build && npm run preview -- --port 4322
-npm run qa                              # 42 browser checks against :4322
+npm run qa                              # 47 browser checks against :4322
 npm run screenshots                     # 1440/768/390 into docs/phase-2-design/screenshots
 ```
 The machine used on 2026-10-29 had no system Node; a portable Node 22 from the session scratchpad was used. Install Node 22 LTS for ongoing work.
@@ -74,6 +75,7 @@ The machine used on 2026-10-29 had no system Node; a portable Node 22 from the s
 | 2026-10-30 | **"Sounds Familiar?" redesign:** clean white (a photo backdrop was tried and rejected by the company); interactive `FaultLines` SVG (lines fall into alignment under a lens that follows the pointer); interactive statement and problem cards (spotlight, icon redraw, accent bar, focus dimming; centre-of-screen highlight on touch). QA 46/46 |
 | 2026-10-30 | **D-32 Word files reviewed:** Home/Services/About match the archive; Home now shows the full fit list and "See Our Work →"; content check covers CTA labels (582 lines). Temp-TT draft = superseded (18). Word files gitignored (public repo) |
 | 2026-10-30 | **Hero fixes:** jiggle near the top (header shrink moved the page and re-crossed the scroll threshold; footprint now constant, new QA check, 47/47); chip data path now brand blue; underline hugs "Through Execution." (clip wipe instead of dash draw) |
+| 2026-10-30 | **On-page review markers off** (company request): amber tags, "Review build" strip and review notes hidden by default; `npm run dev:markers` / `REVIEW_MARKERS=1` brings them back. Items stay tracked in 12 and 19. Review build still shows unverified content and stays `noindex`; public build unchanged |
 
 ## 5. Approved decisions (full text in 12 §5)
 

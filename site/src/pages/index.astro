@@ -18,7 +18,7 @@ import { isVisibleInsight, CASE_STUDIES } from '../lib/routes';
 import { visibleResults } from '../lib/results';
 import { isVerified, claims } from '../lib/claims';
 import { photo, asset } from '../lib/images';
-import { approvals, isReview, contact } from '../lib/site';
+import { approvals, isReview, showMarkers, contact } from '../lib/site';
 
 const [, heroLead, heroSub] = lines(block('TT-PG-001-B02'));
 const [opening, seeWhatBreaks, ...statements] = carouselPairs(block('TT-PG-001-B01'));
@@ -232,7 +232,7 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
             </li>
           ))}
         </ul>
-        {isReview && <p class="muted" style="margin-top:20px;font-size:14px">Review note: the public build shows only verified results and hides this section until at least two are verified.</p>}
+        {showMarkers && <p class="muted" style="margin-top:20px;font-size:14px">Review note: the public build shows only verified results and hides this section until at least two are verified.</p>}
       </div>
     </section>
   )}
