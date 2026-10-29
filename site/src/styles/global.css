@@ -137,7 +137,11 @@ p { text-wrap: pretty; }
 /* =========================================================================
    Header and navigation
    ========================================================================= */
-.site-header { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 60; background: rgba(255, 255, 255, .86); -webkit-backdrop-filter: saturate(160%) blur(14px); backdrop-filter: saturate(160%) blur(14px); border-bottom: 1px solid transparent; transition: background-color var(--t-card) var(--ease-out), border-color var(--t-card), box-shadow var(--t-card); }
+/* The header compacts 80 → 68px on scroll but its footprint never changes: the 12px it loses is
+   returned as margin with the same timing, so the page below never moves. (A changing header
+   height shifted the page, which crossed the scroll threshold again and made the hero jiggle.) */
+.site-header { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 60; margin-bottom: 0; background: rgba(255, 255, 255, .86); -webkit-backdrop-filter: saturate(160%) blur(14px); backdrop-filter: saturate(160%) blur(14px); border-bottom: 1px solid transparent; transition: background-color var(--t-card) var(--ease-out), border-color var(--t-card), box-shadow var(--t-card), margin-bottom var(--t-card) var(--ease-out); }
+.site-header.is-scrolled { margin-bottom: 12px; }
 .has-hero-header .site-header:not(.is-scrolled) { background: #fff; -webkit-backdrop-filter: none; backdrop-filter: none; }
 .site-header.is-scrolled { background: rgba(255, 255, 255, .94); border-bottom-color: var(--line); box-shadow: 0 8px 24px -20px rgba(11, 26, 47, .45); }
 .hdr { display: flex; align-items: center; gap: 34px; min-height: var(--header-h); transition: min-height var(--t-card) var(--ease-out); }
@@ -188,7 +192,7 @@ p { text-wrap: pretty; }
 .hero h1 { font-size: clamp(2.6rem, 1.2rem + 3.7vw, 4.6rem); line-height: 1.02; }
 .hero h1 .line { display: block; overflow: hidden; padding-bottom: .07em; margin-bottom: -.07em; white-space: nowrap; }
 @media (max-width: 559px) { .hero h1 .line { white-space: normal; } }
-.hero h1 .line > span { display: block; animation: line-rise 820ms var(--ease-emph) both; animation-delay: calc(240ms + var(--d, 0) * 110ms); }
+.hero h1 .line > span { display: inline-block; animation: line-rise 820ms var(--ease-emph) both; animation-delay: calc(240ms + var(--d, 0) * 110ms); }
 .hero h1 .accent { color: var(--blue); }
 .hero .lead { max-width: 47ch; color: var(--ink-2); }
 .hero-caption { position: absolute; right: var(--gutter-r); top: 24px; }
@@ -711,12 +715,15 @@ a.v:hover { color: var(--blue); }
 /* Hero: underline, light sweep, floating method chips with a live data path */
 .hero h1 .line > span { position: relative; }
 .underline { position: absolute; left: 0; right: 0; bottom: -.06em; width: 100%; height: .16em; overflow: visible; pointer-events: none; }
-.underline path { fill: none; stroke: var(--sky); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 1000ms var(--ease-emph) 1100ms forwards; vector-effect: non-scaling-stroke; }
+/* Drawn with a clip wipe: dash-based drawing is unreliable with non-scaling strokes (it stopped part-way). */
+.underline { clip-path: inset(-6px 100% -6px -6px); animation: wipe-in 1000ms var(--ease-emph) 1100ms forwards; }
+.underline path { fill: none; stroke: var(--sky); stroke-width: 3; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+@keyframes wipe-in { to { clip-path: inset(-6px -6px -6px -6px); } }
 .hero-media::before { content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(100deg, transparent 35%, rgba(255, 255, 255, .55) 50%, transparent 65%); transform: translateX(-100%); animation: sweep 1800ms var(--ease-out) 1200ms both; }
 @keyframes sweep { to { transform: translateX(110%); } }
 .hero-chips { position: absolute; top: var(--header-h); right: 0; bottom: 0; width: 46%; z-index: 0; pointer-events: none; }
 .hero-flow { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.hero-flow path { fill: none; stroke: rgba(255, 255, 255, .85); stroke-width: 1.5; stroke-dasharray: 5 7; animation: march 1.6s linear infinite, fade-in 700ms var(--ease-out) 1500ms both; filter: drop-shadow(0 0 4px rgba(62, 159, 222, .7)); }
+.hero-flow path { fill: none; stroke: var(--blue); stroke-width: 2.2; stroke-linecap: round; stroke-dasharray: 6 7; animation: march 1.6s linear infinite, fade-in 700ms var(--ease-out) 1500ms both; filter: drop-shadow(0 0 1.5px rgba(255, 255, 255, .95)) drop-shadow(0 0 6px rgba(62, 159, 222, .55)); }
 @keyframes march { to { stroke-dashoffset: -24; } }
 .chip-float { position: absolute; top: var(--top); left: var(--left); display: inline-flex; align-items: center; gap: 10px; padding: 11px 16px 11px 12px; border-radius: 999px; background: rgba(255, 255, 255, .72); -webkit-backdrop-filter: blur(10px) saturate(160%); backdrop-filter: blur(10px) saturate(160%); border: 1px solid rgba(255, 255, 255, .9); box-shadow: 0 18px 40px -18px rgba(11, 30, 56, .45); font: 600 13.5px/1 var(--f-body); color: var(--ink); white-space: nowrap; transform: translate3d(calc(var(--px, 0) * var(--depth) * -1px), calc(var(--py, 0) * var(--depth) * -1px), 0); transition: transform 500ms var(--ease-out); animation: chip-in 800ms var(--ease-emph) both; animation-delay: calc(var(--d) * 110ms + 400ms); }
 @keyframes chip-in { from { opacity: 0; translate: 0 14px; scale: .96; } to { opacity: 1; translate: 0 0; scale: 1; } }
@@ -884,7 +891,7 @@ a.v:hover { color: var(--blue); }
   .cursor-dot, .cursor-ring, .hero-flow, .chip-node::after, .rail { display: none !important; }
   .btn, [data-tilt]:hover { transform: none !important; }
   .js .photo-card.reveal .ph { clip-path: none !important; }
-  .underline path { stroke-dashoffset: 0 !important; }
+  .underline { clip-path: none !important; }
   .hero-media::before { display: none; }
 }
 @media print { .site-header, .cta-band, .reading-progress, .cursor-dot, .cursor-ring, .rail, .hero-chips, .foot-watermark { display: none; } }

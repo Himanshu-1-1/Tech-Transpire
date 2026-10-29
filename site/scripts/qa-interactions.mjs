@@ -141,6 +141,35 @@ try {
     await page.close();
   }
 
+  // Header compaction must not move the page. Regression: near the top, the shrinking header
+  // shifted the page back across the scroll threshold, so the hero jiggled every frame.
+  {
+    const page = await browser.newPage();
+    await page.setViewport({ width: 1440, height: 900 });
+    await page.goto(`${base}/`, { waitUntil: 'networkidle0' });
+    await new Promise((r) => setTimeout(r, 1500));
+    const layout = () => page.evaluate(() => ({ y: window.scrollY, h: document.documentElement.scrollHeight, hero: document.querySelector('.hero-inner').getBoundingClientRect().top + window.scrollY }));
+    const first = await layout();
+    let worst = 0;
+    let drift = 0;
+    for (const y of [4, 10, 12, 13, 14, 18, 30, 13, 11, 6, 13, 0]) {
+      await page.evaluate((v) => window.scrollTo(0, v), y);
+      // Sample every frame for ~0.5s: the position must hold still.
+      const samples = await page.evaluate(() => new Promise((res) => {
+        const out = [];
+        const step = () => { out.push([window.scrollY, document.querySelector('.hero-inner').getBoundingClientRect().top]); out.length < 30 ? requestAnimationFrame(step) : res(out); };
+        requestAnimationFrame(step);
+      }));
+      const tops = samples.map((s) => s[1]);
+      worst = Math.max(worst, Math.max(...tops) - Math.min(...tops));
+      drift = Math.max(drift, Math.abs(samples.at(-1)[0] - y));
+      const l = await layout();
+      worst = Math.max(worst, Math.abs(l.h - first.h), Math.abs(l.hero - first.hero));
+    }
+    check('Header compaction never moves the page (no hero jiggle near the top)', worst < 1 && drift < 1, `max shift ${worst.toFixed(2)}px, scroll drift ${drift.toFixed(2)}px`);
+    await page.close();
+  }
+
   // 7. Contact form: validation and honest failure state with no integration configured
   {
     const page = await browser.newPage();
