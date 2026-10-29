@@ -64,11 +64,8 @@ try {
     await new Promise((r) => setTimeout(r, 120));
     const mx = await page.evaluate(() => getComputedStyle(document.querySelector('.hero [data-magnetic]')).getPropertyValue('--mx'));
     check('Magnetic CTA follows the pointer by a few px', parseFloat(mx) > 0 && parseFloat(mx) <= 6, `--mx=${mx}`);
-    const halo = await page.evaluate(() => document.querySelector('.cursor-dot')?.dataset.state);
-    check('Cursor dot grows over a button (no trailing ring)', halo === 'button' && (await page.$('.cursor-ring')) === null, `state=${halo}`);
-    const dotPos = await page.evaluate(() => document.querySelector('.cursor-dot')?.style.transform ?? '');
-    const [dx, dy] = (dotPos.match(/-?[\d.]+/g) ?? []).map(Number).slice(1);
-    check('Cursor dot sits exactly at the pointer (±1px)', Math.abs(dx - (box.x + box.width * 0.9)) <= 1 && Math.abs(dy - (box.y + box.height * 0.5)) <= 1, dotPos);
+    const sys = await page.evaluate(() => ({ custom: document.querySelectorAll('.cursor-dot, .cursor-ring').length, body: getComputedStyle(document.body).cursor, link: getComputedStyle(document.querySelector('.hero a')).cursor }));
+    check('System cursor everywhere (no custom cursor; pointer hand on links)', sys.custom === 0 && sys.body === 'auto' && sys.link === 'pointer', JSON.stringify(sys));
     await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
     const reached = await page.waitForFunction(() => location.pathname === '/contact-us' && document.getElementById('f-name'), { timeout: 8000 }).then(() => true, () => false);
     check('Magnetic CTA remains clickable (navigates to contact)', reached, page.url());
@@ -77,9 +74,8 @@ try {
     const ib = await input.boundingBox();
     await page.mouse.move(ib.x + 20, ib.y + 10, { steps: 3 });
     await new Promise((r) => setTimeout(r, 80));
-    const haloInput = await page.evaluate(() => document.querySelector('.cursor-dot')?.dataset.state ?? '');
     const cursor = await page.evaluate(() => getComputedStyle(document.getElementById('f-name')).cursor);
-    check('Over form fields the custom cursor hides and the native text cursor returns', haloInput === 'field' && cursor === 'text', `state=${haloInput} cursor=${cursor}`);
+    check('Form fields show the normal text cursor', cursor === 'text' || cursor === 'auto', `cursor=${cursor}`);
     await page.close();
   }
 
@@ -123,8 +119,8 @@ try {
     await page.focus('.method-node[data-step="1"]');
     const active = await page.evaluate(() => document.querySelector('[data-method]').dataset.active);
     check('After navigating back, the method graphic is wired', active === '1');
-    const cursors = await page.evaluate(() => document.querySelectorAll('.cursor-dot').length);
-    check('Exactly one custom cursor after navigations', cursors === 1, `${cursors}`);
+    const cursors = await page.evaluate(() => document.querySelectorAll('.cursor-dot, .cursor-ring').length);
+    check('No custom cursor after navigations', cursors === 0, `${cursors}`);
     await page.close();
   }
 

@@ -672,16 +672,6 @@ a.v:hover { color: var(--blue); }
    ========================================================================= */
 @property --ang { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
 
-/* Cursor: one exact dot that inverts over any background (no trailing ring) */
-.fx-cursor, .fx-cursor * { cursor: none !important; }
-.fx-cursor input:not([type='checkbox']):not([type='radio']), .fx-cursor textarea, .fx-cursor [contenteditable] { cursor: text !important; }
-.fx-cursor select, .fx-cursor input[type='checkbox'], .fx-cursor input[type='radio'] { cursor: pointer !important; }
-.cursor-dot { position: fixed; left: 0; top: 0; z-index: 400; width: 0; height: 0; pointer-events: none; mix-blend-mode: difference; will-change: transform; }
-.cursor-dot::before { content: ''; position: absolute; left: -4px; top: -4px; width: 8px; height: 8px; border-radius: 50%; background: #fff; transition: transform 260ms var(--ease-emph), opacity var(--t-hover); }
-.cursor-dot[data-state='link']::before { transform: scale(2); }
-.cursor-dot[data-state='button']::before { transform: scale(2.6); }
-.cursor-dot.is-down::before { transform: scale(.7); }
-.cursor-dot[data-state='field']::before, .cursor-dot[data-state='out']::before { opacity: 0; }
 
 /* Tilt + glare */
 .fx-pointer [data-tilt] { transform-style: preserve-3d; }
@@ -959,10 +949,10 @@ a.v:hover { color: var(--blue); }
   .js .method .m-chevron, .js .concept .c-arrow { opacity: 1 !important; }
   .js .nodes .n-node { transform: none !important; }
   .js .statement::before, .js .path::before { --lx: 1 !important; }
-  .cursor-dot, .hero-flow, .chip-node::after, .rail { display: none !important; }
+  .hero-flow, .chip-node::after, .rail { display: none !important; }
   .btn, [data-tilt]:hover { transform: none !important; }
   .js .photo-card.reveal .ph { clip-path: none !important; }
   .underline { clip-path: none !important; }
   .hero-media::before { display: none; }
 }
-@media print { .site-header, .cta-band, .reading-progress, .cursor-dot, .rail, .hero-chips, .foot-watermark { display: none; } }
+@media print { .site-header, .cta-band, .reading-progress, .rail, .hero-chips, .foot-watermark { display: none; } }

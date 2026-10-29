@@ -241,34 +241,7 @@ function heroDepth() {
   on(hero, 'pointerleave', () => set(0, 0));
 }
 
-/** Cursor: a single dot exactly at the pointer (no trailing ring, at the company's request,
- *  2026-10-30). It grows a little over links and buttons and shrinks on press. Over form
- *  fields it hides and the native text cursor returns. */
-let dot: HTMLElement | null = null;
-function ensureDot() {
-  if (dot && document.body.contains(dot)) return dot;
-  dot = document.createElement('div');
-  dot.className = 'cursor-dot';
-  dot.setAttribute('aria-hidden', 'true');
-  document.body.append(dot);
-  return dot;
-}
-function cursorFx() {
-  const d = ensureDot();
-  document.documentElement.classList.add('fx-cursor');
-  on(document, 'pointermove', (e: PointerEvent) => {
-    if (e.pointerType !== 'mouse') return;
-    d.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
-    const t = e.target as HTMLElement;
-    const field = t.closest('input, textarea, select, [contenteditable]');
-    const button = !field && t.closest('.btn, [data-magnetic], .chip, .method-node, .menu-btn, button');
-    const link = !field && !button && t.closest('a, [data-spotlight], [data-tilt], [data-flip]');
-    d.dataset.state = field ? 'field' : button ? 'button' : link ? 'link' : '';
-  }, { passive: true });
-  on(document, 'pointerdown', () => d.classList.add('is-down'));
-  on(document, 'pointerup', () => d.classList.remove('is-down'));
-  on(document.documentElement, 'pointerleave', () => { d.dataset.state = 'out'; });
-}
+// No custom cursor: the system cursor is used everywhere (company request, 2026-10-30).
 
 /* ---------- Lifecycle ---------- */
 function init() {
@@ -291,9 +264,8 @@ function init() {
     tilt();
     glow();
     heroDepth();
-    cursorFx();
   } else {
-    root.classList.remove('fx-pointer', 'fx-cursor');
+    root.classList.remove('fx-pointer');
     if (!reduced()) currentOnScroll();
   }
 }
