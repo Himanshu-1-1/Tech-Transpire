@@ -241,6 +241,45 @@ function heroDepth() {
   on(hero, 'pointerleave', () => set(0, 0));
 }
 
+/** Hero data path: links the floating chips from their measured positions, every frame while
+ *  the hero is on screen, so it stays attached as they float (pointer depth, scroll, resize).
+ *  Route: chip 01's right edge → chip 04's node; chip 04's lower edge → chip 05's right edge. */
+function heroFlow() {
+  const wrap = document.querySelector<HTMLElement>('.hero-chips');
+  const svg = wrap?.querySelector<SVGSVGElement>('.hero-flow');
+  const chips = wrap ? [...wrap.querySelectorAll<HTMLElement>('.chip-float')] : [];
+  if (!wrap || !svg || chips.length < 3 || getComputedStyle(wrap).display === 'none') return;
+  const paths = [...svg.querySelectorAll<SVGPathElement>('path')];
+  let last = '';
+  const draw = () => {
+    const o = wrap.getBoundingClientRect();
+    const [a, b, c] = chips.map((el) => el.getBoundingClientRect());
+    const node = chips[1].querySelector('.chip-node')!.getBoundingClientRect();
+    const p = (x: number, y: number) => `${(x - o.left).toFixed(1)} ${(y - o.top).toFixed(1)}`;
+    const ay = a.top + a.height / 2;
+    const bx = node.left + node.width / 2;
+    const by = node.top + node.height / 2;
+    const cy = c.top + c.height / 2;
+    const reach1 = Math.max(40, (bx - a.right) * 0.55);
+    const d = `M${p(a.right + 6, ay)} C${p(a.right + reach1, ay)} ${p(bx - reach1, by)} ${p(bx - 9, by)}`
+      + ` M${p(b.left + b.width * 0.42, b.bottom + 4)} C${p(b.left + b.width * 0.42, b.bottom + (c.top - b.bottom) * 0.9)} ${p(c.right + 60, cy)} ${p(c.right + 6, cy)}`;
+    if (d === last) return;
+    last = d;
+    svg.setAttribute('viewBox', `0 0 ${o.width.toFixed(1)} ${o.height.toFixed(1)}`);
+    paths.forEach((el) => el.setAttribute('d', d));
+  };
+  draw();
+  if (reduced()) return;
+  let frame = 0;
+  let live = true;
+  const loop = () => { if (live) draw(); frame = requestAnimationFrame(loop); };
+  frame = requestAnimationFrame(loop);
+  const io = new IntersectionObserver(([en]) => { live = en.isIntersecting; }, { rootMargin: '80px' });
+  io.observe(wrap);
+  observers.push(io);
+  page!.signal.addEventListener('abort', () => cancelAnimationFrame(frame));
+}
+
 // No custom cursor: the system cursor is used everywhere (company request, 2026-10-30).
 
 /* ---------- Lifecycle ---------- */
@@ -258,6 +297,7 @@ function init() {
   sectionRail();
   readingProgress();
   scrollFx();
+  heroFlow();
   if (finePointer() && !reduced()) {
     root.classList.add('fx-pointer');
     magnetic();

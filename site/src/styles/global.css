@@ -714,8 +714,12 @@ a.v:hover { color: var(--blue); }
 @keyframes sweep { to { transform: translateX(110%); } }
 .hero-chips { position: absolute; top: var(--header-h); right: 0; bottom: 0; width: 46%; z-index: 0; pointer-events: none; }
 .hero-flow { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.hero-flow path { fill: none; stroke: var(--blue); stroke-width: 2.2; stroke-linecap: round; stroke-dasharray: 6 7; animation: march 1.6s linear infinite, fade-in 700ms var(--ease-out) 1500ms both; filter: drop-shadow(0 0 1.5px rgba(255, 255, 255, .95)) drop-shadow(0 0 6px rgba(62, 159, 222, .55)); }
-@keyframes march { to { stroke-dashoffset: -24; } }
+/* Dotted base line with a white halo (reads over sky and glass), and a light pulse that travels
+   01 → 04 → 05. Geometry comes from heroFlow() in interactions.ts. */
+.hero-flow path { fill: none; stroke-linecap: round; animation: fade-in 700ms var(--ease-out) 1500ms both; }
+.hero-flow .flow-base { stroke: #0D3A72; stroke-width: 2.2; filter: drop-shadow(0 0 1px #fff) drop-shadow(0 0 3px rgba(255, 255, 255, .9)) drop-shadow(0 1px 6px rgba(13, 58, 114, .35)); }
+.hero-flow .flow-pulse { stroke: #8FD3FF; stroke-width: 3.6; stroke-dasharray: .08 .92; stroke-dashoffset: .08; filter: drop-shadow(0 0 4px rgba(42, 115, 217, 1)) drop-shadow(0 0 8px rgba(62, 159, 222, .8)); animation: fade-in 700ms var(--ease-out) 1500ms both, flow-pulse 3.6s cubic-bezier(.45, 0, .55, 1) 2200ms infinite; }
+@keyframes flow-pulse { from { stroke-dashoffset: .08; } to { stroke-dashoffset: -1; } }
 .chip-float { position: absolute; top: var(--top); left: var(--left); display: inline-flex; align-items: center; gap: 10px; padding: 11px 16px 11px 12px; border-radius: 999px; background: rgba(255, 255, 255, .72); -webkit-backdrop-filter: blur(10px) saturate(160%); backdrop-filter: blur(10px) saturate(160%); border: 1px solid rgba(255, 255, 255, .9); box-shadow: 0 18px 40px -18px rgba(11, 30, 56, .45); font: 600 13.5px/1 var(--f-body); color: var(--ink); white-space: nowrap; transform: translate3d(calc(var(--px, 0) * var(--depth) * -1px), calc(var(--py, 0) * var(--depth) * -1px), 0); transition: transform 500ms var(--ease-out); animation: chip-in 800ms var(--ease-emph) both; animation-delay: calc(var(--d) * 110ms + 400ms); }
 @keyframes chip-in { from { opacity: 0; translate: 0 14px; scale: .96; } to { opacity: 1; translate: 0 0; scale: 1; } }
 .chip-n { font: 600 11px/1 var(--f-body); letter-spacing: .1em; color: var(--blue); }

@@ -73,10 +73,13 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
     </div>
     <div class="hero-light" aria-hidden="true"></div>
     {/* Floating method chips: three of the five step titles [E], at different parallax depths,
-        linked by a live data path. Decorative duplicates of the Method section. */}
+        linked by a live data path. Decorative duplicates of the Method section. The path is drawn
+        from the chips' measured positions every frame (interactions.ts heroFlow), so it stays
+        attached while they float. */}
     <div class="hero-chips" aria-hidden="true">
-      <svg class="hero-flow" viewBox="0 0 100 100" preserveAspectRatio="none" focusable="false">
-        <path d={lounge ? 'M10 15 C 30 10, 50 14, 62 24 S 50 38, 34 41' : 'M18 22 C 40 22, 52 40, 72 46 S 70 74, 44 78'} vector-effect="non-scaling-stroke" />
+      <svg class="hero-flow" focusable="false">
+        <path class="flow-base" />
+        <path class="flow-pulse" pathLength="1" />
       </svg>
       {/* With the lounge photo the chips sit in the sky, clear of the people (lower right). */}
       <div class="chip-float" style={`--depth:22;--top:${lounge ? '10%' : '18%'};--left:${lounge ? '6%' : '12%'};--d:9`}><span class="chip-node"></span><span class="chip-n">01</span>{method[0].title}</div>
