@@ -81,15 +81,17 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
       <svg class="hero-flow" focusable="false">
         <path class="flow-base" data-leg="0" pathLength="1" />
         <path class="flow-base" data-leg="1" pathLength="1" />
+        <path class="flow-pulse" data-leg="0" pathLength="1" />
+        <path class="flow-pulse" data-leg="1" pathLength="1" />
         <circle class="flow-dot" data-leg="0" r="3.5" />
         <circle class="flow-dot" data-leg="1" r="3.5" />
         <path class="flow-arrow" data-leg="0" />
         <path class="flow-arrow" data-leg="1" />
       </svg>
       {/* With the lounge photo the chips sit in the sky, clear of the people (lower right). */}
-      <div class="chip-float" style={`--depth:22;--top:${lounge ? '10%' : '18%'};--left:${lounge ? '6%' : '12%'};--d:9`}><span class="chip-node"></span><span class="chip-n">01</span>{method[0].title}</div>
-      <div class="chip-float" style={`--depth:36;--top:${lounge ? '21%' : '42%'};--left:${lounge ? '58%' : '62%'};--d:10`}><span class="chip-node"></span><span class="chip-n">04</span>{method[3].title}</div>
-      <div class="chip-float" style={`--depth:28;--top:${lounge ? '38%' : '72%'};--left:${lounge ? '30%' : '30%'};--d:11`}><span class="chip-node chip-node--end"><svg class="chip-check" viewBox="0 0 12 12" focusable="false"><path d="M2.6 6.3 L5 8.6 L9.4 3.6" pathLength="1" /></svg></span><span class="chip-n">05</span>{method[4].title}</div>
+      <div class="chip-float" style={`--depth:22;--top:${lounge ? '10%' : '18%'};--left:${lounge ? '6%' : '12%'};--d:9`}><span class="chip-node"></span><span class="chip-n">01</span><span class="chip-t">{method[0].title}</span></div>
+      <div class="chip-float" style={`--depth:36;--top:${lounge ? '21%' : '42%'};--left:${lounge ? '58%' : '62%'};--d:10`}><span class="chip-node"></span><span class="chip-n">04</span><span class="chip-t">{method[3].title}</span></div>
+      <div class="chip-float" style={`--depth:28;--top:${lounge ? '38%' : '72%'};--left:${lounge ? '30%' : '30%'};--d:11`}><span class="chip-node chip-node--end"><svg class="chip-check" viewBox="0 0 12 12" focusable="false"><path d="M2.6 6.3 L5 8.6 L9.4 3.6" pathLength="1" /></svg></span><span class="chip-n">05</span><span class="chip-t">{method[4].title}</span></div>
     </div>
     <div class="container hero-inner">
       <div class="hero-copy">

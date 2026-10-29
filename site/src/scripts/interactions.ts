@@ -245,7 +245,8 @@ function heroDepth() {
  *  their measured positions every frame while the hero is on screen, so the traces stay attached
  *  as the chips float (pointer depth, scroll, resize). On load the story plays once and rests:
  *  s1 chip 01 on → s2 trace to 04 draws → s3 chip 04 on → s4 trace to 05 draws → s5 chip 05
- *  completes with a check. Hovering a chip highlights it and its traces. */
+ *  completes with a check. Then a light travels the full route (01 → 04 → 05) on a loop.
+ *  Hovering a chip highlights it and its traces. */
 type Pt = [number, number];
 const f1 = (n: number) => n.toFixed(1);
 const trace = (pts: Pt[], r = 14) => pts.reduce((d, [x, y], i) => {
@@ -281,8 +282,7 @@ function heroFlow() {
     if (key === last) return;
     last = key;
     svg.setAttribute('viewBox', `0 0 ${f1(o.width)} ${f1(o.height)}`);
-    q<SVGPathElement>('.flow-base', 0).setAttribute('d', leg0);
-    q<SVGPathElement>('.flow-base', 1).setAttribute('d', leg1);
+    [leg0, leg1].forEach((d, i) => svg.querySelectorAll(`.flow-base[data-leg="${i}"], .flow-pulse[data-leg="${i}"]`).forEach((el) => el.setAttribute('d', d)));
     q<SVGPathElement>('.flow-arrow', 0).setAttribute('d', arrow(b.l - 3, b.cy, 1));
     q<SVGPathElement>('.flow-arrow', 1).setAttribute('d', arrow(c.r + 3, c.cy, -1));
     [s0, s1].forEach(([x, y], i) => { const dot = q<SVGCircleElement>('.flow-dot', i); dot.setAttribute('cx', f1(x)); dot.setAttribute('cy', f1(y)); });
