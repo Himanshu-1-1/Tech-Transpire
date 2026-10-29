@@ -31,7 +31,9 @@ const types = (Object.keys(TYPE_LABEL) as InsightType[]).map((t) => ({ t, n: ins
 </Base>
 
 <script>
-  const chips = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  document.addEventListener('astro:page-load', () => {
+  const chips = document.querySelectorAll<HTMLButtonElement>('[data-filter]:not([data-wired])');
+  chips.forEach((c) => (c.dataset.wired = ''));
   const items = document.querySelectorAll<HTMLElement>('#insight-list > li');
   const status = document.getElementById('filter-status');
   chips.forEach((chip) => chip.addEventListener('click', () => {
@@ -41,4 +43,5 @@ const types = (Object.keys(TYPE_LABEL) as InsightType[]).map((t) => ({ t, n: ins
     items.forEach((li) => { const on = f === 'all' || li.dataset.type === f; li.hidden = !on; if (on) { shown++; li.classList.add('is-in'); } });
     if (status) status.textContent = `${shown} insights shown`;
   }));
+  });
 </script>

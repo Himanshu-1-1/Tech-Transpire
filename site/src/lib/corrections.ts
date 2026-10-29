@@ -20,12 +20,7 @@ export const corrections: Correction[] = [
   { id: 'E-04a', block: 'TT-PG-004-B04', before: "TechTranspire's financial backbone", after: "Tech Transpire's financial backbone", kind: 'spelling', approval: 'D-11' },
   { id: 'E-04b', block: 'TT-INS-010-B10', before: 'CTA: Talk to TechTranspire >', after: 'CTA: Talk to Tech Transpire >', kind: 'spelling', approval: 'D-11 (link URL untouched)' },
   { id: 'E-09', block: 'TT-INS-003-B06', before: ' Twelve other programs subsequently replicated it.', after: '', kind: 'temporary omission', approval: 'D-24; restore when C-14 is verified' },
-  { id: 'F-01', block: 'TT-PG-001-B02', before: 'transformation points - moments', after: 'transformation points, moments', kind: 'punctuation', approval: 'F-01–F-07 approval (punctuation only)' },
-  { id: 'F-02', block: 'TT-PG-001-B03', before: 'different directions invisible', after: 'different directions, invisible', kind: 'punctuation', approval: 'F-01–F-07 approval (punctuation only)' },
-  { id: 'F-03a', block: 'TT-PG-001-B05', before: 'understands it not dependent', after: 'understands it, not dependent', kind: 'punctuation', approval: 'F-01–F-07 approval (punctuation only)' },
-  { id: 'F-03b', block: 'TT-PG-001-B05', before: 'actually delivered then we', after: 'actually delivered, then we', kind: 'punctuation', approval: 'F-01–F-07 approval (punctuation only)' },
-  { id: 'F-04a', block: 'TT-PG-001-B07', before: 'bring clarity not simply', after: 'bring clarity, not simply', kind: 'punctuation', approval: 'F-01–F-07 approval (punctuation only)' },
-  { id: 'F-04b', block: 'TT-PG-002-B06', before: 'bring clarity not simply', after: 'bring clarity, not simply', kind: 'punctuation', approval: 'F-01–F-07 approval (punctuation only)' },
+  // F-01–F-04 (page punctuation) were withdrawn on 2026-10-30: the company chose the exact live wording.
   { id: 'F-07a', block: 'TT-INS-008-B01', before: 'Handoffs - Not the Steps', after: 'Handoffs — Not the Steps', kind: 'punctuation', approval: 'F-01–F-07 approval (punctuation only)' },
   { id: 'F-07b', block: 'TT-INS-008-B02', field: 'heading', before: 'Handoffs - Not the Steps', after: 'Handoffs — Not the Steps', kind: 'punctuation', approval: 'F-01–F-07 approval (punctuation only)' },
 ];

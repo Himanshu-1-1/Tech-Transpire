@@ -1,11 +1,17 @@
-// Site-wide interaction layer. One module, initialised once per page load.
-// Every effect is progressive enhancement: content and controls work without it.
+// Site-wide interaction engine (v4). Initialised on every page load, including client-side
+// navigations (Astro view transitions); listeners are removed before each swap.
+// Everything is progressive enhancement: content and controls work without it.
 // Pointer effects run only on precise pointers and never under reduced motion.
 
 const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const finePointer = () => window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-function rafThrottle<T extends unknown[]>(fn: (...args: T) => void) {
+let page: AbortController | null = null;
+const on = <K extends keyof WindowEventMap>(t: Window | Document | HTMLElement, type: K | string, fn: (e: any) => void, opts: AddEventListenerOptions = {}) =>
+  t.addEventListener(type, fn, { ...opts, signal: page!.signal });
+const observers: IntersectionObserver[] = [];
+
+function raf<T extends unknown[]>(fn: (...args: T) => void) {
   let frame = 0;
   let last: T;
   return (...args: T) => {
@@ -14,16 +20,16 @@ function rafThrottle<T extends unknown[]>(fn: (...args: T) => void) {
   };
 }
 
-/** Sticky header: transparent over the hero, solid once the page scrolls. */
+/* ---------- Header ---------- */
 function header() {
   const el = document.querySelector<HTMLElement>('.site-header');
   if (!el) return;
   const update = () => el.classList.toggle('is-scrolled', window.scrollY > 12);
   update();
-  window.addEventListener('scroll', rafThrottle(update), { passive: true });
+  on(window, 'scroll', raf(update), { passive: true });
 }
 
-/** Mobile menu: disclosure button with animated panel, Escape and link-click to close. */
+/* ---------- Mobile menu ---------- */
 function mobileMenu() {
   const btn = document.querySelector<HTMLButtonElement>('.menu-btn');
   const panel = document.getElementById('mobile-nav');
@@ -38,124 +44,226 @@ function mobileMenu() {
       reduced() ? done() : setTimeout(done, 260);
     }
   };
-  btn.addEventListener('click', () => set(btn.getAttribute('aria-expanded') !== 'true'));
-  panel.addEventListener('click', (e) => { if ((e.target as HTMLElement).closest('a')) set(false); });
-  document.addEventListener('keydown', (e) => {
+  on(btn, 'click', () => set(btn.getAttribute('aria-expanded') !== 'true'));
+  on(panel, 'click', (e: MouseEvent) => { if ((e.target as HTMLElement).closest('a')) set(false); });
+  on(document, 'keydown', (e: KeyboardEvent) => {
     if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') { set(false); btn.focus(); }
   });
-  window.matchMedia('(min-width: 940px)').addEventListener('change', (m) => { if (m.matches) set(false); });
 }
 
-/** Scroll reveals: run once per element; siblings stagger through --i. */
+/* ---------- Split headings into words for a masked rise ---------- */
+function splitWords() {
+  if (reduced()) return;
+  document.querySelectorAll<HTMLElement>('[data-split]:not([data-split-done])').forEach((el) => {
+    el.dataset.splitDone = '';
+    let n = 0;
+    const walk = (node: Node) => {
+      [...node.childNodes].forEach((child) => {
+        if (child.nodeType === Node.TEXT_NODE) {
+          const parts = (child.textContent ?? '').split(/(\s+)/);
+          const frag = document.createDocumentFragment();
+          parts.forEach((p) => {
+            if (!p) return;
+            if (/^\s+$/.test(p)) { frag.append(document.createTextNode(p)); return; }
+            const outer = document.createElement('span');
+            outer.className = 'w';
+            const inner = document.createElement('span');
+            inner.textContent = p;
+            inner.style.setProperty('--wi', String(n++));
+            outer.append(inner);
+            frag.append(outer);
+          });
+          child.replaceWith(frag);
+        } else if (child.nodeType === Node.ELEMENT_NODE && !(child as HTMLElement).classList.contains('flag')) walk(child);
+      });
+    };
+    walk(el);
+    el.classList.add('reveal', 'split');
+  });
+}
+
+/* ---------- Scroll reveals (once) ---------- */
 function reveals() {
-  const els = document.querySelectorAll<HTMLElement>('.reveal');
+  const els = document.querySelectorAll<HTMLElement>('.reveal:not(.is-in)');
   if (reduced() || !('IntersectionObserver' in window)) { els.forEach((el) => el.classList.add('is-in')); return; }
   els.forEach((el) => {
-    const siblings = el.parentElement ? [...el.parentElement.children].filter((c) => c.classList.contains('reveal')) : [];
-    el.style.setProperty('--i', String(Math.max(0, siblings.indexOf(el))));
+    const sibs = el.parentElement ? [...el.parentElement.children].filter((c) => c.classList.contains('reveal')) : [];
+    el.style.setProperty('--i', String(Math.max(0, sibs.indexOf(el))));
   });
   const io = new IntersectionObserver((entries) => {
     for (const en of entries) if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); }
-  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.08 });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
   els.forEach((el) => io.observe(el));
+  observers.push(io);
 }
 
-/** Magnetic CTAs: the button follows the pointer by a few pixels, its arrow a little further. */
-function magnetic() {
-  const MAX = 6;
-  document.querySelectorAll<HTMLElement>('[data-magnetic]').forEach((el) => {
-    const move = rafThrottle((x: number, y: number) => {
-      el.style.setProperty('--mx', `${(x * MAX).toFixed(2)}px`);
-      el.style.setProperty('--my', `${(y * MAX * 0.6).toFixed(2)}px`);
-    });
-    el.addEventListener('pointermove', (e) => {
-      const r = el.getBoundingClientRect();
-      move((e.clientX - r.left) / r.width - 0.5, (e.clientY - r.top) / r.height - 0.5);
-    });
-    el.addEventListener('pointerleave', () => { el.style.setProperty('--mx', '0px'); el.style.setProperty('--my', '0px'); });
-  });
+/* ---------- Ambient animations pause off-screen ---------- */
+function ambient() {
+  const els = document.querySelectorAll<HTMLElement>('[data-ambient]');
+  // SVG-native (SMIL) motion ignores CSS, so pause it explicitly off-screen and under reduced motion.
+  const svgs = (el: Element) => el.querySelectorAll<SVGSVGElement>('svg');
+  if (reduced() || !('IntersectionObserver' in window)) { els.forEach((el) => svgs(el).forEach((s) => s.pauseAnimations())); return; }
+  const io = new IntersectionObserver((entries) => {
+    for (const en of entries) {
+      (en.target as HTMLElement).classList.toggle('is-live', en.isIntersecting);
+      svgs(en.target).forEach((s) => (en.isIntersecting ? s.unpauseAnimations() : s.pauseAnimations()));
+    }
+  }, { rootMargin: '120px' });
+  els.forEach((el) => io.observe(el));
+  observers.push(io);
 }
 
-/** Card spotlight: a soft radial highlight that follows the pointer inside the card. */
-function spotlight() {
-  document.querySelectorAll<HTMLElement>('[data-spotlight]').forEach((el) => {
-    const move = rafThrottle((x: number, y: number) => {
-      el.style.setProperty('--sx', `${x}px`);
-      el.style.setProperty('--sy', `${y}px`);
-    });
-    el.addEventListener('pointermove', (e) => {
-      const r = el.getBoundingClientRect();
-      move(e.clientX - r.left, e.clientY - r.top);
-    });
-  });
+/* ---------- Home section rail ---------- */
+function sectionRail() {
+  const rail = document.querySelector<HTMLElement>('.rail');
+  if (!rail) return;
+  const links = [...rail.querySelectorAll<HTMLAnchorElement>('a')];
+  const targets = links.map((a) => document.querySelector<HTMLElement>(a.hash)).filter(Boolean) as HTMLElement[];
+  const io = new IntersectionObserver((entries) => {
+    for (const en of entries) if (en.isIntersecting) {
+      links.forEach((a) => a.classList.toggle('is-active', a.hash === `#${en.target.id}`));
+      rail.classList.toggle('on-dark', en.target.classList.contains('section--navy') || en.target.classList.contains('cta-band'));
+    }
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  targets.forEach((t) => io.observe(t));
+  observers.push(io);
+  const show = () => rail.classList.toggle('is-visible', window.scrollY > window.innerHeight * 0.6);
+  show();
+  on(window, 'scroll', raf(show), { passive: true });
 }
 
-/** Cursor halo: a small ring that appears over interactive elements only. Never over form fields. */
-function cursor() {
-  const halo = document.createElement('div');
-  halo.className = 'cursor-halo';
-  halo.setAttribute('aria-hidden', 'true');
-  document.body.append(halo);
-  const place = rafThrottle((x: number, y: number) => { halo.style.transform = `translate3d(${x}px, ${y}px, 0)`; });
-  document.addEventListener('pointermove', (e) => {
-    if (e.pointerType !== 'mouse') return;
-    place(e.clientX, e.clientY);
-    const t = e.target as HTMLElement;
-    const field = t.closest('input, textarea, select, label');
-    const button = !field && t.closest('.btn, [data-magnetic], .chip, .method-node');
-    const link = !field && !button && t.closest('a, button, [data-spotlight]');
-    halo.dataset.state = field ? '' : button ? 'button' : link ? 'link' : '';
-  }, { passive: true });
-  document.addEventListener('pointerleave', () => { halo.dataset.state = ''; });
-}
-
-/** Hero: photograph and light gradient shift a few pixels with the pointer. */
-function heroParallax() {
-  const hero = document.querySelector<HTMLElement>('[data-parallax]');
-  if (!hero) return;
-  const move = rafThrottle((x: number, y: number) => {
-    hero.style.setProperty('--px', x.toFixed(3));
-    hero.style.setProperty('--py', y.toFixed(3));
-  });
-  hero.addEventListener('pointermove', (e) => {
-    const r = hero.getBoundingClientRect();
-    move((e.clientX - r.left) / r.width - 0.5, (e.clientY - r.top) / r.height - 0.5);
-  });
-  hero.addEventListener('pointerleave', () => move(0, 0));
-}
-
-/** Reading progress for articles. */
+/* ---------- Reading progress (articles) ---------- */
 function readingProgress() {
   const bar = document.querySelector<HTMLElement>('.reading-progress');
   const article = document.querySelector<HTMLElement>('[data-reading]');
   if (!bar || !article) return;
   const update = () => {
     const r = article.getBoundingClientRect();
-    const total = r.height - window.innerHeight * 0.6;
-    const p = Math.min(1, Math.max(0, -r.top / Math.max(1, total)));
+    const p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - window.innerHeight * 0.6)));
     bar.style.transform = `scaleX(${p.toFixed(4)})`;
   };
   update();
-  window.addEventListener('scroll', rafThrottle(update), { passive: true });
-  window.addEventListener('resize', rafThrottle(update), { passive: true });
+  on(window, 'scroll', raf(update), { passive: true });
 }
 
-let started = false;
+/* ================= Pointer effects (fine pointers, motion allowed) ================= */
+
+/** Magnetic: element follows the pointer a few px; its arrow a little further. */
+function magnetic() {
+  document.querySelectorAll<HTMLElement>('[data-magnetic]').forEach((el) => {
+    const max = Number(el.dataset.magnetic) || 6;
+    const set = raf((x: number, y: number) => { el.style.setProperty('--mx', `${(x * max).toFixed(2)}px`); el.style.setProperty('--my', `${(y * max * 0.6).toFixed(2)}px`); });
+    on(el, 'pointermove', (e: PointerEvent) => { const r = el.getBoundingClientRect(); set((e.clientX - r.left) / r.width - 0.5, (e.clientY - r.top) / r.height - 0.5); });
+    on(el, 'pointerleave', () => set(0, 0));
+  });
+}
+
+/** Tilt + glare: cards lean toward the pointer (max ~5°) with a light that follows it. */
+function tilt() {
+  document.querySelectorAll<HTMLElement>('[data-tilt], [data-spotlight]').forEach((el) => {
+    const doTilt = el.hasAttribute('data-tilt');
+    const set = raf((x: number, y: number, px: number, py: number) => {
+      el.style.setProperty('--sx', `${px}px`);
+      el.style.setProperty('--sy', `${py}px`);
+      if (doTilt) { el.style.setProperty('--ry', `${(x * 6).toFixed(2)}deg`); el.style.setProperty('--rx', `${(-y * 5).toFixed(2)}deg`); }
+    });
+    on(el, 'pointermove', (e: PointerEvent) => { const r = el.getBoundingClientRect(); const px = e.clientX - r.left; const py = e.clientY - r.top; set(px / r.width - 0.5, py / r.height - 0.5, px, py); });
+    on(el, 'pointerleave', () => { el.style.setProperty('--rx', '0deg'); el.style.setProperty('--ry', '0deg'); });
+  });
+}
+
+/** Glow: dark sections get a soft light that follows the pointer. */
+function glow() {
+  document.querySelectorAll<HTMLElement>('[data-glow]').forEach((el) => {
+    const set = raf((x: number, y: number) => { el.style.setProperty('--gx', `${x}px`); el.style.setProperty('--gy', `${y}px`); });
+    on(el, 'pointermove', (e: PointerEvent) => { const r = el.getBoundingClientRect(); set(e.clientX - r.left, e.clientY - r.top); });
+  });
+}
+
+/** Hero depth: photo and floating chips move at different depths with the pointer. */
+function heroDepth() {
+  const hero = document.querySelector<HTMLElement>('[data-parallax]');
+  if (!hero) return;
+  const set = raf((x: number, y: number) => { hero.style.setProperty('--px', x.toFixed(3)); hero.style.setProperty('--py', y.toFixed(3)); });
+  on(hero, 'pointermove', (e: PointerEvent) => { const r = hero.getBoundingClientRect(); set((e.clientX - r.left) / r.width - 0.5, (e.clientY - r.top) / r.height - 0.5); });
+  on(hero, 'pointerleave', () => set(0, 0));
+}
+
+/** Cursor: an exact dot plus a trailing ring that morphs by context.
+ *  The dot sits exactly at the pointer, so precision is never lost. Over form fields the
+ *  custom cursor hides and the native one returns. */
+let cursor: { dot: HTMLElement; ring: HTMLElement; label: HTMLElement } | null = null;
+let ringPos = { x: -100, y: -100 };
+let target = { x: -100, y: -100 };
+let loop = 0;
+function ensureCursor() {
+  if (cursor && document.body.contains(cursor.dot)) return cursor;
+  const dot = document.createElement('div');
+  dot.className = 'cursor-dot';
+  const ring = document.createElement('div');
+  ring.className = 'cursor-ring';
+  const label = document.createElement('span');
+  label.className = 'cursor-label';
+  ring.append(label);
+  [dot, ring].forEach((el) => { el.setAttribute('aria-hidden', 'true'); document.body.append(el); });
+  cursor = { dot, ring, label };
+  return cursor;
+}
+function cursorFx() {
+  const c = ensureCursor();
+  document.documentElement.classList.add('fx-cursor');
+  const tick = () => {
+    ringPos.x += (target.x - ringPos.x) * 0.2;
+    ringPos.y += (target.y - ringPos.y) * 0.2;
+    c.ring.style.transform = `translate3d(${ringPos.x}px, ${ringPos.y}px, 0)`;
+    loop = Math.abs(target.x - ringPos.x) + Math.abs(target.y - ringPos.y) > 0.1 ? requestAnimationFrame(tick) : 0;
+  };
+  on(document, 'pointermove', (e: PointerEvent) => {
+    if (e.pointerType !== 'mouse') return;
+    target = { x: e.clientX, y: e.clientY };
+    c.dot.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+    if (!loop) loop = requestAnimationFrame(tick);
+    const t = e.target as HTMLElement;
+    const field = t.closest('input, textarea, select, [contenteditable]');
+    const labelled = !field && t.closest<HTMLElement>('[data-cursor]');
+    const button = !field && !labelled && t.closest('.btn, [data-magnetic], .chip, .method-node, .menu-btn, button');
+    const link = !field && !labelled && !button && t.closest('a, [data-spotlight], [data-tilt]');
+    const state = field ? 'field' : labelled ? 'label' : button ? 'button' : link ? 'link' : '';
+    c.ring.dataset.state = state;
+    c.dot.dataset.state = state;
+    c.label.textContent = labelled ? labelled.dataset.cursor ?? '' : '';
+    document.documentElement.classList.toggle('cursor-dark', !!t.closest('.section--navy, .cta-band, .site-footer, .panel--navy, .article-cta, .review-bar'));
+  }, { passive: true });
+  on(document, 'pointerdown', () => c.ring.classList.add('is-down'));
+  on(document, 'pointerup', () => c.ring.classList.remove('is-down'));
+  on(document.documentElement, 'pointerleave', () => { c.ring.dataset.state = 'out'; c.dot.dataset.state = 'out'; });
+}
+
+/* ---------- Lifecycle ---------- */
 function init() {
-  if (started) return;
-  started = true;
+  page?.abort();
+  observers.splice(0).forEach((o) => o.disconnect());
+  page = new AbortController();
+  const root = document.documentElement;
+  root.classList.add('js');
   header();
   mobileMenu();
+  splitWords();
   reveals();
+  ambient();
+  sectionRail();
   readingProgress();
   if (finePointer() && !reduced()) {
-    document.documentElement.classList.add('fx-pointer');
+    root.classList.add('fx-pointer');
     magnetic();
-    spotlight();
-    cursor();
-    heroParallax();
+    tilt();
+    glow();
+    heroDepth();
+    cursorFx();
+  } else {
+    root.classList.remove('fx-pointer', 'fx-cursor');
   }
 }
 
-if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });
-else init();
+document.addEventListener('astro:page-load', init);
+document.addEventListener('astro:before-swap', () => { page?.abort(); observers.splice(0).forEach((o) => o.disconnect()); });

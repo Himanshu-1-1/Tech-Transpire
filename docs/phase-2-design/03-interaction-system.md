@@ -2,6 +2,25 @@
 
 **2026-10-29.** What was implemented for the premium design brief, where it lives, and how it was tested. Principle: *from complexity to clarity*. Motion starts subtly, reveals relationships, and settles into a clean state. All of it is progressive enhancement: content and controls work without it.
 
+## v4 premium layer (2026-10-30)
+
+| Effect | Where | Notes |
+|---|---|---|
+| **Page transitions** | All pages | Astro `ClientRouter` cross-fade. The interaction engine, method graphic, contact form and Insights filter re-initialise on every `astro:page-load` and clean up on `astro:before-swap` (QA-tested) |
+| **Cursor v2** | Desktop | Exact dot plus a trailing ring (`mix-blend-mode: difference`, so it inverts on any background). It grows over links and buttons and shows a "Read" label over article and theme cards. Over inputs it hides and the native text cursor returns. Off on touch and under reduced motion |
+| **3D tilt + glare** | All cards (`data-tilt`) | Up to ~6° toward the pointer, a soft light follows it, and the card lifts 5px |
+| **Animated gradient border** | Cards, photo cards, team | A conic sky→blue border turns while hovered (`@property --ang`) |
+| **Button light sweep** | Primary and light buttons | A diagonal sheen crosses on hover |
+| **Word-by-word reveals** | Section headings, page H1s, closing line (`data-split`) | Each word rises through a mask, staggered 45ms. Text stays in the DOM; skipped under reduced motion |
+| **Hero depth** | Home | Floating glass chips (method steps 01, 04, 05) at three parallax depths, linked by a marching data path; a light sweep across the glass; a self-drawing underline under "Through Execution." |
+| **Signature method graphic (light)** | Home, "Our Method" | White→light-blue section with a soft aurora and a blueprint grid. Tangled lines and drifting particles resolve into a sky→deep-blue path with a glow. White glass nodes carry icons, number labels and slowly turning orbit rings; a data pulse loops along the path; the chevron glows at "Clarity" |
+| **Blueprint grid with data lanes** | Method (light) | `NodeGrid tone="light"`: faint grid; pulses run only along the bottom band, never behind text. SVG-native motion, paused off-screen and under reduced motion |
+| **Brand-blue closing band** | Every page | Gradient #0D3A72 → #2A73D9 (was near-black navy) with line-field motif, pointer glow and fine grain |
+| **Section rail** | Home, ≥ 1280px | Dots for Challenge · Experience · Method · Outcomes · Insights · Conversation; labels on hover; adapts on blue sections |
+| **Details** | Site-wide | Image mask reveals on cards; eyebrow leading rules; outcome-row accent line; scroll-linked engagement path (where supported); large outlined "Clarity Before Change." in the footer |
+
+Palette per company direction (2026-10-30): **white backgrounds with light-blue and blue shades**. Only the footer stays deep navy.
+
 ## Tokens (`site/src/styles/global.css`, `:root`)
 
 | Group | Tokens |

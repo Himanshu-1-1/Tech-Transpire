@@ -67,6 +67,9 @@ The machine used on 2026-10-29 had no system Node; a portable Node 22 from the s
 | 2026-10-29 | **Contact backend:** `/api/inquiry` with Zoho CRM + SMTP, spam protection, honest states; 14 unit tests |
 | 2026-10-29 | **Validation workflow:** `npm run validate`, link checker, CI; browser QA 42/42; 31 screenshots |
 | 2026-10-29 | Bugs found by QA and fixed: inner pages 500 on the Node server (output format); same-site form posts 403 (origin check → JSON); first submit click lost after correcting a field |
+| 2026-10-30 | Hero photograph supplied and integrated (TT-AS-024; rights to confirm) |
+| 2026-10-30 | **v4 premium layer** ([03](docs/phase-2-design/03-interaction-system.md)): page transitions, cursor v2, 3D tilt + gradient borders, word reveals, hero depth chips, light-blue signature method graphic, blueprint grid, brand-blue closing band, section rail. Palette: white + light blue + blue (footer stays navy). QA 46/46 |
+| 2026-10-30 | **D-31 exact live wording:** company supplied the live homepage text. F-01–F-04 withdrawn; "Clarity. Alignment. Execution."; original fit-list headings; "Want to learn more?" restored. 63/65 live lines verbatim (the other two are the withdrawn $3M+ label) |
 
 ## 5. Approved decisions (full text in 12 §5)
 
@@ -88,7 +91,7 @@ D-01 brand statement · D-02 signature offer · D-03 no AI page · D-04 pre-foun
 2. **Claims ([19](docs/website-architecture/19-article-claims-report.md)):** verify, or approve omissions, to release articles. Fastest path: the 005/010 engagement (C-05) and the 001/002 engagement figures; omissions for 001 (B08), 009 (stats + tag + heading), 010 (stats + sentence).
 3. **Launch-blocking wording:** H-01 "three times…" · C-15 "6-8 weeks" / "2 to 6 weeks" · C-17 "1 business day".
 4. **New copy:** N-02 theme lines and the "What we help you achieve" heading · "Selected Experience" intro line · N-04 labels and sentence · N-05 Healthcare · N-06 · N-13 · N-14 · N-16 · N-17 · small UI labels ("A good fit", "Already under way?", "Recovery in practice", concept-graphic labels such as "Stalled" / "Back on a defined path").
-5. **Corrections F-08–F-13** (punctuation found during the build).
+5. **Wording rule (D-31):** existing text is used exactly as on the live site; no punctuation fixes (F-01–F-04 withdrawn, F-08–F-13 not applied).
 6. **Profiles:** C-10, C-12, C-13, C-20; approved real photos for Kranthi and Devjet.
 7. **Legal:** Privacy Policy (N-07), Akhani LLC wording (N-06), image rights.
 8. **Zoho/SMTP/hosting** (04 steps 1–5), then the end-to-end test (05 F-1).

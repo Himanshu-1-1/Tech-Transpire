@@ -15,7 +15,7 @@ const { eyebrow, title, lead, crumbs = [], art = true } = Astro.props;
       </nav>
     )}
     {eyebrow && <p class="eyebrow">{eyebrow}</p>}
-    <h1>{title}<slot name="title-flag" /></h1>
+    <h1 data-split>{title}<slot name="title-flag" /></h1>
     {lead && <p class="lead">{lead}</p>}
     <slot />
   </div>

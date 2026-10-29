@@ -55,7 +55,7 @@ const people = team(teamBlock).filter((p) => isReview || isVerified(...gates[p.n
     <div class="container">
       <div class="section-head"><h2 id="values-h">{values.heading}</h2></div>
       <ul class="grid grid-3">
-        {cards(values).map((v) => <li class="card reveal" data-spotlight><span class="icon-tile"><Icon name={v.icon} /></span><h3>{v.title}</h3><p>{v.body}</p></li>)}
+        {cards(values).map((v) => <li class="card reveal" data-tilt><span class="icon-tile"><Icon name={v.icon} /></span><h3>{v.title}</h3><p>{v.body}</p></li>)}
       </ul>
     </div>
   </section>
@@ -66,7 +66,7 @@ const people = team(teamBlock).filter((p) => isReview || isVerified(...gates[p.n
         <div class="section-head"><h2 id="team-h">{teamBlock.heading}</h2></div>
         <ul class="team">
           {people.map((p) => (
-            <li class="person reveal" data-spotlight>
+            <li class="person reveal" data-tilt>
               <div class="portrait">
                 {portraits[p.name]
                   ? <Image src={portraits[p.name]!} alt={`${p.name}, ${p.role}`} widths={[160, 300]} sizes="148px" />

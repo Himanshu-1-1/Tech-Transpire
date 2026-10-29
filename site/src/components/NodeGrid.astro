@@ -1,0 +1,41 @@
+---
+// Ambient "living system": a faint blueprint grid with data pulses travelling along its
+// outer lanes (never behind text). SVG-native motion scales with the drawing; paused
+// off-screen and under reduced motion by the interaction engine. Decorative only.
+interface Props { tone?: 'light' | 'dark' }
+const { tone = 'light' } = Astro.props;
+const W = 1200, H = 640, S = 40;
+const v = Array.from({ length: W / S + 1 }, (_, i) => i * S);
+const h = Array.from({ length: H / S + 1 }, (_, i) => i * S);
+// The drawing scales to the section's height (slice), so only full-width lanes in the
+// bottom band are guaranteed to stay clear of text in a tall light section.
+const routes = tone === 'light'
+  ? ['M-20 612 H1220', 'M1220 626 H-20', 'M-20 600 H1220']
+  : ['M0 160 H400 V320 H880', 'M0 480 H240 V320 H880', 'M160 640 V400 H560 V320 H880', 'M0 320 H880'];
+const nodes = tone === 'light' ? [] : [[400, 160], [400, 320], [240, 480], [240, 320], [560, 400], [560, 320]];
+---
+<div class:list={['nodegrid', `nodegrid--${tone}`]} data-ambient aria-hidden="true">
+  <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMid slice" focusable="false">
+    <defs>
+      <radialGradient id={`ng-pulse-${tone}`}>
+        <stop offset="0" stop-color={tone === 'light' ? '#FFFFFF' : '#CDEBFF'} />
+        <stop offset=".4" stop-color="#2A73D9" stop-opacity=".85" />
+        <stop offset="1" stop-color="#3E9FDE" stop-opacity="0" />
+      </radialGradient>
+    </defs>
+    <g class="ng-grid">
+      {v.map((x, i) => <line x1={x} y1="0" x2={x} y2={H} class:list={{ major: i % 4 === 0 }} />)}
+      {h.map((y, i) => <line x1="0" y1={y} x2={W} y2={y} class:list={{ major: i % 4 === 0 }} />)}
+    </g>
+    <g class="ng-routes">{routes.map((d) => <path d={d} />)}</g>
+    <g class="ng-nodes">{nodes.map(([x, y]) => <circle cx={x} cy={y} r="3.5" />)}</g>
+    <g class="ng-pulses">
+      {routes.map((d, i) => (
+        <circle r="10" fill={`url(#ng-pulse-${tone})`} opacity="0">
+          <animateMotion dur={`${10 + i * 1.4}s`} begin={`${-i * 2.3}s`} repeatCount="indefinite" path={d} />
+          <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.08;0.85;1" dur={`${10 + i * 1.4}s`} begin={`${-i * 2.3}s`} repeatCount="indefinite" />
+        </circle>
+      ))}
+    </g>
+  </svg>
+</div>

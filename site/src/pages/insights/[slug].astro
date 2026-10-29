@@ -129,7 +129,7 @@ const jsonLd = [
           case 'carousel':
             return <section class="quote-list">{quotePairs(b).map((x) => <blockquote>{x.q}{x.by && <cite>{x.by}</cite>}</blockquote>)}</section>;
           case 'fitlist':
-            return <section>{heading && <h2>{heading}</h2>}<FitList items={fitlist(b)} yesTitle="This is for you if" noTitle="It is not for you if" /></section>;
+            return <section>{heading && <h2>{heading}</h2>}<FitList items={fitlist(b)} /></section>;
           default:
             return <section class="prose">{lines(b).map((p) => <p>{p}</p>)}</section>;
         }

@@ -1,11 +1,14 @@
 ---
-// Signature graphic: tangled lines (confusion) resolve into one path through the five
-// method steps and end in the brand chevron (clarity). Steps are real HTML; nodes are
-// buttons so the graphic works by pointer, touch and keyboard. Mobile shows a vertical path.
+// Signature graphic (light theme): tangled lines and drifting particles ("Confusion") resolve
+// into one luminous path through the five method steps, ending in the brand chevron with a
+// clarity glow. Steps are real HTML; nodes are buttons (pointer, touch, keyboard).
+// Mobile shows a vertical path. Decorative motion pauses off-screen and under reduced motion.
+import Icon from './Icon.astro';
 interface Props { steps: { title: string; body: string }[]; id?: string }
 const { steps, id = 'method' } = Astro.props;
 const X = [180, 360, 540, 720, 900];
 const Y = 92;
+const icons = ['search', 'target', 'lightning', 'layers', 'flag'];
 const tangles = [
   'M0 20 C40 6, 62 74, 96 58 S132 80, 150 92',
   'M0 58 C32 84, 54 18, 90 40 S126 112, 150 92',
@@ -14,22 +17,43 @@ const tangles = [
   'M0 166 C30 142, 76 174, 106 132 S134 100, 150 92',
   'M8 4 C72 40, 38 146, 112 114 S140 96, 150 92',
 ];
+const particles = [[18, 34], [42, 120], [64, 70], [28, 150], [86, 20], [96, 160], [54, 98], [12, 92]];
 const segs = [[150, X[0]], ...X.slice(1).map((x, i) => [X[i], x]), [X[4], 952]];
 ---
-<div class="method reveal" data-method id={id}>
+<div class="method reveal" data-method data-ambient id={id}>
   <div class="method-graphic">
     <span class="method-end method-end--start" aria-hidden="true">Confusion</span>
     <span class="method-end method-end--end" aria-hidden="true">Clarity</span>
     <svg class="method-svg" viewBox="0 0 1000 184" aria-hidden="true" focusable="false">
-      <g class="m-complex">{tangles.map((d, i) => <path d={d} pathLength="1" style={`--i:${i}`} />)}</g>
+      <defs>
+        <linearGradient id={`${id}-tangle`} x1="0" y1="0" x2="150" y2="0" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#9DB0C7" stop-opacity=".25" />
+          <stop offset="1" stop-color="#3E9FDE" stop-opacity=".9" />
+        </linearGradient>
+        <linearGradient id={`${id}-path`} x1="150" y1="0" x2="952" y2="0" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#7CC4F0" />
+          <stop offset=".55" stop-color="#2A73D9" />
+          <stop offset="1" stop-color="#0D3A72" />
+        </linearGradient>
+        <radialGradient id={`${id}-glow`}>
+          <stop offset="0" stop-color="#3E9FDE" stop-opacity=".45" />
+          <stop offset="1" stop-color="#3E9FDE" stop-opacity="0" />
+        </radialGradient>
+      </defs>
+      <g class="m-particles">{particles.map(([x, y], i) => <circle cx={x} cy={y} r={i % 3 === 0 ? 2.6 : 1.8} style={`--i:${i}`} />)}</g>
+      <g class="m-complex" stroke={`url(#${id}-tangle)`}>{tangles.map((d, i) => <path d={d} pathLength="1" style={`--i:${i}`} />)}</g>
       <path class="m-track" d={`M150 ${Y} H952`} />
-      {segs.map(([a, b], i) => <path class="m-seg" data-seg={i} d={`M${a} ${Y} H${b}`} pathLength="1" style={`--i:${i}`} />)}
+      <path class="m-glowline" d={`M150 ${Y} H952`} stroke={`url(#${id}-path)`} />
+      {segs.map(([a, b], i) => <path class="m-seg" data-seg={i} d={`M${a} ${Y} H${b}`} pathLength="1" stroke={`url(#${id}-path)`} style={`--i:${i}`} />)}
       <path class="m-pulse" d={`M150 ${Y} H952`} pathLength="1" />
-      <path class="m-chevron" d={`M934 ${Y - 18} L958 ${Y} L934 ${Y + 18}`} />
+      <circle class="m-clarity" cx="946" cy={Y} r="46" fill={`url(#${id}-glow)`} />
+      <path class="m-chevron" d={`M930 ${Y - 18} L956 ${Y} L930 ${Y + 18}`} />
+      <path class="m-chevron m-chevron--2" d={`M914 ${Y - 18} L940 ${Y} L914 ${Y + 18}`} />
     </svg>
     {steps.map((s, i) => (
       <button class="method-node" type="button" data-step={i} style={`--x:${X[i] / 10}%;--y:${(Y / 184) * 100}%;--i:${i}`} aria-controls={`${id}-step-${i + 1}`} aria-label={`Step ${i + 1}: ${s.title}`}>
-        <span aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+        <span class="node-n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+        <Icon name={icons[i]} class="icon" />
       </button>
     ))}
   </div>
@@ -45,8 +69,10 @@ const segs = [[150, X[0]], ...X.slice(1).map((x, i) => [X[i], x]), [X[4], 952]];
 </div>
 
 <script>
-  // Hovering or focusing a node (or its step) highlights the step and the path up to it.
-  document.querySelectorAll<HTMLElement>('[data-method]').forEach((root) => {
+  // Hovering, focusing or tapping a node (or its step) highlights the step and the path up to it.
+  // Runs on every page load, including client-side navigations.
+  document.addEventListener('astro:page-load', () => document.querySelectorAll<HTMLElement>('[data-method]:not([data-wired])').forEach((root) => {
+    root.dataset.wired = '';
     const segs = root.querySelectorAll<SVGPathElement>('.m-seg');
     const items = root.querySelectorAll<HTMLElement>('.method-steps li, .method-node');
     const activate = (n: number | null) => {
@@ -62,5 +88,5 @@ const segs = [[150, X[0]], ...X.slice(1).map((x, i) => [X[i], x]), [X[4], 952]];
     });
     root.addEventListener('pointerleave', () => activate(null));
     root.addEventListener('focusout', (e) => { if (!root.contains(e.relatedTarget as Node)) activate(null); });
-  });
+  }));
 </script>

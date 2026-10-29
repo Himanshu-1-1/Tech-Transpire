@@ -36,6 +36,12 @@ Approval basis:
 
 The design-review flags suggested dashes. The raw Google Doc export shows the pages' dashes were **deliberately removed** in the source documents: a double space remains where each dash was (for example `deep discovery &nbsp;understanding`, TT-PG-002). An earlier May 2026 draft has the dashes. Re-inserting them would reverse a choice someone made in the source. A comma is the smallest grammatical fix that keeps the meaning, so the page corrections use commas. Articles keep their own em-dash style, so F-07 uses an em dash.
 
+### Withdrawn 2026-10-30
+
+**F-01, F-02, F-03a, F-03b, F-04a and F-04b are withdrawn.** The company supplied the live homepage text and chose the **exact live wording**, character for character. These six entries were removed from `corrections.ts`; the site again shows, for example, "pulling in different directions invisible until execution fails". F-07 (article title dash) was not part of that text and remains applied. The same decision also settles F-08–F-13 below: **not applied** unless the company asks again.
+
+Also from the live text (2026-10-30): the hero line is **"Clarity. Alignment. Execution."** (full stops), and the fit-list headings are **"This is for you if"** / **"We may not be the right fit for you if"**. These replace the build's own labels. The carousel prompt "Want to learn more?" is restored as a link to Our Method. "$3M+ Revenue impact…" stays withdrawn (D-05).
+
 ## Not covered by the F approval (still open)
 
 | ID | Item | Why it is not a correction | Status |

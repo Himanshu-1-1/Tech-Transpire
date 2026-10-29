@@ -7,6 +7,7 @@ import Footer from '../components/Footer.astro';
 import { isReview, SITE_NAME, location } from '../lib/site';
 import { logo } from '../lib/images';
 import { getImage } from 'astro:assets';
+import { ClientRouter } from 'astro:transitions';
 import type { ImageMetadata } from 'astro';
 
 interface Props {
@@ -56,6 +57,7 @@ const org = {
     <slot name="head" />
     <script is:inline type="application/ld+json" set:html={JSON.stringify([org, ...jsonLd])} />
     <script is:inline>document.documentElement.classList.add('js');</script>
+    <ClientRouter fallback="animate" />
   </head>
   <body class:list={{ 'has-hero-header': heroHeader }}>
     <a class="skip-link" href="#main">Skip to main content</a>
@@ -67,7 +69,7 @@ const org = {
       </div>
     )}
     <Header />
-    <main id="main" tabindex="-1">
+    <main id="main" tabindex="-1" transition:animate="fade">
       <slot />
     </main>
     <Footer />

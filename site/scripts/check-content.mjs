@@ -49,9 +49,9 @@ for (const [id, slug] of Object.entries(slugs)) sources[id] = `insights/${slug}.
 //   TT-PG-001-B08  Home stats: shown only as "Selected Experience" tiles once verified (C-02–C-07)
 //   TT-PG-004-B04  Team profiles: publish per person when confirmed (D-07)
 //   TT-PG-001-B07  Home fit list: consolidated onto /services#fit (D-14); Home shows a teaser
-//   TT-PG-001-B01  "Want to learn more?": carousel navigation prompt, not used without the carousel
-// (TT-PG-001-B02's headline "Clarity before Execution." is checked: it is the Method eyebrow.)
-const notVerbatim = new Set(['TT-PG-001-B08', 'TT-PG-004-B04', 'TT-PG-001-B07', 'TT-PG-001-B01:Want to learn more?']);
+// (TT-PG-001-B02's headline "Clarity before Execution." is checked: it is the Method eyebrow.
+//  Every carousel line, including "Want to learn more?", is checked.)
+const notVerbatim = new Set(['TT-PG-001-B08', 'TT-PG-004-B04', 'TT-PG-001-B07']);
 
 const failures = [];
 const warnings = [];

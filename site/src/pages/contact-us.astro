@@ -99,8 +99,11 @@ const sources = ['LinkedIn', 'Facebook', 'Referral', 'Search', ...(isReview || a
 </Base>
 
 <script>
+  // Runs on every page load, including client-side navigations (view transitions).
+  document.addEventListener('astro:page-load', () => {
   const form = document.getElementById('inquiry') as HTMLFormElement | null;
-  if (form) {
+  if (form && !form.dataset.wired) {
+    form.dataset.wired = '';
     const started = document.getElementById('f-started') as HTMLInputElement;
     started.value = String(Date.now());
     const summary = document.getElementById('form-summary')!;
@@ -172,4 +175,5 @@ const sources = ['LinkedIn', 'Facebook', 'Referral', 'Search', ...(isReview || a
       }
     });
   }
+  });
 </script>

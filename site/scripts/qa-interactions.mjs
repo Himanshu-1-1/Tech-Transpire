@@ -45,8 +45,9 @@ try {
     check('Escape closes the menu and returns focus to the button', closed.exp === 'false' && closed.hidden && /menu-btn/.test(closed.focus));
     await page.click('.menu-btn');
     await new Promise((r) => setTimeout(r, 350));
-    await Promise.all([page.waitForNavigation(), page.click('#mobile-nav a[href="/services"]')]);
-    check('Menu link navigates', page.url().endsWith('/services'));
+    await page.click('#mobile-nav a[href="/services"]');
+    const navigated = await page.waitForFunction(() => location.pathname === '/services', { timeout: 8000 }).then(() => true, () => false);
+    check('Menu link navigates', navigated, page.url());
     await page.close();
   }
 
@@ -63,18 +64,44 @@ try {
     await new Promise((r) => setTimeout(r, 120));
     const mx = await page.evaluate(() => getComputedStyle(document.querySelector('.hero [data-magnetic]')).getPropertyValue('--mx'));
     check('Magnetic CTA follows the pointer by a few px', parseFloat(mx) > 0 && parseFloat(mx) <= 6, `--mx=${mx}`);
-    const halo = await page.evaluate(() => document.querySelector('.cursor-halo')?.dataset.state);
-    check('Cursor halo shows over a button', halo === 'button');
+    const halo = await page.evaluate(() => document.querySelector('.cursor-ring')?.dataset.state);
+    check('Cursor ring morphs over a button', halo === 'button');
+    const dotPos = await page.evaluate(() => document.querySelector('.cursor-dot')?.style.transform ?? '');
+    const [dx, dy] = (dotPos.match(/-?[\d.]+/g) ?? []).map(Number).slice(1);
+    check('Cursor dot sits exactly at the pointer (±1px)', Math.abs(dx - (box.x + box.width * 0.9)) <= 1 && Math.abs(dy - (box.y + box.height * 0.5)) <= 1, dotPos);
     await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
-    await page.waitForNavigation({ waitUntil: 'networkidle0' });
-    check('Magnetic CTA remains clickable (navigates to contact)', page.url().includes('/contact-us'));
+    const reached = await page.waitForFunction(() => location.pathname === '/contact-us' && document.getElementById('f-name'), { timeout: 8000 }).then(() => true, () => false);
+    check('Magnetic CTA remains clickable (navigates to contact)', reached, page.url());
+    await new Promise((r) => setTimeout(r, 500));
     const input = await page.$('#f-name');
     const ib = await input.boundingBox();
     await page.mouse.move(ib.x + 20, ib.y + 10, { steps: 3 });
     await new Promise((r) => setTimeout(r, 80));
-    const haloInput = await page.evaluate(() => document.querySelector('.cursor-halo')?.dataset.state ?? '');
+    const haloInput = await page.evaluate(() => document.querySelector('.cursor-ring')?.dataset.state ?? '');
     const cursor = await page.evaluate(() => getComputedStyle(document.getElementById('f-name')).cursor);
-    check('No halo over form fields; native text cursor kept', haloInput === '' && cursor !== 'none', `cursor=${cursor}`);
+    check('Over form fields the custom cursor hides and the native text cursor returns', haloInput === 'field' && cursor === 'text', `state=${haloInput} cursor=${cursor}`);
+    await page.close();
+  }
+
+  // 3b. Client-side navigation (view transitions): interactions re-initialise
+  {
+    const page = await browser.newPage();
+    await page.setViewport({ width: 1440, height: 900 });
+    await page.goto(base + '/', { waitUntil: 'networkidle0' });
+    await page.click('.hdr-cta');
+    await page.waitForFunction(() => location.pathname === '/contact-us' && document.getElementById('inquiry'), { timeout: 8000 });
+    await new Promise((r) => setTimeout(r, 400));
+    await page.click('button[type=submit]');
+    const errs = await page.evaluate(() => document.querySelectorAll('.field .err').length);
+    check('After client-side navigation, the contact form is wired (validation runs)', errs >= 4, `${errs} errors shown`);
+    await page.evaluate(() => document.querySelector('a.brand').click());
+    await page.waitForFunction(() => location.pathname === '/' && document.querySelector('[data-method]'), { timeout: 8000 });
+    await new Promise((r) => setTimeout(r, 400));
+    await page.focus('.method-node[data-step="1"]');
+    const active = await page.evaluate(() => document.querySelector('[data-method]').dataset.active);
+    check('After navigating back, the method graphic is wired', active === '1');
+    const cursors = await page.evaluate(() => document.querySelectorAll('.cursor-ring').length);
+    check('Exactly one custom cursor after navigations', cursors === 1, `${cursors}`);
     await page.close();
   }
 

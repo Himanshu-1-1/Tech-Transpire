@@ -92,7 +92,7 @@ const evidence: Record<string, string[]> = {
       </div>
       <ul class="grid grid-3">
         {cards(components).map((c) => (
-          <li class="card reveal" id={c.title.toLowerCase().replace(/[^a-z]+/g, '-')} data-spotlight>
+          <li class="card reveal" id={c.title.toLowerCase().replace(/[^a-z]+/g, '-')} data-tilt>
             <span class="icon-tile"><Icon name={c.icon} /></span>
             <h3>{c.title}</h3>
             <p>{c.body}</p>

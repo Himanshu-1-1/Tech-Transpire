@@ -9,6 +9,7 @@ import Blueprint from '../components/Blueprint.astro';
 import InsightCard from '../components/InsightCard.astro';
 import CtaBand from '../components/CtaBand.astro';
 import MethodPath from '../components/MethodPath.astro';
+import NodeGrid from '../components/NodeGrid.astro';
 import { block, lines, cards, steps, callout, fitlist, carouselPairs, ctas, team } from '../lib/content';
 import { insightById, insightHref, visibleInsights, visibleById } from '../lib/insights';
 import { isVisibleInsight, CASE_STUDIES } from '../lib/routes';
@@ -62,13 +63,23 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
         : <div class="media-fallback"><Blueprint idSuffix="hero" /></div>}
     </div>
     <div class="hero-light" aria-hidden="true"></div>
+    {/* Floating method chips: three of the five step titles [E], at different parallax depths,
+        linked by a live data path. Decorative duplicates of the Method section. */}
+    <div class="hero-chips" aria-hidden="true">
+      <svg class="hero-flow" viewBox="0 0 100 100" preserveAspectRatio="none" focusable="false">
+        <path d="M18 22 C 40 22, 52 40, 72 46 S 70 74, 44 78" vector-effect="non-scaling-stroke" />
+      </svg>
+      <div class="chip-float" style="--depth:22;--top:18%;--left:12%;--d:9"><span class="chip-node"></span><span class="chip-n">01</span>{method[0].title}</div>
+      <div class="chip-float" style="--depth:36;--top:42%;--left:62%;--d:10"><span class="chip-node"></span><span class="chip-n">04</span>{method[3].title}</div>
+      <div class="chip-float" style="--depth:28;--top:72%;--left:30%;--d:11"><span class="chip-node chip-node--end"></span><span class="chip-n">05</span>{method[4].title}</div>
+    </div>
     <div class="container hero-inner">
       <div class="hero-copy">
-        <p class="eyebrow enter" style="--d:0">Clarity · Alignment · Execution</p>
+        <p class="eyebrow enter" style="--d:0">Clarity. Alignment. Execution.</p>
         <h1 id="hero-h">
           <span class="line"><span style="--d:0">{first}</span></span>{' '}
           <span class="line accent"><span style="--d:1">{second.split(' ')[0]}</span></span>{' '}
-          <span class="line accent"><span style="--d:2">{second.split(' ').slice(1).join(' ')}</span></span>
+          <span class="line accent"><span style="--d:2">{second.split(' ').slice(1).join(' ')}<svg class="underline" viewBox="0 0 300 14" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M2 9 C 70 3, 150 3, 298 7" pathLength="1" /></svg></span></span>
         </h1>
         <p class="lead enter" style="--d:4">{heroLead}</p>
         <div class="ctas enter" style="--d:5">
@@ -88,19 +99,30 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
     </ul>
   </nav>
 
+  <!-- Section rail (desktop): where you are on the page -->
+  <nav class="rail" aria-label="Sections on this page">
+    <a href="#challenge"><span>Challenge</span></a>
+    <a href="#experience"><span>Experience</span></a>
+    <a href="#method"><span>Method</span></a>
+    <a href="#outcomes"><span>Outcomes</span></a>
+    <a href="#insights"><span>Insights</span></a>
+    <a href="#conversation"><span>Conversation</span></a>
+  </nav>
+
   <!-- 2 · Understand the challenge -->
-  <section class="section" aria-labelledby="familiar-h">
+  <section class="section" id="challenge" aria-labelledby="familiar-h">
     <div class="container">
       <div class="section-head">
-        <h2 id="familiar-h">{opening.prompt}</h2>
+        <h2 id="familiar-h" data-split>{opening.prompt}</h2>
         <p class="lead">{seeWhatBreaks.statement}</p>
+        <a class="link-arrow" href="#method">{seeWhatBreaks.prompt} <span class="arr" aria-hidden="true">→</span></a>
       </div>
       <div class="statements">
         {statements.map((s) => <figure class="statement reveal"><blockquote>{s.statement}</blockquote><figcaption>{s.prompt}</figcaption></figure>)}
       </div>
       <ul class="grid grid-3" style="margin-top: clamp(52px, 5.5vw, 80px)">
         {problems.map((p) => (
-          <li class="card reveal" data-spotlight>
+          <li class="card reveal" data-tilt>
             <span class="icon-tile"><Icon name={p.icon} /></span><h3>{p.title}</h3><p>{p.body}{p.title === 'Hidden misalignment' && <Flag label="H-01 · “three times” needs a source before launch" />}</p>
           </li>
         ))}
@@ -109,7 +131,7 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
   </section>
 
   <!-- 3 · Establish credibility -->
-  <section class="section section--mist" aria-labelledby="built-h">
+  <section class="section section--mist" id="experience" aria-labelledby="built-h">
     <div class:list={['container', 'founder', { 'founder--solo': !showFounder }]}>
       {showFounder && (
         <figure class="founder-photo reveal">
@@ -121,7 +143,7 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
       )}
       <div class="founder-copy reveal">
         <p class="eyebrow">{aboutEyebrow}</p>
-        <h2 id="built-h">{aboutTitle}</h2>
+        <h2 id="built-h" data-split>{aboutTitle}</h2>
         <p class="lead">{aboutSub}</p>
         {showFounder && <p>{founderIntro}<Flag label="C-10 · confirm “over a decade”" /></p>}
         {showFounder && isVerified('C-11') && <ul class="credentials"><li><Icon name="award" />Lean Six Sigma Black Belt<Flag label="C-11 ✓ · wording to approve" ok /></li></ul>}
@@ -131,12 +153,14 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
   </section>
 
   <!-- 4 · Explain the approach: signature method graphic -->
-  <section class="section section--navy on-navy" id="method" aria-labelledby="method-h">
+  <section class="section section--sky" id="method" aria-labelledby="method-h" data-glow>
+    <div class="sky-aura" aria-hidden="true"></div>
+    <NodeGrid tone="light" />
     <div class="container">
       <div class="two-col" style="margin-bottom: clamp(48px, 5vw, 72px)">
         <div class="section-head" style="margin:0">
           <p class="eyebrow">Clarity before Execution.</p>
-          <h2 id="method-h">{methodTitle}</h2>
+          <h2 id="method-h" data-split>{methodTitle}</h2>
         </div>
         <div style="display:grid;gap:14px">
           <p class="lead">{methodLead}</p>
@@ -162,11 +186,11 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
   <section class="section" id="outcomes" aria-labelledby="themes-h">
     <div class="container">
       <div class="section-head">
-        <h2 id="themes-h">What we help you achieve<Flag label="Heading: approve (themes approved)" /></h2>
+        <h2 id="themes-h" data-split>What we help you achieve<Flag label="Heading: approve (themes approved)" /></h2>
       </div>
       <ul class="grid grid-4">
         {themes.map((t) => (
-          <li class="photo-card reveal" data-spotlight>
+          <li class="photo-card reveal" data-tilt {...(t.linked ? { 'data-cursor': 'Read' } : {})}>
             <div class="ph"><Image src={asset(t.article.cover)} alt="" widths={[400, 700]} sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 300px" /></div>
             <div class="body">
               <span class="icon-tile"><Icon name={t.icon} /></span>
@@ -185,7 +209,7 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
       <div class="container">
         <div class="section-head section-head--split">
           <div style="display:grid;gap:14px">
-            <h2 id="results-h">Selected Experience</h2>
+            <h2 id="results-h" data-split>Selected Experience</h2>
             <p class="muted" style="max-width:62ch">Engagements led by our leadership, including work completed before Tech Transpire was founded. Each is labelled accordingly.<Flag label="New line · approve" /></p>
           </div>
           <a class="link-arrow" href={CASE_STUDIES}>Read the case studies <span class="arr" aria-hidden="true">→</span></a>
@@ -207,10 +231,10 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
   )}
 
   {featured.length > 0 && (
-    <section class="section" aria-labelledby="insights-h">
+    <section class="section" id="insights" aria-labelledby="insights-h">
       <div class="container">
         <div class="section-head section-head--split">
-          <h2 id="insights-h">Insights</h2>
+          <h2 id="insights-h" data-split>Insights</h2>
           <a class="link-arrow" href="/insights">View all insights <span class="arr" aria-hidden="true">→</span></a>
         </div>
         <ul class:list={['grid', featured.length === 3 ? 'grid-3' : 'grid-2']}>{featured.map((i) => <InsightCard insight={i} />)}</ul>
@@ -221,11 +245,12 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
   <section class="section section--tight section--mist" aria-labelledby="fit-h">
     <div class="container fit-teaser">
       <div style="display:grid;gap:18px;align-content:start">
-        <h2 id="fit-h">Is this the right fit?</h2>
+        <h2 id="fit-h" data-split>Is this the right fit?</h2>
         <p class="muted">{heroSub}</p>
         <a class="link-arrow" href="/services#fit">See the full fit list <span class="arr" aria-hidden="true">→</span></a>
       </div>
       <div class="fit-col fit-col--yes reveal">
+        <h3><Icon name="check" />This is for you if</h3>
         <ul>{fit.filter((f) => f.fit).slice(0, 3).map((f) => <li><Icon name="yes" class="" /><span>{f.text}</span></li>)}</ul>
       </div>
     </div>
@@ -233,6 +258,7 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
 
   <!-- 6 · Start a conversation -->
   <CtaBand
+    id="conversation"
     eyebrow="Start the conversation"
     line={opening.statement}
     ctas={[{ label: startConversation.label, href: startConversation.href }, { label: 'Book a 30-minute intro call', href: contact.booking }]}
