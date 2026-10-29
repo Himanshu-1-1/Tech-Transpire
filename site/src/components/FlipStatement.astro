@@ -7,18 +7,16 @@
 import Icon from './Icon.astro';
 interface Props { n: number; statement: string; prompt: string; link: { label: string; href: string } }
 const { n, statement, prompt, link } = Astro.props;
-const num = String(n + 1).padStart(2, '0');
 ---
 <figure class="flip reveal" data-flip>
   <div class="flip-inner">
     <div class="flip-face flip-front">
       <span class="flip-hint" aria-hidden="true"><Icon name="repeat" /></span>
+      <span class="flip-quote" aria-hidden="true">“</span>
       <blockquote>{statement}</blockquote>
       <figcaption>{prompt}</figcaption>
-      <span class="st-n" aria-hidden="true">{num}</span>
     </div>
     <div class="flip-face flip-back">
-      <span class="st-n st-n--back" aria-hidden="true">{num}</span>
       {n === 0 && (
         /* Budget drains away before the first line of code appears. */
         <svg class="art art--budget" viewBox="0 0 260 100" aria-hidden="true" focusable="false">

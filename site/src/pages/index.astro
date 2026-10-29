@@ -137,7 +137,6 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
         {problems.map((p, i) => (
           <li class="card reveal" data-tilt>
             <span class="ch-glow" aria-hidden="true"></span><span class="ch-bar" aria-hidden="true"></span>
-            <span class="ch-n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
             <span class="icon-tile"><Icon name={p.icon} /></span><h3>{p.title}</h3><p>{p.body}{p.title === 'Hidden misalignment' && <Flag label="H-01 · “three times” needs a source before launch" />}</p>
           </li>
         ))}

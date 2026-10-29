@@ -707,7 +707,7 @@ a.v:hover { color: var(--blue); }
 
 /* Eyebrow leading rule */
 .eyebrow::before { content: ''; display: inline-block; width: 22px; height: 1.5px; margin-right: 12px; vertical-align: middle; background: currentColor; opacity: .7; transform-origin: left; }
-.hero .eyebrow::before { animation: grow-x 700ms var(--ease-emph) 300ms both; }
+.hero .eyebrow::before { display: none; }
 @keyframes grow-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
 /* Hero: underline, light sweep, floating method chips with a live data path */
@@ -774,13 +774,12 @@ a.v:hover { color: var(--blue); }
 .flip { position: relative; display: grid; }
 .flip-inner { position: relative; display: grid; }
 .flip-face { grid-area: 1 / 1; position: relative; display: grid; align-content: start; gap: 18px; padding: 34px clamp(24px, 2.4vw, 32px) 30px; border-radius: var(--radius-lg); overflow: hidden; }
-.flip-front { background: linear-gradient(180deg, #fff 40%, #F5F9FE); border: 1px solid var(--line); box-shadow: 0 24px 50px -40px rgba(11, 30, 56, .35); }
-.flip-front::before { content: ''; position: absolute; top: 0; left: clamp(24px, 2.4vw, 32px); right: clamp(24px, 2.4vw, 32px); height: 3px; border-radius: 0 0 3px 3px; background: linear-gradient(90deg, var(--sky), var(--blue)); transform-origin: left; transition: transform 900ms var(--ease-emph); }
-.js .flip.reveal:not(.is-in) .flip-front::before { transform: scaleX(0); }
+/* Front: a quote panel, deliberately unlike the white problem cards below: light-blue gradient,
+   no hard border, a large blue quotation mark, and the prompt as a pill. */
+.flip-front { gap: 16px; padding-top: 26px; background: radial-gradient(120% 85% at 100% 0%, rgba(124, 196, 240, .30), transparent 60%), linear-gradient(160deg, #F5F9FF 0%, #E4EFFC 100%); border: 1px solid rgba(42, 115, 217, .10); box-shadow: 0 30px 60px -44px rgba(24, 89, 179, .5), inset 0 1px 0 rgba(255, 255, 255, .9); }
+.flip-quote { display: block; height: .5em; margin-bottom: 6px; font: 600 4.6rem/1 var(--f-display); background: linear-gradient(135deg, var(--sky), var(--blue)); -webkit-background-clip: text; background-clip: text; color: transparent; user-select: none; }
 .flip blockquote { position: relative; font: var(--display-weight) clamp(1.35rem, 1.1rem + .7vw, 1.7rem)/1.26 var(--f-display); letter-spacing: var(--display-track); text-wrap: balance; }
-.flip figcaption { position: relative; display: inline-flex; align-items: center; gap: 10px; padding-right: 72px; font-size: 15px; font-weight: 600; color: var(--blue); }
-.flip figcaption::before { content: ''; width: 22px; height: 1.5px; background: currentColor; }
-.st-n { position: absolute; right: 18px; bottom: 6px; font: 500 clamp(3.4rem, 2.6rem + 1.8vw, 4.6rem)/1 var(--f-display); letter-spacing: -0.04em; color: transparent; -webkit-text-stroke: 1px rgba(24, 89, 179, .22); pointer-events: none; }
+.flip figcaption { position: relative; justify-self: start; display: inline-flex; align-items: center; padding: 8px 16px; border-radius: 999px; background: #fff; box-shadow: inset 0 0 0 1px rgba(42, 115, 217, .18), 0 6px 16px -10px rgba(24, 89, 179, .45); font-size: 14.5px; font-weight: 600; color: var(--blue); }
 .flip-back, .flip-hint { display: none; }
 
 .fx-pointer .flip { perspective: 1400px; min-height: 290px; }
@@ -795,10 +794,9 @@ a.v:hover { color: var(--blue); }
 .fx-pointer .flip-back::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, .22) 50%, transparent 65%); transform: translateX(-120%); }
 .fx-pointer .flip:is(:hover, :focus-within) .flip-back::after { animation: card-sweep 1100ms var(--ease-out) 420ms both; }
 @keyframes card-sweep { to { transform: translateX(120%); } }
-.fx-pointer .flip-hint { position: absolute; top: 16px; right: 16px; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; color: var(--blue); background: var(--wash); box-shadow: inset 0 0 0 1px rgba(42, 115, 217, .16); transition: transform 600ms var(--ease-emph); }
+.fx-pointer .flip-hint { position: absolute; top: 16px; right: 16px; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; color: var(--blue); background: #fff; box-shadow: inset 0 0 0 1px rgba(42, 115, 217, .16); transition: transform 600ms var(--ease-emph); }
 .fx-pointer .flip-hint svg { width: 16px; height: 16px; }
 .fx-pointer .flip:hover .flip-hint { transform: rotate(180deg); }
-.st-n--back { -webkit-text-stroke: 1px rgba(255, 255, 255, .22); }
 .flip-q { position: relative; font: 500 clamp(1.6rem, 1.2rem + 1vw, 2.1rem)/1.15 var(--f-display); letter-spacing: -0.01em; }
 .flip-link { position: relative; justify-self: start; display: inline-flex; gap: 8px; align-items: center; font-size: 15px; font-weight: 600; color: #BFE3FA; text-decoration: none; }
 .flip-link:hover { color: #fff; }
@@ -864,9 +862,6 @@ a.v:hover { color: var(--blue); }
 .challenge .card p { color: var(--ink-2); }
 .challenge .icon-tile { background: linear-gradient(140deg, #F2F8FE, #D8E9FA); box-shadow: inset 0 0 0 1px rgba(42, 115, 217, .14), 0 8px 18px -10px rgba(24, 89, 179, .5); }
 .challenge .card:hover .icon-tile { background: var(--grad-primary); }
-.ch-n { position: absolute; top: clamp(24px, 2.4vw, 32px); right: clamp(24px, 2.4vw, 32px); font: 600 12px/1 var(--f-body); letter-spacing: .16em; color: rgba(24, 89, 179, .5); }
-.ch-n::after { content: ''; display: inline-block; width: 18px; height: 1px; margin-left: 8px; vertical-align: middle; background: currentColor; transform-origin: left; transition: transform var(--t-card) var(--ease-emph); }
-.challenge .card:hover .ch-n::after { transform: scaleX(1.8); }
 
 /* Interactive states. Hover on desktop; on touch, the card nearest the middle of the screen
    becomes .is-current while scrolling, so phones get the same feedback. */
@@ -879,7 +874,6 @@ a.v:hover { color: var(--blue); }
 .challenge .card:is(:hover, .is-current) h3 { color: var(--blue); translate: 0 -2px; }
 .challenge .card:is(:hover, .is-current) .icon-tile { background: var(--grad-primary); color: #fff; transform: rotate(-4deg) scale(1.06); box-shadow: 0 14px 28px -12px rgba(24, 89, 179, .7); }
 .challenge .card:is(:hover, .is-current) .icon-tile svg * { animation: icon-draw 900ms var(--ease-emph) both; }
-.challenge .card:is(:hover, .is-current) .ch-n { color: var(--blue); }
 .challenge .card.is-current { background: rgba(255, 255, 255, .9); border-color: #A9C3E6; box-shadow: 0 30px 60px -32px rgba(24, 89, 179, .45), inset 0 1px 0 #fff; }
 .fx-pointer .challenge .card:hover { box-shadow: 0 40px 70px -34px rgba(24, 89, 179, .5), 0 0 0 1px rgba(62, 159, 222, .25), inset 0 1px 0 #fff; }
 @keyframes icon-draw { from { stroke-dashoffset: 80; } to { stroke-dashoffset: 0; } }
@@ -959,7 +953,6 @@ a.v:hover { color: var(--blue); }
   .js .method .m-chevron, .js .concept .c-arrow { opacity: 1 !important; }
   .js .nodes .n-node { transform: none !important; }
   .js .statement::before, .js .path::before { --lx: 1 !important; }
-  .js .flip .flip-front::before { transform: none !important; }
   .cursor-dot, .hero-flow, .chip-node::after, .rail { display: none !important; }
   .btn, [data-tilt]:hover { transform: none !important; }
   .js .photo-card.reveal .ph { clip-path: none !important; }
