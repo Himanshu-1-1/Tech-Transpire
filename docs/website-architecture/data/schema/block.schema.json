@@ -1,0 +1,421 @@
+{
+   "$id" : "block.schema.json",
+   "$schema" : "https://json-schema.org/draft/2020-12/schema",
+   "allOf" : [
+      {
+         "if" : {
+            "properties" : {
+               "type" : {
+                  "const" : "banner"
+               }
+            }
+         },
+         "then" : {
+            "properties" : {
+               "background" : {
+                  "pattern" : "^TT-AS-[0-9]{3}$",
+                  "type" : "string"
+               },
+               "headline" : {
+                  "type" : "string"
+               },
+               "subtext" : {
+                  "type" : "string"
+               }
+            },
+            "required" : [
+               "headline"
+            ]
+         }
+      },
+      {
+         "if" : {
+            "properties" : {
+               "type" : {
+                  "const" : "hero"
+               }
+            }
+         },
+         "then" : {
+            "properties" : {
+               "headline" : {
+                  "type" : "string"
+               },
+               "subtext" : {
+                  "type" : "string"
+               }
+            },
+            "required" : [
+               "headline"
+            ]
+         }
+      },
+      {
+         "if" : {
+            "properties" : {
+               "type" : {
+                  "const" : "carousel"
+               }
+            }
+         },
+         "then" : {
+            "properties" : {
+               "items" : {
+                  "items" : {
+                     "properties" : {
+                        "attribution" : {
+                           "type" : "string"
+                        },
+                        "text" : {
+                           "type" : "string"
+                        }
+                     },
+                     "required" : [
+                        "text"
+                     ],
+                     "type" : "object"
+                  },
+                  "type" : "array"
+               }
+            },
+            "required" : [
+               "items"
+            ]
+         }
+      },
+      {
+         "if" : {
+            "properties" : {
+               "type" : {
+                  "const" : "cards"
+               }
+            }
+         },
+         "then" : {
+            "properties" : {
+               "items" : {
+                  "items" : {
+                     "properties" : {
+                        "body" : {
+                           "type" : "string"
+                        },
+                        "icon_key" : {
+                           "type" : "string"
+                        },
+                        "title" : {
+                           "type" : "string"
+                        }
+                     },
+                     "required" : [
+                        "title",
+                        "body"
+                     ],
+                     "type" : "object"
+                  },
+                  "type" : "array"
+               }
+            },
+            "required" : [
+               "items"
+            ]
+         }
+      },
+      {
+         "if" : {
+            "properties" : {
+               "type" : {
+                  "const" : "steps"
+               }
+            }
+         },
+         "then" : {
+            "properties" : {
+               "items" : {
+                  "items" : {
+                     "properties" : {
+                        "body" : {
+                           "type" : "string"
+                        },
+                        "title" : {
+                           "type" : "string"
+                        }
+                     },
+                     "required" : [
+                        "title",
+                        "body"
+                     ],
+                     "type" : "object"
+                  },
+                  "type" : "array"
+               }
+            },
+            "required" : [
+               "items"
+            ]
+         }
+      },
+      {
+         "if" : {
+            "properties" : {
+               "type" : {
+                  "const" : "callout"
+               }
+            }
+         },
+         "then" : {
+            "properties" : {
+               "body" : {
+                  "type" : "string"
+               },
+               "tag" : {
+                  "type" : "string"
+               },
+               "title" : {
+                  "description" : "Eyebrow label, e.g. \"The outcome\"",
+                  "type" : "string"
+               }
+            },
+            "required" : [
+               "heading",
+               "body"
+            ]
+         }
+      },
+      {
+         "if" : {
+            "properties" : {
+               "type" : {
+                  "const" : "fitlist"
+               }
+            }
+         },
+         "then" : {
+            "properties" : {
+               "items" : {
+                  "items" : {
+                     "properties" : {
+                        "fit" : {
+                           "enum" : [
+                              "yes",
+                              "no"
+                           ]
+                        },
+                        "text" : {
+                           "type" : "string"
+                        }
+                     },
+                     "required" : [
+                        "fit",
+                        "text"
+                     ],
+                     "type" : "object"
+                  },
+                  "type" : "array"
+               }
+            },
+            "required" : [
+               "items"
+            ]
+         }
+      },
+      {
+         "if" : {
+            "properties" : {
+               "type" : {
+                  "const" : "stats"
+               }
+            }
+         },
+         "then" : {
+            "properties" : {
+               "claim_ids" : {
+                  "items" : {
+                     "pattern" : "^C-[0-9]{2}$",
+                     "type" : "string"
+                  },
+                  "type" : "array"
+               }
+            },
+            "required" : [
+               "claim_ids"
+            ]
+         }
+      },
+      {
+         "if" : {
+            "properties" : {
+               "type" : {
+                  "const" : "team"
+               }
+            }
+         },
+         "then" : {
+            "properties" : {
+               "person_ids" : {
+                  "items" : {
+                     "pattern" : "^PER-[0-9]{2}$",
+                     "type" : "string"
+                  },
+                  "type" : "array"
+               }
+            },
+            "required" : [
+               "person_ids"
+            ]
+         }
+      },
+      {
+         "if" : {
+            "properties" : {
+               "type" : {
+                  "const" : "cta"
+               }
+            }
+         },
+         "then" : {
+            "properties" : {
+               "primary" : {
+                  "properties" : {
+                     "label" : {
+                        "type" : "string"
+                     },
+                     "target" : {
+                        "type" : "string"
+                     }
+                  },
+                  "required" : [
+                     "label",
+                     "target"
+                  ],
+                  "type" : "object"
+               },
+               "secondary" : {
+                  "properties" : {
+                     "label" : {
+                        "type" : "string"
+                     },
+                     "target" : {
+                        "type" : "string"
+                     }
+                  },
+                  "required" : [
+                     "label",
+                     "target"
+                  ],
+                  "type" : "object"
+               }
+            },
+            "required" : [
+               "primary"
+            ]
+         }
+      },
+      {
+         "if" : {
+            "properties" : {
+               "type" : {
+                  "const" : "richtext"
+               }
+            }
+         },
+         "then" : {
+            "properties" : {
+               "body" : {
+                  "type" : "string"
+               }
+            },
+            "required" : [
+               "body"
+            ]
+         }
+      },
+      {
+         "if" : {
+            "properties" : {
+               "type" : {
+                  "const" : "form"
+               }
+            }
+         },
+         "then" : {
+            "properties" : {
+               "form_id" : {
+                  "pattern" : "^CONV-[0-9]{2}$",
+                  "type" : "string"
+               }
+            },
+            "required" : [
+               "form_id"
+            ]
+         }
+      },
+      {
+         "if" : {
+            "properties" : {
+               "type" : {
+                  "const" : "reference-list"
+               }
+            }
+         },
+         "then" : {
+            "properties" : {
+               "filter" : {
+                  "type" : "object"
+               },
+               "limit" : {
+                  "maximum" : 12,
+                  "minimum" : 1,
+                  "type" : "integer"
+               },
+               "source" : {
+                  "enum" : [
+                     "insights",
+                     "capabilities",
+                     "industries"
+                  ]
+               }
+            },
+            "required" : [
+               "source"
+            ]
+         }
+      }
+   ],
+   "properties" : {
+      "anchor" : {
+         "type" : "string"
+      },
+      "block_id" : {
+         "type" : "string"
+      },
+      "heading" : {
+         "type" : "string"
+      },
+      "provenance" : {
+         "$ref" : "_common.schema.json#/$defs/provenance"
+      },
+      "type" : {
+         "enum" : [
+            "banner",
+            "carousel",
+            "cards",
+            "hero",
+            "steps",
+            "callout",
+            "fitlist",
+            "stats",
+            "team",
+            "cta",
+            "richtext",
+            "form",
+            "reference-list"
+         ]
+      }
+   },
+   "required" : [
+      "block_id",
+      "type"
+   ],
+   "title" : "Block (page or article section)",
+   "type" : "object"
+}

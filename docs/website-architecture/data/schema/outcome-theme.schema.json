@@ -1,0 +1,45 @@
+{
+   "$id" : "outcome-theme.schema.json",
+   "$schema" : "https://json-schema.org/draft/2020-12/schema",
+   "properties" : {
+      "capabilities" : {
+         "items" : {
+            "pattern" : "^CAP-[0-9]{2}$",
+            "type" : "string"
+         },
+         "type" : "array"
+      },
+      "description" : {
+         "description" : "New content (N-02)",
+         "type" : "string"
+      },
+      "id" : {
+         "pattern" : "^OUT-[0-9]{2}$",
+         "type" : "string"
+      },
+      "name" : {
+         "enum" : [
+            "Better Decisions",
+            "Improved Performance",
+            "Efficient Operations",
+            "Sustainable Transformation"
+         ]
+      },
+      "provenance" : {
+         "$ref" : "_common.schema.json#/$defs/provenance"
+      },
+      "supporting_proof" : {
+         "items" : {
+            "type" : "string"
+         },
+         "type" : "array"
+      }
+   },
+   "required" : [
+      "id",
+      "name",
+      "provenance"
+   ],
+   "title" : "Outcome theme",
+   "type" : "object"
+}

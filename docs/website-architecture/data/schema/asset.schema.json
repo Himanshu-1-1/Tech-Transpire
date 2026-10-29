@@ -1,0 +1,69 @@
+{
+   "$id" : "asset.schema.json",
+   "$schema" : "https://json-schema.org/draft/2020-12/schema",
+   "properties" : {
+      "alt_text" : {
+         "type" : "string"
+      },
+      "alt_text_source" : {
+         "enum" : [
+            "none",
+            "new-pending",
+            "new-approved"
+         ]
+      },
+      "archived_copy" : {
+         "type" : "string"
+      },
+      "asset_id" : {
+         "pattern" : "^TT-AS-[0-9]{3}$",
+         "type" : "string"
+      },
+      "decorative" : {
+         "type" : "boolean"
+      },
+      "file_type" : {
+         "type" : "string"
+      },
+      "migration_status" : {
+         "enum" : [
+            "pending",
+            "migrated",
+            "replaced",
+            "retired"
+         ]
+      },
+      "original_filename" : {
+         "type" : "string"
+      },
+      "original_url" : {
+         "type" : "string"
+      },
+      "provenance" : {
+         "$ref" : "_common.schema.json#/$defs/provenance"
+      },
+      "related_pages" : {
+         "items" : {
+            "type" : "string"
+         },
+         "type" : "array"
+      },
+      "usage_rights" : {
+         "enum" : [
+            "owned",
+            "licensed",
+            "unconfirmed"
+         ]
+      }
+   },
+   "required" : [
+      "asset_id",
+      "file_type",
+      "original_url",
+      "usage_rights",
+      "migration_status",
+      "provenance"
+   ],
+   "title" : "Asset",
+   "type" : "object"
+}

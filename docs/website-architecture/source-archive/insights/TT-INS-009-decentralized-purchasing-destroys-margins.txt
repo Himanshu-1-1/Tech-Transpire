@@ -1,0 +1,68 @@
+SOURCE ID: TT-INS-009
+ORIGINAL URL: No standalone URL - opens in modal on https://www.techtranspire.com/insights
+SOURCE: Google Doc 1iqRIaIe3HJMS0hZBxDDNtunxyjzdTQ72
+CAPTURED: 2026-10-29 (automated export; text unmodified apart from HTML-to-text conversion)
+CONVENTIONS: "> " = section heading; ALL-CAPS lines (BANNER, CARDS, STEPS...) and column labels (Title/Body/Tag...) are the source document's own block markers; lowercase single words before card titles are icon keys.
+==========================================================================
+BANNER
+Headline
+Subtext
+Background (optional)
+GDRIVE: your-logo-file-id
+Supply Chain at Scale: How Decentralized Purchasing Silently Destroys Margins
+The margin improvement sitting in fragmented purchasing is almost always larger than leadership thinks.
+> Supply Chain at Scale: How Decentralized Purchasing Silently Destroys Margins
+For organizations that grow through acquisition, purchasing is one of the first casualties of scale. Each acquired entity comes with its own vendor relationships, its own pricing, its own approval processes. In the short term, this is tolerated because there are more pressing integration priorities. In the long term, it becomes one of the most significant sources of margin erosion in the entire business - and one of the hardest to see clearly from the top.
+> What Decentralization Actually Costs
+CARDS
+Title
+Body
+chart
+Price variability with no leverage
+Each location negotiating independently means the organization never benefits from its full purchasing scale. Preferred pricing goes uncaptured.
+alert
+Inventory waste and loss
+Without standardization, perishable inventory is over-ordered at some locations and wasted. No cross-location visibility means no reallocation.
+search
+Untraceable transaction history
+Product recalls become nearly impossible when purchasing records are fragmented across systems. Compliance risk accumulates invisibly.
+process
+Unreliable financial reporting
+When purchasing data lives in disconnected systems, location-level P and L is impossible. Leadership makes capital decisions without the full picture.
+> What We Did for a 90-Location Eye Care Network
+A private equity-backed eye care operator had grown to over 80 clinics and 10 surgery centers through rapid acquisition. Each location was independently negotiating with vendors. No one at the enterprise level had full visibility into pricing variability, inventory levels, or transaction history.
+STATS
+Label
+$89M
+Annual purchasing centralized to a single platform
+$3M
+Annual savings through preferred pricing and inventory optimization
+5,000+
+SKUs standardized across all locations
+80%
+Improvement in product recall process efficiency through full traceability
+> How We Approached the Centralization
+STEPS
+Body
+Current-state assessment
+Assessed purchasing processes across all locations to identify gaps, redundancies, and consolidation opportunities.
+Vendor evaluation and contracting
+Evaluated supply vendors and Group Purchasing Organizations, short-listed candidates, and negotiated enterprise-level preferred pricing contracts.
+Platform configuration
+Defined users, roles, organizational entities, and approval hierarchies in the centralized procurement platform.
+Phased pilot and rollout
+Tested workflows with select locations before scaling nationally. In-person training conducted at each location to ensure adoption.
+Financial visibility established
+Integrated with accounting and BI systems to enable location-level reporting and performance benchmarking for the first time.
+CALLOUT
+Title
+Body
+Tag
+The principle
+Centralization done right is not bureaucracy — it is leverage.
+The financial case is almost always unambiguous once the data is visible across the full network.
+Supply chain · Multi-location · $3M annual savings
+> Ready to See What Centralization Could Mean for Your Network?
+If your organization has grown through acquisition and purchasing still operates location by location, the margin improvement in that gap is larger than you think.
+CTA: Start the Conversation > https://www.techtranspire.com/contact-us
+CTA2: View Our Supply Chain Work > https://www.techtranspire.com/insights

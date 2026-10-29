@@ -1,0 +1,44 @@
+{
+   "$id" : "navigation-item.schema.json",
+   "$schema" : "https://json-schema.org/draft/2020-12/schema",
+   "properties" : {
+      "children" : {
+         "items" : {
+            "$ref" : "navigation-item.schema.json"
+         },
+         "type" : "array"
+      },
+      "id" : {
+         "type" : "string"
+      },
+      "label" : {
+         "type" : "string"
+      },
+      "menu" : {
+         "enum" : [
+            "primary",
+            "footer",
+            "utility"
+         ]
+      },
+      "order" : {
+         "type" : "integer"
+      },
+      "target" : {
+         "type" : "string"
+      },
+      "visible_from" : {
+         "format" : "date",
+         "type" : "string"
+      }
+   },
+   "required" : [
+      "id",
+      "menu",
+      "label",
+      "target",
+      "order"
+   ],
+   "title" : "Navigation item",
+   "type" : "object"
+}

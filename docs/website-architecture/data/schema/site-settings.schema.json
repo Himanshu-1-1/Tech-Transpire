@@ -1,0 +1,72 @@
+{
+   "$id" : "site-settings.schema.json",
+   "$schema" : "https://json-schema.org/draft/2020-12/schema",
+   "properties" : {
+      "analytics" : {
+         "properties" : {
+            "consent_mode" : {
+               "enum" : [
+                  "none-required",
+                  "opt-in",
+                  "opt-out"
+               ]
+            },
+            "property_id" : {
+               "type" : "string"
+            },
+            "provider" : {
+               "type" : "string"
+            }
+         },
+         "type" : "object"
+      },
+      "booking_url" : {
+         "format" : "uri",
+         "type" : "string"
+      },
+      "canonical_host" : {
+         "format" : "uri",
+         "type" : "string"
+      },
+      "default_seo" : {
+         "$ref" : "_common.schema.json#/$defs/seo"
+      },
+      "email" : {
+         "format" : "email",
+         "type" : "string"
+      },
+      "legal_entity_line" : {
+         "type" : "string"
+      },
+      "linkedin_url" : {
+         "format" : "uri",
+         "type" : "string"
+      },
+      "phone_display" : {
+         "type" : "string"
+      },
+      "phone_e164" : {
+         "pattern" : "^\\+[1-9][0-9]{6,14}$",
+         "type" : "string"
+      },
+      "provenance" : {
+         "$ref" : "_common.schema.json#/$defs/provenance"
+      },
+      "response_promise" : {
+         "type" : "string"
+      },
+      "site_name" : {
+         "const" : "Tech Transpire"
+      },
+      "tagline" : {
+         "type" : "string"
+      }
+   },
+   "required" : [
+      "site_name",
+      "email",
+      "canonical_host"
+   ],
+   "title" : "Site settings / business configuration",
+   "type" : "object"
+}

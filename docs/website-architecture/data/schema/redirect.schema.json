@@ -1,0 +1,38 @@
+{
+   "$id" : "redirect.schema.json",
+   "$schema" : "https://json-schema.org/draft/2020-12/schema",
+   "properties" : {
+      "from" : {
+         "pattern" : "^/",
+         "type" : "string"
+      },
+      "reason" : {
+         "type" : "string"
+      },
+      "source_ref" : {
+         "type" : "string"
+      },
+      "status" : {
+         "enum" : [
+            301,
+            308,
+            410
+         ]
+      },
+      "to" : {
+         "type" : "string"
+      },
+      "verified_at" : {
+         "format" : "date",
+         "type" : "string"
+      }
+   },
+   "required" : [
+      "from",
+      "to",
+      "status",
+      "reason"
+   ],
+   "title" : "Redirect",
+   "type" : "object"
+}

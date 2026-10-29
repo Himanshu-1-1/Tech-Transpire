@@ -1,0 +1,19 @@
+source,status_today,action,http_code,target,reason,decision_ref
+/,200,preserve,,/,Canonical homepage,
+/home,200,redirect,301,/,Duplicate of homepage (T2),
+/services,200,preserve,,/services,Established URL; nav label becomes Expertise,D-22
+/services/,200,redirect,301,/services,Trailing-slash normalisation,
+/insights,200,preserve,,/insights,,
+/insights/,unknown,redirect,301,/insights,Trailing-slash normalisation,
+/about-us,200,preserve,,/about-us,,D-23
+/about-us/,unknown,redirect,301,/about-us,Trailing-slash normalisation,
+/contact-us,200,preserve,,/contact-us,,D-23
+/contact-us/,200,redirect,301,/contact-us,Linked by Services and About CTAs,
+/blogs,404,redirect,301,/insights/case-studies,Target of two live CTAs promising case studies (T4),D-17
+/blog,404,redirect,301,/insights,Common guess,
+/case-studies,404,redirect,301,/insights/case-studies,Common guess,D-17
+/expertise,404,redirect,301,/services,Concept 06 navigation label,D-22
+/about,404,redirect,301,/about-us,Common guess,
+/contact,not probed,redirect,301,/contact-us,Common guess,
+https://techtranspire.com/*,no response,redirect,301,https://www.techtranspire.com/*,Apex domain does not resolve (T7),D-19
+http://www.techtranspire.com/*,301 to https,preserve,301,https://www.techtranspire.com/*,Existing behaviour,

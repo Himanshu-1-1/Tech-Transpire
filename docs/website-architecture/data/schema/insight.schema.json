@@ -1,0 +1,172 @@
+{
+   "$id" : "insight.schema.json",
+   "$schema" : "https://json-schema.org/draft/2020-12/schema",
+   "properties" : {
+      "attachments" : {
+         "items" : {
+            "pattern" : "^TT-AS-[0-9]{3}$",
+            "type" : "string"
+         },
+         "type" : "array"
+      },
+      "attribution_note" : {
+         "description" : "D-04",
+         "type" : "string"
+      },
+      "author_id" : {
+         "pattern" : "^PER-[0-9]{2}$",
+         "type" : "string"
+      },
+      "body" : {
+         "items" : {
+            "$ref" : "block.schema.json"
+         },
+         "type" : "array"
+      },
+      "capabilities" : {
+         "items" : {
+            "$ref" : "_common.schema.json#/$defs/relation"
+         },
+         "maxItems" : 2,
+         "type" : "array"
+      },
+      "claim_ids" : {
+         "items" : {
+            "pattern" : "^C-[0-9]{2}$",
+            "type" : "string"
+         },
+         "type" : "array"
+      },
+      "content_type" : {
+         "enum" : [
+            "perspective",
+            "case-study",
+            "guide",
+            "whitepaper"
+         ]
+      },
+      "cover" : {
+         "pattern" : "^TT-AS-[0-9]{3}$",
+         "type" : "string"
+      },
+      "excerpt" : {
+         "type" : "string"
+      },
+      "h1" : {
+         "description" : "Doc headline: page H1 (D-09)",
+         "type" : "string"
+      },
+      "id" : {
+         "pattern" : "^TT-INS-[0-9]{3}$",
+         "type" : "string"
+      },
+      "industries" : {
+         "items" : {
+            "$ref" : "_common.schema.json#/$defs/relation"
+         },
+         "maxItems" : 1,
+         "type" : "array"
+      },
+      "legacy_category" : {
+         "enum" : [
+            "Case Study",
+            "Execution",
+            "Transformation"
+         ]
+      },
+      "legacy_source" : {
+         "properties" : {
+            "doc_id" : {
+               "type" : "string"
+            },
+            "sheet_id" : {
+               "type" : "string"
+            },
+            "sheet_row" : {
+               "type" : "integer"
+            }
+         },
+         "required" : [
+            "doc_id"
+         ],
+         "type" : "object"
+      },
+      "listing_title" : {
+         "description" : "Sheet title: card and SEO title (D-09)",
+         "type" : "string"
+      },
+      "outcome_themes" : {
+         "items" : {
+            "pattern" : "^OUT-[0-9]{2}$",
+            "type" : "string"
+         },
+         "type" : "array"
+      },
+      "provenance" : {
+         "$ref" : "_common.schema.json#/$defs/provenance"
+      },
+      "published_at" : {
+         "format" : "date",
+         "type" : "string"
+      },
+      "read_time_minutes" : {
+         "minimum" : 1,
+         "type" : "integer"
+      },
+      "related" : {
+         "items" : {
+            "$ref" : "_common.schema.json#/$defs/relation"
+         },
+         "maxItems" : 3,
+         "type" : "array"
+      },
+      "seo" : {
+         "$ref" : "_common.schema.json#/$defs/seo"
+      },
+      "slug" : {
+         "$ref" : "_common.schema.json#/$defs/slug"
+      },
+      "source_tags" : {
+         "type" : "string"
+      },
+      "status" : {
+         "enum" : [
+            "draft",
+            "published",
+            "retired"
+         ]
+      },
+      "subtitle" : {
+         "type" : "string"
+      },
+      "topics" : {
+         "items" : {
+            "type" : "string"
+         },
+         "maxItems" : 3,
+         "type" : "array"
+      },
+      "updated_at" : {
+         "format" : "date",
+         "type" : "string"
+      }
+   },
+   "required" : [
+      "id",
+      "slug",
+      "listing_title",
+      "h1",
+      "excerpt",
+      "content_type",
+      "legacy_category",
+      "author_id",
+      "published_at",
+      "body",
+      "seo",
+      "legacy_source",
+      "status",
+      "provenance"
+   ],
+   "title" : "Insight (perspective, case study, guide, whitepaper)",
+   "type" : "object"
+}

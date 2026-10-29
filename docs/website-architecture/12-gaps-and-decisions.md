@@ -1,0 +1,143 @@
+# 12 — Content Gaps, Decisions and Approval Register
+
+**Version 1.1, updated 2026-10-29 with the company's decisions.**
+
+This register keeps **source facts**, **recommendations** and **decisions** separate. Other documents refer to its items by ID: D-xx decisions · C-xx claims · E-xx editorial corrections · N-xx proposed new content · MS-xx missing sources.
+
+**Governing rule (company, 2026-10-29):** unverified metrics and credentials stay in the source material, **flagged as pending**. They are never deleted, and never published until verified. Structural work does not wait on them.
+
+Status key: ✅ approved · ✅◐ approved with condition · ⏳ pending evidence or confirmation · 🟦 recommended, awaiting sign-off · ✖ withdrawn or not recommended
+
+---
+
+## 1. Existing and verified content
+
+Everything below is captured verbatim in [`source-archive/`](source-archive/) and may be migrated without rewording.
+
+| Item | Source blocks |
+|---|---|
+| Home problem statements ("Sounds Familiar?" carousel) | TT-PG-001-B01 |
+| Home positioning: "Clarity before Execution." + two subtext lines | TT-PG-001-B02 |
+| Six problem cards | TT-PG-001-B03 |
+| "Our Method" + five method steps | TT-PG-001-B04, B05 |
+| "The outcome" callout | TT-PG-001-B06 |
+| Fit list (5 yes / 5 no) | TT-PG-001-B07 = TT-PG-002-B06 |
+| Signature offer, four engagement types, six components | TT-PG-002-B01–B05 |
+| Our Story, Our Values, Our Message | TT-PG-004-B02, B03, B05 |
+| Four team profiles | TT-PG-004-B04 (publication gated, see §3) |
+| Contact details, booking link, "What happens next" | TT-PG-005-B02–B04 |
+| Ten published Insights articles. **Reconciled 2026-10-29:** the ten `.docx` originals in the Drive "Blogs and case studies" folder are word-for-word identical to the published text | TT-INS-001 … 010 |
+| 17 site images + 5 logo files (logo folder) | [`data/assets.csv`](data/assets.csv), `source-archive/assets/logo/` |
+
+## 2. Existing but incomplete
+
+| ID | Item | What is missing | Status |
+|---|---|---|---|
+| G-01 | Page metadata | No meta descriptions; generic titles | Drafts in N-10 |
+| G-02 | Image alt text | None in any source | Rules in N-11 |
+| G-03 | Article dates | No "last updated"; inconsistent formats | Normalized in the model (E-08) |
+| G-04 | Article taxonomy | Type and topic mixed in one field | Resolved in 09 |
+| G-05 | Service detail | Components are single cards | Accepted for launch (D-02): no extra pages except Transformation Recovery |
+| G-06 | Industry content | No industry descriptions | Healthcare draft built from existing evidence (N-05) |
+| G-07 | "Hidden Gaps" draft | No body text | Held (D-10) |
+| G-08 | Logo | — | **Resolved**: 5 logo files received (MS-03 closed) |
+| G-09 | Contact form | — | **Resolved in spec**: new field set approved (D-12) |
+| G-10 | Footer / legal | None exists | Footer line approved (D-08); Privacy draft prepared (D-13) |
+| G-11 | Master Drive folder | **Still private** (sign-in required, re-tested 2026-10-29) | Open (MS-01). The Google Sites project and the eCommerce fraud reference material cannot be reconciled until it is shared |
+
+## 3. Claims and credentials register
+
+Nothing in this table is published until its status is ✅. Pending items stay in the source and in the content model with `verification_status: pending`. The build refuses to render them (B-17).
+
+| ID | Claim (exact source wording) | Where | Status | What is needed / decision |
+|---|---|---|---|---|
+| C-01 | "$3M+ — Revenue impact from founder-led transformation engagements" | TT-PG-001-B08 | ✖ **Label withdrawn** (company: do not describe as "$3M revenue impact" or combine the two $3M outcomes) | Source text archived unchanged. Home shows instead whichever of C-02 / C-03 is verified, with its own label and attribution (wording in §4, N-15) |
+| C-02 | "prevented $3M in fraud losses" | TT-PG-004-B04 (Mack Akhani bio) | ⏳ Confirmed by company as a **separate** outcome (global eCommerce, fraud prevention); pending supporting evidence | Source material is in the private master folder (C-19). Prior-role attribution applies (D-04) |
+| C-03 | "$3M — Annual savings through preferred pricing and inventory optimization" | TT-INS-009-B05 | ⏳ Confirmed by company as a **separate** outcome (healthcare purchasing/standardization); pending supporting evidence | Also needs C-18 (pre-founding or not) |
+| C-04 | "90+ Locations served in a single centralized supply chain engagement" | TT-PG-001-B08 | ⏳ | Consistent with TT-INS-009 ("over 80 clinics and 10 surgery centers"); needs evidence + C-18 |
+| C-05 | "63% Reduction in median implementation time 209 days to 78 in one engagement" | TT-PG-001-B08; TT-INS-005; TT-INS-010; bio | ⏳ | TT-INS-005 is attributed pre-founding; TT-INS-010 is not (C-18) |
+| C-06 | "$89M Annual purchasing volume centralized in a single healthcare network transformation" | TT-PG-001-B08; TT-INS-009; bio | ⏳ | Evidence + C-18 |
+| C-07 | "7 yrs Stalled initiative closed 2 years ahead of schedule using structured Kaizen methodology" | TT-PG-001-B08; TT-INS-003; TT-INS-007 | ⏳ | TT-INS-003 is attributed pre-founding. TT-INS-007 is treated as a **separate engagement** (company decision) until verified (C-18) |
+| C-08 | "$311,000 in annual savings", "improved quality by 50%", division "subsequently acquired" | TT-INS-003-B07 | ⏳ | Evidence + confidentiality check |
+| C-09 | "1,938 hours… 12 full-time employees"; "166 people in six countries" | TT-INS-004 | ⏳ | Evidence |
+| C-10 | "over a decade of experience" | Mack Akhani bio | ✅◐ Approved, provided the bio's timeline is accurate | Confirm the start year used to support "over a decade" |
+| C-11 | Lean Six Sigma Black Belt ("LSSBB") | TT-INS-005 attribution line | ✅ **Confirmed** | May also appear on Mack's profile (wording to approve) |
+| C-12 | "PMP Certified" | Kranthi Kumar Goli title | ⏳ Pending Kranthi's confirmation | Profile not published until confirmed |
+| C-13 | Bio details ("over five years…", "pursuing his Chartered Accountancy qualification", tools) | Devjet Bag bio | ⏳ Pending Devjet's confirmation | Profile not published until confirmed |
+| C-14 | "Twelve other programs subsequently replicated it." | TT-INS-003-B06 | ⏳ In the original material; pending validation | Article publishes with this sentence **only** after validation. Until then: hold the article or approve a temporary omission (D-24) |
+| C-15 | "6-8 weeks"; "within 2 to 6 weeks" | TT-PG-001-B06, TT-PG-002-B03/B04 | 🟦 | Confirm these are current service timeframes |
+| C-16 | "We guarantee the rigor, clarity, and honesty behind every recommendation" | TT-PG-004-B05 | 🟦 | Guarantees process, not results; recommended to keep |
+| C-17 | "Response within 1 business day" | TT-PG-005 | 🟦 | Confirm it can be met |
+| **C-18** | Engagement identity and timing for TT-INS-007, 008, 009, 010 | Those articles (they have no attribution line) | ⏳ **New** | For each: (a) was it led before Tech Transpire was founded? If so, add the D-04 line. (b) Is it the same engagement as TT-INS-003 / 002 / 005? Until answered they are separate engagements, and none of their figures are combined with other articles |
+| **C-19** | Source material for the $3M fraud-prevention outcome (global eCommerce) | Mentioned by the company; not on the site except the bio | ⏳ **New** | In the private master folder (MS-01) |
+| **C-20** | Hemang Dwivedi bio and title | TT-PG-004-B04 | 🟦 | No issue raised. Confirm for publication, as for the other profiles |
+
+## 4. New content (N-xx)
+
+Drafts are in [`drafts/`](drafts/).
+
+| ID | Item | Status |
+|---|---|---|
+| N-01 | "Clarity Before Change. Confidence Through Execution." as primary brand statement | ✅ Approved (D-01) |
+| N-02 | Outcome theme lines | Draft: [new-content-drafts.md](drafts/new-content-drafts.md#n-02--outcome-themes-home) |
+| N-03 | Expertise introduction | ✖ Not needed; existing copy suffices |
+| N-04 | Transformation Recovery page | Draft (one new sentence; the rest is existing text) |
+| N-05 | Healthcare page | Draft: [healthcare-page-draft.md](drafts/healthcare-page-draft.md) |
+| N-06 | Akhani LLC footer line + About paragraph | Draft (Option B recommended), subject to legal wording |
+| N-07 | Privacy Policy | First draft: [privacy-policy-draft.md](drafts/privacy-policy-draft.md), for legal review |
+| N-08 | Accessibility statement, Terms | Phase 3/4 |
+| N-09 | Form consent, validation and failure messages | Draft |
+| N-10 | Meta titles and descriptions | Draft |
+| N-11 | Alt text | Rules drafted; text written at migration |
+| N-12 | Listing summaries | ✖ Not needed; every article has an excerpt |
+| N-13 | Referral note | Draft |
+| N-14 | 404 page | Draft |
+| **N-15** | Replacement Home stat labels for C-01 | ⏳ After C-02/C-03 are verified. Proposed pattern: "$3M — annual savings from purchasing standardization in a healthcare network" and/or "$3M — fraud losses prevented for a global eCommerce business", each followed by "Engagement led by Mack Akhani prior to founding Tech Transpire." where it applies |
+| **N-16** | New "How did you hear about us?" options: "Event or presentation", "Existing client or colleague" | 🟦 |
+
+## 5. Decisions
+
+| ID | Decision | Status | Outcome / recommendation |
+|---|---|---|---|
+| D-01 | Primary positioning | ✅ **Approved** | Concept 06 line is the H1 on Home; "Clarity before Execution." kept in supporting content |
+| D-02 | Expertise model | ✅ **Approved** | Built around the signature offer *Implementation Clarity & Execution Blueprint*, its four engagement types and six components. Not split into five services. The brief's five names are internal search/relationship aliases only (08 §4) |
+| D-03 | AI & Digital Enablement | ✅ **Approved** | No page at launch; revisit when an offering and evidence exist |
+| D-04 | Attribution of pre-founding results | ✅ **Approved** | Wording: "Engagement led by Mack Akhani prior to founding Tech Transpire." Applied wherever such a result appears (articles, Home stats, Healthcare page). Still to confirm which articles it covers (C-18) |
+| D-05 | "$3M" | ✅ **Resolved** | Two separate outcomes, never combined, never labelled "revenue impact"; each pending evidence (C-02, C-03) |
+| D-06 | Industries in navigation | ✅◐ **Approved with condition** | Include if the Healthcare page is approved. The draft shows it can be built from real experience. If it isn't approved by launch, Industries is deferred and navigation runs with five items (05) |
+| D-07 | Team profiles | ✅◐ | Mack: approved subject to C-10. Kranthi: pending C-12. Devjet: pending C-13. Hemang: confirm (C-20). Unconfirmed profiles are hidden, not deleted |
+| D-08 | Akhani LLC disclosure | ✅ **Approved**, subject to legal wording | Footer line + short About paragraph; True Lean Solutions not promoted elsewhere |
+| D-09 | Article titles (Sheet vs Doc) | 🟦 | Doc H1 as page H1; Sheet title as card and SEO title |
+| D-10 | "Hidden Gaps" drafts | 🟦 | Hold as draft |
+| D-11 | Editorial corrections | 🟦 | Approve E-01–E-05 individually (§7) |
+| D-12 | Contact form | ✅ **Approved** | Fields: Name, Company, Work email, Phone (optional), Area of interest, Message, plus optional "How did you hear about us?" (Facebook kept) and consent. Annual revenue removed. Spam protection included. Spec in [06 §10](06-page-blueprints.md#10-contact) |
+| D-13 | Legal pages | ✅◐ | Privacy Policy first draft prepared; legal review before publication. Accessibility and Terms in Phase 3/4 |
+| D-14 | Fit list placement | 🟦 | Canonical on Expertise (`/services#fit`), linked from Home |
+| D-15 | Platform and editing workflow | 🟦 | Static-generated site with content in version control; editing layer decided once editors are named (11) |
+| D-16 | Form destination, CRM | ✅ **Approved**, subject to feasibility | Zoho CRM lead + email notification ([11 §4a](11-technical-architecture.md)). Open: analytics tool; Zoho data centre and API access |
+| D-17 | Case-studies listing | 🟦 | `/insights/case-studies` |
+| D-18 | Outcome themes | 🟦 | Homepage section + Insight taxonomy, no pages |
+| D-19 | Apex domain | ✅ **Approved** | In the remediation checklist (R-01, B-03), after DNS/hosting are confirmed |
+| D-20 | "See Our Work" / `/blogs` CTAs | ✅ **Approved** | Interim live fix R-02/R-03 (owner action); new build points to `/insights/case-studies` |
+| D-21 | Drive access | ✅◐ | Logo and Blogs folders received and reconciled; **master folder still private** |
+| D-22 | Keep `/services`, label "Expertise" | ✅ **Approved** ("preserve existing valid URLs") | — |
+| D-23 | Keep `/about-us`, `/contact-us` | ✅ **Approved** | — |
+| **D-24** | TT-INS-003 while C-14 is pending | 🟦 **New** | Recommend: publish TT-INS-003 **without** the C-14 sentence until it is validated. That is a temporary omission, recorded as E-09, and the sentence is restored on verification. Alternative: hold the whole article |
+
+## 6. Not recommended
+
+Five capability pages · AI & Digital Enablement page (until offering exists) · industry pages other than Healthcare · outcome-theme pages · individual profile pages at launch · FAQ page · partners page · whitepapers section · testimonials section (none exist) · True Lean Solutions in primary navigation or on Home · keeping the Docs → Apps Script → iframe rendering.
+
+## 7. Editorial corrections (existing wording vs suggested): none applied yet
+
+| ID | Location | Existing wording | Suggested | Status |
+|---|---|---|---|---|
+| E-01 | TT-INS-002-B06 | "…after we stepped back, rexactlyan reverting…" | "…after we stepped back, rather than reverting…" | 🟦 typo |
+| E-02 | TT-INS-004-B02 | "returned to buil9work" | "returned to build work" (confirm intended word) | 🟦 typo |
+| E-03 | TT-PG-004-B04 | "Kranthi Architects enterprise-grade…" | "Kranthi architects enterprise-grade…" | 🟦 |
+| E-04 | TT-PG-004-B04; TT-INS-010-B10 | "TechTranspire" | "Tech Transpire" | 🟦 |
+| E-05 | TT-INS-001-B11 | Card title formatted as a heading | Restore as the fourth card | 🟦 formatting |
+| E-06 | TT-INS-007-B03 | "A healthcare SaaS client…" | — | ✖ **Withdrawn**: treated as a separate engagement (company decision) |
+| E-07 | TT-INS-007, 008, 009, 010 | No attribution line | Add the D-04 line **where C-18 confirms a pre-founding engagement** | ✅◐ approved in principle |
+| E-08 | Sheet dates | Mixed formats | ISO dates in the model | 🟦 metadata |
+| **E-09** | TT-INS-003-B06 | "Twelve other programs subsequently replicated it." | Temporarily omitted until C-14 is validated (D-24) | 🟦 |

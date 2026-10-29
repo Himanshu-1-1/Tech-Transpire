@@ -1,0 +1,83 @@
+{
+   "$id" : "testimonial.schema.json",
+   "$schema" : "https://json-schema.org/draft/2020-12/schema",
+   "properties" : {
+      "approved_wording" : {
+         "type" : "string"
+      },
+      "capabilities" : {
+         "items" : {
+            "type" : "string"
+         },
+         "type" : "array"
+      },
+      "client_attribution" : {
+         "enum" : [
+            "named",
+            "anonymised",
+            "role-only"
+         ]
+      },
+      "consent_record" : {
+         "type" : "string"
+      },
+      "consent_status" : {
+         "description" : "Renders only when granted",
+         "enum" : [
+            "none",
+            "requested",
+            "granted",
+            "withdrawn"
+         ]
+      },
+      "id" : {
+         "type" : "string"
+      },
+      "industries" : {
+         "items" : {
+            "type" : "string"
+         },
+         "type" : "array"
+      },
+      "outcome_evidence" : {
+         "items" : {
+            "pattern" : "^C-[0-9]{2}$",
+            "type" : "string"
+         },
+         "type" : "array"
+      },
+      "provenance" : {
+         "$ref" : "_common.schema.json#/$defs/provenance"
+      },
+      "publication_approval" : {
+         "properties" : {
+            "approved" : {
+               "type" : "boolean"
+            },
+            "approved_by" : {
+               "type" : "string"
+            },
+            "date" : {
+               "format" : "date",
+               "type" : "string"
+            }
+         },
+         "required" : [
+            "approved"
+         ],
+         "type" : "object"
+      },
+      "source" : {
+         "type" : "string"
+      }
+   },
+   "required" : [
+      "id",
+      "source",
+      "consent_status",
+      "client_attribution",
+      "provenance"
+   ],
+   "title" : "Testimonial / client story consent",
+   "type" : "object"
+}

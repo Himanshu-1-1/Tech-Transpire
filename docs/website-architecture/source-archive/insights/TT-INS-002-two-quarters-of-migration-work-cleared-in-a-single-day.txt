@@ -1,0 +1,70 @@
+SOURCE ID: TT-INS-002
+ORIGINAL URL: No standalone URL - opens in modal on https://www.techtranspire.com/insights
+SOURCE: Google Doc 1CDgSsZUrzW1unsVOONxqEdD-pvhsU7CV
+CAPTURED: 2026-10-29 (automated export; text unmodified apart from HTML-to-text conversion)
+CONVENTIONS: "> " = section heading; ALL-CAPS lines (BANNER, CARDS, STEPS...) and column labels (Title/Body/Tag...) are the source document's own block markers; lowercase single words before card titles are icon keys.
+==========================================================================
+BANNER
+Headline
+Subtext
+Background (optional)
+GDRIVE: your-logo-file-id
+Two Quarters of Migration Work, Cleared in a Single Day
+Healthcare compliance provider · One-day Kaizen event · 65 client migrations actioned in a single day against a prior rate of 30 per quarter
+> Two Quarters of Migration Work, Cleared in a Single Day
+> At a Glance
+STATS
+Label
+65
+Client migrations actioned in a single day
+30 per quarter
+Migration rate before the engagement
+103
+Remaining intakes completed in days rather than quarters
+3 to 1
+Legacy intake methods consolidated onto one automated platform
+> The Client
+A healthcare compliance provider processing regulated patient data on behalf of hospital systems across the United States. Growth through acquisition had left the organization running three separate legacy intake methods, all feeding the same downstream platform.
+> The Challenge
+The migration onto a single automated intake had been advancing at roughly thirty client systems per quarter and consuming 283 internal hours each quarter to do it. The remaining queue represented several more years at that pace.
+The organization did not have several more years. Intake errors were causing data loss, and that data loss was costing hospital customers their Medicare reimbursements. The Centers for Medicare and Medicaid Services had issued formal compliance warnings against the company.
+CARDS
+Title
+Body
+alert
+Exposure compounding faster than the fix
+Federal warnings were already on record and customers were losing reimbursements. Every additional quarter at the existing rate widened the liability for both the provider and the hospitals it served.
+people
+The right experts were never free at the same time
+The operations staff and client file specialists who understood the legacy intake formats were fully consumed by client escalations. The migration received fragments of their attention and never a concentrated block of it.
+process
+Three intake paths, no single owner
+Each legacy method carried partial ownership inherited from a different acquisition. No one was accountable for retiring any of them, so none of them were retired.
+> What We Did
+STEPS
+Body
+Made the case for one focused day
+Instead of requesting additional headcount, we made the case to executive leadership for a single day in which the necessary people did nothing else. Securing permission to pull specialists off client work was the hardest part of the engagement and the precondition for everything that followed.
+Piloted two systems end to end
+Before committing the wider team, we migrated two client systems completely. This validated the process under production conditions and showed where the time was actually being spent, so the event would execute a proven path rather than discover one.
+Handpicked and trained the task force
+We selected the specific operations, file, and engineering people the migration genuinely depended on, and trained them on the validated process in advance. The day itself was execution, not instruction.
+Designed the day around 30-minute slots
+The work was restructured so each specialist needed roughly thirty minutes of involvement rather than open-ended availability. Timing was tracked in seconds so the schedule held and no individual became a bottleneck for everyone else.
+Transferred the method to the internal team
+We taught the process to the task force so the remaining migrations continued at event pace after we stepped back, rexactlyan reverting to the previous rate once attention moved on.
+> The Results
+Sixty-five client migrations were actioned in a single day against a prior rate of thirty per quarter. The remaining 103 intakes were completed within days rather than quarters.
+Three legacy intake methods were consolidated onto one automated platform, and intake was fortified at its primary entry point, which removed the category of data loss that had triggered the federal warnings. New client intake became an automated setup rather than a manual migration project. The organization was returned to CMS compliance.
+CALLOUT
+Title
+Body
+Tag
+Why it worked
+The constraint was never capacity. It was that the work never reached the right calendars at the same time.
+Thirty migrations per quarter was not the team's maximum output. It was what fragmented attention produced, and leadership had been reading it as a capacity ceiling. Concentrating the same people, on the same work, for one designed day changed throughput by more than an order of magnitude without adding anyone to the payroll.
+Kaizen event · CMS compliance · Data integrity · Legacy consolidation
+Engagement led by Mack Akhani prior to founding Tech Transpire.
+> Have an Initiative That Has Been Running Too Long?
+CTA: Talk to Us About a Stalled Initiative > https://www.techtranspire.com/contact-us
+CTA2: Read More Case Studies > https://www.techtranspire.com/insights

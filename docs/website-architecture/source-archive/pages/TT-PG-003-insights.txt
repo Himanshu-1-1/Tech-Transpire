@@ -1,0 +1,13 @@
+SOURCE ID: TT-PG-003
+ORIGINAL URL: https://www.techtranspire.com/insights
+SOURCE: Custom embed static text (listing data from Google Sheet 1js_i1QvSDhZMQG4rB4_nCTnmlNuc7Na0qgh0wfoBN5k)
+CAPTURED: 2026-10-29 (automated export; text unmodified apart from HTML-to-text conversion)
+CONVENTIONS: "> " = section heading; ALL-CAPS lines (BANNER, CARDS, STEPS...) and column labels (Title/Body/Tag...) are the source document's own block markers; lowercase single words before card titles are icon keys.
+==========================================================================
+Tech Transpire — Insights
+> Insights
+Practical insights on turning Clarity and Alignment into disciplined Execution—and measurable business results.
+All
+Loading posts…
+✕
+Loading post…

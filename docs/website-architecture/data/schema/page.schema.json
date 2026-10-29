@@ -1,0 +1,78 @@
+{
+   "$id" : "page.schema.json",
+   "$schema" : "https://json-schema.org/draft/2020-12/schema",
+   "properties" : {
+      "id" : {
+         "pattern" : "^TT-PGN?-[0-9]{3}$",
+         "type" : "string"
+      },
+      "legacy_urls" : {
+         "items" : {
+            "type" : "string"
+         },
+         "type" : "array"
+      },
+      "nav_label" : {
+         "type" : "string"
+      },
+      "page_type" : {
+         "enum" : [
+            "home",
+            "landing",
+            "capability",
+            "industry",
+            "insight-index",
+            "insight-listing",
+            "about",
+            "contact",
+            "legal",
+            "system"
+         ]
+      },
+      "parent_id" : {
+         "type" : "string"
+      },
+      "priority" : {
+         "enum" : [
+            "P0",
+            "P1",
+            "P2"
+         ]
+      },
+      "provenance" : {
+         "$ref" : "_common.schema.json#/$defs/provenance"
+      },
+      "sections" : {
+         "items" : {
+            "$ref" : "block.schema.json"
+         },
+         "type" : "array"
+      },
+      "seo" : {
+         "$ref" : "_common.schema.json#/$defs/seo"
+      },
+      "slug" : {
+         "$ref" : "_common.schema.json#/$defs/path"
+      },
+      "status" : {
+         "$ref" : "_common.schema.json#/$defs/status"
+      },
+      "title" : {
+         "description" : "Page H1",
+         "type" : "string"
+      }
+   },
+   "required" : [
+      "id",
+      "slug",
+      "title",
+      "page_type",
+      "seo",
+      "sections",
+      "status",
+      "priority",
+      "provenance"
+   ],
+   "title" : "Page",
+   "type" : "object"
+}

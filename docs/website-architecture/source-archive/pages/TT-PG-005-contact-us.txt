@@ -1,0 +1,51 @@
+SOURCE ID: TT-PG-005
+ORIGINAL URL: https://www.techtranspire.com/contact-us
+SOURCE: Custom embed HTML (hard-coded in Google Sites page)
+CAPTURED: 2026-10-29 (automated export; text unmodified apart from HTML-to-text conversion)
+CONVENTIONS: "> " = section heading; ALL-CAPS lines (BANNER, CARDS, STEPS...) and column labels (Title/Body/Tag...) are the source document's own block markers; lowercase single words before card titles are icon keys.
+==========================================================================
+Tech Transpire — Contact
+Get in touch
+> Start the conversation.
+Email
+[LINK mailto:info@techtranspire.com | info@techtranspire.com]
+Phone
+[LINK tel:+19794792779 | +1 (979) 479-2779]
+LinkedIn
+[LINK https://www.linkedin.com/company/techtranspire | Tech Transpire]
+Fastest path forward
+> Book a 30-minute intro call
+We prioritize the right fit over volume. Every conversation starts with alignment.
+[LINK https://outlook.office.com/book/IntroCallwithTechTranspire@techtranspire.com/?ismsaljsauthenabled | Book your intro call]
+> What happens next
+1
+Response within 1 business day
+2
+30-min clarity call, no pitch
+3
+If aligned - Clear next steps
+4
+If not - Honest redirect
+Send us a message
+Prefer to write first? Tell us about your situation and we will respond within one business day.
+Thank you — we have received your message and will be in touch within one business day.
+First name
+Last name
+Work email
+Company
+Annual revenue (approximate)
+Select a range
+Under $5M
+$5M – $20M
+$20M – $50M
+$50M – $200M
+$200M+
+Describe your situation
+How did you hear about us?
+Select one
+LinkedIn
+Facebook
+Referral
+Search
+Other
+Send message

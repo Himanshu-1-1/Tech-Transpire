@@ -1,0 +1,101 @@
+{
+   "$id" : "industry.schema.json",
+   "$schema" : "https://json-schema.org/draft/2020-12/schema",
+   "allOf" : [
+      {
+         "if" : {
+            "properties" : {
+               "evidence_level" : {
+                  "const" : "evidenced"
+               }
+            }
+         },
+         "then" : {
+            "properties" : {
+               "verified_experience" : {
+                  "minItems" : 2
+               }
+            }
+         }
+      },
+      {
+         "if" : {
+            "properties" : {
+               "evidence_level" : {
+                  "const" : "selected-experience"
+               }
+            }
+         },
+         "then" : {
+            "properties" : {
+               "has_detail_page" : {
+                  "const" : false
+               }
+            }
+         }
+      }
+   ],
+   "properties" : {
+      "approved_description" : {
+         "type" : "string"
+      },
+      "evidence_level" : {
+         "enum" : [
+            "evidenced",
+            "selected-experience"
+         ]
+      },
+      "has_detail_page" : {
+         "type" : "boolean"
+      },
+      "id" : {
+         "pattern" : "^IND-[0-9]{2}$",
+         "type" : "string"
+      },
+      "name" : {
+         "type" : "string"
+      },
+      "operating_considerations" : {
+         "items" : {
+            "type" : "string"
+         },
+         "type" : "array"
+      },
+      "provenance" : {
+         "$ref" : "_common.schema.json#/$defs/provenance"
+      },
+      "related_capabilities" : {
+         "items" : {
+            "$ref" : "_common.schema.json#/$defs/relation"
+         },
+         "type" : "array"
+      },
+      "related_resources" : {
+         "items" : {
+            "type" : "string"
+         },
+         "type" : "array"
+      },
+      "slug" : {
+         "$ref" : "_common.schema.json#/$defs/slug"
+      },
+      "verified_experience" : {
+         "items" : {
+            "pattern" : "^TT-INS-[0-9]{3}$",
+            "type" : "string"
+         },
+         "type" : "array"
+      }
+   },
+   "required" : [
+      "id",
+      "name",
+      "slug",
+      "evidence_level",
+      "verified_experience",
+      "has_detail_page",
+      "provenance"
+   ],
+   "title" : "Industry",
+   "type" : "object"
+}

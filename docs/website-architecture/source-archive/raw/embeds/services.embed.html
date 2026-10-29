@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!--
+  ══════════════════════════════════════════════════════
+  SEO — update these for each page
+  ══════════════════════════════════════════════════════
+-->
+<title>Tech Transpire</title>
+<meta name="description"    content="Tech Transpire — Clarity. Alignment. Execution.">
+<meta name="robots"         content="index, follow">
+<meta name="author"         content="Tech Transpire">
+
+<meta property="og:type"        content="website">
+<meta property="og:site_name"   content="Tech Transpire">
+<meta property="og:title"       content="Tech Transpire">
+<meta property="og:description" content="Tech Transpire — Clarity. Alignment. Execution.">
+<meta property="og:image"       content="">
+<meta property="og:url"         content="https://www.techtranspire.com">
+
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:title"       content="Tech Transpire">
+<meta name="twitter:description" content="Tech Transpire — Clarity. Alignment. Execution.">
+<meta name="twitter:image"       content="">
+<!--
+  ══════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800;900&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/trueleansolutions/website-stylesheet@17ba65b/tt-styles.css">
+</head>
+<body>
+
+<div id="bg">
+  <div class="grid"></div>
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+</div>
+
+<div id="page">
+  <div id="loading"><div class="spinner"></div><span>Loading…</span></div>
+</div>
+
+<script>
+(function () {
+
+  /* ══════════════════════════════════════════════
+     CHANGE ONLY THESE PER PAGE
+  ══════════════════════════════════════════════ */
+  var DOC_ID           = "1X9fvNF9zrAxZRqanz-5PsuwGp7_F6Yd-Uhb68pin3ys";
+  var REVIEWS_SHEET_ID = "YOUR_REVIEWS_SHEET_ID_HERE";
+  /* ══════════════════════════════════════════════ */
+
+  var PROXY = "https://script.google.com/macros/s/AKfycbywApEjFXktb7tEe4rvKCBeBIQ7CkSQwhY9Zi1jpsqTR5lhypdr1Fiza8Bov2NIVLffCA/exec";
+
+  var url = "https://docs.google.com/document/d/" + DOC_ID + "/export?format=html";
+  fetch(PROXY + "?url=" + encodeURIComponent(url))
+    .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.text(); })
+    .then(render)
+    .catch(function (e) { showError(e.message); });
+
+  /* ── Icon map for CARDS table ──────────────────────────────────
+     Add new keywords here as needed.
+     Each value is an SVG path string (stroke-based, viewBox 0 0 24 24).
+  ────────────────────────────────────────────────────────────── */
+  var ICONS = {
+    alert:     '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>',
+    chart:     '<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>',
+    check:     '<polyline points="20 6 9 17 4 12"/>',
+    clock:     '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+    people:    '<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>',
+    process:   '<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',
+    target:    '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+    shield:    '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+    lightning: '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+    search:    '<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',
+    settings:  '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>',
+    link:      '<path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/>',
+    star:      '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
+    growth:    '<polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>'
+  };
+
+  function getIcon(keyword) {
+    var k = (keyword || "").toLowerCase().trim();
+    if (!k || !ICONS[k]) return "";
+    return '<div class="tt-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">' + ICONS[k] + '</svg></div>';
+  }
+
+  /* ── Main renderer ─────────────────────────────────────────── */
+  function render(html) {
+    var doc  = new DOMParser().parseFromString(html, "text/html");
+    var page = document.getElementById("page");
+    page.innerHTML = "";
+
+    var elements = [];
+    function collect(node) {
+      var tag = (node.tagName || "").toLowerCase();
+      if (/^(script|style|head|noscript|meta|link)$/.test(tag)) return;
+      if (tag === "table") { elements.push(node); return; }
+      if (/^(h[1-6]|p|ul|ol|hr|blockquote|img)$/.test(tag)) { elements.push(node); return; }
+      if (tag === "div" && node.children.length <= 2 && (node.innerText || node.textContent || "").trim()) {
+        var dt = (node.innerText || node.textContent || "").trim();
+        if (/^(IMG:|GDRIVE:|GDVIDEO:|YOUTUBE:|CTA2?:|BADGE:)/i.test(dt)) { elements.push(node); return; }
+      }
+      Array.from(node.children).forEach(collect);
+    }
+    Array.from(doc.body.children).forEach(collect);
+
+    var i = 0;
+    while (i < elements.length) {
+      var el   = elements[i];
+      var tag  = (el.tagName || "").toLowerCase();
+      var text = clean(el.textContent);
+
+      /* ── Skip empty paragraphs ── */
+      if (tag === "p" && !text) { i++; continue; }
+
+      /* ── YOUTUBE: ── */
+      if (/^YOUTUBE:/i.test(text)) {
+        var vid = text.replace(/^YOUTUBE:\s*/i, "").trim();
+        var vm  = vid.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+        if (vm) vid = vm[1];
+        var yw = document.createElement("div");
+        yw.style.cssText = "position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;box-shadow:var(--sh);margin:18px 0;";
+        yw.innerHTML = '<iframe style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;border-radius:12px;" src="https://www.youtube.com/embed/' + esc(vid) + '" allowfullscreen allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"></iframe>';
+        page.appendChild(yw);
+        i++; continue;
+      }
+
+      /* ── GDVIDEO: ── */
+      if (/^GDVIDEO:/i.test(text)) {
+        var fid = text.replace(/^GDVIDEO:\s*/i, "").trim();
+        var vw  = document.createElement("div");
+        vw.style.cssText = "margin:18px 0;border-radius:12px;overflow:hidden;box-shadow:var(--sh);";
+        vw.innerHTML = '<video controls preload="metadata" style="width:100%;display:block;max-height:400px;"><source src="https://drive.google.com/uc?export=download&id=' + esc(fid) + '"></video>';
+        page.appendChild(vw);
+        i++; continue;
+      }
+
+      /* ── IMG: / GDRIVE: ── */
+      if (/^(IMG:|GDRIVE:)/i.test(text)) {
+        var imgUrl = /^GDRIVE:/i.test(text)
+          ? "https://drive.google.com/thumbnail?id=" + text.replace(/^GDRIVE:\s*/i, "").trim() + "&sz=w1280"
+          : text.replace(/^IMG:\s*/i, "").trim();
+        var imgEl = document.createElement("img");
+        imgEl.src = imgUrl; imgEl.alt = "";
+        page.appendChild(imgEl);
+        i++; continue;
+      }
+
+      /* ── CTA: / CTA2: ── */
+      if (tag === "p" && /^CTA2?:/i.test(text)) {
+        var btnWrap = document.createElement("div");
+        btnWrap.className = "cta-wrap";
+        while (i < elements.length) {
+          var ct = elements[i], ctText = clean(ct.textContent);
+          if ((ct.tagName || "").toLowerCase() !== "p" || !/^CTA2?:/i.test(ctText)) break;
+          var isSec = /^CTA2:/i.test(ctText);
+          var m = ctText.match(/^CTA2?:\s*(.+?)\s*[→>]\s*((?:https?|mailto|tel):\/?\/?[^\s]+)/i);
+          var btn = document.createElement("a");
+          btn.className = isSec ? "cta-btn-sec" : "cta-btn";
+          btn.textContent = m ? m[1].trim() : ctText.replace(/^CTA2?:\s*/i, "");
+          btn.href = m ? m[2].trim() : "#";
+          btnWrap.appendChild(btn);
+          i++;
+        }
+        page.appendChild(btnWrap);
+        continue;
+      }
+
+      /* ── Single-link paragraph → CTA ── */
+      if (tag === "p") {
+        var links = el.querySelectorAll("a");
+        if (links.length === 1 && links[0].textContent.trim() === text) {
+          var bw = document.createElement("div"); bw.className = "cta-wrap";
+          var ab = document.createElement("a"); ab.className = "cta-btn";
+          ab.href = links[0].href; ab.textContent = text;
+          bw.appendChild(ab); page.appendChild(bw);
+          i++; continue;
+        }
+      }
+
+      /* ── Tables ── */
+      if (tag === "table") {
+        var firstRow     = el.querySelector("tr");
+        var firstCell    = firstRow && firstRow.cells[0] ? clean(firstRow.cells[0].textContent).toUpperCase() : "";
+        var dataRows     = Array.from(el.querySelectorAll("tr")).slice(1);
+
+        /* BANNER */
+        if (firstCell === "BANNER") {
+          var bannerEl = buildBanner(dataRows);
+          if (bannerEl) { page.appendChild(bannerEl); i++; continue; }
+        }
+
+        /* CAROUSEL */
+        if (firstCell === "CAROUSEL") {
+          var carouselEl = buildCarousel(dataRows);
+          if (carouselEl) { page.appendChild(carouselEl); i++; continue; }
+        }
+
+        /* HERO */
+        if (firstCell === "HERO") {
+          var heroEl = buildHero(dataRows);
+          if (heroEl) { page.appendChild(heroEl); i++; continue; }
+        }
+
+        /* STATS */
+        if (firstCell === "STATS") {
+          var statsEl = buildStats(dataRows);
+          if (statsEl) { page.appendChild(statsEl); i++; continue; }
+        }
+
+        /* CARDS */
+        if (firstCell === "CARDS") {
+          var cardsEl = buildCards(dataRows);
+          if (cardsEl) { page.appendChild(cardsEl); i++; continue; }
+        }
+
+        /* STEPS */
+        if (firstCell === "STEPS") {
+          var stepsEl = buildSteps(dataRows);
+          if (stepsEl) { page.appendChild(stepsEl); i++; continue; }
+        }
+
+        /* FITLIST */
+        if (firstCell === "FITLIST") {
+          var fitEl = buildFitlist(dataRows);
+          if (fitEl) { page.appendChild(fitEl); i++; continue; }
+        }
+
+        /* CALLOUT */
+        if (firstCell === "CALLOUT") {
+          var calloutEl = buildCallout(dataRows);
+          if (calloutEl) { page.appendChild(calloutEl); i++; continue; }
+        }
+
+        /* COLS */
+        if (firstCell === "COLS") {
+          var colsEl = buildCols(dataRows);
+          if (colsEl) { page.appendChild(colsEl); i++; continue; }
+        }
+
+        /* TEAM */
+        if (firstCell === "TEAM") {
+          var teamEl = buildTeam(dataRows);
+          if (teamEl) { page.appendChild(teamEl); i++; continue; }
+        }
+
+        /* Regular data table */
+        page.appendChild(buildDataTable(el));
+        i++; continue;
+      }
+
+      /* ── Headings ── */
+      if (/^h[1-6]$/.test(tag)) {
+        var level = parseInt(tag[1]);
+        if (level === 2 && /testimonial/i.test(text)) {
+          page.appendChild(buildTestimonials()); i++; continue;
+        }
+        if (level === 3) {
+          page.appendChild(buildDocCard(text, elements, i));
+          i = consumeDocCard(elements, i + 1);
+          continue;
+        }
+        var h = document.createElement("h" + Math.min(level, 3));
+        h.textContent = text; page.appendChild(h); i++; continue;
+      }
+
+      /* ── Paragraphs ── */
+      if (tag === "p") {
+        var hl = detectHeading(el);
+        if (hl === 3) {
+          page.appendChild(buildDocCard(text, elements, i));
+          i = consumeDocCard(elements, i + 1);
+          continue;
+        }
+        if (hl) {
+          var hel = document.createElement("h" + hl);
+          hel.textContent = text; page.appendChild(hel); i++; continue;
+        }
+        var p = document.createElement("p");
+        p.innerHTML = sanitizeInline(el);
+        page.appendChild(p); i++; continue;
+      }
+
+      if (tag === "hr")         { page.appendChild(document.createElement("hr")); i++; continue; }
+      if (tag === "blockquote") { var bq = document.createElement("blockquote"); bq.textContent = text; page.appendChild(bq); i++; continue; }
+      if (tag === "ul" || tag === "ol") { page.appendChild(buildList(el, tag)); i++; continue; }
+      if (tag === "img")        { var im = document.createElement("img"); im.src = el.src; im.alt = el.alt || ""; page.appendChild(im); i++; continue; }
+
+      i++;
+    }
+  }
+
+  /* ── Table builders ────────────────────────────────────────── */
+
+  function buildBanner(rows) {
+    if (!rows.length) return null;
+    var cells    = rows[0].querySelectorAll("td,th");
+    var logoVal  = clean(cells[0] ? cells[0].textContent : "");
+    var headline = clean(cells[1] ? cells[1].textContent : "");
+    var subtext  = clean(cells[2] ? cells[2].textContent : "");
+    var bgVal    = clean(cells[3] ? cells[3].textContent : "");
+
+    /* Only show logo column when a valid logo src is provided */
+    var hasLogo = /^(GDRIVE:|https?:)/i.test(logoVal);
+
+    var wrap = document.createElement("div");
+    wrap.className = "tt-banner";
+
+    /* background */
+    var bg = document.createElement("div");
+    bg.className = "tt-banner-bg";
+    if (bgVal && /^(GDRIVE:|https?:)/i.test(bgVal)) {
+      var bgImg = document.createElement("img");
+      bgImg.src = /^GDRIVE:/i.test(bgVal)
+        ? "https://drive.google.com/thumbnail?id=" + bgVal.replace(/^GDRIVE:\s*/i,"").trim() + "&sz=w1920"
+        : bgVal;
+      bgImg.alt = "";
+      bg.appendChild(bgImg);
+    }
+    wrap.appendChild(bg);
+
+    var inner = document.createElement("div");
+
+    if (hasLogo) {
+      /* Two-column: logo+wordmark left, text right */
+      inner.className = "tt-banner-inner";
+
+      var left = document.createElement("div");
+      left.className = "tt-banner-left";
+
+      var logoSrc = /^GDRIVE:/i.test(logoVal)
+        ? "https://drive.google.com/thumbnail?id=" + logoVal.replace(/^GDRIVE:\s*/i,"").trim() + "&sz=w400"
+        : logoVal;
+      var logoImg = document.createElement("img");
+      logoImg.className = "tt-banner-logo";
+      logoImg.src = logoSrc;
+      logoImg.alt = "Tech Transpire";
+      left.appendChild(logoImg);
+
+      var wm = document.createElement("div");
+      wm.className = "tt-banner-wordmark";
+      wm.innerHTML = "<strong>Tech</strong><span> Transpire</span>";
+      left.appendChild(wm);
+
+      var tl = document.createElement("div");
+      tl.className = "tt-banner-tagline";
+      tl.textContent = "Clarity. Alignment. Execution.";
+      left.appendChild(tl);
+
+      var right = document.createElement("div");
+      right.className = "tt-banner-right";
+      if (headline) {
+        var hl = document.createElement("div");
+        hl.className = "tt-banner-headline";
+        var parts = headline.split(/(?<=\.)\ +/);
+        hl.innerHTML = parts.map(function(p){ return esc(p); }).join("<br>");
+        right.appendChild(hl);
+      }
+      if (subtext) {
+        var st = document.createElement("p");
+        st.className = "tt-banner-sub";
+        st.textContent = subtext;
+        right.appendChild(st);
+      }
+      inner.appendChild(left);
+      inner.appendChild(right);
+
+    } else {
+      /* No logo — full-width single column */
+      inner.className = "tt-banner-inner tt-banner-inner--solo";
+      var solo = document.createElement("div");
+      solo.className = "tt-banner-solo";
+      if (headline) {
+        var shl = document.createElement("div");
+        shl.className = "tt-banner-headline";
+        var sparts = headline.split(/(?<=\.)\ +/);
+        shl.innerHTML = sparts.map(function(p){ return esc(p); }).join("<br>");
+        solo.appendChild(shl);
+      }
+      if (subtext) {
+        var sst = document.createElement("p");
+        sst.className = "tt-banner-sub";
+        sst.textContent = subtext;
+        solo.appendChild(sst);
+      }
+      inner.appendChild(solo);
+    }
+
+    wrap.appendChild(inner);
+    return wrap;
+  }
+
+  function buildCarousel(rows) {
+    if (!rows.length) return null;
+    var wrap = document.createElement("div");
+    wrap.className = "tt-carousel";
+    var uid = "c" + Date.now();
+
+    var trackWrap = document.createElement("div");
+    trackWrap.className = "tt-carousel-track-wrap";
+    var track = document.createElement("div");
+    track.className = "tt-carousel-track";
+    track.id = uid + "-track";
+
+    var validRows = rows.filter(function(tr){
+      var cells = tr.querySelectorAll("td,th");
+      return clean(cells[0] ? cells[0].textContent : "");
+    });
+    if (!validRows.length) return null;
+
+    validRows.forEach(function(tr) {
+      var cells = tr.querySelectorAll("td,th");
+      var quote = clean(cells[0] ? cells[0].textContent : "");
+      var attr  = clean(cells[1] ? cells[1].textContent : "");
+      var slide = document.createElement("div");
+      slide.className = "tt-carousel-slide";
+      slide.innerHTML =
+        '<div class="tt-carousel-quote">' + esc(quote) + '</div>' +
+        (attr ? '<div class="tt-carousel-attr">' + esc(attr) + '</div>' : '');
+      track.appendChild(slide);
+    });
+
+    trackWrap.appendChild(track);
+    wrap.appendChild(trackWrap);
+
+    /* controls */
+    var controls = document.createElement("div");
+    controls.className = "tt-carousel-controls";
+
+    var prev = document.createElement("button");
+    prev.className = "tt-carousel-btn";
+    prev.innerHTML = "&#8592;";
+    prev.setAttribute("aria-label", "Previous");
+
+    var dots = document.createElement("div");
+    dots.className = "tt-carousel-dots";
+    validRows.forEach(function(_, di) {
+      var d = document.createElement("div");
+      d.className = "tt-carousel-dot" + (di === 0 ? " active" : "");
+      dots.appendChild(d);
+    });
+
+    var next = document.createElement("button");
+    next.className = "tt-carousel-btn";
+    next.innerHTML = "&#8594;";
+    next.setAttribute("aria-label", "Next");
+
+    controls.appendChild(prev);
+    controls.appendChild(dots);
+    controls.appendChild(next);
+    wrap.appendChild(controls);
+
+    /* JS logic — runs after appended */
+    setTimeout(function() {
+      var slides = track.children;
+      var total  = slides.length;
+      if (total <= 1) { controls.style.display = "none"; return; }
+      var cur = 0, timer = null, paused = false;
+
+      function goTo(idx) {
+        cur = (idx + total) % total;
+        track.style.transform = "translateX(-" + (cur * 100) + "%)";
+        dots.querySelectorAll(".tt-carousel-dot").forEach(function(d, i) {
+          d.classList.toggle("active", i === cur);
+        });
+      }
+
+      function start() {
+        timer = setInterval(function() { if (!paused) goTo(cur + 1); }, 4000);
+      }
+
+      prev.addEventListener("click", function() { goTo(cur - 1); });
+      next.addEventListener("click", function() { goTo(cur + 1); });
+      dots.querySelectorAll(".tt-carousel-dot").forEach(function(d, i) {
+        d.addEventListener("click", function() { goTo(i); });
+      });
+      wrap.addEventListener("mouseenter", function() { paused = true; });
+      wrap.addEventListener("mouseleave", function() { paused = false; });
+
+      /* touch swipe */
+      var tx0 = null;
+      trackWrap.addEventListener("touchstart", function(e) { tx0 = e.touches[0].clientX; paused = true; }, { passive: true });
+      trackWrap.addEventListener("touchend", function(e) {
+        if (tx0 === null) return;
+        var diff = tx0 - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 40) goTo(diff > 0 ? cur + 1 : cur - 1);
+        tx0 = null;
+        setTimeout(function(){ paused = false; }, 2000);
+      });
+
+      goTo(0);
+      start();
+    }, 0);
+
+    return wrap;
+  }
+
+  function buildHero(rows) {
+    if (!rows.length) return null;
+    var cells   = rows[0].querySelectorAll("td,th");
+    var eyebrow = clean(cells[0] ? cells[0].textContent : "");
+    var headline= clean(cells[1] ? cells[1].textContent : "");
+    var subtext = clean(cells[2] ? cells[2].textContent : "");
+    var wrap = document.createElement("div");
+    wrap.className = "tt-hero";
+    if (eyebrow) {
+      var ey = document.createElement("div");
+      ey.className = "tt-hero-eyebrow";
+      ey.textContent = eyebrow;
+      wrap.appendChild(ey);
+    }
+    if (headline) {
+      var h1 = document.createElement("h1");
+      h1.textContent = headline;
+      wrap.appendChild(h1);
+    }
+    if (subtext) {
+      var sp = document.createElement("p");
+      sp.textContent = subtext;
+      wrap.appendChild(sp);
+    }
+    return wrap;
+  }
+
+  function buildStats(rows) {
+    if (!rows.length) return null;
+    var grid = document.createElement("div");
+    grid.className = "tt-stats";
+    rows.forEach(function (tr) {
+      var cells = tr.querySelectorAll("td,th");
+      var value = clean(cells[0] ? cells[0].textContent : "");
+      var label = clean(cells[1] ? cells[1].textContent : "");
+      if (!value) return;
+      var card = document.createElement("div");
+      card.className = "tt-stat";
+      card.innerHTML =
+        '<div class="tt-stat-value">' + esc(value) + '</div>' +
+        (label ? '<div class="tt-stat-label">' + esc(label) + '</div>' : '');
+      grid.appendChild(card);
+    });
+    return grid.children.length ? grid : null;
+  }
+
+  function buildCards(rows) {
+    if (!rows.length) return null;
+    var grid = document.createElement("div");
+    grid.className = "tt-cards";
+    rows.forEach(function (tr) {
+      var cells  = tr.querySelectorAll("td,th");
+      var icon   = clean(cells[0] ? cells[0].textContent : "");
+      var title  = clean(cells[1] ? cells[1].textContent : "");
+      var body   = clean(cells[2] ? cells[2].textContent : "");
+      if (!title) return;
+      var card = document.createElement("div");
+      card.className = "tt-card";
+      card.innerHTML =
+        getIcon(icon) +
+        '<h3>' + esc(title) + '</h3>' +
+        (body ? '<p>' + esc(body) + '</p>' : '');
+      grid.appendChild(card);
+    });
+    return grid.children.length ? grid : null;
+  }
+
+  function buildSteps(rows) {
+    if (!rows.length) return null;
+    var wrap = document.createElement("div");
+    wrap.className = "tt-steps";
+    rows.forEach(function (tr, idx) {
+      var cells = tr.querySelectorAll("td,th");
+      var title = clean(cells[0] ? cells[0].textContent : "");
+      var body  = clean(cells[1] ? cells[1].textContent : "");
+      if (!title) return;
+      var step = document.createElement("div");
+      step.className = "tt-step";
+      step.innerHTML =
+        '<div class="tt-step-num">' + (idx + 1) + '</div>' +
+        '<div class="tt-step-content">' +
+          '<div class="tt-step-title">' + esc(title) + '</div>' +
+          (body ? '<div class="tt-step-body">' + esc(body) + '</div>' : '') +
+        '</div>';
+      wrap.appendChild(step);
+    });
+    return wrap.children.length ? wrap : null;
+  }
+
+  function buildFitlist(rows) {
+    if (!rows.length) return null;
+    var wrap  = document.createElement("div");
+    wrap.className = "tt-fitlist";
+    var yesCol = document.createElement("div");
+    var noCol  = document.createElement("div");
+    yesCol.className = "tt-fitlist-col";
+    noCol.className  = "tt-fitlist-col";
+
+    var yesHead = document.createElement("div");
+    yesHead.className = "tt-fitlist-heading";
+    yesHead.textContent = "This is for you if";
+    var noHead = document.createElement("div");
+    noHead.className = "tt-fitlist-heading";
+    noHead.textContent = "This is not for you if";
+    yesCol.appendChild(yesHead);
+    noCol.appendChild(noHead);
+
+    rows.forEach(function (tr) {
+      var cells = tr.querySelectorAll("td,th");
+      var type  = clean(cells[0] ? cells[0].textContent : "").toLowerCase();
+      var text  = clean(cells[1] ? cells[1].textContent : "");
+      if (!text) return;
+      var isYes = type === "yes";
+      var item  = document.createElement("div");
+      item.className = "tt-fit-item";
+      var checkPath = isYes
+        ? '<svg viewBox="0 0 24 24" fill="none" stroke="#055794" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'
+        : '<svg viewBox="0 0 24 24" fill="none" stroke="#e53935" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+      item.innerHTML =
+        '<div class="tt-fit-icon ' + (isYes ? 'yes' : 'no') + '">' + checkPath + '</div>' +
+        esc(text);
+      if (isYes) yesCol.appendChild(item);
+      else       noCol.appendChild(item);
+    });
+
+    wrap.appendChild(yesCol);
+    wrap.appendChild(noCol);
+    return wrap;
+  }
+
+  function buildCallout(rows) {
+    if (!rows.length) return null;
+    var cells   = rows[0].querySelectorAll("td,th");
+    var label   = clean(cells[0] ? cells[0].textContent : "");
+    var title   = clean(cells[1] ? cells[1].textContent : "");
+    var body    = clean(cells[2] ? cells[2].textContent : "");
+    var tag     = clean(cells[3] ? cells[3].textContent : "");
+    var wrap = document.createElement("div");
+    wrap.className = "tt-callout";
+    wrap.innerHTML =
+      (label ? '<div class="tt-callout-label">' + esc(label) + '</div>' : '') +
+      (title ? '<h3>' + esc(title) + '</h3>' : '') +
+      (body  ? '<p>'  + esc(body)  + '</p>'  : '') +
+      (tag   ? '<div class="tt-callout-tag"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#055794" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' + esc(tag) + '</div>' : '');
+    return wrap;
+  }
+
+  function buildCols(rows) {
+    if (!rows.length) return null;
+    var cells = rows[0].querySelectorAll("td,th");
+    var left  = clean(cells[0] ? cells[0].textContent : "");
+    var right = clean(cells[1] ? cells[1].textContent : "");
+    var wrap  = document.createElement("div");
+    wrap.className = "tt-cols";
+    var lDiv = document.createElement("div"); lDiv.className = "tt-col-left";
+    var rDiv = document.createElement("div"); rDiv.className = "tt-col-right";
+    lDiv.innerHTML = '<p>' + esc(left)  + '</p>';
+    rDiv.innerHTML = '<p>' + esc(right) + '</p>';
+    wrap.appendChild(lDiv);
+    wrap.appendChild(rDiv);
+    return wrap;
+  }
+
+  function buildTeam(rows) {
+    var grid = document.createElement("div");
+    grid.className = "team-grid";
+    rows.forEach(function (tr) {
+      var cells    = tr.querySelectorAll("td,th");
+      if (cells.length < 2) return;
+      var photoVal = clean(cells[0] ? cells[0].textContent : "");
+      var name     = clean(cells[1] ? cells[1].textContent : "");
+      var role     = clean(cells[2] ? cells[2].textContent : "");
+      var bio      = clean(cells[3] ? cells[3].textContent : "");
+      var linkedin = clean(cells[4] ? cells[4].textContent : "");
+      if (!name) return;
+
+      var card = document.createElement("div");
+      card.className = "team-card";
+
+      var photoHtml;
+      if (/^GDRIVE:/i.test(photoVal)) {
+        var fid = photoVal.replace(/^GDRIVE:\s*/i, "").trim();
+        photoHtml = '<img class="team-photo" src="https://drive.google.com/thumbnail?id=' + fid + '&sz=w400" alt="' + esc(name) + '" loading="lazy">';
+      } else if (/^https?:/i.test(photoVal)) {
+        photoHtml = '<img class="team-photo" src="' + esc(photoVal) + '" alt="' + esc(name) + '" loading="lazy">';
+      } else {
+        var parts = name.trim().split(/\s+/);
+        var ini   = parts.length >= 2 ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase() : name.slice(0, 2).toUpperCase();
+        photoHtml = '<div class="team-photo-placeholder">' + esc(ini) + '</div>';
+      }
+
+      var linkedinHtml = linkedin && /^https?:/i.test(linkedin)
+        ? '<a class="team-linkedin" href="' + esc(linkedin) + '" target="_blank" rel="noopener">LinkedIn →</a>'
+        : '';
+
+      card.innerHTML = photoHtml +
+        '<div class="team-info">' +
+          '<div class="team-name">'  + esc(name) + '</div>' +
+          (role ? '<div class="team-role">' + esc(role) + '</div>' : '') +
+          (bio  ? '<div class="team-bio">'  + esc(bio)  + '</div>' : '') +
+          linkedinHtml +
+        '</div>';
+      grid.appendChild(card);
+    });
+    return grid.children.length ? grid : null;
+  }
+
+  function buildDataTable(el) {
+    var scrollWrap = document.createElement("div");
+    scrollWrap.className = "table-scroll";
+    var t = document.createElement("table");
+    el.querySelectorAll("tr").forEach(function (tr, ri) {
+      var row = document.createElement("tr");
+      var firstCell = tr.cells[0] ? clean(tr.cells[0].textContent) : "";
+      var isHeader  = ri === 0 && !/^\d/.test(firstCell);
+      tr.querySelectorAll("td,th").forEach(function (td) {
+        var cell = document.createElement(isHeader ? "th" : "td");
+        cell.textContent = clean(td.textContent);
+        row.appendChild(cell);
+      });
+      t.appendChild(row);
+    });
+    scrollWrap.appendChild(t);
+    return scrollWrap;
+  }
+
+  function buildList(el, tag) {
+    var list = document.createElement(tag);
+    el.querySelectorAll("li").forEach(function (li) {
+      var item = document.createElement("li");
+      item.textContent = clean(li.textContent);
+      list.appendChild(item);
+    });
+    return list;
+  }
+
+  /* ── Doc card builder ──────────────────────────────────────── */
+  function buildDocCard(titleText, elements, i) {
+    var card  = document.createElement("div");
+    card.className = "doc-card";
+    var h3el  = document.createElement("h3");
+    h3el.textContent = titleText;
+    card.appendChild(h3el);
+    return card;
+  }
+
+  function consumeDocCard(elements, i) {
+    while (i < elements.length) {
+      var next    = elements[i];
+      var nextTag = (next.tagName || "").toLowerCase();
+      var nextText= clean(next.textContent);
+      if (nextTag !== "p" || !nextText) { i++; continue; }
+      if (detectHeading(next) !== 0) break;
+      if (/^(CTA2?:|BADGE:|IMG:|GDRIVE:|YOUTUBE:|GDVIDEO:)/i.test(nextText)) break;
+      var cp = document.createElement("p");
+      cp.innerHTML = sanitizeInline(next);
+      var lastCard = document.getElementById("page").lastElementChild;
+      if (lastCard && lastCard.classList.contains("doc-card")) lastCard.appendChild(cp);
+      i++;
+      break;
+    }
+    return i;
+  }
+
+  /* ── Testimonials carousel ─────────────────────────────────── */
+  function buildTestimonials() {
+    var wrap = document.createElement("div");
+    wrap.style.cssText = "margin:56px 0 0;";
+    wrap.innerHTML =
+      '<div style="margin-bottom:32px;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px;">' +
+        '<div>' +
+          '<div style="font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--cyan);margin-bottom:6px;">Client outcomes</div>' +
+          '<h2 style="font-family:var(--fh);font-size:clamp(22px,3vw,30px);font-weight:800;color:var(--tx);line-height:1.1;">What our <em>clients</em> say</h2>' +
+        '</div>' +
+        '<div id="t-rating" style="display:flex;align-items:center;gap:10px;background:var(--bg-card);border:1px solid var(--br);border-radius:50px;padding:10px 20px;white-space:nowrap;">' +
+          '<span style="font-size:18px;color:#F5A623;letter-spacing:2px;">★★★★★</span>' +
+          '<span id="t-score" style="font-family:var(--fh);font-size:22px;font-weight:700;color:var(--tx);">—</span>' +
+          '<span id="t-count" style="font-size:12px;color:var(--txh);">Loading…</span>' +
+        '</div>' +
+      '</div>' +
+      '<div style="position:relative;">' +
+        '<div style="position:absolute;top:0;bottom:0;left:0;width:60px;z-index:2;pointer-events:none;background:linear-gradient(to right,var(--bg),transparent);"></div>' +
+        '<div style="position:absolute;top:0;bottom:0;right:0;width:60px;z-index:2;pointer-events:none;background:linear-gradient(to left,var(--bg),transparent);"></div>' +
+        '<div id="t-wrap" style="overflow-x:auto;scroll-behavior:smooth;scrollbar-width:none;cursor:grab;padding:12px 0 20px;">' +
+          '<div id="t-track" style="display:flex;gap:20px;width:max-content;padding:0 40px;">' +
+            '<div style="padding:40px;color:var(--txh);font-size:14px;">Loading reviews…</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div id="t-dots" style="display:flex;justify-content:center;gap:6px;margin-top:14px;"></div>';
+
+    setTimeout(function () { loadTestimonials(); }, 50);
+    return wrap;
+  }
+
+  function loadTestimonials() {
+    var MONTHS     = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    var CHAR_LIMIT = 160;
+    var track   = document.getElementById("t-track");
+    var twrap   = document.getElementById("t-wrap");
+    var dotsEl  = document.getElementById("t-dots");
+    var scoreEl = document.getElementById("t-score");
+    var countEl = document.getElementById("t-count");
+    if (!track || !twrap || !dotsEl) return;
+
+    var cards = [], current = 0, paused = false, autoTimer = null;
+
+    function fmtDate(cell) {
+      if (!cell) return "";
+      if (cell.f) return cell.f;
+      var v = cell.v || "";
+      if (typeof v === "string" && v.indexOf("Date(") === 0) {
+        var p = v.replace("Date(","").replace(")","").split(",");
+        return MONTHS[parseInt(p[1])] + " " + p[0];
+      }
+      return v;
+    }
+    function tEsc(s) { return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+    function tInitials(n) { var p=(n||"").trim().split(/\s+/); return p.length>=2?(p[0][0]+p[1][0]).toUpperCase():n.slice(0,2).toUpperCase(); }
+    function cardWidth() { return !cards[0] ? 340 : cards[0].offsetWidth + 20; }
+    function scrollTo(idx) {
+      current = Math.max(0, Math.min(idx, cards.length - 1));
+      twrap.scrollTo({ left: current * cardWidth(), behavior: "smooth" });
+      updateDots();
+    }
+    function updateDots() {
+      dotsEl.querySelectorAll(".t-dot").forEach(function (d, i) { d.classList.toggle("active", i === current); });
+    }
+
+    var cbName = "_ttT_" + Date.now();
+    var script = document.createElement("script");
+    var timer  = setTimeout(function () { cleanup(); track.innerHTML = "<div style='padding:40px;color:var(--txh);text-align:center;'>Reviews timed out.</div>"; }, 10000);
+    function cleanup() { clearTimeout(timer); delete window[cbName]; if (script.parentNode) script.parentNode.removeChild(script); }
+
+    window[cbName] = function (data) {
+      cleanup();
+      if (!data || !data.table) { track.innerHTML = "<div style='padding:40px;color:var(--txh);text-align:center;'>No reviews yet.</div>"; return; }
+      var rows = data.table.rows;
+      track.innerHTML = ""; cards = [];
+      var total = 0, count = 0;
+
+      rows.forEach(function (row) {
+        var c   = row.c;
+        var n   = c[0] && c[0].v ? c[0].v : "Anonymous";
+        var co  = c[1] && c[1].v ? c[1].v : "";
+        var pos = c[2] && c[2].v ? c[2].v : "";
+        var ini = c[3] && c[3].v ? c[3].v : tInitials(n);
+        var dt  = fmtDate(c[4]);
+        var st  = c[5] && c[5].v ? parseInt(c[5].v) : 5;
+        var rv  = c[6] && c[6].v ? c[6].v : "";
+        if (st >= 1 && st <= 5) { total += st; count++; }
+        var stars = "";
+        for (var si = 0; si < st; si++) stars += "★";
+        var rvHtml = rv.length > CHAR_LIMIT
+          ? '\u201C<span class="t-trunc">' + tEsc(rv.slice(0, CHAR_LIMIT).trimEnd()) + '&hellip;</span><span class="t-full">' + tEsc(rv) + '</span>\u201D<br><button class="t-rm" aria-expanded="false">Read more</button>'
+          : '\u201C' + tEsc(rv) + '\u201D';
+
+        var card = document.createElement("div");
+        card.className = "t-card";
+        card.innerHTML =
+          '<div class="t-card-top">' +
+            '<div class="t-avatar">' + tEsc(ini) + '</div>' +
+            '<div>' +
+              '<div class="t-name">' + tEsc(n) + '</div>' +
+              (pos || co ? '<div class="t-role">' + (pos ? '<span class="t-pos">' + tEsc(pos) + '</span>' : '') + (pos && co ? ' · ' : '') + tEsc(co) + '</div>' : '') +
+              (dt ? '<div class="t-date">' + tEsc(dt) + '</div>' : '') +
+            '</div>' +
+          '</div>' +
+          '<div class="t-stars">' + stars + '</div>' +
+          '<div class="t-text">' + rvHtml + '</div>' +
+          '<div><span class="t-badge">Verified Client</span></div>';
+
+        var rm = card.querySelector(".t-rm");
+        if (rm) {
+          rm.addEventListener("click", function (e) {
+            e.stopPropagation();
+            var textEl = card.querySelector(".t-text");
+            var exp = textEl.classList.toggle("exp");
+            rm.textContent = exp ? "Show less" : "Read more";
+            rm.setAttribute("aria-expanded", exp);
+            paused = exp;
+          });
+        }
+        track.appendChild(card);
+        cards.push(card);
+      });
+
+      if (count > 0) {
+        if (scoreEl) scoreEl.textContent = (total / count).toFixed(1) + " / 5";
+        if (countEl) countEl.textContent = count + " review" + (count !== 1 ? "s" : "");
+      }
+
+      dotsEl.innerHTML = "";
+      cards.forEach(function (_, di) {
+        var d = document.createElement("div");
+        d.className = "t-dot" + (di === 0 ? " active" : "");
+        d.addEventListener("click", function () { scrollTo(di); });
+        dotsEl.appendChild(d);
+      });
+
+      var isDown = false, startX, scrollLeft;
+      twrap.addEventListener("mousedown", function (e) { isDown = true; twrap.style.cursor = "grabbing"; startX = e.pageX - twrap.offsetLeft; scrollLeft = twrap.scrollLeft; });
+      document.addEventListener("mouseup", function () { isDown = false; twrap.style.cursor = "grab"; });
+      twrap.addEventListener("mousemove", function (e) { if (!isDown) return; e.preventDefault(); twrap.scrollLeft = scrollLeft - (e.pageX - twrap.offsetLeft - startX); });
+      twrap.addEventListener("mouseenter", function () { paused = true; });
+      twrap.addEventListener("mouseleave", function () { paused = false; });
+      twrap.addEventListener("touchstart", function () { paused = true; }, { passive: true });
+      twrap.addEventListener("touchend",   function () { setTimeout(function () { paused = false; }, 2000); });
+      twrap.addEventListener("scroll",     function () { setTimeout(function () { current = Math.round(twrap.scrollLeft / cardWidth()); updateDots(); }, 80); });
+
+      if (cards.length > 1) {
+        clearInterval(autoTimer);
+        autoTimer = setInterval(function () { if (!paused) scrollTo((current + 1) % cards.length); }, 3500);
+      }
+    };
+
+    script.onerror = function () { cleanup(); track.innerHTML = "<div style='padding:40px;color:var(--txh);text-align:center;'>Could not load reviews.</div>"; };
+    script.src = "https://docs.google.com/spreadsheets/d/" + REVIEWS_SHEET_ID + "/gviz/tq?tq=select+*&tqx=out:json;responseHandler:" + cbName + "&sheet=Sheet1";
+    document.head.appendChild(script);
+  }
+
+  /* ── Helpers ───────────────────────────────────────────────── */
+  function detectHeading(node) {
+    var styles = [node.getAttribute("style") || ""];
+    node.querySelectorAll("span[style]").forEach(function (s) { styles.push(s.getAttribute("style") || ""); });
+    var combined = styles.join(" ");
+    var bold     = /font-weight\s*:\s*(bold|700)/i.test(combined);
+    var sizes    = combined.match(/font-size\s*:\s*([\d.]+)pt/gi) || [];
+    var max      = 0;
+    sizes.forEach(function (m) { var v = parseFloat(m.replace(/[^\d.]/g, "")); if (v > max) max = v; });
+    if (bold && max >= 20) return 1;
+    if (bold && max >= 16) return 2;
+    if (bold && max >= 13) return 3;
+    return 0;
+  }
+
+  function sanitizeInline(node) {
+    var out = "";
+    node.childNodes.forEach(function (child) {
+      if (child.nodeType === 3) { out += escHtml(child.textContent); return; }
+      var tag  = (child.tagName || "").toLowerCase();
+      var text = escHtml(clean(child.textContent));
+      if (tag === "a")                          out += '<a href="' + child.href + '">' + text + "</a>";
+      else if (tag === "strong" || tag === "b") out += "<strong>" + text + "</strong>";
+      else if (tag === "em"     || tag === "i") out += "<em>" + text + "</em>";
+      else                                       out += text;
+    });
+    return out;
+  }
+
+  function clean(t) {
+    return (t || "").replace(/\u00a0/g," ").replace(/\u2019/g,"'").replace(/\u2018/g,"'")
+      .replace(/\u201c|\u201d/g,'"').replace(/\u2013/g,"-").replace(/\u2014/g,"--").trim();
+  }
+  function escHtml(s) { return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function esc(s) { return escHtml(s); }
+
+  function showError(msg) {
+    document.getElementById("page").innerHTML =
+      '<div class="tt-error"><strong>Could not load page content</strong>' + escHtml(msg) +
+      '<br><br><small>Make sure the Google Doc is shared as "Anyone with the link can view" and DOC_ID is correct.</small></div>';
+  }
+
+})();
+</script>
+</body>
+</html>
+<!-- EMBED-BREAK -->

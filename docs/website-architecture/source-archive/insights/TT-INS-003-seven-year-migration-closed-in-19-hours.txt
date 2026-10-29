@@ -1,0 +1,73 @@
+SOURCE ID: TT-INS-003
+ORIGINAL URL: No standalone URL - opens in modal on https://www.techtranspire.com/insights
+SOURCE: Google Doc 1LdgwVIEhsHpK0E6MNSnCyUsuWQInyf-c
+CAPTURED: 2026-10-29 (automated export; text unmodified apart from HTML-to-text conversion)
+CONVENTIONS: "> " = section heading; ALL-CAPS lines (BANNER, CARDS, STEPS...) and column labels (Title/Body/Tag...) are the source document's own block markers; lowercase single words before card titles are icon keys.
+==========================================================================
+BANNER
+Headline
+Subtext
+Background (optional)
+GDRIVE: your-logo-file-id
+A Seven-Year Migration, Closed in 19 Hours
+Healthcare compliance provider · Three-day Kaizen event · 389 hospitals migrated and a seven-year initiative closed two years ahead of projection
+> A Seven-Year Migration, Closed in 19 Hours
+> At a Glance
+STATS
+Label
+19 hours
+Focused execution across three days
+389
+Hospitals migrated, across 47 hospital system clients
+10 per quarter
+Migration rate before the engagement
+$311K
+Annual savings from retiring the legacy platform
+> The Client
+A healthcare compliance provider processing federally regulated patient survey data on behalf of hospital systems across the United States. A series of acquisitions had left the organization operating multiple sample processing engines, each running the same regulated program on a different platform.
+> The Challenge
+Because more than one engine processed the same regulated program, the statistical sampling behind it varied depending on which platform a client happened to sit on. Clients were falling out of compliance through failures that originated with the provider rather than with them. One customer lost reimbursement as a result and came close to declaring bankruptcy.
+The Centers for Medicare and Medicaid Services had issued formal compliance warnings, carrying the prospect of fines or of shutting the business down. The consolidation onto a single engine was already seven years old and advancing at roughly ten client migrations per quarter, which put completion years further out.
+CARDS
+Title
+Body
+alert
+Customers failing compliance through no fault of their own
+The provider's internal inconsistency was surfacing as regulatory exposure on the client side. One hospital system lost reimbursement and came close to insolvency because of processing errors it had no visibility into and no ability to prevent.
+process
+Multiple engines, one regulated program
+The same federally regulated program produced different results depending on which legacy platform processed it. Data integrity could not be asserted across the client base while more than one engine remained in service.
+clock
+Seven years of incremental progress
+At ten client migrations per quarter, the remaining queue stretched years beyond the compliance deadline. The initiative had quietly become background work that nobody in the organization expected to finish.
+> What We Did
+STEPS
+Body
+Handpicked and trained a 12-member team
+Engineers, operations staff, and QA specialists were selected specifically for the knowledge the migration depended on, then trained on the process before the event rather than during it.
+Piloted five client systems end to end
+Five complete migrations were run in advance to validate the full path under production conditions and to find where time was actually being consumed. The event would execute a proven process rather than develop one.
+Built tooling for rapid analysis and implementation
+Purpose-built queries and procedures were developed to compress the analysis and implementation steps. Nineteen stored procedures were produced during the event itself as a by-product of the work.
+Ran three days onsite with communication shut off
+No email, no instant messaging, no phone calls. Nineteen hours of genuinely uninterrupted execution across three consecutive days, with participants physically in the same room.
+Published hourly results company-wide
+Progress dashboards were updated hourly and made visible to executives and to the wider organization outside the sessions. Visibility supplied both momentum inside the room and accountability outside it.
+Left the method behind
+The approach was documented and transferred rather than treated as a one-off intervention. Twelve other programs subsequently replicated it.
+> The Results
+Processing engines for 47 hospital system clients, comprising 389 individual hospitals, were migrated within the 19-hour event. A seven-year-old initiative was closed two years ahead of its projected completion.
+Retiring the legacy platform produced $311,000 in annual savings and improved quality by 50%. Data integrity was restored by consolidating onto a single system processing a single product, and the organization was returned to CMS compliance.
+The commercial consequence mattered more than any of the operational metrics. With the compliance exposure resolved and the legacy platform gone, the division became a viable acquisition target and was subsequently acquired.
+CALLOUT
+Title
+Body
+Tag
+Why it worked
+The event lasted 19 hours. The reason it succeeded was everything built before those 19 hours began.
+Five validated pilots, purpose-built tooling, a team trained in advance, and a room with the outside world switched off. None of that is heroics and none of it is speed. It is preparation, and it is the part organizations skip when they decide the answer to a stalled initiative is more time or more people.
+Kaizen event · CMS compliance · Legacy retirement · Data integrity
+Engagement led by Mack Akhani prior to founding Tech Transpire.
+> Have an Initiative That Has Been Running for Years?
+CTA: Talk to Us About a Stalled Initiative > https://www.techtranspire.com/contact-us
+CTA2: Read More Case Studies > https://www.techtranspire.com/insights

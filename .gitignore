@@ -1,0 +1,14 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Dependencies and build output (Phase 3)
+node_modules/
+dist/
+.astro/
+
+# Secrets: Zoho / email credentials must never be committed
+.env
+.env.*
+!.env.example

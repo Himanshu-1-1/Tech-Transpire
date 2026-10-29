@@ -1,0 +1,54 @@
+SOURCE ID: TT-GL-001
+ORIGINAL URL: https://www.techtranspire.com/ (all pages)
+SOURCE: Google Sites page shell: header, navigation, footer
+CAPTURED: 2026-10-29 (automated export; text unmodified apart from HTML-to-text conversion)
+CONVENTIONS: "> " = section heading; ALL-CAPS lines (BANNER, CARDS, STEPS...) and column labels (Title/Body/Tag...) are the source document's own block markers; lowercase single words before card titles are icon keys.
+==========================================================================
+Search this site
+Embedded Files
+Skip to main content
+Skip to navigation
+[LINK /home |
+[IMG https://lh7-us.googleusercontent.com/sitesv-images-rt/AMxu72vdL6Gzcbq34ld7_ajhBgIeDWhEQzvksUi7co-RKOdDrWqHvt5os8eQ7vZNxbn9YlexG3U2uhGhVy4Qh6i1Z-XelYjXkZ54o4ZP5TlDTIULsQJFIK0cVJ-eOYS9boA69OkfLQFCBfaw_D_XZXoLM1JWWvIw4BqTVvReVBMfbb4nBhj65h3LHR5FRbRKwww=w16383]
+][LINK /home | Tech Transpire]
+ -
+[LINK /home | Home]
+ -
+[LINK /about-us | About]
+ -
+[LINK /services | Services]
+ -
+[LINK /insights | Insights]
+ -
+[LINK /contact-us | Contact Us]
+[LINK /home |
+[IMG https://lh7-us.googleusercontent.com/sitesv-images-rt/AMxu72vdL6Gzcbq34ld7_ajhBgIeDWhEQzvksUi7co-RKOdDrWqHvt5os8eQ7vZNxbn9YlexG3U2uhGhVy4Qh6i1Z-XelYjXkZ54o4ZP5TlDTIULsQJFIK0cVJ-eOYS9boA69OkfLQFCBfaw_D_XZXoLM1JWWvIw4BqTVvReVBMfbb4nBhj65h3LHR5FRbRKwww=w16383]
+Tech Transpire]
+ -
+[LINK /home | Home]
+ -
+[LINK /about-us | About]
+ -
+[LINK /services | Services]
+ -
+[LINK /insights | Insights]
+ -
+[LINK /contact-us | Contact Us]
+ -
+More
+ -
+[LINK /home | Home]
+ -
+[LINK /about-us | About]
+ -
+[LINK /services | Services]
+ -
+[LINK /insights | Insights]
+ -
+[LINK /contact-us | Contact Us]
+Google Sites
+Report abuse
+Page details
+Page updated
+Google Sites
+Report abuse

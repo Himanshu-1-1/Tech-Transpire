@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!--
+  ══════════════════════════════════════════════════════
+  SEO — update these for each page
+  ══════════════════════════════════════════════════════
+-->
+<title>Tech Transpire — Insights</title>
+<meta name="description"    content="Practical insights on turning Clarity and Alignment into disciplined Execution—and measurable business results.">
+<meta name="robots"         content="index, follow">
+<meta name="author"         content="Tech Transpire">
+
+<meta property="og:type"        content="website">
+<meta property="og:site_name"   content="Tech Transpire">
+<meta property="og:title"       content="Tech Transpire — Insights">
+<meta property="og:description" content="Practical insights on clarity, alignment, and disciplined execution from the Tech Transpire team.">
+<meta property="og:image"       content="">
+<meta property="og:url"         content="https://www.techtranspire.com/insights">
+
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:title"       content="Tech Transpire — Insights">
+<meta name="twitter:description" content="Practical insights on clarity, alignment, and disciplined execution.">
+<meta name="twitter:image"       content="">
+<!--
+  ══════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800;900&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/trueleansolutions/website-stylesheet@b53f954/tt-styles.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/trueleansolutions/website-stylesheet@main/tt-blog.css">
+</head>
+<body>
+
+<div id="bg">
+  <div class="grid"></div>
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+</div>
+
+<div id="blog-page">
+
+  <div class="blog-hero">
+    <h1>Insights</h1>
+    <p>Practical insights on turning Clarity and Alignment into disciplined Execution—and measurable business results.</p>
+  </div>
+
+  <div class="filter-bar" id="filterBar">
+    <button class="filter-btn active" data-cat="all">All</button>
+  </div>
+
+  <div id="pageLoading">
+    <div class="page-spinner"></div>
+    <span>Loading posts…</span>
+  </div>
+
+  <div class="blog-grid" id="blogGrid" style="display:none;"></div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal" id="modal">
+    <div class="modal-head" id="modalHead">
+      <div style="flex:1;">
+        <div class="modal-meta" id="modalMeta"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-byline" id="modalByline"></div>
+    <div class="modal-body" id="modalBody">
+      <div class="modal-loading">
+        <div class="modal-spinner"></div>
+        <span>Loading post…</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+
+  /* ══════════════════════════════════════════════
+     CHANGE ONLY THIS PER DEPLOYMENT
+  ══════════════════════════════════════════════ */
+  var SHEET_ID = "1js_i1QvSDhZMQG4rB4_nCTnmlNuc7Na0qgh0wfoBN5k";
+  /* ══════════════════════════════════════════════
+     Blog Sheet columns (row 1 = headers, data from row 2):
+       A: Cover      (GDRIVE: file_id  OR  https://url)
+       B: Title
+       C: Excerpt
+       D: Author
+       E: Date
+       F: Category
+       G: Read Time  (e.g. "5 min read")
+       H: DOC_ID     (Google Doc ID for full post body)
+       I: Published  (TRUE or FALSE)
+  ══════════════════════════════════════════════ */
+
+  var PROXY = "https://script.google.com/macros/s/AKfycbywApEjFXktb7tEe4rvKCBeBIQ7CkSQwhY9Zi1jpsqTR5lhypdr1Fiza8Bov2NIVLffCA/exec";
+
+  var allPosts = [], activeFilter = "all";
+
+  /* ── Load blog index from Sheet ──────────────────────────────── */
+  var cbName = "_ttBlog_" + Date.now();
+  var scr    = document.createElement("script");
+  var tmr    = setTimeout(function () { cleanup(); showPageEmpty("Could not load posts. Check sheet sharing settings."); }, 10000);
+
+  function cleanup() {
+    clearTimeout(tmr);
+    delete window[cbName];
+    if (scr.parentNode) scr.parentNode.removeChild(scr);
+  }
+
+  window[cbName] = function (data) {
+    cleanup();
+    if (!data || !data.table || !data.table.rows.length) {
+      showPageEmpty("No posts published yet.");
+      return;
+    }
+    allPosts = data.table.rows.slice(0).map(function (r) {
+      var c   = r.c || [];
+      var pub = c[8] ? String(c[8].v).toUpperCase() : "TRUE";
+      return {
+        cover:     v(c[0]),
+        title:     v(c[1]),
+        excerpt:   v(c[2]),
+        author:    v(c[3]) || "Tech Transpire",
+        date:      v(c[4]),
+        category:  v(c[5]) || "General",
+        readtime:  v(c[6]),
+        docId:     v(c[7]),
+        published: pub !== "FALSE"
+      };
+    }).filter(function (p) { return p.title && p.published; });
+
+    buildFilters();
+    renderCards();
+    document.getElementById("pageLoading").style.display = "none";
+    document.getElementById("blogGrid").style.display    = "grid";
+  };
+
+  function v(c) { return c && c.v ? String(c.v).trim() : ""; }
+
+  scr.onerror = function () { cleanup(); showPageEmpty("Could not reach Google Sheets."); };
+  scr.src = "https://docs.google.com/spreadsheets/d/" + SHEET_ID +
+    "/gviz/tq?tq=select+*&headers=2&tqx=out:json;responseHandler:" + cbName + "&sheet=Sheet1";
+  document.head.appendChild(scr);
+
+  /* ── Filter bar ──────────────────────────────────────────────── */
+  function buildFilters() {
+    var cats = {};
+    allPosts.forEach(function (p) { cats[p.category] = true; });
+    var bar = document.getElementById("filterBar");
+    Object.keys(cats).sort().forEach(function (cat) {
+      var btn = document.createElement("button");
+      btn.className = "filter-btn";
+      btn.textContent = cat;
+      btn.setAttribute("data-cat", cat);
+      btn.addEventListener("click", function () { setFilter(cat); });
+      bar.appendChild(btn);
+    });
+    bar.querySelector("[data-cat='all']").addEventListener("click", function () { setFilter("all"); });
+  }
+
+  function setFilter(cat) {
+    activeFilter = cat;
+    document.querySelectorAll(".filter-btn").forEach(function (b) {
+      b.classList.toggle("active", b.getAttribute("data-cat") === cat);
+    });
+    renderCards();
+  }
+
+  /* ── Render blog card grid ───────────────────────────────────── */
+  function renderCards() {
+    var grid = document.getElementById("blogGrid");
+    grid.innerHTML = "";
+    var list = activeFilter === "all"
+      ? allPosts
+      : allPosts.filter(function (p) { return p.category === activeFilter; });
+
+    if (!list.length) {
+      grid.innerHTML = '<div class="empty-state">No posts in this category yet.</div>';
+      return;
+    }
+
+    list.forEach(function (post, idx) {
+      var card = document.createElement("div");
+      card.className = "blog-card";
+      card.style.animationDelay = (idx * 0.06) + "s";
+      card.setAttribute("role", "button");
+      card.setAttribute("tabindex", "0");
+
+      var cu = coverUrl(post.cover);
+      var coverHtml = cu
+        ? '<img class="blog-cover" src="' + esc(cu) + '" alt="' + esc(post.title) + '" loading="lazy">'
+        : '<div class="blog-cover-ph"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>';
+
+      var ini = initials(post.author);
+      card.innerHTML =
+        coverHtml +
+        '<div class="blog-body">' +
+          '<div class="blog-meta-top">' +
+            (post.category ? '<span class="blog-cat">' + esc(post.category) + '</span>' : '') +
+            (post.readtime  ? '<span class="blog-rt">'  + esc(post.readtime)  + '</span>' : '') +
+          '</div>' +
+          '<div class="blog-title">'   + esc(post.title)   + '</div>' +
+          (post.excerpt ? '<div class="blog-excerpt">' + esc(post.excerpt) + '</div>' : '') +
+          '<div class="blog-bottom">' +
+            '<div class="blog-av">'  + esc(ini)         + '</div>' +
+            '<div class="blog-an">'  + esc(post.author) + '</div>' +
+            (post.date ? '<div class="blog-date">' + esc(post.date) + '</div>' : '') +
+          '</div>' +
+        '</div>';
+
+      card.addEventListener("click",   function () { openModal(post); });
+      card.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") openModal(post); });
+      grid.appendChild(card);
+    });
+  }
+
+  /* ── Modal open / close ──────────────────────────────────────── */
+  function openModal(post) {
+    document.getElementById("modalMeta").innerHTML =
+      (post.category ? '<span class="modal-cat">' + esc(post.category) + '</span>' : '') +
+      (post.readtime  ? '<span class="modal-rt">'  + esc(post.readtime)  + '</span>' : '');
+
+    document.getElementById("modalTitle").textContent = post.title;
+
+    var ini = initials(post.author);
+    document.getElementById("modalByline").innerHTML =
+      '<div class="modal-av">' + esc(ini) + '</div>' +
+      '<div class="modal-an">' + esc(post.author) + '</div>' +
+      (post.date ? '<div class="modal-date">' + esc(post.date) + '</div>' : '');
+
+    var body = document.getElementById("modalBody");
+    body.innerHTML = '<div class="modal-loading"><div class="modal-spinner"></div><span>Loading post…</span></div>';
+    body.scrollTop = 0;
+
+    document.getElementById("modalOverlay").classList.add("open");
+    document.body.style.overflow = "hidden";
+
+    if (!post.docId) {
+      body.innerHTML = '<div class="modal-loading" style="color:var(--txh);">No content linked.<br><small>Add the Doc ID to column H in the Blog Sheet.</small></div>';
+      return;
+    }
+
+    var url = "https://docs.google.com/document/d/" + post.docId + "/export?format=html";
+    fetch(PROXY + "?url=" + encodeURIComponent(url))
+      .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.text(); })
+      .then(function (html) {
+        var cu = coverUrl(post.cover);
+        var coverHtml = cu ? '<img class="modal-cover-img" src="' + esc(cu) + '" alt="' + esc(post.title) + '">' : '';
+        body.innerHTML = coverHtml + '<div class="post-content">' + parsePost(html) + '</div>';
+      })
+      .catch(function (e) {
+        body.innerHTML = '<div class="modal-loading" style="color:var(--txh);">Could not load post.<br><small>' + esc(e.message) + '</small></div>';
+      });
+  }
+
+  function closeModal() {
+    document.getElementById("modalOverlay").classList.remove("open");
+    document.body.style.overflow = "";
+  }
+
+  document.getElementById("modalClose").addEventListener("click", closeModal);
+  document.getElementById("modalOverlay").addEventListener("click", function (e) { if (e.target === this) closeModal(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeModal(); });
+
+  /* ── SVG icon library ────────────────────────────────────────── */
+  var CARD_ICONS = {
+    search:  '<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>',
+    alert:   '<svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+    process: '<svg viewBox="0 0 24 24"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>',
+    target:  '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>',
+    people:  '<svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>',
+    repeat:  '<svg viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>',
+    check:   '<svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
+    clock:   '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+    zap:     '<svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>',
+    list:    '<svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>',
+    shield:  '<svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+    tool:    '<svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>',
+    globe:   '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>',
+    eye:     '<svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>',
+    star:    '<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>'
+  };
+  var ICON_DEFAULT = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+
+  function cardIcon(name) { return CARD_ICONS[(name || "").toLowerCase().trim()] || ICON_DEFAULT; }
+  function checkSvg() { return '<svg viewBox="0 0 24 24" style="stroke:#055794;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;"><polyline points="20 6 9 17 4 12"/></svg>'; }
+  function xSvg()     { return '<svg viewBox="0 0 24 24" style="stroke:#dc2626;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>'; }
+  function tagSvg()   { return '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>'; }
+
+  /* ── Post content parser ─────────────────────────────────────── */
+  function parsePost(html) {
+    var doc  = new DOMParser().parseFromString(html, "text/html");
+    var els  = [];
+    var out  = "";
+    var ctaBuf = [];
+
+    function collect(node) {
+      var tag = (node.tagName || "").toLowerCase();
+      if (/^(script|style|head|noscript|meta|link)$/.test(tag)) return;
+      if (tag === "table") { els.push(node); return; }
+      if (/^(h[1-6]|p|ul|ol|hr|blockquote|img)$/.test(tag)) { els.push(node); return; }
+      if (tag === "div") {
+        var dt = (node.innerText || node.textContent || "").trim();
+        if (/^(IMG:|GDRIVE:|GDVIDEO:|YOUTUBE:|CTA2?:)/i.test(dt)) { els.push(node); return; }
+      }
+      Array.from(node.children).forEach(collect);
+    }
+    Array.from(doc.body.children).forEach(collect);
+
+    function flushCta() {
+      if (!ctaBuf.length) return;
+      out += '<div class="cta-wrap">' + ctaBuf.join("") + '</div>';
+      ctaBuf = [];
+    }
+
+    function tableRows(tbl) {
+      var result = [];
+      tbl.querySelectorAll("tr").forEach(function (tr) {
+        var cells = [];
+        tr.querySelectorAll("td,th").forEach(function (td) { cells.push(clean(td.textContent)); });
+        result.push(cells);
+      });
+      return result;
+    }
+
+    var i = 0;
+    while (i < els.length) {
+      var el   = els[i];
+      var tag  = (el.tagName || "").toLowerCase();
+      var text = clean(el.textContent);
+
+      if (tag === "p" && !text) { i++; continue; }
+
+      /* YOUTUBE */
+      if (/^YOUTUBE:/i.test(text)) {
+        flushCta();
+        var vid = text.replace(/^YOUTUBE:\s*/i, "").trim();
+        var vm  = vid.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+        if (vm) vid = vm[1];
+        out += '<div class="yt-wrap"><iframe src="https://www.youtube.com/embed/' + esc(vid) + '" frameborder="0" allowfullscreen allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"></iframe></div>';
+        i++; continue;
+      }
+
+      /* GDVIDEO */
+      if (/^GDVIDEO:/i.test(text)) {
+        flushCta();
+        var fid = text.replace(/^GDVIDEO:\s*/i, "").trim();
+        out += '<div class="vid-wrap"><video controls preload="metadata"><source src="https://drive.google.com/uc?export=download&id=' + esc(fid) + '"></video></div>';
+        i++; continue;
+      }
+
+      /* IMG / GDRIVE */
+      if (/^(IMG:|GDRIVE:)/i.test(text)) {
+        flushCta();
+        var iurl = /^GDRIVE:/i.test(text)
+          ? "https://drive.google.com/thumbnail?id=" + text.replace(/^GDRIVE:\s*/i, "").trim() + "&sz=w1280"
+          : text.replace(/^IMG:\s*/i, "").trim();
+        out += '<img src="' + esc(iurl) + '" alt="" loading="lazy">';
+        i++; continue;
+      }
+
+      /* CTA */
+      if (/^CTA2?:/i.test(text)) {
+        while (i < els.length) {
+          var ct  = els[i];
+          var ct2 = (ct.tagName || "").toLowerCase();
+          var ctT = clean(ct.textContent);
+          if (ct2 !== "p" || !/^CTA2?:/i.test(ctT)) break;
+          var isSec = /^CTA2:/i.test(ctT);
+          var m = ctT.match(/^CTA2?:\s*(.+?)\s*[→>]\s*((?:https?|mailto|tel):\/?\/?[^\s]+)/i);
+          ctaBuf.push('<a class="' + (isSec ? "cta-btn-sec" : "cta-btn") + '" href="' + esc(m ? m[2].trim() : "#") + '">' + esc(m ? m[1].trim() : ctT.replace(/^CTA2?:\s*/i, "")) + '</a>');
+          i++;
+        }
+        flushCta();
+        continue;
+      }
+
+      flushCta();
+
+      /* ── TABLE — detect special types by first cell ──────────── */
+      if (tag === "table") {
+        var tRows = tableRows(el);
+        var marker = tRows.length > 0 && tRows[0].length > 0
+          ? tRows[0][0].toUpperCase().trim()
+          : "";
+
+        /* BANNER — suppress (metadata, not content) */
+        if (marker === "BANNER") {
+          i++; continue;
+        }
+
+        /* CARDS — render as tt-cards grid */
+        if (marker === "CARDS") {
+          out += '<div class="tt-cards">';
+          for (var ci = 1; ci < tRows.length; ci++) {
+            var cr = tRows[ci];
+            var cIcon  = cr[0] || "";
+            var cTitle = cr[1] || "";
+            var cBody  = cr[2] || "";
+            if (!cTitle && !cBody) continue;
+            out += '<div class="tt-card">' +
+              '<div class="tt-card-icon">' + cardIcon(cIcon) + '</div>' +
+              '<h3>' + esc(cTitle) + '</h3>' +
+              '<p>' + esc(cBody) + '</p>' +
+            '</div>';
+          }
+          out += '</div>';
+          i++; continue;
+        }
+
+        /* STEPS — render as tt-steps numbered list */
+        if (marker === "STEPS") {
+          out += '<div class="tt-steps">';
+          var sn = 0;
+          for (var si = 1; si < tRows.length; si++) {
+            var sr = tRows[si];
+            var sTitle = sr[0] || "";
+            var sBody  = sr[1] || "";
+            if (!sTitle && !sBody) continue;
+            sn++;
+            out += '<div class="tt-step">' +
+              '<div class="tt-step-num">' + sn + '</div>' +
+              '<div>' +
+                '<div class="tt-step-title">' + esc(sTitle) + '</div>' +
+                '<div class="tt-step-body">' + esc(sBody) + '</div>' +
+              '</div>' +
+            '</div>';
+          }
+          out += '</div>';
+          i++; continue;
+        }
+
+        /* CALLOUT — render as tt-callout block */
+        if (marker === "CALLOUT") {
+          if (tRows.length > 1) {
+            var co = tRows[1];
+            var coLabel = co[0] || "";
+            var coTitle = co[1] || "";
+            var coBody  = co[2] || "";
+            var coTags  = co[3] || "";
+            out += '<div class="tt-callout">' +
+              '<div class="tt-callout-label">' + esc(coLabel) + '</div>' +
+              '<h3>' + esc(coTitle) + '</h3>' +
+              '<p>' + esc(coBody) + '</p>';
+            if (coTags) {
+              var tagParts = coTags.split(/\s*[·•|]\s*/);
+              out += '<div style="display:flex;flex-wrap:wrap;gap:8px;">';
+              tagParts.forEach(function (tp) {
+                tp = tp.trim();
+                if (tp) out += '<span class="tt-callout-tag">' + tagSvg() + ' ' + esc(tp) + '</span>';
+              });
+              out += '</div>';
+            }
+            out += '</div>';
+          }
+          i++; continue;
+        }
+
+        /* FITLIST — render as tt-fitlist two-column layout */
+        if (marker === "FITLIST") {
+          var yesItems = [], noItems = [];
+          for (var fi = 1; fi < tRows.length; fi++) {
+            var fr = tRows[fi];
+            var flag = (fr[0] || "").toLowerCase().trim();
+            var fText = fr[1] || "";
+            if (!fText) continue;
+            if (flag === "yes") yesItems.push(fText);
+            else if (flag === "no") noItems.push(fText);
+          }
+          out += '<div class="tt-fitlist">';
+          out += '<div class="tt-fitlist-col">' +
+            '<div class="tt-fitlist-heading">This is for you if</div>';
+          yesItems.forEach(function (yt) {
+            out += '<div class="tt-fit-item">' +
+              '<div class="tt-fit-icon yes">' + checkSvg() + '</div>' +
+              esc(yt) +
+            '</div>';
+          });
+          out += '</div>';
+          out += '<div class="tt-fitlist-col">' +
+            '<div class="tt-fitlist-heading">Not a fit if</div>';
+          noItems.forEach(function (nt) {
+            out += '<div class="tt-fit-item">' +
+              '<div class="tt-fit-icon no">' + xSvg() + '</div>' +
+              esc(nt) +
+            '</div>';
+          });
+          out += '</div>';
+          out += '</div>';
+          i++; continue;
+        }
+
+        /* STATS — render as tt-stats grid */
+        if (marker === "STATS") {
+          out += '<div class="tt-stats">';
+          for (var sti = 1; sti < tRows.length; sti++) {
+            var str = tRows[sti];
+            var stVal   = str[0] || "";
+            var stLabel = str[1] || "";
+            if (!stVal && !stLabel) continue;
+            out += '<div class="tt-stat">' +
+              '<div class="tt-stat-value">' + esc(stVal) + '</div>' +
+              '<div class="tt-stat-label">' + esc(stLabel) + '</div>' +
+            '</div>';
+          }
+          out += '</div>';
+          i++; continue;
+        }
+
+        /* Default: plain HTML table */
+        out += '<table>';
+        el.querySelectorAll("tr").forEach(function (tr, ri) {
+          out += "<tr>";
+          tr.querySelectorAll("td,th").forEach(function (td) {
+            var c = ri === 0 ? "th" : "td";
+            out += "<" + c + ">" + esc(clean(td.textContent)) + "</" + c + ">";
+          });
+          out += "</tr>";
+        });
+        out += "</table>";
+        i++; continue;
+      }
+
+      /* Headings */
+      if (/^h[1-6]$/.test(tag)) {
+        var lv = Math.min(parseInt(tag[1]), 3);
+        out += "<h" + lv + ">" + esc(text) + "</h" + lv + ">";
+        i++; continue;
+      }
+
+      /* Paragraphs */
+      if (tag === "p") {
+        var hl = detectH(el);
+        if (hl === 3) {
+          var cTitle = text, cBody = "";
+          i++;
+          while (i < els.length) {
+            var nx  = els[i];
+            var nxt = (nx.tagName || "").toLowerCase();
+            var nxT = clean(nx.textContent);
+            if (nxt !== "p" || !nxT) { i++; continue; }
+            if (detectH(nx) !== 0) break;
+            if (/^(CTA2?:|IMG:|GDRIVE:|GDVIDEO:|YOUTUBE:)/i.test(nxT)) break;
+            cBody = nxT; i++; break;
+          }
+          out += '<div class="doc-card"><h3>' + esc(cTitle) + '</h3>' + (cBody ? "<p>" + esc(cBody) + "</p>" : "") + '</div>';
+          continue;
+        }
+        if (hl) { out += "<h" + hl + ">" + esc(text) + "</h" + hl + ">"; i++; continue; }
+        out += "<p>" + sanitizeInline(el) + "</p>";
+        i++; continue;
+      }
+
+      if (tag === "hr") { out += "<hr>"; i++; continue; }
+      if (tag === "blockquote") { out += "<blockquote>" + esc(text) + "</blockquote>"; i++; continue; }
+
+      if (tag === "ul" || tag === "ol") {
+        out += "<" + tag + ">";
+        el.querySelectorAll("li").forEach(function (li) { out += "<li>" + esc(clean(li.textContent)) + "</li>"; });
+        out += "</" + tag + ">";
+        i++; continue;
+      }
+
+      i++;
+    }
+
+    flushCta();
+    return out;
+  }
+
+  /* ── Helpers ─────────────────────────────────────────────────── */
+  function detectH(node) {
+    var ss = [node.getAttribute("style") || ""];
+    node.querySelectorAll("span[style]").forEach(function (s) { ss.push(s.getAttribute("style") || ""); });
+    var c    = ss.join(" ");
+    var bold = /font-weight\s*:\s*(bold|700)/i.test(c);
+    var max  = 0;
+    (c.match(/font-size\s*:\s*([\d.]+)pt/gi) || []).forEach(function (m) { var val = parseFloat(m.replace(/[^\d.]/g, "")); if (val > max) max = val; });
+    if (bold && max >= 20) return 1;
+    if (bold && max >= 16) return 2;
+    if (bold && max >= 13) return 3;
+    return 0;
+  }
+
+  function sanitizeInline(node) {
+    var out = "";
+    node.childNodes.forEach(function (ch) {
+      if (ch.nodeType === 3) { out += escHtml(ch.textContent); return; }
+      var t  = (ch.tagName || "").toLowerCase();
+      var tx = escHtml(clean(ch.textContent));
+      if (t === "a")                          out += '<a href="' + ch.href + '">' + tx + "</a>";
+      else if (t === "strong" || t === "b")   out += "<strong>" + tx + "</strong>";
+      else if (t === "em"     || t === "i")   out += "<em>" + tx + "</em>";
+      else                                     out += tx;
+    });
+    return out;
+  }
+
+  function coverUrl(c) {
+    if (!c) return "";
+    if (/^GDRIVE:/i.test(c)) return "https://drive.google.com/thumbnail?id=" + c.replace(/^GDRIVE:\s*/i, "").trim() + "&sz=w800";
+    if (/^https?:/i.test(c)) return c;
+    return "";
+  }
+
+  function initials(n) {
+    var p = (n || "").trim().split(/\s+/);
+    return p.length >= 2 ? (p[0][0] + p[p.length - 1][0]).toUpperCase() : (n || "T").slice(0, 1).toUpperCase();
+  }
+
+  function clean(t) {
+    return (t || "").replace(/\u00a0/g," ").replace(/\u2019/g,"'").replace(/\u2018/g,"'")
+      .replace(/\u201c|\u201d/g,'"').replace(/\u2013/g,"-").replace(/\u2014/g,"--").trim();
+  }
+
+  function escHtml(s) { return String(s || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+  function esc(s) { return escHtml(s); }
+
+  function showPageEmpty(msg) {
+    document.getElementById("pageLoading").style.display = "none";
+    document.getElementById("blogGrid").style.display    = "block";
+    document.getElementById("blogGrid").innerHTML = '<div class="empty-state">' + escHtml(msg) + '</div>';
+  }
+
+})();
+</script>
+</body>
+</html>
+<!-- EMBED-BREAK -->

@@ -1,0 +1,81 @@
+SOURCE ID: TT-PG-004
+ORIGINAL URL: https://www.techtranspire.com/about-us
+SOURCE: Google Doc 1dFDzRl0OAqnY3hJNMWjB67Hx6z7tkm8vsOF1lSWR0fk
+CAPTURED: 2026-10-29 (automated export; text unmodified apart from HTML-to-text conversion)
+CONVENTIONS: "> " = section heading; ALL-CAPS lines (BANNER, CARDS, STEPS...) and column labels (Title/Body/Tag...) are the source document's own block markers; lowercase single words before card titles are icon keys.
+==========================================================================
+BANNER
+Headline
+Subtext
+Background (optional)
+Built from experience
+We built the company we always wanted to be part of.
+A place that embraces complexity, challenges assumptions, and refuses to execute without clarity.
+GDRIVE: 19GBAyrfUa3M3wCIZln5QPF6tJsJJgiGC
+> Our Story
+At Tech Transpire, we started with a simple belief, businesses don’t struggle because of a lack of effort, but because of a lack of clarity.
+Over the years, working with organizations at different stages of growth, one pattern stood out: even strong teams face challenges when systems, processes, and execution are not aligned with the real needs of the business.
+That insight shaped our approach, before execution begins, clarity must come first.
+Tech Transpire was built to bring that clarity into complex, high-stakes environments. We help organizations think deeply, align their teams, and move forward with confidence so that the decisions lead to meaningful outcomes, not costly rework.
+We believe in ownership, disciplined execution, and doing things right. More importantly, we believe building and growing a business should feel purposeful, energizing, and grounded in solving real problems.
+This is more than a company, it’s a commitment to bringing clarity, driving action, and creating lasting impact.
+> Our Values
+CARDS
+Title
+Body
+star
+Clarity Before Execution
+We do not start work until there is full clarity of intent, priorities, and direction.
+check
+Ownership Without Permission
+We take responsibility without waiting to be told. We act like owners, not employees.
+search
+Solve the Right Problem
+We don't treat symptoms we find root causes. Challenge assumptions. Go deep before acting. Design solutions that actually work.
+target
+Outcomes Over Activity
+Effort means nothing without results. Focus on meaningful impact. Complete what we start. Avoid busywork.
+shield
+High Standards, Always
+Quality is the baseline, not an aspiration. No unverified or half-baked output. Think before sending. Represent excellence in every interaction.
+people
+Honesty, Integrity, and Transparency
+We operate with complete openness especially when it is uncomfortable. No hidden work, no hidden intent.
+> Our Team
+TEAM
+Name
+Role
+Bio
+LinkedIn
+GDRIVE: 1F5cO9E9-JC3Hc0AMDdQt0JXEJzUjPaKS
+Mack Akhani
+Founder & CEO
+Mack brings over a decade of experience stepping into complex organizational challenges from PE-backed healthcare networks to global eCommerce platforms and venture-funded technology startups. He has led transformations that reduced implementation timelines by 63%, prevented $3M in fraud losses, centralized $89M in purchasing operations, and closed a 7-year stalled initiative in a single focused execution event. Mack is energized by team ownership, operational clarity, and seeing organizations move from confusion to confident execution.
+https://linkedin.com/in/mackakhani
+GDRIVE: 1Uu44h1LOSSApUQjNPOpvEPoO3f8S7TOc
+Hemang Dwivedi
+Operations and Technology Leader
+Hemang brings deep technical architecture and systems thinking to every engagement. He has designed and delivered full-stack enterprise systems, production payroll integrations, AI-driven automation pipelines, and peer-to-peer distributed systems from the ground up. Hemang's approach is defined by going deep before acting asking questions first, visualizing complete end-to-end workflows, and identifying the gaps between steps that others miss. He is energized by cognitive challenge, purposeful work, and problems that require real thinking.
+https://linkedin.com/in/hemangdwivedi
+GDRIVE: 10XnGvSb-q51rrVbZuajLLdENEGuVCHEg
+Kranthi Kumar Goli
+QA Architect | QA Manager | PMP Certified
+Kranthi Architects enterprise-grade quality and automation solutions that accelerate delivery while protecting release integrity. As a PMP-certified QA Architect, he builds scalable frameworks using Selenium, Cucumber, TestNG, REST Assured, and modern CI/CD–DevOps practices - shifting testing left, cutting regression time dramatically, and giving teams continuous confidence in every release.
+He leads and coordinates distributed onshore-offshore teams with clear ownership and disciplined project delivery, aligning technical execution to business timelines across CRM and SaaS platforms. From architecture and strategy through production, Kranthi drives measurable quality outcomes that let organizations ship faster without increasing risk.
+https://www.linkedin.com/in/kranthikumargoli/
+GDRIVE: 1hdQ8B1nTEFSpVDTOIkDfKREQm--6r37V
+Devjet Bag
+Accountant
+Devjet brings precision and operational rigor to TechTranspire's financial backbone. With over five years of hands-on experience across end-to-end accounting operations - bank reconciliation, payroll processing, vendor management, and tax compliance - he ensures every number is accurate and every process runs clean. Proficient across Zoho Books, QuickBooks, Xero, and Tally Prime, Devjet works fluidly across the tools our clients and partners already use. Currently pursuing his Chartered Accountancy qualification, he pairs day-to-day financial discipline with a drive to deepen his expertise. Devjet is energized by building reliable financial operations that let the rest of the team move fast without looking back.
+https://www.linkedin.com/in/devjet-bag-832860160/
+> Our Message
+CAROUSEL
+Attribution
+We will challenge you even when it is uncomfortable. Most companies think the client is always right. We believe the client is often closest to the problem, but not always closest to the truth.
+We will walk away from misaligned work. We don't validate ideas we validate reality. If the intent is not transformation, we are not the right partner.
+We will slow down the start to speed up the outcome. Most failures happen because teams rush into execution. We invest time upfront to ensure the path is right.
+We will not build systems you don't understand. Our goal is to leave you stronger and independent not dependent on us.
+We guarantee the rigor, clarity, and honesty behind every recommendation we make. If we don't believe the path is right, we will tell you before you invest.
+Everything we touch becomes better than before
+CTA: Work with Us > https://www.techtranspire.com/contact-us/
+CTA2: See Our Case Studies > https://www.techtranspire.com/blogs

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tech Transpire — Contact</title>
+<meta name="description" content="Start a conversation with Tech Transpire. Book an intro call or send us a message — we will respond within one business day.">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Tech Transpire">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Tech Transpire">
+<meta property="og:title" content="Tech Transpire — Contact">
+<meta property="og:description" content="Start a conversation with Tech Transpire.">
+<meta property="og:url" content="https://www.techtranspire.com/contact">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800;900&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/trueleansolutions/website-stylesheet@main/tt-styles.css">
+<style>
+.contact-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+  margin-top: 48px;
+}
+.contact-left {}
+.contact-left h2 {
+  font-family: var(--fh);
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--tx);
+  letter-spacing: -0.02em;
+  margin-bottom: 14px;
+}
+.contact-left p {
+  font-size: 15px;
+  color: var(--txm);
+  line-height: 1.8;
+  font-weight: 300;
+  margin-bottom: 32px;
+}
+.contact-details {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.contact-detail {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.contact-detail-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 9px;
+  background: var(--blue-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.contact-detail-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke: var(--blue);
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.contact-detail-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--txh);
+  margin-bottom: 2px;
+}
+.contact-detail-value {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--tx);
+}
+.contact-detail-value a {
+  color: var(--tx);
+  text-decoration: none;
+}
+.contact-detail-value a:hover { color: var(--blue); }
+
+.booking-box {
+  background: linear-gradient(135deg, rgba(30,64,128,0.05), rgba(5,87,148,0.06));
+  border: 1px solid var(--blue-bdr);
+  border-radius: var(--rad-lg);
+  padding: 28px 24px;
+  position: relative;
+  overflow: hidden;
+}
+.booking-box::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--grad-h);
+}
+.booking-box-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 10px;
+}
+.booking-box h3 {
+  font-family: var(--fh);
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--tx);
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+.booking-box p {
+  font-size: 14px;
+  color: var(--txm);
+  line-height: 1.7;
+  font-weight: 300;
+  margin-bottom: 20px;
+}
+
+.what-happens {
+  margin-top: 40px;
+}
+.what-happens h3 {
+  font-family: var(--fh);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--tx);
+  margin-bottom: 16px;
+  letter-spacing: 0.01em;
+}
+.what-step {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.what-step-num {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--blue-dim);
+  border: 1px solid var(--blue-bdr);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--blue);
+  font-family: var(--fh);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.what-step-text {
+  font-size: 14px;
+  color: var(--txm);
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+.contact-right {
+  background: #f8faff;
+  border: 1.5px solid rgba(5,87,148,0.20);
+  border-radius: 12px;
+  padding: 36px 32px;
+}
+.form-title {
+  font-family: var(--fh);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--tx);
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+.form-subtitle {
+  font-size: 14px;
+  color: var(--txm);
+  font-weight: 300;
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+
+.form-success {
+  background: var(--blue-dim);
+  border: 1px solid var(--blue-bdr);
+  border-radius: var(--rad);
+  padding: 20px 24px;
+  color: var(--blue);
+  font-size: 14px;
+  font-weight: 500;
+  display: none;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .contact-wrap { grid-template-columns: 1fr; gap: 40px; }
+}
+</style>
+</head>
+<body>
+
+<div id="bg">
+  <div class="grid"></div>
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+</div>
+
+<div id="page">
+
+  <div class="section-label">Get in touch</div>
+  <h1>Start the conversation.</h1>
+  <div class="contact-wrap">
+
+    <!-- LEFT — details + booking + what happens next -->
+    <div class="contact-left">
+
+      <div class="contact-details">
+        <div class="contact-detail">
+          <div class="contact-detail-icon">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div>
+            <div class="contact-detail-label">Email</div>
+            <div class="contact-detail-value"><a href="mailto:info@techtranspire.com">info@techtranspire.com</a></div>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">
+            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.01 1.18 2 2 0 012 .01h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          </div>
+          <div>
+            <div class="contact-detail-label">Phone</div>
+            <div class="contact-detail-value"><a href="tel:+19794792779">+1 (979) 479-2779</a></div>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">
+            <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </div>
+          <div>
+            <div class="contact-detail-label">LinkedIn</div>
+            <div class="contact-detail-value"><a href="https://www.linkedin.com/company/techtranspire" target="_blank" rel="noopener">Tech Transpire</a></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="booking-box">
+        <div class="booking-box-label">Fastest path forward</div>
+        <h3>Book a 30-minute intro call</h3>
+        <p>We prioritize the right fit over volume. Every conversation starts with alignment.</p>
+        <a class="cta-btn" href="https://outlook.office.com/book/IntroCallwithTechTranspire@techtranspire.com/?ismsaljsauthenabled" target="_blank" rel="noopener">Book your intro call</a>
+      </div>
+
+      <div class="what-happens">
+        <h3>What happens next</h3>
+        <div class="what-step">
+          <div class="what-step-num">1</div>
+          <div class="what-step-text">Response within 1 business day</div>
+        </div>
+        <div class="what-step">
+          <div class="what-step-num">2</div>
+          <div class="what-step-text">30-min clarity call, no pitch</div>
+        </div>
+        <div class="what-step">
+          <div class="what-step-num">3</div>
+          <div class="what-step-text">If aligned - Clear next steps</div>
+        </div>
+        <div class="what-step">
+          <div class="what-step-num">4</div>
+          <div class="what-step-text">If not - Honest redirect</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT — contact form -->
+    <div class="contact-right">
+      <div class="form-title">Send us a message</div>
+      <div class="form-subtitle">Prefer to write first? Tell us about your situation and we will respond within one business day.</div>
+
+      <div class="form-success" id="formSuccess">
+        Thank you — we have received your message and will be in touch within one business day.
+      </div>
+
+      <div class="tt-form" id="contactForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="firstName">First name</label>
+            <input class="form-input" type="text" id="firstName" name="firstName" placeholder="John" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="lastName">Last name</label>
+            <input class="form-input" type="text" id="lastName" name="lastName" placeholder="Doe" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="email">Work email</label>
+          <input class="form-input" type="email" id="email" name="email" placeholder="john@company.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="company">Company</label>
+          <input class="form-input" type="text" id="company" name="company" placeholder="Company name">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="revenue">Annual revenue (approximate)</label>
+          <select class="form-select" id="revenue" name="revenue">
+            <option value="">Select a range</option>
+            <option value="under-5m">Under $5M</option>
+            <option value="5m-20m">$5M – $20M</option>
+            <option value="20m-50m">$20M – $50M</option>
+            <option value="50m-200m">$50M – $200M</option>
+            <option value="200m-plus">$200M+</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="situation">Describe your situation</label>
+          <textarea class="form-textarea" id="situation" name="situation" placeholder="What is the challenge you are facing? What have you tried so far? What does success look like?" rows="5" required></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="source">How did you hear about us?</label>
+          <select class="form-select" id="source" name="source">
+            <option value="">Select one</option>
+            <option value="linkedin">LinkedIn</option>
+            <option value="facebook">Facebook</option>
+            <option value="referral">Referral</option>
+            <option value="search">Search</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <button class="cta-btn" type="button" id="submitBtn" onclick="submitForm()">Send message</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function submitForm() {
+  var firstName  = document.getElementById('firstName').value.trim();
+  var lastName   = document.getElementById('lastName').value.trim();
+  var email      = document.getElementById('email').value.trim();
+  var situation  = document.getElementById('situation').value.trim();
+
+  if (!firstName || !lastName || !email || !situation) {
+    alert('Please fill in your name, email, and situation before sending.');
+    return;
+  }
+
+  var btn = document.getElementById('submitBtn');
+  btn.textContent = 'Sending…';
+  btn.style.opacity = '0.7';
+  btn.style.pointerEvents = 'none';
+
+  var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz8nPkA1TNsApYlmIGpXbj1WhIBWhppwGA5lW57SXBhfRJASb8QiD3KiKYCGGGR7mXI/exec';
+
+  var payload = {
+    firstName:  firstName,
+    lastName:   lastName,
+    email:      email,
+    company:    document.getElementById('company').value.trim(),
+    revenue:    document.getElementById('revenue').value,
+    situation:  situation,
+    source:     document.getElementById('source').value,
+    action:     'contact',
+    page:       'contact',
+    timestamp:  new Date().toISOString()
+  };
+
+  // Send as URL-encoded string to avoid CORS preflight
+  var encoded = Object.keys(payload).map(function(k) {
+    return encodeURIComponent(k) + '=' + encodeURIComponent(payload[k]);
+  }).join('&');
+
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    body: encoded,
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+  })
+    .then(function() { showSuccess(); })
+    .catch(function() { showSuccess(); });
+}
+
+function showSuccess() {
+  document.getElementById('contactForm').style.display = 'none';
+  var s = document.getElementById('formSuccess');
+  s.style.display = 'block';
+  s.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+</script>
+</body>
+</html>
+<!-- EMBED-BREAK -->

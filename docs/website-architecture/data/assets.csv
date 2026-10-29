@@ -1,0 +1,24 @@
+asset_id,source_type,drive_or_url_id,used_by,usage,publicly_reachable,usage_rights,alt_text_source,migration_status
+TT-AS-001,google-drive-image,18OmpczoFXVQUloB2Ge9OlmcvHRAbvKRv,TT-PG-001,banner-background,200,unconfirmed,none in source,pending
+TT-AS-002,google-drive-image,19GBAyrfUa3M3wCIZln5QPF6tJsJJgiGC,TT-PG-002 + TT-PG-004,banner-background (shared by Services and About),200,unconfirmed,none in source,pending
+TT-AS-003,google-drive-image,1F5cO9E9-JC3Hc0AMDdQt0JXEJzUjPaKS,TT-PG-004,team-headshot,200,unconfirmed,none in source,pending
+TT-AS-004,google-drive-image,1Uu44h1LOSSApUQjNPOpvEPoO3f8S7TOc,TT-PG-004,team-headshot,200,unconfirmed,none in source,pending
+TT-AS-005,google-drive-image,10XnGvSb-q51rrVbZuajLLdENEGuVCHEg,TT-PG-004,team-headshot,200,unconfirmed,none in source,pending
+TT-AS-006,google-drive-image,1hdQ8B1nTEFSpVDTOIkDfKREQm--6r37V,TT-PG-004,team-headshot,200,unconfirmed,none in source,pending
+TT-AS-007,google-drive-image,1D2AFkLPk38jqY24AwECLKf4kHXO59e02,Insights card: The Hidden Gaps That Sink Every Transformation Before It Sta [UNPUBLISHED DRAFT row],card-cover,200,unconfirmed,none in source,pending
+TT-AS-008,google-drive-image,1Dih4Amu6AO7OII8UqpZrD_KcafYXrE6L,Insights card: Mastering Kaizen Events,card-cover,200,unconfirmed,none in source,pending
+TT-AS-009,google-drive-image,10U_l4HM5ysdE28pxHm2FmtrLlAAQ2ZR-,Insights card: Two Quarters of Migration Work; Cleared in a Single Day,card-cover,200,unconfirmed,none in source,pending
+TT-AS-010,google-drive-image,1fBQWr_eyHK0kDFSXKnK5jSeZ5O_yXmWE,Insights card: A Seven-Year Migration; Closed in 19 Hours,card-cover,200,unconfirmed,none in source,pending
+TT-AS-011,google-drive-image,18BfkYw_ikxWNN22TxWJC49tXZDJcOwJ3,Insights card: A Weekend Scrum-to-Kanban Migration Across Nine Teams,card-cover,200,unconfirmed,none in source,pending
+TT-AS-012,google-drive-image,1sigC_H1ElZolOjIV6fnCnea2uQrH4wKp,Insights card: What Value Stream Mapping Found: 9.5 Hours of Work Inside 20,card-cover,200,unconfirmed,none in source,pending
+TT-AS-013,google-drive-image,1RYR1rTtRFH3HMgc8gY7QlCr5zcD18A2O,Insights card: You Don't Have an Execution Problem. You're Executing the Wr,card-cover,200,unconfirmed,none in source,pending
+TT-AS-014,google-drive-image,1iBvEkGMPzghKTqts_ZexfdzoNRMTACWv,Insights card: The 19-Hour Project: What Rapid Execution Actually Looks Lik,card-cover,200,unconfirmed,none in source,pending
+TT-AS-015,google-drive-image,16Tvvrh2oNowLUnFF3FRfgt-LDu-lmmLB,Insights card: When Processes Break Down; Look at the Handoffs - Not the St,card-cover,200,unconfirmed,none in source,pending
+TT-AS-016,google-drive-image,1UGtrbgbJCyqk4pezOPBA9IVXUZU3j8TR,Insights card: Supply Chain at Scale: How Decentralized Purchasing Silently,card-cover,200,unconfirmed,none in source,pending
+TT-AS-017,google-drive-image,1JzdsBL1ct3DMeQZb968RfIZGTnszZQEG,Insights card: Why Transformation Programs Fail After a Strong Start,card-cover,200,unconfirmed,none in source,pending
+TT-AS-018,googleusercontent-image,lh7-us.googleusercontent.com/sitesv-images-rt/AMxu72vdL6G...,TT-GL-001,site logo (header; also og:image),200,unconfirmed,none in source,superseded by TT-AS-019 (logo folder master)
+TT-AS-019,google-drive-file,1ouyyO3L4UeTMMZlEwerBbci_yIXmQ3gu,Logo folder,"logo: Tech Transpire Logo (NO BG).png, 1080x1080 transparent - preferred master",200,company-owned,"Tech Transpire",archived: source-archive/assets/logo/tech-transpire-logo-no-bg.png
+TT-AS-020,google-drive-file,1YRYHwSHg2dzPdvihJkgvUeqf_i_zuk1-,Logo folder,"logo: Tech Transpire Logo.png, 1080x1080",200,company-owned,"Tech Transpire",archived: source-archive/assets/logo/tech-transpire-logo.png
+TT-AS-021,google-drive-file,1HlE6ISYs58JiLCh-_9HCuWGUKO2Qy_qW,Logo folder,"logo: TT Logo White Background stretch.jpg (Sep 29 version)",200,company-owned,"Tech Transpire",archived: source-archive/assets/logo/tt-logo-white-bg-stretch-2026-09-29.jpg
+TT-AS-022,google-drive-file,1tdLP-6YyMUdAqQYBe4IncUWLIfyypNTy,Logo folder,"logo: TT Logo White Background stretch.jpg (Apr 24 version; same filename as TT-AS-021)",200,company-owned,"Tech Transpire",archived: source-archive/assets/logo/tt-logo-white-bg-stretch-2026-04-24.jpg
+TT-AS-023,google-drive-file,1VsRUR3NcIJg_LVjEd8HSA65cJXOTMi2O,Logo folder,"logo: TT Logo White Background.jpg",200,company-owned,"Tech Transpire",archived: source-archive/assets/logo/tt-logo-white-bg.jpg
