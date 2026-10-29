@@ -1,37 +1,29 @@
-# Phase 2 screenshots: review build, 2026-10-29
+# Screenshots: review build, 2026-10-29 (v3)
 
-Full-page captures of the Astro site (`site/`), **review build**. Desktop is 1440 px wide; mobile is 390 px (iPhone 12–15 width) at 1.5× density. Regenerate with `node scripts/screenshots.mjs` from `site/` while `npx astro preview` is running.
+Full-page captures of the Astro site at **desktop 1440px**, **tablet 768px** and **mobile 390px** (1.5× density), in the settled state (entrance animations skipped). Typography: **Version B, serif** (D-28). Regenerate from `site/` with a preview server running: `npm run screenshots -- --pages=/,/services`.
 
-**Reading the review build:** a dark bar at the top marks it as not for publication. **Amber tags** mark drafts and unverified items, and a green tag marks a verified item. None of these appear on the public site, which also omits every unverified figure (the Home "Track record" band is hidden until at least two results are verified).
+**Reading them:**
+- **Review markers:** the dark bar at the top and the amber tags mark drafts and unverified items. The public build has neither.
+- **Selected Experience figures and held articles:** these appear only in this review build.
+- **Photography:** the two architectural photographs and Mack's portrait are not in the repository yet. The hero shows the line illustration and a "Photograph pending" tag. Mack's portrait shows initials. Kranthi and Devjet show initials because their archived images are AI-generated (D-30).
 
-**Photography:** the two executive photographs requested from Drive are not yet in the repository. The hero and closing band show the architectural line illustration and a "Photograph pending" tag in their place. Once the files are added to `docs/phase-2-design/assets/`, the site uses them automatically and these screenshots can be regenerated.
+## Home first fold vs the approved reference
 
-## Typography comparison (Home)
+[home--desktop--fold.jpg](home--desktop--fold.jpg). These match the reference: logo top left, navigation with a blue Contact button, the "Clarity · Alignment · Execution" line, the two-tone headline in three lines, the magnetic primary CTA, the "Explore Our Expertise" link, the architecture on the right blending into the text area, and the four outcome indicators inside the first screen. Two things differ by decision: headlines are serif (D-28), and the photo is pending.
 
-| | Desktop | Mobile |
-|---|---|---|
-| **Version A: modern sans** (Inter Tight headings, Inter text), closest to Concept 06 | [home--sans--desktop.jpg](home--sans--desktop.jpg) | [home--sans--mobile.jpg](home--sans--mobile.jpg) |
-| **Version B: refined serif headings** (Newsreader headings, Libre Franklin text) | [home--serif--desktop.jpg](home--serif--desktop.jpg) | [home--serif--mobile.jpg](home--serif--mobile.jpg) |
+## Pages
 
-**Recommendation: Version A**, measured against the stated priorities:
-- **Brand consistency:** the company's own lockup and wordmark artwork use a modern sans. A matches the brand as it already exists, and it matches the approved Concept 06 reference.
-- **Readability:** the two are equal at headline sizes. At card-title and small-heading sizes (problem cards, values, article cards), A's sans is crisper and easier to scan than B's light serif.
-- **Executive credibility and timelessness:** both are credible. A achieves it through restraint and spacing, not through a stylistic signal.
-
-B remains a good option if the team prefers a more editorial, publication-like voice. The switch is one attribute (`data-type`); nothing else changes. To compare live, use the "A · Sans / B · Serif" switch in the review bar.
-
-## Templates (Version A)
-
-| Template | Page | Desktop | Mobile |
+| Page | Desktop | Tablet | Mobile |
 |---|---|---|---|
-| Landing | Expertise `/services` | [desktop](services--sans--desktop.jpg) | [mobile](services--sans--mobile.jpg) |
-| Detail | Transformation Recovery | [desktop](services-transformation-recovery--sans--desktop.jpg) | [mobile](services-transformation-recovery--sans--mobile.jpg) |
-| Landing | Industries *(hidden from public nav until N-05 is approved)* | [desktop](industries--sans--desktop.jpg) | [mobile](industries--sans--mobile.jpg) |
-| Detail | Healthcare *(draft N-05)* | [desktop](industries-healthcare--sans--desktop.jpg) | [mobile](industries-healthcare--sans--mobile.jpg) |
-| Listing | Insights | [desktop](insights--sans--desktop.jpg) | [mobile](insights--sans--mobile.jpg) |
-| Listing | Case studies | [desktop](insights-case-studies--sans--desktop.jpg) | [mobile](insights-case-studies--sans--mobile.jpg) |
-| Article | A Seven-Year Migration, Closed in 19 Hours | [desktop](insights-seven-year-migration-closed-in-19-hours--sans--desktop.jpg) | [mobile](insights-seven-year-migration-closed-in-19-hours--sans--mobile.jpg) |
-| About | About `/about-us` | [desktop](about-us--sans--desktop.jpg) | [mobile](about-us--sans--mobile.jpg) |
-| Contact | Contact `/contact-us` | [desktop](contact-us--sans--desktop.jpg) | [mobile](contact-us--sans--mobile.jpg) |
+| Home | [desktop](home--desktop.jpg) | [tablet](home--tablet.jpg) | [mobile](home--mobile.jpg) |
+| Expertise | [desktop](services--desktop.jpg) | [tablet](services--tablet.jpg) | [mobile](services--mobile.jpg) |
+| Transformation Recovery | [desktop](services-transformation-recovery--desktop.jpg) | [tablet](services-transformation-recovery--tablet.jpg) | [mobile](services-transformation-recovery--mobile.jpg) |
+| Industries *(hidden in public until N-05)* | [desktop](industries--desktop.jpg) | [tablet](industries--tablet.jpg) | [mobile](industries--mobile.jpg) |
+| Healthcare *(draft N-05)* | [desktop](industries-healthcare--desktop.jpg) | [tablet](industries-healthcare--tablet.jpg) | [mobile](industries-healthcare--mobile.jpg) |
+| Insights | [desktop](insights--desktop.jpg) | [tablet](insights--tablet.jpg) | [mobile](insights--mobile.jpg) |
+| Case studies *(held in public: no verified case study yet)* | [desktop](insights-case-studies--desktop.jpg) | [tablet](insights-case-studies--tablet.jpg) | [mobile](insights-case-studies--mobile.jpg) |
+| Article (TT-INS-003, held in public) | [desktop](insights-seven-year-migration-closed-in-19-hours--desktop.jpg) | [tablet](insights-seven-year-migration-closed-in-19-hours--tablet.jpg) | [mobile](insights-seven-year-migration-closed-in-19-hours--mobile.jpg) |
+| About | [desktop](about-us--desktop.jpg) | [tablet](about-us--tablet.jpg) | [mobile](about-us--mobile.jpg) |
+| Contact | [desktop](contact-us--desktop.jpg) | [tablet](contact-us--tablet.jpg) | [mobile](contact-us--mobile.jpg) |
 
-All 21 review pages were also checked automatically for horizontal overflow at both widths: none.
+No page scrolls horizontally at any of the three widths, and no page logged a JavaScript error during capture.

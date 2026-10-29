@@ -31,4 +31,7 @@ export const contact = {
 };
 
 export const entityLine = 'Tech Transpire is a DBA of Akhani LLC.';
+
+// D-27 (approved 2026-10-29): city-region only, never a street address.
+export const location = { label: 'Dallas–Fort Worth, Texas', locality: 'Dallas–Fort Worth', region: 'TX' };
 export const SITE_NAME = 'Tech Transpire';

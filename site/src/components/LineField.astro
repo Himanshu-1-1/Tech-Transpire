@@ -1,0 +1,18 @@
+---
+// Ambient motif: thin lines travelling toward the brand chevron. Slow (12 s), decorative,
+// static under reduced motion. `tone` switches stroke colours for light or navy grounds.
+interface Props { tone?: 'light' | 'dark'; class?: string }
+const { tone = 'light', class: cls = '' } = Astro.props;
+const lines = Array.from({ length: 9 }, (_, i) => {
+  const y = 40 + i * 52;
+  const bend = (i - 4) * 18;
+  return `M-20 ${y} C 220 ${y + bend}, 420 ${300 + bend * 0.4}, 640 300`;
+});
+---
+<svg class:list={['linefield', `linefield--${tone}`, cls]} viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+  {lines.map((d, i) => <path class="lf-line" d={d} style={`--i:${i}`} />)}
+  <g class="lf-chevron" transform="translate(640 300)">
+    <polygon points="0,-46 54,-46 86,0 54,46 0,46 32,0" />
+    <polygon points="62,-46 116,-46 148,0 116,46 62,46 94,0" />
+  </g>
+</svg>

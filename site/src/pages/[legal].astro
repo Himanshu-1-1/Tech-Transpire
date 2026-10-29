@@ -8,12 +8,14 @@ import { isReview, approvals } from '../lib/site';
 export function getStaticPaths() {
   return isReview || approvals.privacyPolicy ? [{ params: { legal: 'privacy-policy' } }] : [];
 }
-const { Content } = privacy;
+// The draft's drafting notes link to other Phase 1 documents; point those at the repository.
+const REPO = 'https://github.com/Himanshu-1-1/Tech-Transpire/blob/main/docs/website-architecture/';
+const html = (await privacy.compiledContent()).replace(/href="\.\.\/([^"#]+\.md)(#[^"]*)?"/g, (_m: string, p: string, h = '') => `href="${REPO}${p}${h}"`);
 ---
 <Base title="Privacy Policy | Tech Transpire" description="How Tech Transpire collects, uses and protects the information you share with us." draft="Privacy Policy is a first draft awaiting legal review (N-07)">
   <PageHeader title="Privacy Policy" crumbs={[{ label: 'Home', href: '/' }, { label: 'Privacy Policy' }]} art={false} />
   <section class="section">
-    <div class="container narrow legal-prose prose"><Content /></div>
+    <div class="container narrow legal-prose prose" set:html={html} />
   </section>
 </Base>
 

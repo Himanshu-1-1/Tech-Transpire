@@ -1,0 +1,19 @@
+---
+// Alignment concept: process, systems and technology nodes start scattered and settle into
+// one aligned line toward an outcome. Labels are real text. Animates once on reveal.
+interface Props { labels?: string[] }
+const { labels = ['Business processes', 'Systems', 'Technology', 'Outcome'] } = Astro.props;
+const xs = [70, 230, 390, 560];
+const from = [[-20, -46], [10, 52], [-14, -38], [0, 0]];
+---
+<figure class="concept nodes reveal" aria-hidden="true">
+  <svg viewBox="0 0 640 170" focusable="false">
+    <path class="n-link" pathLength="1" d={`M${xs[0]} 80 H${xs[3]}`} />
+    {xs.map((x, i) => (
+      <g class="n-node" style={`--dx:${from[i][0]}px;--dy:${from[i][1]}px;--i:${i}`}>
+        <circle cx={x} cy="80" r={i === 3 ? 13 : 9} class:list={{ 'n-end': i === 3 }} />
+        <text x={x} y="122" text-anchor="middle">{labels[i]}</text>
+      </g>
+    ))}
+  </svg>
+</figure>

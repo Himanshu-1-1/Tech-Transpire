@@ -7,7 +7,12 @@ import Flag from '../../components/Flag.astro';
 import FitList from '../../components/FitList.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import { block, lines, callout, steps, cards, fitlist, ctas } from '../../lib/content';
-import { insightById, insightHref } from '../../lib/insights';
+import { visibleById, insightHref } from '../../lib/insights';
+import { isVerified } from '../../lib/claims';
+import { isReview } from '../../lib/site';
+import SystemNodes from '../../components/SystemNodes.astro';
+
+const showTimeframe = isReview || isVerified('C-15');
 
 const [eyebrow, title, lead] = lines(block('TT-PG-002-B01'));
 const offer = block('TT-PG-002-B02');
@@ -48,7 +53,7 @@ const evidence: Record<string, string[]> = {
         </div>
         <div class="panel-body">
           {signature.body.map((p) => <p>{p}</p>)}
-          {signature.tag ? <p class="tag">{signature.tag}<Flag label="C-15 · confirm timeframe" /></p> : null}
+          {signature.tag && showTimeframe ? <p class="tag">{signature.tag}<Flag label="C-15 · hidden in public until confirmed" /></p> : null}
         </div>
       </aside>
     </div>
@@ -57,16 +62,16 @@ const evidence: Record<string, string[]> = {
   <section class="section section--mist" id="engagement" aria-labelledby="eng-h">
     <div class="container">
       <div class="section-head"><h2 id="eng-h">{engagement.heading}</h2></div>
-      <ol class="path">
+      <ol class="path reveal">
         {[discovery, blueprint, guided].map((s, i) => (
-          <li class="path-step reveal">
+          <li class="path-step" data-spotlight>
             <span class="n">Step {i + 1}</span>
-            <h3>{s.title}</h3>
-            <p>{s.body}{i === 0 && <Flag label="C-15 · “2 to 6 weeks”" />}</p>
+            <h3 class="display-3">{s.title}</h3>
+            <p>{s.body}{i === 0 && <Flag label="C-15 · “2 to 6 weeks” must be confirmed before launch" />}</p>
           </li>
         ))}
       </ol>
-      <aside class="panel recovery-entry reveal" aria-labelledby="rec-h">
+      <aside class="panel recovery-entry reveal" aria-labelledby="rec-h" data-spotlight>
         <div>
           <p class="eyebrow">Already under way?<Flag label="New label · approve" /></p>
           <h3 class="panel-title" id="rec-h">{recovery.title}</h3>
@@ -81,17 +86,20 @@ const evidence: Record<string, string[]> = {
 
   <section class="section" id="components" aria-labelledby="comp-h">
     <div class="container">
-      <div class="section-head"><h2 id="comp-h">{components.heading}</h2></div>
+      <div class="two-col" style="align-items:center;margin-bottom:clamp(40px,4.5vw,64px)">
+        <div class="section-head" style="margin:0"><h2 id="comp-h">{components.heading}</h2></div>
+        <SystemNodes />
+      </div>
       <ul class="grid grid-3">
         {cards(components).map((c) => (
-          <li class="card reveal" id={c.title.toLowerCase().replace(/[^a-z]+/g, '-')}>
+          <li class="card reveal" id={c.title.toLowerCase().replace(/[^a-z]+/g, '-')} data-spotlight>
             <span class="icon-tile"><Icon name={c.icon} /></span>
             <h3>{c.title}</h3>
             <p>{c.body}</p>
             {c.title === 'Transformation Recovery' ? (
               <div class="card-links"><a href="/services/transformation-recovery">Transformation Recovery →</a></div>
-            ) : evidence[c.title]?.length ? (
-              <div class="card-links">{evidence[c.title].map((id) => { const i = insightById(id); return <a href={insightHref(i)}>{i.cardTitle}</a>; })}</div>
+            ) : visibleById(evidence[c.title] ?? []).length ? (
+              <div class="card-links">{visibleById(evidence[c.title]).map((i) => <a href={insightHref(i)}>{i.cardTitle}</a>)}</div>
             ) : null}
           </li>
         ))}

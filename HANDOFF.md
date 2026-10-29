@@ -2,107 +2,101 @@
 
 **If you are a new agent or teammate taking over this project, read this file first.** It is the durable memory for the rebuild and must survive lost conversations. Update it whenever a decision is made, a claim is verified, or a step advances.
 
-Last updated: 2026-10-29 (end of the second working session).
+Last updated: 2026-10-29 (third working session).
 
 ---
 
 ## 1. What this project is
 
-Rebuilding **www.techtranspire.com** from scratch while **preserving existing content verbatim** and improving structure, positioning, UX and the technical foundation. Goal: a distinctive, credible, high-performing site that establishes executive trust, demonstrates experience, and turns relevant business challenges into conversations. Visitor journey: **understand the challenge → establish credibility → explain the approach → demonstrate outcomes → start a conversation.**
+Rebuilding **www.techtranspire.com** from scratch: preserve existing content verbatim, and improve structure, positioning, UX, visual quality and the technical foundation. Visitor journey: **understand the challenge → establish credibility → explain the approach → demonstrate outcomes → start a conversation.**
 
-- **Brand:** Tech Transpire, a business advisory and transformation consulting brand. A **DBA of Akhani LLC**.
-- **Brand statement (H1):** *Clarity Before Change. Confidence Through Execution.*
-- **Signature offer:** *Implementation Clarity & Execution Blueprint*. **Four engagement types:** Discovery · Execution Blueprint · Guided Implementation · Transformation Recovery. **Six components:** Clarity & Discovery · Design & Alignment · Execution & Delivery · Transformation Recovery · Adoption & Outcomes · Ongoing Support. Transformation Recovery appears in both lists on purpose, as on the live site.
-- **Visual direction:** Concept 06 (approved, unanimous). Premium architectural photography; light theme with selective dark navy sections. Must be unique to Tech Transpire.
-- **True Lean Solutions** is a separate execution brand under Akhani LLC. Do not copy its structure or design. Not in primary nav or on Home; mentioned only in the About "Our company" paragraph.
+- **Brand:** Tech Transpire, a business advisory and transformation consulting brand. DBA of **Akhani LLC**. Based in **Dallas–Fort Worth, Texas** (D-27).
+- **Brand statement (H1):** *Clarity Before Change. Confidence Through Execution.* Supporting line: *Clarity · Alignment · Execution*.
+- **Signature offer:** *Implementation Clarity & Execution Blueprint*. **Engagements:** Discovery · Execution Blueprint · Guided Implementation · Transformation Recovery. **Components:** Clarity & Discovery · Design & Alignment · Execution & Delivery · Transformation Recovery · Adoption & Outcomes · Ongoing Support.
+- **Outcome themes (approved):** Better Decisions · Improved Performance · Efficient Operations · Sustainable Transformation (homepage only, no separate pages).
+- **Visual direction:** Concept 06 plus the company's reference first-fold image (light, architectural photography, blue, selective navy sections). **Typography: Version B, serif** (Newsreader + Libre Franklin), confirmed twice by the company (D-28), even where a brief says "Typography A".
+- **True Lean Solutions** is a separate brand. Don't copy it; mention it only in the About "Our company" paragraph.
 
 ## 2. Rules for all work
 
-1. **Never reword existing business content** without approval. Approved corrections are applied at build time from `site/src/lib/corrections.ts` and logged exactly in [17](docs/website-architecture/17-approved-corrections-log.md). The archive is never edited.
-2. **Never invent or exaggerate** clients, testimonials, credentials, metrics, locations or years. New copy is labelled N-xx and needs approval.
-3. **Unverified claims stay in the register, flagged `pending`.** They are never deleted and never published on site-level pages until verified (`site/src/lib/claims.ts` mirrors the register).
-4. **Case-study articles publish as authored (D-25)**, verbatim, with the pre-founding attribution line where it applies. Only site-level results are gated.
-5. **The two $3M results are separate and never combined:** healthcare purchasing standardization (~$3M annual savings, C-03) and global eCommerce fraud prevention (~$3M prevented losses, C-02). Neither is ever described as revenue. A third "$3M" (a consulting firm's annual revenue, May 2026 draft) must never be combined with either.
-6. **No production deployment without explicit authorization.**
-7. Drive: use the connected account; never change sharing on files without asking. Identify exact files when something is needed.
-8. This repository is **public**. Pending claims are not approved for publication.
+1. **Never reword existing business content** without approval. Corrections live in `site/src/lib/corrections.ts`, logged in [17](docs/website-architecture/17-approved-corrections-log.md).
+2. **Never invent or exaggerate.** New copy is labelled and flagged for approval.
+3. **Three content states (D-25 revised):** preserved source (archive, untouched) → internal review (review build) → approved for publication (public build). **Unverified claims are never published.** Articles with unverified claims are **held** unless an omission is approved ([19](docs/website-architecture/19-article-claims-report.md)). The same applies to bios, results, Healthcare and metadata.
+4. **The $3M results are separate and never combined:** C-03 healthcare purchasing savings; C-02 eCommerce fraud prevention; a third $3M (consulting firm revenue, May draft) is never used.
+5. **Photos (D-30):** only labelled original photographs. No AI-generated portraits of real people. Don't introduce Mayank Pujara.
+6. **No pricing** at launch (D-26).
+7. **Secrets** only in server environment variables. **Never show a false form success.**
+8. **No deployment without explicit authorization.** The site is not launch-ready until a real contact submission reaches Zoho CRM and email.
+9. Drive: use the connected account; never change file sharing (the connector can't undo it). Ask the company to download files.
+10. This repository is **public**.
 
 ## 3. Where everything lives
 
 | Path | What |
 |---|---|
-| [docs/website-architecture/](docs/website-architecture/) | Phase 1: deliverables 00–18, data, source archive, drafts |
-| [12-gaps-and-decisions.md](docs/website-architecture/12-gaps-and-decisions.md) | **The register**: decisions D-xx, claims C-xx, edits E-xx, new content N-xx, missing sources MS-xx |
-| [17-approved-corrections-log.md](docs/website-architecture/17-approved-corrections-log.md) | Exact record of every wording change; open F-05/F-06 and new F-08–F-13 |
-| [18-drive-master-reconciliation.md](docs/website-architecture/18-drive-master-reconciliation.md) | Master Drive folder review; the superseded May 2026 draft |
-| [docs/phase-2-design/](docs/phase-2-design/) | Phase 2: design system, technical decision record, **screenshots**, photography folder |
-| [site/](site/) | **The website** (Astro 5). Reads content straight from `docs/website-architecture/data/` |
+| [docs/website-architecture/](docs/website-architecture/) | Phase 1: 00–19, data, source archive, drafts |
+| [12-gaps-and-decisions.md](docs/website-architecture/12-gaps-and-decisions.md) | **The register** (D-01–D-30, C-xx, E/F-xx, N-xx, MS-xx) |
+| [19-article-claims-report.md](docs/website-architecture/19-article-claims-report.md) | Exact unverified claims (AC-xx per article, H-xx site-level) and what unblocks each |
+| [docs/phase-2-design/](docs/phase-2-design/README.md) | Phase 2: tech record (02), interaction system (03), contact/Zoho (04), **readiness checklist (05)**, screenshots, photo requests |
+| [site/](site/README.md) | **The website** (Astro 5, Node 22 LTS) |
+| `site/src/data/publication.json` | **Publication state**: claim statuses, per-article claim lists, approved omissions |
+| `.github/workflows/validate.yml` | CI: `npm run validate` on every push |
 
-### Running the site
+### Running and checking
 
 ```
-cd site && npm install
-npm run dev                                   # review build at http://localhost:4321
-npm run build && npx astro preview            # review build, production-like
-npm run build:public && npm run check:content # public build + verbatim/gating checks
-node scripts/screenshots.mjs --pages=/ --types=sans,serif   # needs preview running and local Chrome
+cd site && npm ci                       # Node 22 LTS (.nvmrc)
+npm run dev                             # review site, http://localhost:4321
+npm run validate                        # both builds + tests + content/gating + links (CI)
+npm run build && npm run preview -- --port 4322
+npm run qa                              # 42 browser checks against :4322
+npm run screenshots                     # 1440/768/390 into docs/phase-2-design/screenshots
 ```
-Node 20.3+ is required. The machine used on 2026-10-29 had no system Node; a portable Node 22 was used from the session scratchpad. Install Node LTS for ongoing work.
-
-**Review build vs public build:** the review build shows drafts and pending items with amber tags, plus an A/B typography switch, and is `noindex`. The public build strips all of that, omits unverified figures and unapproved pages, and is indexable. See [02-technical-decision-record.md](docs/phase-2-design/02-technical-decision-record.md).
+The machine used on 2026-10-29 had no system Node; a portable Node 22 from the session scratchpad was used. Install Node 22 LTS for ongoing work.
 
 ## 4. Completed milestones
 
 | Date | Milestone |
 |---|---|
-| 2026-10-29 | Phase 1 architecture authored (00–15), 125/125 blocks mapped |
-| 2026-10-29 | Project recovered after a lost conversation; this handoff created |
-| 2026-10-29 | **Phase 1 approved in principle**; decisions D-01–D-04, D-06 recorded |
-| 2026-10-29 | **All eight open decisions approved** (D-09, D-10, D-11, D-14, D-15, D-17, D-18, D-24); D-25 decided (case studies publish as authored) |
-| 2026-10-29 | Corrections E-01–E-05, E-09, F-01–F-04, F-07 applied and logged (17) |
-| 2026-10-29 | **MS-01 closed**: master Drive folder reviewed via the company account (18) |
-| 2026-10-29 | Phase 2 v1 prototype; feedback received; **Concept 06 approved conditionally** |
-| 2026-10-29 | **Astro site built**: all templates, 21 review pages / 18 public pages; content from the Phase 1 data; claims gating; content-integrity check (545 verbatim lines) passing; full-page screenshots with A/B typography comparison |
+| 2026-10-29 | Phase 1 architecture (00–15); 125/125 blocks mapped; project recovered; handoff created |
+| 2026-10-29 | Phase 1 approved in principle; D-01–D-24 decided; corrections applied; MS-01 closed (18) |
+| 2026-10-29 | Astro site built (all templates) with content rendered from the Phase 1 data |
+| 2026-10-29 | **D-25 corrected:** claims report (19); publication gating implemented; 8 articles held |
+| 2026-10-29 | **Typography B, D-26–D-30** recorded; Dallas–Fort Worth added to footer, About, Contact, JSON-LD |
+| 2026-10-29 | **Premium design and interaction system (v3):** reference first fold, serif display system, signature "Confusion → Clarity" method graphic, magnetic CTAs, cursor halo, card spotlight, scroll reveals, concept graphics, reading progress, animated mobile menu (03) |
+| 2026-10-29 | **Contact backend:** `/api/inquiry` with Zoho CRM + SMTP, spam protection, honest states; 14 unit tests |
+| 2026-10-29 | **Validation workflow:** `npm run validate`, link checker, CI; browser QA 42/42; 31 screenshots |
+| 2026-10-29 | Bugs found by QA and fixed: inner pages 500 on the Node server (output format); same-site form posts 403 (origin check → JSON); first submit click lost after correcting a field |
 
-## 5. Approved decisions (summary; full text in 12 §5)
+## 5. Approved decisions (full text in 12 §5)
 
-D-01 brand statement H1 · D-02 signature offer, 4 engagements, 6 components · D-03 no AI & Digital Enablement page · D-04 pre-founding attribution line · D-05 two separate $3M outcomes · **D-06** Industries with Healthcare first; hidden from nav until approved content is ready · D-08 Akhani LLC line in footer and About, subject to legal · **D-09** Doc H1 on page, Sheet title on cards/SEO · **D-10** "Hidden Gaps" held · **D-11** E-01–E-05 (E-02 = "busywork") · D-12 simple form, no annual revenue, Facebook optional · **D-14** fit list canonical on `/services#fit` · **D-15 Astro**, secure server-side Zoho · D-16 Zoho CRM + email · **D-17** case-studies page, no unverified summary figures · **D-18** outcome themes on Home; type filter only · D-19–D-23 · **D-24** TT-INS-003 without the C-14 sentence · **D-25** case studies publish as authored · Phase 2: light theme only; architectural photography; results band after the approach, verified only.
+D-01 brand statement · D-02 signature offer · D-03 no AI page · D-04 pre-founding attribution · D-05 two separate $3M · D-06 Industries + Healthcare (hidden in nav until approved) · D-08 Akhani LLC line (legal) · D-09 titles · D-10 Hidden Gaps held · D-11 E-01–E-05 (E-02 "busywork") · D-12 simple form · D-14 fit list on Expertise · **D-15 Astro** · D-16 Zoho + email · D-17 case-studies page (no unverified summary figures) · D-18 themes on Home, type filter only · D-19–D-23 · D-24 TT-INS-003 without the C-14 sentence · **D-25 revised (hold unverified)** · **D-26 no pricing** · **D-27 Dallas–Fort Worth** · **D-28 typography B** · **D-29 wording** (hero line, themes, "Selected Experience") · **D-30 photos**.
 
 ## 6. Current status
 
-| Phase | Status |
+| Area | Status |
 |---|---|
-| 1. Structure | Approved in principle |
-| 2. UI/UX | **Step C pending**: rendered screenshots delivered for review; typography A/B to choose. Steps D–F largely built in `site/` (see [phase-2-design/README](docs/phase-2-design/README.md)) |
-| 3. Development | Astro site exists. Open: Zoho/email server function, hosting adapter, redirects, analytics |
-| 4. Migration & QA | Content migrated by construction (renders from the data). Open: link, redirect, accessibility, performance checks |
-| 5. Launch | Not started. Requires explicit authorization |
+| Design and templates | Complete in review. Waiting for photography (3 files) |
+| Public build | 9 pages: Home, Expertise, Transformation Recovery, Insights, 2 articles (006, 008), About, Contact, 404. Industries, Healthcare, Privacy, case studies and 8 articles held |
+| Contact | Works end to end with mocks; shows the honest failure until Zoho/SMTP are configured |
+| Validation | `npm run validate` passes; QA 42/42; no overflow 320–1440; JS ≤ 2.3 KB gz per page |
+| Launch | **Not ready.** See the blockers in [05](docs/phase-2-design/05-production-readiness-checklist.md) |
 
-## 7. Outstanding approvals (owner: company)
+## 7. Outstanding approvals and inputs (owner: company)
 
-1. **Design review** of the [screenshots](docs/phase-2-design/screenshots/README.md) and the **typography choice** (recommendation: Version A, modern sans).
-2. **Photography:** add `Executive Meeting Above the Skyline.png` and `Executive Lounge Meeting Overlooking the City.png` to `docs/phase-2-design/assets/` and confirm usage rights.
-3. **New copy:** F-05 hero eyebrow "Clarity · Alignment · Execution"; F-06 / N-02 "What we help you achieve" + theme lines; "Track record" / "Results from the work"; N-04 labels and sentence; N-05 Healthcare page; N-06 Option B; N-13; N-14; N-16; N-17 case-studies lead; small UI labels (e.g. "A good fit", "Already under way?", "Recovery in practice").
-4. **Corrections:** F-08–F-13 (punctuation and grammar found during the build).
-5. **New decisions:** D-26 publish pricing? (recommend not at launch) · D-27 show Dallas–Fort Worth location? (recommend yes if accurate).
-6. **Legal:** Privacy Policy draft (N-07); Akhani LLC wording (N-06). Launch blockers.
+1. **Photography:** save `Executive Meeting Above the Skyline.png`, `Executive Lounge Meeting Overlooking the City.png` and `Mack Akhani.png` to `docs/phase-2-design/assets/`; confirm rights.
+2. **Claims ([19](docs/website-architecture/19-article-claims-report.md)):** verify, or approve omissions, to release articles. Fastest path: the 005/010 engagement (C-05) and the 001/002 engagement figures; omissions for 001 (B08), 009 (stats + tag + heading), 010 (stats + sentence).
+3. **Launch-blocking wording:** H-01 "three times…" · C-15 "6-8 weeks" / "2 to 6 weeks" · C-17 "1 business day".
+4. **New copy:** N-02 theme lines and the "What we help you achieve" heading · "Selected Experience" intro line · N-04 labels and sentence · N-05 Healthcare · N-06 · N-13 · N-14 · N-16 · N-17 · small UI labels ("A good fit", "Already under way?", "Recovery in practice", concept-graphic labels such as "Stalled" / "Back on a defined path").
+5. **Corrections F-08–F-13** (punctuation found during the build).
+6. **Profiles:** C-10, C-12, C-13, C-20; approved real photos for Kranthi and Devjet.
+7. **Legal:** Privacy Policy (N-07), Akhani LLC wording (N-06), image rights.
+8. **Zoho/SMTP/hosting** (04 steps 1–5), then the end-to-end test (05 F-1).
 
-## 8. Open questions and pending verification
+## 8. Next steps
 
-| Item | Owner |
-|---|---|
-| C-02 / C-03 (the two $3M results), C-04–C-09, C-14, C-18 (pre-founding status of TT-INS-007–010) | Mack |
-| C-10 "over a decade" timeline (gates the Home founder block and Mack's profile) | Mack |
-| C-12 PMP · C-13 bio · C-20 profile | Kranthi · Devjet · Hemang |
-| C-15 "6-8 weeks" / "2 to 6 weeks" and C-17 "1 business day" still current? | Company |
-| Vector logo master (MS-08). The logo folder has PNG/JPG only; the site uses the best original PNG | Company |
-| Newer headshots exist in Drive (`Mack Akhani.png`, `Mack Prof. Headshot FB.png`); `Mayank Pujara.png` is a person not on the site. Which to use? | Company |
-| Hosting provider; Zoho data centre and API access; analytics tool (D-16) | Company |
-| "Industry Research" memo (Drive, Oct 12): use third-party statistics in a "Why clarity matters" section? Each figure needs checking against its original source | Company |
-
-## 9. Next steps
-
-1. **Company:** review screenshots, choose A or B, add the two photos, answer §7–§8.
-2. **Agent, on approval:** lock the typography (ship only that version's fonts), regenerate screenshots with real photography, polish templates from feedback.
-3. **Step E:** implement `/api/inquiry` (Zoho lead + email; secrets in host env), choose the hosting adapter, write redirects from `data/redirects.csv`, add consented analytics if chosen.
-4. **Step F:** link check, redirect tests, axe accessibility audit per template, Lighthouse budgets, final content diff, launch checklist (15). **No deployment without explicit authorization.**
+1. **Company:** §7 items 1–3 and 8 unblock the most.
+2. **Agent, when photos arrive:** rebuild; check hero blending and LCP; regenerate screenshots; run Lighthouse on staging (05 R-3).
+3. **Agent:** add an axe accessibility audit to `npm run qa` (05 A-6); run the external link check on a networked machine (05 F-5); `npm audit` (05 P-6).
+4. **With hosting chosen:** swap the adapter if needed; security headers; apex/https/trailing-slash rules; staging URL for the team; real Zoho + email test.
+5. **Launch only with explicit authorization** (05 O-6).

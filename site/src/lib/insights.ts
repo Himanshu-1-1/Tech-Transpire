@@ -4,6 +4,7 @@ import sheetCsv from '../../../docs/website-architecture/source-archive/insights
 import raw from '../../../docs/website-architecture/data/content-blocks.json';
 import { block, blocksOf, lines } from './content';
 import { correctSheetField } from './corrections';
+import { isVisibleInsight } from './routes';
 
 export type InsightType = 'case-study' | 'perspective' | 'guide';
 export const TYPE_LABEL: Record<InsightType, string> = { 'case-study': 'Case study', perspective: 'Perspective', guide: 'Guide' };
@@ -105,6 +106,10 @@ export const insights: Insight[] = parseCsv(sheetCsv)
     };
   })
   .sort((a, b) => b.dateIso.localeCompare(a.dateIso) || a.id.localeCompare(b.id));
+
+/** Insights published in this build: all in review; only fully verified ones in public. */
+export const visibleInsights = insights.filter((i) => isVisibleInsight(i.id));
+export const visibleById = (ids: string[]) => ids.filter(isVisibleInsight).map(insightById);
 
 export const insightById = (id: string) => {
   const i = insights.find((x) => x.id === id);

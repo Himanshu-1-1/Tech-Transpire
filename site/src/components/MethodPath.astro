@@ -1,0 +1,66 @@
+---
+// Signature graphic: tangled lines (confusion) resolve into one path through the five
+// method steps and end in the brand chevron (clarity). Steps are real HTML; nodes are
+// buttons so the graphic works by pointer, touch and keyboard. Mobile shows a vertical path.
+interface Props { steps: { title: string; body: string }[]; id?: string }
+const { steps, id = 'method' } = Astro.props;
+const X = [180, 360, 540, 720, 900];
+const Y = 92;
+const tangles = [
+  'M0 20 C40 6, 62 74, 96 58 S132 80, 150 92',
+  'M0 58 C32 84, 54 18, 90 40 S126 112, 150 92',
+  'M0 98 C36 124, 70 58, 102 96 S136 70, 150 92',
+  'M0 136 C42 154, 60 98, 98 122 S130 94, 150 92',
+  'M0 166 C30 142, 76 174, 106 132 S134 100, 150 92',
+  'M8 4 C72 40, 38 146, 112 114 S140 96, 150 92',
+];
+const segs = [[150, X[0]], ...X.slice(1).map((x, i) => [X[i], x]), [X[4], 952]];
+---
+<div class="method reveal" data-method id={id}>
+  <div class="method-graphic">
+    <span class="method-end method-end--start" aria-hidden="true">Confusion</span>
+    <span class="method-end method-end--end" aria-hidden="true">Clarity</span>
+    <svg class="method-svg" viewBox="0 0 1000 184" aria-hidden="true" focusable="false">
+      <g class="m-complex">{tangles.map((d, i) => <path d={d} pathLength="1" style={`--i:${i}`} />)}</g>
+      <path class="m-track" d={`M150 ${Y} H952`} />
+      {segs.map(([a, b], i) => <path class="m-seg" data-seg={i} d={`M${a} ${Y} H${b}`} pathLength="1" style={`--i:${i}`} />)}
+      <path class="m-pulse" d={`M150 ${Y} H952`} pathLength="1" />
+      <path class="m-chevron" d={`M934 ${Y - 18} L958 ${Y} L934 ${Y + 18}`} />
+    </svg>
+    {steps.map((s, i) => (
+      <button class="method-node" type="button" data-step={i} style={`--x:${X[i] / 10}%;--y:${(Y / 184) * 100}%;--i:${i}`} aria-controls={`${id}-step-${i + 1}`} aria-label={`Step ${i + 1}: ${s.title}`}>
+        <span aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+      </button>
+    ))}
+  </div>
+  <ol class="method-steps">
+    {steps.map((s, i) => (
+      <li id={`${id}-step-${i + 1}`} data-step={i} style={`--i:${i}`}>
+        <span class="method-n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+        <h3>{s.title}</h3>
+        <p>{s.body}</p>
+      </li>
+    ))}
+  </ol>
+</div>
+
+<script>
+  // Hovering or focusing a node (or its step) highlights the step and the path up to it.
+  document.querySelectorAll<HTMLElement>('[data-method]').forEach((root) => {
+    const segs = root.querySelectorAll<SVGPathElement>('.m-seg');
+    const items = root.querySelectorAll<HTMLElement>('.method-steps li, .method-node');
+    const activate = (n: number | null) => {
+      if (n === null) delete root.dataset.active; else root.dataset.active = String(n);
+      segs.forEach((s) => s.classList.toggle('on', n !== null && Number(s.dataset.seg) <= n));
+      root.querySelectorAll<HTMLElement>('[data-step]').forEach((el) => el.classList.toggle('is-active', n !== null && Number(el.dataset.step) === n));
+    };
+    items.forEach((el) => {
+      const n = Number(el.dataset.step);
+      el.addEventListener('pointerenter', () => activate(n));
+      el.addEventListener('focus', () => activate(n));
+      el.addEventListener('click', () => activate(n));
+    });
+    root.addEventListener('pointerleave', () => activate(null));
+    root.addEventListener('focusout', (e) => { if (!root.contains(e.relatedTarget as Node)) activate(null); });
+  });
+</script>

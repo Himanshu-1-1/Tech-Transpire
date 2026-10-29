@@ -40,7 +40,7 @@ The design-review flags suggested dashes. The raw Google Doc export shows the pa
 
 | ID | Item | Why it is not a correction | Status |
 |---|---|---|---|
-| F-05 | Hero eyebrow | New copy. The prototype's "Business advisory & transformation" is **replaced** by **"Clarity · Alignment · Execution"**, the company's own lockup line from its banner artwork (Drive: BANNERS / "Tech and Strategy in Motion.png"). Needs a yes | 🟦 confirm use |
+| F-05 | Hero eyebrow | "Clarity · Alignment · Execution", the company's own lockup line | ✅ **Approved 2026-10-29** as supporting messaging (D-29) |
 | F-06 | "What we help you achieve" (Home outcome themes heading) | New copy, from the Concept 06 reference | 🟦 approve with N-02 |
 
 ## Found during the build, not applied (candidates for approval)

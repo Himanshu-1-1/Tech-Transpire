@@ -1,0 +1,14 @@
+---
+// Transformation Recovery concept: a stalled initiative (a line that loops back on itself)
+// rejoins a defined path. Draws once when scrolled into view.
+---
+<figure class="concept reveal" aria-hidden="true">
+  <svg viewBox="0 0 640 220" focusable="false">
+    <path class="c-muted" pathLength="1" d="M20 150 C 90 150, 120 90, 170 110 S 230 190, 270 140 S 240 60, 210 100 S 260 170, 300 120" />
+    <circle class="c-stall" cx="300" cy="120" r="7" />
+    <path class="c-main" pathLength="1" d="M300 120 C 340 92, 380 84, 430 84 H 580" />
+    <path class="c-arrow" d="M566 70 L590 84 L566 98" />
+    <text class="c-label" x="20" y="200">Stalled</text>
+    <text class="c-label c-label--end" x="590" y="128" text-anchor="end">Back on a defined path</text>
+  </svg>
+</figure>

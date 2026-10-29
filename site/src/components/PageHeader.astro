@@ -1,11 +1,11 @@
 ---
-import Blueprint from './Blueprint.astro';
+import LineField from './LineField.astro';
 export type Crumb = { label: string; href?: string };
 interface Props { eyebrow?: string; title: string; lead?: string; crumbs?: Crumb[]; art?: boolean }
 const { eyebrow, title, lead, crumbs = [], art = true } = Astro.props;
 ---
 <section class="page-header">
-  {art && <div class="page-header-art"><Blueprint people={false} idSuffix="ph" /></div>}
+  {art && <div class="page-header-art"><LineField tone="light" /></div>}
   <div class="container">
     {crumbs.length > 0 && (
       <nav class="breadcrumbs" aria-label="Breadcrumb">

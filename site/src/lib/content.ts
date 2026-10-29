@@ -3,6 +3,7 @@
 // changes are the approved corrections in ./corrections.ts.
 import raw from '../../../docs/website-architecture/data/content-blocks.json';
 import { applyTo } from './corrections';
+import { CASE_STUDIES } from './routes';
 
 export type Block = {
   block_id: string;
@@ -60,12 +61,13 @@ const ATTRIBUTION = /^Engagement (led|facilitated) by /;
 export function callout(b: Block): Callout {
   const [title, ...rest] = lines(b);
   const out: Callout = { title, body: [] };
-  for (const l of rest) {
+  rest.forEach((l, n) => {
+    const last = n === rest.length - 1 || (n === rest.length - 2 && ATTRIBUTION.test(rest[n + 1]));
     if (ATTRIBUTION.test(l)) out.attribution = l;
-    else if (l.includes(' · ') && l.length < 160) out.tag = l;
+    else if ((l.includes(' · ') && l.length < 160) || (last && l.length < 30 && n > 0)) out.tag = l;
     else if (!out.lead) out.lead = l;
     else out.body.push(l);
-  }
+  });
   return out;
 }
 
@@ -80,7 +82,7 @@ export function ctas(b: Block): Cta[] {
 
 export function newUrl(legacy: string, label = ''): string {
   const path = legacy.replace(/^https?:\/\/www\.techtranspire\.com/, '').replace(/\/$/, '') || '/';
-  if (/case stud/i.test(label) || path === '/blogs') return '/insights/case-studies';
+  if (/case stud|see our work/i.test(label) || path === '/blogs') return CASE_STUDIES;
   if (path === '/contact-us') {
     if (/stalled/i.test(label)) return '/contact-us?interest=recovery';
     if (/discovery/i.test(label)) return '/contact-us?interest=discovery';

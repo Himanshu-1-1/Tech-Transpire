@@ -1,68 +1,61 @@
 # 02 — Technical Decision Record
 
-**2026-10-29.** D-15 approved Astro, on condition that the architecture supports the existing content models, the SEO requirements, reusable components, and a secure server-side Zoho CRM integration. This records how each condition is met. The implementation is in [`site/`](../../site/).
+**Updated 2026-10-29.** D-15 approved Astro, on condition that the architecture supports the existing content models, the SEO requirements, reusable components, and a secure server-side Zoho CRM integration. Implementation: [`site/`](../../site/).
 
 ## Stack
 
 | Concern | Choice | Why |
 |---|---|---|
-| Framework | **Astro 5** (static output) | Pages are pre-rendered HTML: fast, secure, cheap to host, excellent for SEO. Components without a client-side framework; JavaScript only where needed (menu, filters, form) |
-| Content | Read **directly** from `docs/website-architecture/data/content-blocks.json`, the Insights Sheet export and the archive | One source of truth. The site cannot drift from the approved inventory, and nothing is retyped |
-| Corrections | `site/src/lib/corrections.ts`, applied at build | The archive is never edited. Each correction must match exactly once or the build fails ([17](../website-architecture/17-approved-corrections-log.md)) |
-| Claims gating | `site/src/lib/claims.ts` mirrors the register (12 §3) | The public build renders a claim only when it is `verified` |
-| Images | `astro:assets` (responsive WebP/AVIF, width sets, lazy loading) | Archived originals and supplied photography are optimized at build. Nothing is hotlinked from Google Drive |
-| Fonts | Self-hosted via Fontsource | No third-party font requests (privacy, speed). The final build ships only the chosen version's two families |
-| Node | 20.3+ (developed on 22 LTS) | Astro requirement |
+| Runtime | **Node.js 22 LTS** (`site/.nvmrc`, `engines: >=22.11 <23`) | Supported LTS; Astro 5 requirement |
+| Framework | **Astro 5**: static pages + one server route | Fast, secure, SEO-friendly HTML; JavaScript only where needed |
+| Server adapter | `@astrojs/node` (standalone) | Runs `/api/inquiry` and real 301 redirects on any Node host. Swap for `@astrojs/netlify` / `@astrojs/vercel` once hosting is chosen; nothing else changes |
+| Output | `build.format: 'directory'` (`/services/index.html`), `trailingSlash: 'never'` | Every host and the Node server resolve `/services`. Canonical URLs have no trailing slash. (The earlier `'file'` format made the Node server return 500 for every inner page; found by browser QA and fixed) |
+| Content | Read directly from `docs/website-architecture/data/` and the archive | One source of truth; nothing retyped |
+| Corrections | `src/lib/corrections.ts`, exact-match, build fails on drift | 17 |
+| Publication gating | `src/data/publication.json` (claims, per-article claim lists, approved omissions) → `src/lib/claims.ts`, `src/lib/routes.ts` | An article, result, profile or page renders publicly only when its claims are verified (D-25 revised, 19) |
+| Images | `astro:assets` (AVIF/WebP, width sets, lazy) | Archived originals and supplied photography; nothing hotlinked from Drive |
+| Fonts | Self-hosted Fontsource: Newsreader + Libre Franklin (D-28) | No third-party requests |
+| Interactions | `src/scripts/interactions.ts` + component scripts; CSS motion tokens | 03 |
+| Email | `nodemailer` over SMTP | 04 |
 
 ## The two builds
 
-| | Review build (`npm run build`) | Public build (`npm run build:public`) |
+| | Review (`npm run build` → `dist/`) | Public (`npm run build:public` → `dist-public/`) |
 |---|---|---|
-| Purpose | Team review | What visitors will see |
-| Review bar, typography A/B switch, amber tags | Shown | Removed |
-| Pending claims (Home results, bios) | Shown, tagged | **Removed.** Results band hidden until ≥ 2 results are verified |
-| Unapproved pages (Industries, Healthcare, Privacy draft) | Built, tagged | **Not built** until approved |
-| Indexing | `noindex`, robots `Disallow: /` | Indexable, sitemap, robots points to it |
+| Review bar and amber tags | Shown | Removed |
+| Held articles (unverified claims) | Built, tagged "Held" | **Not built**; all links, related reading and listings adapt |
+| Selected Experience results, bios, C-15 tags | Shown, tagged | Removed until verified |
+| Industries, Healthcare, Privacy draft | Built | Not built until approved |
+| Indexing | `noindex`; robots `Disallow: /` | Indexable; sitemap |
 
-## Meeting the D-15 conditions
+## D-15 conditions
 
-**Existing content models.** Pages are composed from the Phase 1 block types (09). Each block type has one parser and one component (`lib/content.ts`, [01 §6](01-design-system.md)). Insights carry the 06 §8 classification (type, industry, outcome theme, related expertise, related reading).
+- **Content models:** each Phase 1 block type has one parser (`src/lib/content.ts`) and one component. Card parsing fails the build on unknown icon keys or leftover lines, so content cannot be dropped silently.
+- **SEO:** URLs preserved; canonical, OG and Twitter tags; JSON-LD `ProfessionalService` (with Dallas–Fort Worth), `Service`, `Article`, `BreadcrumbList`; sitemap; legacy path redirects generated from `data/redirects.csv` (301 on the server; targets adjust when a page is held). Apex, https and trailing-slash rules are host configuration.
+- **Reusable components:** Header, Footer, PageHeader, CtaBand, InsightCard, FitList, Icon, Flag, MethodPath, LineField, SystemNodes, RecoveryPath, Blueprint (placeholder art).
+- **Secure Zoho integration:** implemented (04). Credentials only in server environment variables; the browser receives none. JSON posting (CSRF-safe), honeypot, timing, rate limit, server-side validation; success only on confirmed receipt.
 
-**SEO requirements (10).** All five live URLs are kept, and every article gets its first standalone URL at `/insights/{slug}`. Extensionless URLs with no trailing slash (`build.format: 'file'`). Canonical, Open Graph and Twitter tags on every page. Structured data: `Organization` (every page), `Service` (Expertise), `Article` + `BreadcrumbList` (articles). Generated `sitemap-index.xml` in the public build. Per-page titles and descriptions use the N-10 drafts. **Redirects** (`data/redirects.csv`, e.g. `/home` → `/`, `/blogs` → `/insights/case-studies`) are written as host rules once hosting is chosen.
+## Quality gates
 
-**Reusable components.** `site/src/components/`: Header, Footer, PageHeader (with breadcrumbs), CtaBand, InsightCard, FitList, Icon, Blueprint, Flag. Templates: Home, Landing (Expertise, Industries, Insights), Detail (Transformation Recovery, Healthcare), Article, Listing (Case studies), About, Contact, Utility (Privacy, 404).
+| Command | What it proves |
+|---|---|
+| `npm run build`, `npm run build:public` | Corrections match exactly once; all blocks parse completely |
+| `npm test` | Contact backend: 14 tests (validation, spam, rate limit, Zoho, email, failure paths) |
+| `npm run check:content` | 545 archived lines verbatim (review); publication gating (public); launch-blocker warnings |
+| `npm run check:links` | Every internal link, asset and `#anchor` resolves in both builds |
+| **`npm run validate`** | All of the above. **CI runs it on every push** (`.github/workflows/validate.yml`) |
+| `npm run qa` (preview running) | 42 browser checks: JS errors, overflow at 320/1440, menu, keyboard, magnetic, cursor, reduced motion, reading progress, form states, API, redirects |
+| `npm run screenshots` (preview running) | Full-page captures at 1440/768/390; fails on overflow or page errors |
 
-**Secure server-side Zoho CRM integration** (Step E). The site stays static except one server function:
-
-```
-Browser form ──POST /api/inquiry──► Server function (adapter: Netlify / Vercel / Node)
-                                     1. validate every field server-side (06 §10 rules)
-                                     2. spam checks: honeypot "website", time-to-submit ≥ 3 s, per-IP rate limit
-                                     3. Zoho CRM: POST /crm/v{n}/Leads (OAuth self-client refresh token → access token)
-                                     4. email notification to info@techtranspire.com (flag Referral)
-                                     5. respond 200 only when (3) or (4) succeeded
-```
-
-- **Secrets** (`ZOHO_CLIENT_ID`, `ZOHO_CLIENT_SECRET`, `ZOHO_REFRESH_TOKEN`, `ZOHO_DC` = `.com`/`.eu`/`.in`, mail credentials) live only in the host's environment settings. They are never in the repository (`.gitignore` blocks `.env*`) and never reach the browser.
-- The form already posts to `/api/inquiry`, sends the honeypot and start time, preselects Area of interest from `?interest=`, validates with the N-09 messages, and shows success **only** when the server confirms. In the static review build there is no endpoint yet, so a submission shows the failure state rather than a false "thank you".
-- **Open (D-16):** hosting provider (which sets the adapter), Zoho data centre and API access, analytics tool.
-
-## Quality gates (Step F foundations, already in place)
-
-| Check | Command | What it proves |
-|---|---|---|
-| Build | `npm run build`, `npm run build:public` | Every correction matched exactly once; every card, step and stat block parsed completely (unknown icon keys or leftover lines fail the build) |
-| Content integrity | `node --experimental-strip-types scripts/check-content.mjs` (after the public build) | **545 archived lines appear verbatim** in the public pages; no review tags, `noindex`, withdrawn label (C-01), withheld sentence (E-09), unverified results band, or unapproved page leaks into the public build. Deliberate exclusions are listed in the script with reasons |
-| Layout | `node scripts/screenshots.mjs` (with `npx astro preview` running) | Full-page desktop (1440) and mobile (390) captures; **fails if any page scrolls horizontally** |
-
-Still to add in Steps E–F: link checker, redirect test of every `redirects.csv` row, automated accessibility audit (axe) per template, Lighthouse performance budget.
-
-## Running it
+## Running it on another machine
 
 ```
+# Node 22 LTS (nvm use, or install from nodejs.org)
 cd site
-npm install
-npm run dev                 # http://localhost:4321 (review mode)
-npm run build && npx astro preview
-npm run build:public && node --experimental-strip-types scripts/check-content.mjs
+npm ci
+npm run dev                      # http://localhost:4321, review mode, live reload
+npm run validate                 # full build + checks, as CI does
+npm run build && npm run preview -- --port 4322
+npm run qa                       # in a second terminal, against :4322
 ```
+Chrome (or Edge) must be installed for `qa` and `screenshots`; set `CHROME_PATH` if it is not found.

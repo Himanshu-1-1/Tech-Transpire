@@ -6,7 +6,8 @@ import PageHeader from '../../components/PageHeader.astro';
 import InsightCard from '../../components/InsightCard.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import { paragraph } from '../../lib/content';
-import { insights, TYPE_LABEL, type InsightType } from '../../lib/insights';
+import { visibleInsights as insights, TYPE_LABEL, type InsightType } from '../../lib/insights';
+import { hasCaseStudiesPage } from '../../lib/routes';
 
 const intro = paragraph('TT-PG-003-B02', 'Practical insights');
 const plural: Record<InsightType, string> = { 'case-study': 'Case studies', perspective: 'Perspectives', guide: 'Guides' };
@@ -20,10 +21,10 @@ const types = (Object.keys(TYPE_LABEL) as InsightType[]).map((t) => ({ t, n: ins
       <div class="filters" role="group" aria-label="Filter by type">
         <button class="chip" type="button" data-filter="all" aria-pressed="true">All <span class="count">{insights.length}</span></button>
         {types.map(({ t, n }) => <button class="chip" type="button" data-filter={t} aria-pressed="false">{plural[t]} <span class="count">{n}</span></button>)}
-        <a class="chip" href="/insights/case-studies" style="margin-left:auto">Case studies page →</a>
+        {hasCaseStudiesPage && <a class="chip" href="/insights/case-studies" style="margin-left:auto">Case studies page →</a>}
       </div>
       <p class="visually-hidden" aria-live="polite" id="filter-status"></p>
-      <ul class="grid grid-3" id="insight-list">{insights.map((i) => <InsightCard insight={i} />)}</ul>
+      <ul class:list={['grid', insights.length < 3 ? 'grid-2' : 'grid-3']} id="insight-list">{insights.map((i) => <InsightCard insight={i} />)}</ul>
     </div>
   </section>
   <CtaBand eyebrow="Start the conversation" line="Most companies don't fail in execution, they fail before it begins." ctas={[{ label: 'Start a Conversation', href: '/contact-us' }]} />

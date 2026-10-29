@@ -31,6 +31,7 @@ Phase 1 covers discovery, content preservation, information architecture and the
 | 16 | [16-open-decisions-matrix.md](16-open-decisions-matrix.md) | Eight decisions with recommendations (all approved 2026-10-29) |
 | 17 | [17-approved-corrections-log.md](17-approved-corrections-log.md) | Exact before/after of every approved change to existing wording |
 | 18 | [18-drive-master-reconciliation.md](18-drive-master-reconciliation.md) | Master Drive folder review (MS-01 closed), including the superseded May 2026 draft |
+| 19 | [19-article-claims-report.md](19-article-claims-report.md) | Exact unverified claims in each article (AC-xx) and on public pages (H-xx); what holds each article |
 | — | [drafts/](drafts/) | New content for approval: Healthcare page, Privacy Policy, other N-xx items |
 
 ## Data and source files

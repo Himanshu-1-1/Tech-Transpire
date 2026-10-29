@@ -1,7 +1,8 @@
 ---
 import { Image } from 'astro:assets';
 import Flag from './Flag.astro';
-import { contact, entityLine, showIndustries, approvals, isReview } from '../lib/site';
+import { contact, entityLine, showIndustries, approvals, isReview, location } from '../lib/site';
+import { hasCaseStudiesPage } from '../lib/routes';
 import { logo } from '../lib/images';
 
 const year = new Date().getFullYear();
@@ -11,10 +12,11 @@ const showPrivacy = isReview || approvals.privacyPolicy;
   <div class="container foot-grid">
     <div class="foot-brand">
       <a class="brand" href="/" aria-label="Tech Transpire home">
-        <Image src={logo} alt="" width={80} height={80} />
-        <span>Tech Transpire</span>
+        <Image src={logo} alt="" width={96} height={96} />
+        <span class="wordmark"><b>Tech</b> Transpire</span>
       </a>
       <p class="tagline">Clarity Before Change. Confidence Through Execution.</p>
+      <p class="place">{location.label}</p>
     </div>
     <nav class="foot-col" aria-labelledby="foot-explore">
       <h2 id="foot-explore">Explore</h2>
@@ -22,7 +24,7 @@ const showPrivacy = isReview || approvals.privacyPolicy;
         <li><a href="/services">Expertise</a></li>
         {showIndustries && <li><a href="/industries">Industries</a></li>}
         <li><a href="/insights">Insights</a></li>
-        <li><a href="/insights/case-studies">Case studies</a></li>
+        {hasCaseStudiesPage && <li><a href="/insights/case-studies">Case studies</a></li>}
         <li><a href="/about-us">About</a></li>
         <li><a href="/contact-us">Contact</a></li>
       </ul>
@@ -40,11 +42,7 @@ const showPrivacy = isReview || approvals.privacyPolicy;
   <div class="container">
     <div class="legal">
       <p>{entityLine} © {year} Akhani LLC.<Flag label="N-06 · legal wording review" /></p>
-      {showPrivacy && (
-        <ul>
-          <li><a href="/privacy-policy">Privacy Policy</a></li>
-        </ul>
-      )}
+      {showPrivacy && <ul><li><a href="/privacy-policy">Privacy Policy</a></li></ul>}
     </div>
   </div>
 </footer>

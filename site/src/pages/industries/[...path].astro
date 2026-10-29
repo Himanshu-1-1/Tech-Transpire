@@ -9,7 +9,9 @@ import Flag from '../../components/Flag.astro';
 import InsightCard from '../../components/InsightCard.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import { block, cards, callout, paragraph } from '../../lib/content';
-import { insightById, insightHref } from '../../lib/insights';
+import { insightById, insightHref, visibleById } from '../../lib/insights';
+import { isVisibleInsight } from '../../lib/routes';
+import SystemNodes from '../../components/SystemNodes.astro';
 import { showIndustries, isReview } from '../../lib/site';
 import { D04_ATTRIBUTION } from '../../lib/claims';
 import { asset } from '../../lib/images';
@@ -26,7 +28,7 @@ const situations = [
   { title: 'Customer implementation in a healthcare e-learning platform', insight: 'TT-INS-005', quotes: [paragraph('TT-INS-005-B03', 'A healthcare e-learning platform')], attribution: callout(block('TT-INS-005-B08')).attribution },
   { title: 'Purchasing across a multi-location, PE-backed care network', insight: 'TT-INS-009', quotes: [paragraph('TT-INS-009-B04', 'A private equity-backed eye care operator')], pending: true },
   { title: 'Data loss at an unowned handoff', insight: 'TT-INS-008', quotes: [paragraph('TT-INS-008-B04', 'A healthcare client was experiencing data loss')], pending: true },
-].filter((s) => isReview || !s.pending);
+].filter((s) => isReview || (!s.pending && isVisibleInsight(s.insight)));
 
 const components = cards(block('TT-PG-002-B05'));
 const comp = (t: string) => components.find((c) => c.title === t)!;
@@ -36,8 +38,9 @@ const applies = [
   { c: comp('Transformation Recovery'), why: 'Long-running migrations under compliance pressure', ev: ['TT-INS-002', 'TT-INS-003'] },
   { c: comp('Adoption & Outcomes'), why: 'Keeping gains after the engagement ends', ev: ['TT-INS-010'] },
 ];
-const related = ['TT-INS-002', 'TT-INS-003', 'TT-INS-005'].map(insightById);
-const consumer = insightById('TT-INS-004');
+const related = visibleById(['TT-INS-002', 'TT-INS-003', 'TT-INS-005']);
+const consumer = visibleById(['TT-INS-004'])[0];
+const evidenceLinks = (ids: string[]) => visibleById(ids);
 const cta = [{ label: 'Start a Conversation', href: '/contact-us?interest=discovery' }];
 ---
 {isHealthcare ? (
@@ -68,26 +71,31 @@ const cta = [{ label: 'Start a Conversation', href: '/contact-us?interest=discov
 
     <section class="section section--mist" aria-labelledby="apply-h">
       <div class="container">
-        <div class="section-head"><h2 id="apply-h">How the offer applies here<Flag label="N-05 · draft" /></h2></div>
+        <div class="two-col" style="align-items:center;margin-bottom:clamp(40px,4.5vw,64px)">
+          <div class="section-head" style="margin:0"><h2 id="apply-h">How the offer applies here<Flag label="N-05 · draft" /></h2></div>
+          <SystemNodes />
+        </div>
         <ul class="grid grid-2">
           {applies.map((a) => (
-            <li class="card reveal">
+            <li class="card reveal" data-spotlight>
               <span class="icon-tile"><Icon name={a.c.icon} /></span>
               <h3>{a.c.title}</h3>
               <p><strong style="color:var(--ink)">{a.why}.</strong> {a.c.body}</p>
-              <div class="card-links">{a.ev.map((id) => { const i = insightById(id); return <a href={insightHref(i)}>{i.cardTitle}</a>; })}</div>
+              {evidenceLinks(a.ev).length > 0 && <div class="card-links">{evidenceLinks(a.ev).map((i) => <a href={insightHref(i)}>{i.cardTitle}</a>)}</div>}
             </li>
           ))}
         </ul>
       </div>
     </section>
 
-    <section class="section" aria-labelledby="rel-h">
-      <div class="container">
-        <div class="section-head section-head--split"><h2 id="rel-h">Healthcare case studies</h2><a class="link-arrow" href="/insights">All insights <span class="arr" aria-hidden="true">→</span></a></div>
-        <ul class="grid grid-3">{related.map((i) => <InsightCard insight={i} />)}</ul>
-      </div>
-    </section>
+    {related.length > 0 && (
+      <section class="section" aria-labelledby="rel-h">
+        <div class="container">
+          <div class="section-head section-head--split"><h2 id="rel-h">Healthcare case studies</h2><a class="link-arrow" href="/insights">All insights <span class="arr" aria-hidden="true">→</span></a></div>
+          <ul class="grid grid-3">{related.map((i) => <InsightCard insight={i} />)}</ul>
+        </div>
+      </section>
+    )}
     <CtaBand eyebrow="Start the conversation" line="Most companies don't fail in execution, they fail before it begins." ctas={cta} />
   </Base>
 ) : (
@@ -107,10 +115,12 @@ const cta = [{ label: 'Start a Conversation', href: '/contact-us?interest=discov
             <span class="link-arrow" style="margin-top:8px">Explore healthcare experience <span class="arr" aria-hidden="true">→</span></span>
           </div>
         </a>
-        <div style="margin-top:56px">
-          <p class="eyebrow eyebrow--muted" style="margin-bottom:16px">Selected experience</p>
-          <ul class="grid grid-3"><InsightCard insight={consumer} /></ul>
-        </div>
+        {consumer && (
+          <div style="margin-top:56px">
+            <p class="eyebrow eyebrow--muted" style="margin-bottom:16px">Selected experience</p>
+            <ul class="grid grid-3"><InsightCard insight={consumer} /></ul>
+          </div>
+        )}
       </div>
     </section>
     <CtaBand eyebrow="Start the conversation" line="Most companies don't fail in execution, they fail before it begins." ctas={cta} />

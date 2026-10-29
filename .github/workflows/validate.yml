@@ -1,0 +1,23 @@
+name: Validate website
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: site
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: site/.nvmrc
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+      - run: npm ci
+      # Builds review + public sites, runs backend tests, verbatim/gating checks and link checks.
+      # No secrets are used or needed. Nothing is deployed.
+      - run: npm run validate

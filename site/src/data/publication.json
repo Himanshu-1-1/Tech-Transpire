@@ -1,0 +1,48 @@
+{
+  "_readme": "Publication state. Mirrors docs/website-architecture/12-gaps-and-decisions.md §3 and 19-article-claims-report.md. Change a status to 'verified' only when the register records the verification. An article is public only when every claim listed for it is verified or covered by an approved omission.",
+  "claims": {
+    "C-01": { "status": "withdrawn", "note": "\"$3M+ revenue impact\" label withdrawn (D-05)" },
+    "C-02": { "status": "pending", "note": "$3M fraud losses prevented, global eCommerce" },
+    "C-03": { "status": "pending", "note": "$3M annual savings, healthcare purchasing standardization" },
+    "C-04": { "status": "pending", "note": "90+ locations, one supply chain engagement" },
+    "C-05": { "status": "pending", "note": "63% reduction, 209 → 78 days" },
+    "C-06": { "status": "pending", "note": "$89M purchasing volume centralized" },
+    "C-07": { "status": "pending", "note": "7-year initiative closed 2 years early" },
+    "C-08": { "status": "pending", "note": "$311K savings, 50% quality, division acquired (TT-INS-003)" },
+    "C-09": { "status": "pending", "note": "1,938 hours, 12 FTE, 166 people in six countries (TT-INS-004)" },
+    "C-10": { "status": "conditional", "note": "\"over a decade\": approved if the bio timeline is accurate" },
+    "C-11": { "status": "verified", "note": "Lean Six Sigma Black Belt (LSSBB)" },
+    "C-12": { "status": "pending", "note": "PMP, Kranthi Kumar Goli" },
+    "C-13": { "status": "pending", "note": "Devjet Bag bio" },
+    "C-14": { "status": "pending", "note": "\"Twelve other programs subsequently replicated it.\"" },
+    "C-15": { "status": "pending", "note": "\"6-8 weeks\" and \"2 to 6 weeks\" still current" },
+    "C-17": { "status": "pending", "note": "\"Response within 1 business day\" can be met" },
+    "C-18": { "status": "pending", "note": "Pre-founding status of TT-INS-007 to 010" },
+    "C-20": { "status": "pending", "note": "Hemang Dwivedi profile" },
+    "H-01": { "status": "pending", "note": "Home card: \"three times what it would have been upfront\"" },
+    "AC-001-1": { "status": "pending" }, "AC-001-2": { "status": "pending" }, "AC-001-3": { "status": "pending" }, "AC-001-4": { "status": "pending" },
+    "AC-002-1": { "status": "pending" }, "AC-002-2": { "status": "pending" }, "AC-002-3": { "status": "pending" }, "AC-002-4": { "status": "pending" }, "AC-002-5": { "status": "pending" }, "AC-002-6": { "status": "pending" }, "AC-002-7": { "status": "pending" },
+    "AC-003-1": { "status": "pending" }, "AC-003-2": { "status": "pending" }, "AC-003-3": { "status": "pending" }, "AC-003-4": { "status": "pending" }, "AC-003-5": { "status": "pending" }, "AC-003-6": { "status": "pending" }, "AC-003-7": { "status": "pending" }, "AC-003-8": { "status": "pending" }, "AC-003-9": { "status": "pending" },
+    "AC-004-1": { "status": "pending" }, "AC-004-2": { "status": "pending" }, "AC-004-3": { "status": "pending" }, "AC-004-4": { "status": "pending" }, "AC-004-5": { "status": "pending" }, "AC-004-6": { "status": "pending" },
+    "AC-005-1": { "status": "pending" }, "AC-005-2": { "status": "pending" }, "AC-005-3": { "status": "pending" }, "AC-005-4": { "status": "pending" }, "AC-005-5": { "status": "pending" }, "AC-005-6": { "status": "pending" }, "AC-005-7": { "status": "pending" },
+    "AC-007-1": { "status": "pending" }, "AC-007-2": { "status": "pending" }, "AC-007-3": { "status": "pending" }, "AC-007-4": { "status": "pending" }, "AC-007-5": { "status": "pending" }, "AC-007-6": { "status": "pending" },
+    "AC-009-1": { "status": "pending" }, "AC-009-2": { "status": "pending" }, "AC-009-3": { "status": "pending" }, "AC-009-4": { "status": "pending" },
+    "AC-010-1": { "status": "pending" }, "AC-010-2": { "status": "pending" }
+  },
+  "articles": {
+    "TT-INS-001": ["AC-001-1", "AC-001-2", "AC-001-3", "AC-001-4"],
+    "TT-INS-002": ["AC-002-1", "AC-002-2", "AC-002-3", "AC-002-4", "AC-002-5", "AC-002-6", "AC-002-7"],
+    "TT-INS-003": ["AC-003-1", "AC-003-2", "AC-003-3", "AC-003-4", "AC-003-5", "AC-003-7", "AC-003-8", "AC-003-9"],
+    "TT-INS-004": ["AC-004-1", "AC-004-2", "AC-004-3", "AC-004-4", "AC-004-5", "AC-004-6"],
+    "TT-INS-005": ["AC-005-1", "AC-005-2", "AC-005-3", "AC-005-4", "AC-005-5", "AC-005-6", "AC-005-7"],
+    "TT-INS-006": [],
+    "TT-INS-007": ["AC-007-1", "AC-007-2", "AC-007-3", "AC-007-4", "AC-007-5", "AC-007-6"],
+    "TT-INS-008": [],
+    "TT-INS-009": ["AC-009-1", "AC-009-2", "AC-009-3", "AC-009-4"],
+    "TT-INS-010": ["AC-010-1", "AC-010-2"]
+  },
+  "caseStudies": ["TT-INS-002", "TT-INS-003", "TT-INS-004", "TT-INS-005"],
+  "omissions": {
+    "_example": { "blocks": ["TT-INS-009-B05"], "covers": ["AC-009-3"], "approval": "D-xx, date" }
+  }
+}

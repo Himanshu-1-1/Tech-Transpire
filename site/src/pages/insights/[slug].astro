@@ -8,15 +8,20 @@ import Flag from '../../components/Flag.astro';
 import FitList from '../../components/FitList.astro';
 import InsightCard from '../../components/InsightCard.astro';
 import { blocksOf, cards, steps, stats, callout, fitlist, ctas, lines, ICON_KEYS, type Block, type Card } from '../../lib/content';
-import { insights, insightById, TYPE_LABEL, type Insight } from '../../lib/insights';
+import { visibleInsights, visibleById, TYPE_LABEL, type Insight } from '../../lib/insights';
+import { blockingClaims, omittedBlocks } from '../../lib/claims';
+import { isReview } from '../../lib/site';
 import { asset } from '../../lib/images';
 
 export function getStaticPaths() {
-  return insights.map((i) => ({ params: { slug: i.slug }, props: { insight: i } }));
+  return visibleInsights.map((i) => ({ params: { slug: i.slug }, props: { insight: i } }));
 }
 const { insight: i } = Astro.props as { insight: Insight };
 
-const blocks = blocksOf(i.id).filter((b) => b.block_id !== `${i.id}-B01`);
+// Approved editorial omissions are removed from the public build only (19, publication.json).
+const omitted = omittedBlocks(i.id);
+const held = blockingClaims(i.id);
+const blocks = blocksOf(i.id).filter((b) => b.block_id !== `${i.id}-B01` && (isReview || !omitted.has(b.block_id)));
 const ctaBlock = blocks.find((b) => b.block_type === 'cta');
 const actions = ctaBlock ? ctas(ctaBlock) : [];
 // A closing "Ready to …" section directly before the CTA becomes the CTA panel's text.
@@ -49,7 +54,7 @@ function quotePairs(b: Block) {
 
 const sameAsTitle =(h: string) => h.trim().toLowerCase() === i.h1.trim().toLowerCase();
 const crumbs = [{ label: 'Home', href: '/' }, { label: 'Insights', href: '/insights' }, ...(i.type === 'case-study' ? [{ label: 'Case studies', href: '/insights/case-studies' }] : [])];
-const related = i.related.map(insightById);
+const related = visibleById(i.related);
 const reviewNotes: Record<string, string> = {
   'TT-INS-003': 'E-09 · one unverified sentence withheld until C-14 is verified',
   'TT-INS-007': 'C-18 · confirm pre-founding attribution',
@@ -64,6 +69,7 @@ const jsonLd = [
 ];
 ---
 <Base title={`${i.cardTitle} | Tech Transpire`} description={i.excerpt} ogImage={asset(i.cover)} jsonLd={jsonLd}>
+  <div class="reading-progress" aria-hidden="true"></div>
   <header class="article-head">
     <div class="container">
       <div class="copy">
@@ -75,12 +81,13 @@ const jsonLd = [
         {i.standfirst && <p class="standfirst">{i.standfirst}</p>}
         <p class="article-meta"><span>{i.author}</span><time datetime={i.dateIso}>{i.dateLabel}</time><span>{i.readTime}</span></p>
         {reviewNotes[i.id] && <Flag label={reviewNotes[i.id]} block />}
+        {held.length > 0 && <Flag label={`Held from public build: ${held.length} unverified claims (${held.join(', ')}); see 19-article-claims-report`} block />}
       </div>
       <div class="article-cover"><Image src={asset(i.cover)} alt="" widths={[600, 1000]} sizes="(max-width: 899px) 100vw, 480px" loading="eager" /></div>
     </div>
   </header>
 
-  <article class="article-body" aria-labelledby="article-title">
+  <article class="article-body" aria-labelledby="article-title" data-reading>
     <div class="container flow">
       {items.map(({ block: b, extraCard }) => {
         const heading = b.heading && !sameAsTitle(b.heading) ? b.heading : '';
@@ -133,7 +140,7 @@ const jsonLd = [
           {closing ? <h2 id="cta-h">{closing.heading}</h2> : <p class="eyebrow" id="cta-h">Start the conversation</p>}
           {closing?.text.map((p) => <p style="color:var(--on-navy-muted)">{p}</p>)}
           <div class="ctas">
-            <a class="btn btn-light" href={actions[0].href}>{actions[0].label}</a>
+            <a class="btn btn-light" href={actions[0].href} data-magnetic><span class="btn-label">{actions[0].label}</span> <span class="arr" aria-hidden="true">→</span></a>
             {actions[1] && <a class="link-arrow" href={actions[1].href}>{actions[1].label} <span class="arr" aria-hidden="true">→</span></a>}
           </div>
         </section>
@@ -144,10 +151,10 @@ const jsonLd = [
   <section class="section section--mist" aria-labelledby="rel-h">
     <div class="container">
       <div class="section-head section-head--split">
-        <h2 id="rel-h">Related insights</h2>
+        <h2 id="rel-h">{related.length ? 'Related insights' : 'Related expertise'}</h2>
         <a class="link-arrow" href={i.expertise.href}>Related expertise: {i.expertise.label} <span class="arr" aria-hidden="true">→</span></a>
       </div>
-      <ul class="grid grid-3">{related.map((r) => <InsightCard insight={r} />)}</ul>
+      {related.length > 0 && <ul class:list={['grid', related.length < 3 ? 'grid-2' : 'grid-3']}>{related.map((r) => <InsightCard insight={r} />)}</ul>}
     </div>
   </section>
 </Base>

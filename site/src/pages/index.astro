@@ -1,6 +1,6 @@
 ---
 // Home. Narrative: understand the challenge → establish credibility → explain the approach
-// → demonstrate outcomes → start a conversation.
+// → demonstrate outcomes → start a conversation. First fold follows the approved reference.
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
@@ -8,113 +8,132 @@ import Flag from '../components/Flag.astro';
 import Blueprint from '../components/Blueprint.astro';
 import InsightCard from '../components/InsightCard.astro';
 import CtaBand from '../components/CtaBand.astro';
+import MethodPath from '../components/MethodPath.astro';
 import { block, lines, cards, steps, callout, fitlist, carouselPairs, ctas, team } from '../lib/content';
-import { insightById, insightHref } from '../lib/insights';
+import { insightById, insightHref, visibleInsights, visibleById } from '../lib/insights';
+import { isVisibleInsight, CASE_STUDIES } from '../lib/routes';
 import { visibleResults } from '../lib/results';
 import { isVerified, claims } from '../lib/claims';
-import { asset, photo } from '../lib/images';
+import { photo, asset } from '../lib/images';
 import { approvals, isReview, contact } from '../lib/site';
 
 const [, heroLead, heroSub] = lines(block('TT-PG-001-B02'));
-const statementsAll = carouselPairs(block('TT-PG-001-B01'));
-const [opening, seeWhatBreaks, ...statements] = statementsAll;
+const [opening, seeWhatBreaks, ...statements] = carouselPairs(block('TT-PG-001-B01'));
 const problems = cards(block('TT-PG-001-B03'));
 const [methodTitle, methodLead, methodSub] = lines(block('TT-PG-001-B04'));
 const method = steps(block('TT-PG-001-B05'));
 const outcome = callout(block('TT-PG-001-B06'));
 const fit = fitlist(block('TT-PG-001-B07'));
-const [startConversation, seeOurWork] = ctas(block('TT-PG-001-B09'));
+const [startConversation] = ctas(block('TT-PG-001-B09'));
 const [aboutEyebrow, aboutTitle, aboutSub] = lines(block('TT-PG-004-B01'));
 const mack = team(block('TT-PG-004-B04'))[0];
 const founderIntro = mack.bio[0].split('. ')[0] + '.';
 const showFounder = isReview || isVerified('C-10');
-const contactHeading = 'Start the conversation'; // [E] TT-PG-005 section heading
+const showTimeframe = isReview || isVerified('C-15');
+// Leadership photography: only the labelled original (not the AI-generated archive image).
+const mackPhoto = photo('mack akhani');
 
-// N-02 (draft): outcome themes, each linked to the article that best evidences it.
+// Approved outcome themes (2026-10-29). Supporting lines are N-02 drafts, review build only.
 const themes = [
-  { title: 'Better Decisions', icon: 'decisions', line: 'Decisions on systems, vendors and process design made on a validated problem definition, not under pressure.', insight: 'TT-INS-006' },
-  { title: 'Improved Performance', icon: 'growth', line: 'Time, effort and quality measured before and after, so improvement is visible rather than assumed.', insight: 'TT-INS-005' },
-  { title: 'Efficient Operations', icon: 'network', line: 'Processes, handoffs and ownership that work end to end, not just step by step.', insight: 'TT-INS-008' },
-  { title: 'Sustainable Transformation', icon: 'sustain', line: 'Results your own team can keep improving.', insight: 'TT-INS-010' },
-].map((t) => ({ ...t, article: insightById(t.insight) }));
+  { title: 'Better Decisions', icon: 'bars', line: 'Decisions on systems, vendors and process design made on a validated problem definition, not under pressure.', insight: 'TT-INS-006' },
+  { title: 'Improved Performance', icon: 'people', line: 'Time, effort and quality measured before and after, so improvement is visible rather than assumed.', insight: 'TT-INS-005' },
+  { title: 'Efficient Operations', icon: 'settings', line: 'Processes, handoffs and ownership that work end to end, not just step by step.', insight: 'TT-INS-008' },
+  { title: 'Sustainable Transformation', icon: 'leaf', line: 'Results your own team can keep improving.', insight: 'TT-INS-010' },
+].map((t) => ({ ...t, article: insightById(t.insight), linked: isVisibleInsight(t.insight) }));
 const showThemeLines = isReview || approvals.outcomeThemeCopy;
 
-const featured = ['TT-INS-003', 'TT-INS-006', 'TT-INS-008'].map(insightById);
+const featured = [...visibleById(['TT-INS-003', 'TT-INS-006', 'TT-INS-008']), ...visibleInsights].filter((v, i, a) => a.indexOf(v) === i).slice(0, 3);
 const heroPhoto = photo('skyline');
 const ctaPhoto = photo('lounge');
+const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution.'];
 ---
 <Base
   title="Tech Transpire — Clarity Before Change. Confidence Through Execution."
   description="We bring clarity to complex systems before execution, so mid-sized organizations at high-stakes transformation points move forward with confidence."
+  heroHeader
 >
+  <Fragment slot="head">{heroPhoto && <link rel="preload" as="image" href={heroPhoto.src} fetchpriority="high" />}</Fragment>
+
   <!-- 1 · Brand statement -->
-  <section class="hero" aria-labelledby="hero-h">
+  <section class="hero" aria-labelledby="hero-h" data-parallax>
     <div class="hero-media">
-      {heroPhoto ? <Image src={heroPhoto} alt="" widths={[900, 1400, 2000]} sizes="(max-width: 899px) 100vw, 60vw" loading="eager" fetchpriority="high" /> : <div class="media-fallback"><Blueprint idSuffix="hero" /></div>}
+      {heroPhoto
+        ? <Image src={heroPhoto} alt="Executives meeting in a glass-walled office above a city skyline" widths={[900, 1400, 2000]} sizes="(max-width: 899px) 100vw, 60vw" loading="eager" fetchpriority="high" />
+        : <div class="media-fallback"><Blueprint idSuffix="hero" /></div>}
     </div>
+    <div class="hero-light" aria-hidden="true"></div>
     <div class="container hero-inner">
       <div class="hero-copy">
-        <p class="eyebrow">Clarity · Alignment · Execution<Flag label="Company lockup line · confirm use" /></p>
-        <h1 id="hero-h"><span>Clarity Before Change.</span> <span class="accent">Confidence Through Execution.</span></h1>
-        <p class="lead">{heroLead}</p>
-        <p class="sub">{heroSub}</p>
-        <div class="ctas">
-          <a class="btn btn-primary" href={startConversation.href}>{startConversation.label}</a>
-          <a class="link-arrow" href={seeOurWork.href}>{seeOurWork.label} <span class="arr" aria-hidden="true">→</span></a>
+        <p class="eyebrow enter" style="--d:0">Clarity · Alignment · Execution</p>
+        <h1 id="hero-h">
+          <span class="line"><span style="--d:0">{first}</span></span>{' '}
+          <span class="line accent"><span style="--d:1">{second.split(' ')[0]}</span></span>{' '}
+          <span class="line accent"><span style="--d:2">{second.split(' ').slice(1).join(' ')}</span></span>
+        </h1>
+        <p class="lead enter" style="--d:4">{heroLead}</p>
+        <div class="ctas enter" style="--d:5">
+          <a class="btn btn-primary" href={startConversation.href} data-magnetic><span class="btn-label">{startConversation.label}</span> <span class="arr" aria-hidden="true">→</span></a>
+          <a class="link-arrow" href="/services">Explore Our Expertise <span class="arr" aria-hidden="true">→</span></a>
         </div>
       </div>
-      {!heroPhoto && <p class="hero-caption"><Flag label="Photograph pending: “Executive Meeting Above the Skyline” (Concept 06)" /></p>}
+      {!heroPhoto && <p class="hero-caption"><Flag label="Photograph pending: “Executive Meeting Above the Skyline”" /></p>}
     </div>
   </section>
 
+  <nav class="container outcome-bar enter" style="--d:6" aria-label="What we help you achieve">
+    <ul>
+      {themes.map((t) => (
+        <li><a href="#outcomes"><Icon name={t.icon} /><span>{t.title.split(' ')[0]}<small>{t.title.split(' ').slice(1).join(' ')}</small></span></a></li>
+      ))}
+    </ul>
+  </nav>
+
   <!-- 2 · Understand the challenge -->
-  <section class="section section--mist" aria-labelledby="familiar-h">
+  <section class="section" aria-labelledby="familiar-h">
     <div class="container">
       <div class="section-head">
         <h2 id="familiar-h">{opening.prompt}</h2>
         <p class="lead">{seeWhatBreaks.statement}</p>
       </div>
       <div class="statements">
-        {statements.map((s) => (
-          <figure class="statement reveal"><blockquote>{s.statement}</blockquote><figcaption>{s.prompt}</figcaption></figure>
-        ))}
+        {statements.map((s) => <figure class="statement reveal"><blockquote>{s.statement}</blockquote><figcaption>{s.prompt}</figcaption></figure>)}
       </div>
-      <ul class="grid grid-3" style="margin-top: clamp(48px, 5vw, 72px)">
+      <ul class="grid grid-3" style="margin-top: clamp(52px, 5.5vw, 80px)">
         {problems.map((p) => (
-          <li class="card reveal"><span class="icon-tile"><Icon name={p.icon} /></span><h3>{p.title}</h3><p>{p.body}</p></li>
+          <li class="card reveal" data-spotlight>
+            <span class="icon-tile"><Icon name={p.icon} /></span><h3>{p.title}</h3><p>{p.body}{p.title === 'Hidden misalignment' && <Flag label="H-01 · “three times” needs a source before launch" />}</p>
+          </li>
         ))}
       </ul>
     </div>
   </section>
 
   <!-- 3 · Establish credibility -->
-  <section class="section" aria-labelledby="built-h">
-    <div class="container founder">
+  <section class="section section--mist" aria-labelledby="built-h">
+    <div class:list={['container', 'founder', { 'founder--solo': !showFounder }]}>
       {showFounder && (
         <figure class="founder-photo reveal">
-          <Image src={asset('TT-AS-003')} alt={`${mack.name}, ${mack.role}`} widths={[420, 720]} sizes="(max-width: 819px) 360px, 420px" />
-          <figcaption><strong>{mack.name}</strong><span>{mack.role}</span></figcaption>
+          {mackPhoto
+            ? <Image src={mackPhoto} alt={`${mack.name}, ${mack.role}`} widths={[440, 760]} sizes="(max-width: 819px) 360px, 440px" />
+            : <div class="monogram" aria-hidden="true">MA</div>}
+          <figcaption><strong>{mack.name}</strong><span>{mack.role}</span>{!mackPhoto && <Flag label="Photo pending: “Mack Akhani.png”" />}</figcaption>
         </figure>
       )}
-      <div class="founder-copy">
+      <div class="founder-copy reveal">
         <p class="eyebrow">{aboutEyebrow}</p>
         <h2 id="built-h">{aboutTitle}</h2>
         <p class="lead">{aboutSub}</p>
-        {showFounder && <p>{founderIntro}<Flag label="C-10 · confirm “over a decade” timeline" /></p>}
-        {showFounder && isVerified('C-11') && (
-          <ul class="credentials">
-            <li><Icon name="award" />Lean Six Sigma Black Belt<Flag label="C-11 ✓ · wording to approve" ok /></li>
-          </ul>
-        )}
+        {showFounder && <p>{founderIntro}<Flag label="C-10 · confirm “over a decade”" /></p>}
+        {showFounder && isVerified('C-11') && <ul class="credentials"><li><Icon name="award" />Lean Six Sigma Black Belt<Flag label="C-11 ✓ · wording to approve" ok /></li></ul>}
         <a class="link-arrow" href="/about-us">About Tech Transpire <span class="arr" aria-hidden="true">→</span></a>
       </div>
     </div>
   </section>
 
-  <!-- 4 · Explain the approach -->
-  <section class="section section--mist" id="method" aria-labelledby="method-h">
+  <!-- 4 · Explain the approach: signature method graphic -->
+  <section class="section section--navy on-navy" id="method" aria-labelledby="method-h">
     <div class="container">
-      <div class="two-col" style="margin-bottom: clamp(40px, 5vw, 64px)">
+      <div class="two-col" style="margin-bottom: clamp(48px, 5vw, 72px)">
         <div class="section-head" style="margin:0">
           <p class="eyebrow">Clarity before Execution.</p>
           <h2 id="method-h">{methodTitle}</h2>
@@ -124,20 +143,15 @@ const ctaPhoto = photo('lounge');
           <p class="muted">{methodSub}</p>
         </div>
       </div>
-      <div class="track" aria-hidden="true"><span class="track-label">Confusion</span><span class="track-line"></span><span class="track-label end">Clarity</span></div>
-      <ol class="steps">
-        {method.map((s, i) => (
-          <li class="step reveal"><span class="step-n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span><h3>{s.title}</h3><p>{s.body}</p></li>
-        ))}
-      </ol>
-      <aside class="panel" style="margin-top: clamp(48px, 5vw, 72px)" aria-labelledby="outcome-h">
+      <MethodPath steps={method} id="method-steps" />
+      <aside class="panel reveal" style="margin-top: clamp(56px, 6vw, 88px)" aria-labelledby="outcome-h">
         <div>
           <p class="eyebrow" id="outcome-h">{outcome.title}</p>
           <p class="panel-title">{outcome.lead}</p>
         </div>
         <div class="panel-body">
           {outcome.body.map((p) => <p>{p}</p>)}
-          {outcome.tag && <p class="tag"><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><polygon points="4,4 13,4 20,12 13,20 4,20 11,12" fill="#1B5EB5" /></svg>{outcome.tag}<Flag label="C-15 · confirm timeframe" /></p>}
+          {outcome.tag && showTimeframe && <p class="tag"><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><polygon points="4,4 13,4 20,12 13,20 4,20 11,12" fill="#3E9FDE" /></svg>{outcome.tag}<Flag label="C-15 · hidden in public until confirmed" /></p>}
           <a class="link-arrow" href="/services">Implementation Clarity &amp; Execution Blueprint <span class="arr" aria-hidden="true">→</span></a>
         </div>
       </aside>
@@ -145,20 +159,20 @@ const ctaPhoto = photo('lounge');
   </section>
 
   <!-- 5 · Demonstrate outcomes -->
-  <section class="section" aria-labelledby="themes-h">
+  <section class="section" id="outcomes" aria-labelledby="themes-h">
     <div class="container">
       <div class="section-head">
-        <h2 id="themes-h">What we help you achieve<Flag label="N-02 · heading and lines are drafts" /></h2>
+        <h2 id="themes-h">What we help you achieve<Flag label="Heading: approve (themes approved)" /></h2>
       </div>
       <ul class="grid grid-4">
         {themes.map((t) => (
-          <li class="photo-card reveal">
-            <div class="ph"><Image src={asset(t.article.cover)} alt="" widths={[400, 700]} sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 290px" /></div>
+          <li class="photo-card reveal" data-spotlight>
+            <div class="ph"><Image src={asset(t.article.cover)} alt="" widths={[400, 700]} sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 300px" /></div>
             <div class="body">
               <span class="icon-tile"><Icon name={t.icon} /></span>
-              <h3><a href={insightHref(t.article)}>{t.title}</a></h3>
-              {showThemeLines && <p>{t.line}</p>}
-              <div class="foot"><span>Read: {t.article.cardTitle}</span><span class="go" aria-hidden="true">→</span></div>
+              <h3>{t.linked ? <a href={insightHref(t.article)}>{t.title}</a> : t.title}</h3>
+              {showThemeLines && <p>{t.line}<Flag label="N-02 draft" /></p>}
+              {t.linked && <div class="foot"><span>Read: {t.article.cardTitle}</span><span class="go" aria-hidden="true">→</span></div>}
             </div>
           </li>
         ))}
@@ -171,10 +185,10 @@ const ctaPhoto = photo('lounge');
       <div class="container">
         <div class="section-head section-head--split">
           <div style="display:grid;gap:14px">
-            <p class="eyebrow">Track record<Flag label="Heading from company draft (May 2026)" /></p>
-            <h2 id="results-h">Results from the work<Flag label="New heading · approve" /></h2>
+            <h2 id="results-h">Selected Experience</h2>
+            <p class="muted" style="max-width:62ch">Engagements led by our leadership, including work completed before Tech Transpire was founded. Each is labelled accordingly.<Flag label="New line · approve" /></p>
           </div>
-          <a class="link-arrow" href="/insights/case-studies">Read the case studies <span class="arr" aria-hidden="true">→</span></a>
+          <a class="link-arrow" href={CASE_STUDIES}>Read the case studies <span class="arr" aria-hidden="true">→</span></a>
         </div>
         <ul class="results">
           {visibleResults.map((r) => (
@@ -182,10 +196,8 @@ const ctaPhoto = photo('lounge');
               <span class="result-value">{r.value}</span>
               <span class="result-label">{r.label}</span>
               {r.attribution && <span class="result-attr">{r.attribution}</span>}
-              <span>
-                <Flag label={`${r.claim} · ${claims[r.claim]?.status === 'verified' ? 'verified' : 'pending verification'}${r.attributionPending ? ' · attribution pending (C-18)' : ''}`} />
-              </span>
-              {r.insightSlug && <a href={`/insights/${r.insightSlug}`}>Read the engagement <span aria-hidden="true">→</span></a>}
+              <span><Flag label={`${r.claim} · ${claims[r.claim]?.status === 'verified' ? 'verified' : 'pending verification'}${r.attributionPending ? ' · attribution pending (C-18)' : ''}`} /></span>
+              {r.insightSlug && isVisibleInsight(r.insightId!) && <a href={`/insights/${r.insightSlug}`}>Read the engagement <span class="arr" aria-hidden="true">→</span></a>}
             </li>
           ))}
         </ul>
@@ -194,33 +206,34 @@ const ctaPhoto = photo('lounge');
     </section>
   )}
 
-  <section class="section" aria-labelledby="insights-h">
-    <div class="container">
-      <div class="section-head section-head--split">
-        <h2 id="insights-h">Insights</h2>
-        <a class="link-arrow" href="/insights">View all insights <span class="arr" aria-hidden="true">→</span></a>
+  {featured.length > 0 && (
+    <section class="section" aria-labelledby="insights-h">
+      <div class="container">
+        <div class="section-head section-head--split">
+          <h2 id="insights-h">Insights</h2>
+          <a class="link-arrow" href="/insights">View all insights <span class="arr" aria-hidden="true">→</span></a>
+        </div>
+        <ul class:list={['grid', featured.length === 3 ? 'grid-3' : 'grid-2']}>{featured.map((i) => <InsightCard insight={i} />)}</ul>
       </div>
-      <ul class="grid grid-3">{featured.map((i) => <InsightCard insight={i} />)}</ul>
-    </div>
-  </section>
+    </section>
+  )}
 
   <section class="section section--tight section--mist" aria-labelledby="fit-h">
     <div class="container fit-teaser">
-      <div style="display:grid;gap:18px">
+      <div style="display:grid;gap:18px;align-content:start">
         <h2 id="fit-h">Is this the right fit?</h2>
+        <p class="muted">{heroSub}</p>
         <a class="link-arrow" href="/services#fit">See the full fit list <span class="arr" aria-hidden="true">→</span></a>
       </div>
-      <div class="fit-col fit-col--yes">
-        <ul>
-          {fit.filter((f) => f.fit).slice(0, 3).map((f) => <li><Icon name="yes" class="" /><span>{f.text}</span></li>)}
-        </ul>
+      <div class="fit-col fit-col--yes reveal">
+        <ul>{fit.filter((f) => f.fit).slice(0, 3).map((f) => <li><Icon name="yes" class="" /><span>{f.text}</span></li>)}</ul>
       </div>
     </div>
   </section>
 
   <!-- 6 · Start a conversation -->
   <CtaBand
-    eyebrow={contactHeading}
+    eyebrow="Start the conversation"
     line={opening.statement}
     ctas={[{ label: startConversation.label, href: startConversation.href }, { label: 'Book a 30-minute intro call', href: contact.booking }]}
     photo={ctaPhoto}

@@ -4,25 +4,31 @@
   "type": "module",
   "description": "www.techtranspire.com, rebuilt on Astro. Content comes from docs/website-architecture/data.",
   "engines": {
-    "node": ">=20.3.0"
+    "node": ">=22.11.0 <23"
   },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "build:public": "cross-env SITE_MODE=public astro build",
     "preview": "astro preview",
+    "preview:public": "node dist-public/server/entry.mjs",
+    "test": "node --experimental-strip-types --no-warnings --test tests/inquiry.test.ts",
     "check:content": "node --experimental-strip-types --no-warnings scripts/check-content.mjs",
+    "check:links": "node scripts/check-links.mjs dist/client && node scripts/check-links.mjs dist-public/client",
+    "validate": "npm run build && npm run build:public && npm test && npm run check:content && npm run check:links",
+    "qa": "node scripts/qa-interactions.mjs",
     "screenshots": "node scripts/screenshots.mjs"
   },
   "dependencies": {
+    "@astrojs/node": "^9.5.5",
     "@astrojs/sitemap": "^3.7.4",
-    "@fontsource-variable/inter": "^5.3.0",
-    "@fontsource-variable/inter-tight": "^5.3.0",
     "@fontsource-variable/libre-franklin": "^5.3.0",
     "@fontsource-variable/newsreader": "^5.3.0",
-    "astro": "^5.18.2"
+    "astro": "^5.18.2",
+    "nodemailer": "^7.0.13"
   },
   "devDependencies": {
+    "@types/nodemailer": "^8.0.2",
     "cross-env": "^10.1.0",
     "puppeteer-core": "^24.43.1"
   }
