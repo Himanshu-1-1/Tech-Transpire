@@ -22,6 +22,8 @@ import { photo, asset } from '../lib/images';
 import { approvals, isReview, showMarkers, contact } from '../lib/site';
 
 const [, heroLead, heroSub] = lines(block('TT-PG-001-B02'));
+// Hero lead on two lines, breaking after "execution," (company request 2026-10-30). Words unchanged.
+const heroLeadLines = heroLead.split(/(?<=,) (?=so )/);
 const [opening, seeWhatBreaks, ...statements] = carouselPairs(block('TT-PG-001-B01'));
 const problems = cards(block('TT-PG-001-B03'));
 const [methodTitle, methodLead, methodSub] = lines(block('TT-PG-001-B04'));
@@ -86,10 +88,10 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
         <p class="eyebrow enter" style="--d:0">Clarity. Alignment. Execution.</p>
         <h1 id="hero-h">
           <span class="line"><span style="--d:0">{first}</span></span>{' '}
-          <span class="line accent"><span style="--d:1">{second.split(' ')[0]}</span></span>{' '}
-          <span class="line accent"><span style="--d:2">{second.split(' ').slice(1).join(' ')}<svg class="underline" viewBox="0 0 300 14" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M2 9 C 70 3, 150 3, 298 7" pathLength="1" /></svg></span></span>
+          {/* Two lines of equal width (company request 2026-10-30): line 2 is sized down in CSS. */}
+          <span class="line line--2 accent"><span style="--d:1">{second.split(' ')[0]}{' '}<span class="ul">{second.split(' ').slice(1).join(' ')}<svg class="underline" viewBox="0 0 300 14" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M2 9 C 70 3, 150 3, 298 7" pathLength="1" /></svg></span></span></span>
         </h1>
-        <p class="lead enter" style="--d:4">{heroLead}</p>
+        <p class="lead enter" style="--d:4">{heroLeadLines.map((l, i) => <>{i > 0 && <>{' '}<br class="lead-br" /></>}{l}</>)}</p>
         <div class="ctas enter" style="--d:5">
           <a class="btn btn-primary" href={startConversation.href} data-magnetic><span class="btn-label">{startConversation.label}</span> <span class="arr" aria-hidden="true">→</span></a>
           <a class="link-arrow" href="/services">Explore Our Expertise <span class="arr" aria-hidden="true">→</span></a>
