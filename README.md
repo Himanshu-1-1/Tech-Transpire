@@ -10,6 +10,6 @@ Rebuild of [www.techtranspire.com](https://www.techtranspire.com).
 | 4. Content migration and QA | Not started |
 | 5. Launch | Not started |
 
-Start with the [Phase 1 Review Pack](docs/website-architecture/00-phase-one-review.md).
+**New to this project (human or agent)?** Read [HANDOFF.md](HANDOFF.md) first — it is the durable project memory. Then open the [Phase 1 Review Pack](docs/website-architecture/00-phase-one-review.md).
 
 > **Note:** this repository is public. Claims marked pending in the [decisions register](docs/website-architecture/12-gaps-and-decisions.md) are unverified and are not approved for publication on the website.
