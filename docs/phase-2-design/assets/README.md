@@ -2,11 +2,17 @@
 
 Put company-owned or properly licensed photography here, **keeping the original filenames**. The site picks the files up automatically at build time and removes the "pending" placeholders.
 
-## Requested files
+## In use
+
+| File | Supplied | Used for | Rights |
+|---|---|---|---|
+| `hero-glass-office-skyline.png` (1672×941) | By the company in chat, 2026-10-29 | **Home hero** (any filename containing "skyline" is used) | **Unconfirmed**: confirm ownership or licence before production (`assets.csv` TT-AS-024) |
+
+## Still requested
 
 | File (exact name) | Drive location | Drive ID | Used for |
 |---|---|---|---|
-| `Executive Meeting Above the Skyline.png` | 202610 Tech Transpire Re-Write non image content | `1Ja0WokRhMG60uzJjqp3AQ3M7YKXGjxg7` | Home hero (Concept 06) |
+| `Executive Meeting Above the Skyline.png` | 202610 Tech Transpire Re-Write non image content | `1Ja0WokRhMG60uzJjqp3AQ3M7YKXGjxg7` | Optional now (the hero has a photo). If added, remove or rename the current hero file so only one "skyline" image remains |
 | `Executive Lounge Meeting Overlooking the City.png` | same folder | `1f_xVQoIMsF3IwZbTGYN92nEjEvFc-sqo` | Home closing conversation band |
 | `Mack Akhani.png` | ALL SITES Website Images / HEADSHOTS | `1x9fw65o2ubCacv250FqkZs1TvyV12HOJ` | Home "Built from experience" and About profile |
 

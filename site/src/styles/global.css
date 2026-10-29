@@ -138,7 +138,7 @@ p { text-wrap: pretty; }
    Header and navigation
    ========================================================================= */
 .site-header { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 60; background: rgba(255, 255, 255, .86); -webkit-backdrop-filter: saturate(160%) blur(14px); backdrop-filter: saturate(160%) blur(14px); border-bottom: 1px solid transparent; transition: background-color var(--t-card) var(--ease-out), border-color var(--t-card), box-shadow var(--t-card); }
-.has-hero-header .site-header:not(.is-scrolled) { background: rgba(255, 255, 255, 0); -webkit-backdrop-filter: none; backdrop-filter: none; }
+.has-hero-header .site-header:not(.is-scrolled) { background: #fff; -webkit-backdrop-filter: none; backdrop-filter: none; }
 .site-header.is-scrolled { background: rgba(255, 255, 255, .94); border-bottom-color: var(--line); box-shadow: 0 8px 24px -20px rgba(11, 26, 47, .45); }
 .hdr { display: flex; align-items: center; gap: 34px; min-height: var(--header-h); transition: min-height var(--t-card) var(--ease-out); }
 .is-scrolled .hdr { min-height: 68px; }
@@ -171,7 +171,7 @@ p { text-wrap: pretty; }
 .mobile-nav a { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid var(--line); color: var(--ink); text-decoration: none; font: 500 1.3rem/1.2 var(--f-display); }
 .mobile-nav a[aria-current] { color: var(--blue); }
 .has-hero-header .site-header:has(.mobile-nav.is-open) { background: #fff; }
-@media (max-width: 939px) { .nav { display: none; } .menu-btn { display: inline-flex; } .hdr { gap: 16px; } }
+@media (max-width: 939px) { .nav { display: none; } .menu-btn { display: inline-flex; margin-left: 0; } .hdr-cta { margin-left: auto; } .hdr { gap: 12px; } }
 @media (min-width: 940px) { .mobile-nav { display: none !important; } }
 @media (max-width: 519px) { .hdr-cta { display: none; } .wordmark { font-size: 19px; } .brand img { width: 38px; height: 38px; } }
 
@@ -179,8 +179,8 @@ p { text-wrap: pretty; }
    Hero (Home) — reference composition: copy left, architecture right, outcome row
    ========================================================================= */
 .hero { position: relative; isolation: isolate; background: var(--paper); margin-top: calc(-1 * var(--header-h)); padding-top: var(--header-h); overflow: hidden; }
-.hero-media { position: absolute; top: 0; right: 0; bottom: 0; width: 60%; z-index: -1; -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 30%); mask-image: linear-gradient(90deg, transparent 0%, #000 30%); animation: hero-media 1100ms var(--ease-emph) 200ms both; }
-.hero-media > img, .hero-media > .media-fallback { position: absolute; inset: -14px; width: calc(100% + 28px); height: calc(100% + 28px); object-fit: cover; object-position: 60% 50%; transform: translate3d(calc(var(--px, 0) * -14px), calc(var(--py, 0) * -10px), 0); transition: transform 600ms var(--ease-out); }
+.hero-media { position: absolute; top: var(--header-h); right: 0; bottom: 0; width: 60%; z-index: -1; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent 0%, transparent 6%, rgba(0, 0, 0, .55) 26%, #000 46%); mask-image: linear-gradient(90deg, transparent 0%, transparent 6%, rgba(0, 0, 0, .55) 26%, #000 46%); animation: hero-media 1100ms var(--ease-emph) 200ms both; }
+.hero-media > img, .hero-media > .media-fallback { position: absolute; inset: -14px; width: calc(100% + 28px); max-width: none; height: calc(100% + 28px); object-fit: cover; object-position: 62% 50%; transform: translate3d(calc(var(--px, 0) * -14px), calc(var(--py, 0) * -10px), 0); transition: transform 600ms var(--ease-out); }
 .hero-light { position: absolute; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(600px circle at calc(70% + var(--px, 0) * 20%) calc(35% + var(--py, 0) * 20%), rgba(255, 255, 255, .28), transparent 60%); }
 .hero-media::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 26%; background: linear-gradient(180deg, rgba(255, 255, 255, 0), #fff); }
 .hero-inner { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); align-content: center; min-height: clamp(560px, calc(100vh - 210px), 700px); padding-block: 40px 128px; }
@@ -211,7 +211,7 @@ p { text-wrap: pretty; }
 @media (max-width: 899px) {
   .hero { margin-top: 0; padding-top: 0; }
   .hero-inner { min-height: 0; padding-block: 32px 20px; }
-  .hero-media { position: relative; width: auto; height: clamp(240px, 62vw, 420px); margin: 0 calc(-1 * var(--gutter-r)) 0 calc(-1 * var(--gutter)); -webkit-mask-image: none; mask-image: none; }
+  .hero-media { position: relative; top: auto; width: auto; height: clamp(240px, 62vw, 420px); margin: 0 calc(-1 * var(--gutter-r)) 0 calc(-1 * var(--gutter)); -webkit-mask-image: none; mask-image: none; }
   .hero-media::after { height: 40%; }
   .hero-light { display: none; }
   .hero-caption { position: static; margin-top: 10px; }

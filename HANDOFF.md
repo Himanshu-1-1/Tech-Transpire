@@ -84,7 +84,7 @@ D-01 brand statement · D-02 signature offer · D-03 no AI page · D-04 pre-foun
 
 ## 7. Outstanding approvals and inputs (owner: company)
 
-1. **Photography:** save `Executive Meeting Above the Skyline.png`, `Executive Lounge Meeting Overlooking the City.png` and `Mack Akhani.png` to `docs/phase-2-design/assets/`; confirm rights.
+1. **Photography:** the **hero photo is in place** (`hero-glass-office-skyline.png`, supplied 2026-10-29; confirm its rights, TT-AS-024). Still wanted in `docs/phase-2-design/assets/`: `Executive Lounge Meeting Overlooking the City.png` (closing band) and `Mack Akhani.png` (portrait). Note: the dev server must be restarted after adding files there.
 2. **Claims ([19](docs/website-architecture/19-article-claims-report.md)):** verify, or approve omissions, to release articles. Fastest path: the 005/010 engagement (C-05) and the 001/002 engagement figures; omissions for 001 (B08), 009 (stats + tag + heading), 010 (stats + sentence).
 3. **Launch-blocking wording:** H-01 "three times…" · C-15 "6-8 weeks" / "2 to 6 weeks" · C-17 "1 business day".
 4. **New copy:** N-02 theme lines and the "What we help you achieve" heading · "Selected Experience" intro line · N-04 labels and sentence · N-05 Healthcare · N-06 · N-13 · N-14 · N-16 · N-17 · small UI labels ("A good fit", "Already under way?", "Recovery in practice", concept-graphic labels such as "Stalled" / "Back on a defined path").
