@@ -50,7 +50,7 @@ npm run dev                             # review site, http://localhost:4321 (no
 npm run dev:markers                     # same, with amber tags + "Review build" strip (REVIEW_MARKERS=1)
 npm run validate                        # both builds + tests + content/gating + links (CI)
 npm run build && npm run preview -- --port 4322
-npm run qa                              # 49 browser checks against :4322
+npm run qa                              # 48 browser checks against :4322
 npm run screenshots                     # 1440/768/390 into docs/phase-2-design/screenshots
 npm run deploy:pages                    # static review preview → gh-pages branch (D-34)
 ```
@@ -83,6 +83,7 @@ The machine used on 2026-10-29 had no system Node; a portable Node 22 from the s
 | 2026-10-30 | **Flip statements + dot cursor:** "Sounds Familiar?" statements flip in 3D on desktop to animated drawings (simple front cards on phones); trailing cursor ring removed, dot only. QA 49/49 |
 | 2026-10-30 | **New hero photo** (`Hero section.jpg`, executive lounge at dusk, TT-AS-026): anchored right so all four people show; chips and data path moved into the sky; glass-office photo kept as backup. Rights to confirm |
 | 2026-10-30 | **Polish round:** hero headline two equal-width lines (line 2 at .72em) and lead broken after "execution,"; tagline "Clarity. Alignment. Execution." moved under the logo (Home); statement cards redesigned as blue quote panels with mirrored quote marks at equal gaps, question on the back only (desktop; kept on phones); card numbers and dashes removed; "Want to learn more?" aligned to the fault-lines graphic. QA 49/49 |
+| 2026-10-30 | **Hero method story + system cursor:** custom cursor removed (system cursor). The hero chips now play the method once and rest: 01 on, trace draws to 04, 04 on, trace draws to 05, 05 completes with a check; circuit-style traces measured live so they stay attached; hover highlights a step and its traces. No endless loops. QA 48/48 |
 
 ## 5. Approved decisions (full text in 12 §5)
 

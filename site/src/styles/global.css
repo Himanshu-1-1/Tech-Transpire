@@ -712,23 +712,38 @@ a.v:hover { color: var(--blue); }
 @keyframes wipe-in { to { clip-path: inset(-6px -6px -6px -6px); } }
 .hero-media::before { content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(100deg, transparent 35%, rgba(255, 255, 255, .55) 50%, transparent 65%); transform: translateX(-100%); animation: sweep 1800ms var(--ease-out) 1200ms both; }
 @keyframes sweep { to { transform: translateX(110%); } }
-.hero-chips { position: absolute; top: var(--header-h); right: 0; bottom: 0; width: 46%; z-index: 0; pointer-events: none; }
+.hero-chips { position: absolute; top: var(--header-h); right: 0; bottom: 0; width: 46%; z-index: 1; pointer-events: none; }
 .hero-flow { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-/* Circuit-style traces (geometry from heroFlow() in interactions.ts): navy lines with a white
-   halo so they read over sky and glass, a junction dot where each leaves a step, an arrow into
-   the next, and a light pulse that runs 01 → 04, then 04 → 05. */
-.hero-flow path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
-.hero-flow .flow-base { stroke: #0D3A72; stroke-width: 2; marker-start: url(#flow-dot); marker-end: url(#flow-arrow); filter: drop-shadow(0 0 1px #fff) drop-shadow(0 0 3px rgba(255, 255, 255, .9)) drop-shadow(0 1px 5px rgba(13, 58, 114, .3)); animation: fade-in 700ms var(--ease-out) 1500ms both; }
-.hero-flow marker path, .hero-flow marker circle { fill: #0D3A72; }
-.hero-flow .flow-pulse { stroke: #8FD3FF; stroke-width: 3.4; stroke-dasharray: .1 .9; stroke-dashoffset: .1; opacity: 0; filter: drop-shadow(0 0 4px rgba(42, 115, 217, 1)) drop-shadow(0 0 8px rgba(62, 159, 222, .8)); animation: flow-pulse 4s cubic-bezier(.45, 0, .55, 1) 2200ms infinite; }
-.hero-flow .flow-pulse--late { animation-delay: 4000ms; }
-@keyframes flow-pulse { 0% { stroke-dashoffset: .1; opacity: 1; } 44% { stroke-dashoffset: -1; opacity: 1; } 45%, 100% { stroke-dashoffset: -1; opacity: 0; } }
-.chip-float { position: absolute; top: var(--top); left: var(--left); display: inline-flex; align-items: center; gap: 10px; padding: 11px 16px 11px 12px; border-radius: 999px; background: rgba(255, 255, 255, .72); -webkit-backdrop-filter: blur(10px) saturate(160%); backdrop-filter: blur(10px) saturate(160%); border: 1px solid rgba(255, 255, 255, .9); box-shadow: 0 18px 40px -18px rgba(11, 30, 56, .45); font: 600 13.5px/1 var(--f-body); color: var(--ink); white-space: nowrap; transform: translate3d(calc(var(--px, 0) * var(--depth) * -1px), calc(var(--py, 0) * var(--depth) * -1px), 0); transition: transform 500ms var(--ease-out); animation: chip-in 800ms var(--ease-emph) both; animation-delay: calc(var(--d) * 110ms + 400ms); }
+/* Method story (geometry and timing from heroFlow() in interactions.ts). Plays once, then rests:
+   .s1 chip 01 on → .s2 trace draws to 04 → .s3 chip 04 on → .s4 trace draws to 05 → .s5 chip 05
+   completes with a check. Navy traces with a white halo read over sky and glass. */
+.hero-flow path, .hero-flow circle { transition: opacity 400ms var(--ease-out), stroke-width var(--t-hover), fill var(--t-hover), stroke var(--t-hover); }
+.hero-flow .flow-base { fill: none; stroke: #0D3A72; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; filter: drop-shadow(0 0 1px #fff) drop-shadow(0 0 3px rgba(255, 255, 255, .9)) drop-shadow(0 1px 5px rgba(13, 58, 114, .3)); transition: stroke-dashoffset 950ms cubic-bezier(.65, 0, .35, 1), stroke-width var(--t-hover), stroke var(--t-hover); }
+.hero-flow .flow-dot, .hero-flow .flow-arrow { fill: #0D3A72; opacity: 0; filter: drop-shadow(0 0 2px #fff); }
+.hero-chips.s1 .flow-dot[data-leg='0'], .hero-chips.s3 .flow-dot[data-leg='1'] { opacity: 1; }
+.hero-chips.s2 .flow-base[data-leg='0'], .hero-chips.s4 .flow-base[data-leg='1'] { stroke-dashoffset: 0; }
+.hero-chips.s3 .flow-arrow[data-leg='0'], .hero-chips.s5 .flow-arrow[data-leg='1'] { opacity: 1; }
+/* Hover: the chip lifts and the traces it touches strengthen. */
+.hero-chips[data-hot~='0'] .flow-base[data-leg='0'], .hero-chips[data-hot~='1'] .flow-base[data-leg='1'] { stroke: var(--blue); stroke-width: 3; }
+.hero-chips[data-hot~='0'] :is(.flow-dot, .flow-arrow)[data-leg='0'], .hero-chips[data-hot~='1'] :is(.flow-dot, .flow-arrow)[data-leg='1'] { fill: var(--blue); }
+.chip-float { position: absolute; top: var(--top); left: var(--left); display: inline-flex; align-items: center; gap: 10px; padding: 11px 16px 11px 12px; border-radius: 999px; background: rgba(255, 255, 255, .72); -webkit-backdrop-filter: blur(10px) saturate(160%); backdrop-filter: blur(10px) saturate(160%); border: 1px solid rgba(255, 255, 255, .9); box-shadow: 0 18px 40px -18px rgba(11, 30, 56, .45); font: 600 13.5px/1 var(--f-body); color: var(--ink); white-space: nowrap; transform: translate3d(calc(var(--px, 0) * var(--depth) * -1px), calc(var(--py, 0) * var(--depth) * -1px), 0); transition: transform 500ms var(--ease-out); animation: chip-in 800ms var(--ease-emph) backwards; animation-delay: calc(var(--d) * 110ms + 400ms); }
 @keyframes chip-in { from { opacity: 0; translate: 0 14px; scale: .96; } to { opacity: 1; translate: 0 0; scale: 1; } }
 .chip-n { font: 600 11px/1 var(--f-body); letter-spacing: .1em; color: var(--blue); }
-.chip-node { position: relative; width: 10px; height: 10px; border-radius: 50%; background: var(--sky); box-shadow: 0 0 0 4px rgba(62, 159, 222, .22); }
-.chip-node::after { content: ''; position: absolute; inset: -4px; border-radius: 50%; border: 1.5px solid var(--sky); animation: ping 2.6s var(--ease-out) infinite; }
+.chip-node { position: relative; display: grid; place-items: center; width: 10px; height: 10px; border-radius: 50%; background: var(--sky); box-shadow: 0 0 0 4px rgba(62, 159, 222, .22); transition: background-color 400ms var(--ease-out), box-shadow 400ms var(--ease-out), width 400ms var(--ease-emph), height 400ms var(--ease-emph); }
+.chip-node::after { content: ''; position: absolute; inset: -4px; border-radius: 50%; border: 1.5px solid var(--sky); opacity: 0; }
 .chip-node--end { background: var(--blue); }
+.chip-check { width: 10px; height: 10px; opacity: 0; }
+.chip-check path { fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 500ms var(--ease-emph) 250ms; }
+/* A chip switches on once in the story: its node turns brand blue with a single ping and its
+   outline lights up. The last chip completes: the node grows into a check. */
+.chip-float { transition: transform 500ms var(--ease-out), box-shadow 400ms var(--ease-out), border-color 400ms var(--ease-out), background-color 400ms var(--ease-out); pointer-events: auto; }
+.hero-chips.s1 .chip-float:nth-of-type(1), .hero-chips.s3 .chip-float:nth-of-type(2), .hero-chips.s5 .chip-float:nth-of-type(3) { background: rgba(255, 255, 255, .9); border-color: rgba(42, 115, 217, .45); box-shadow: 0 0 0 3px rgba(42, 115, 217, .12), 0 18px 40px -18px rgba(11, 30, 56, .45); }
+.hero-chips.s1 .chip-float:nth-of-type(1) .chip-node, .hero-chips.s3 .chip-float:nth-of-type(2) .chip-node { background: var(--blue); box-shadow: 0 0 0 4px rgba(42, 115, 217, .2); }
+.hero-chips.s1 .chip-float:nth-of-type(1) .chip-node::after, .hero-chips.s3 .chip-float:nth-of-type(2) .chip-node::after, .hero-chips.s5 .chip-float:nth-of-type(3) .chip-node::after { animation: ping 1.2s var(--ease-out) 1; }
+.hero-chips.s5 .chip-node--end { width: 16px; height: 16px; background: var(--blue); box-shadow: 0 0 0 4px rgba(42, 115, 217, .2); }
+.hero-chips.s5 .chip-check { opacity: 1; }
+.hero-chips.s5 .chip-check path { stroke-dashoffset: 0; }
+.chip-float.is-hot { translate: 0 -3px; box-shadow: 0 0 0 3px rgba(42, 115, 217, .2), 0 22px 44px -18px rgba(11, 30, 56, .5); }
 @keyframes ping { 0% { transform: scale(.6); opacity: .9; } 80%, 100% { transform: scale(2.4); opacity: 0; } }
 @media (max-width: 1099px) { .hero-chips { display: none; } }
 

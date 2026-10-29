@@ -72,25 +72,24 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
         : <div class="media-fallback"><Blueprint idSuffix="hero" /></div>}
     </div>
     <div class="hero-light" aria-hidden="true"></div>
-    {/* Floating method chips: three of the five step titles [E], at different parallax depths,
-        linked by a live data path. Decorative duplicates of the Method section. The path is drawn
-        from the chips' measured positions every frame (interactions.ts heroFlow), so it stays
-        attached while they float. */}
-    <div class="hero-chips" aria-hidden="true">
+    {/* Floating method chips: three of the five step titles [E], at different parallax depths.
+        On load the method plays once and rests: 01 switches on, its trace draws to 04, 04 switches
+        on, the trace draws to 05, 05 completes with a check (interactions.ts heroFlow). Traces are
+        drawn from the chips' measured positions every frame, so they stay attached as they float.
+        Decorative duplicates of the Method section. */}
+    <div class="hero-chips" aria-hidden="true" data-step="0">
       <svg class="hero-flow" focusable="false">
-        <defs>
-          <marker id="flow-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1 L9 5 L1 9 z" /></marker>
-          <marker id="flow-dot" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6"><circle cx="5" cy="5" r="3.6" /></marker>
-        </defs>
-        <path class="flow-base" data-leg="0" />
-        <path class="flow-base" data-leg="1" />
-        <path class="flow-pulse" data-leg="0" pathLength="1" />
-        <path class="flow-pulse flow-pulse--late" data-leg="1" pathLength="1" />
+        <path class="flow-base" data-leg="0" pathLength="1" />
+        <path class="flow-base" data-leg="1" pathLength="1" />
+        <circle class="flow-dot" data-leg="0" r="3.5" />
+        <circle class="flow-dot" data-leg="1" r="3.5" />
+        <path class="flow-arrow" data-leg="0" />
+        <path class="flow-arrow" data-leg="1" />
       </svg>
       {/* With the lounge photo the chips sit in the sky, clear of the people (lower right). */}
       <div class="chip-float" style={`--depth:22;--top:${lounge ? '10%' : '18%'};--left:${lounge ? '6%' : '12%'};--d:9`}><span class="chip-node"></span><span class="chip-n">01</span>{method[0].title}</div>
       <div class="chip-float" style={`--depth:36;--top:${lounge ? '21%' : '42%'};--left:${lounge ? '58%' : '62%'};--d:10`}><span class="chip-node"></span><span class="chip-n">04</span>{method[3].title}</div>
-      <div class="chip-float" style={`--depth:28;--top:${lounge ? '38%' : '72%'};--left:${lounge ? '30%' : '30%'};--d:11`}><span class="chip-node chip-node--end"></span><span class="chip-n">05</span>{method[4].title}</div>
+      <div class="chip-float" style={`--depth:28;--top:${lounge ? '38%' : '72%'};--left:${lounge ? '30%' : '30%'};--d:11`}><span class="chip-node chip-node--end"><svg class="chip-check" viewBox="0 0 12 12" focusable="false"><path d="M2.6 6.3 L5 8.6 L9.4 3.6" pathLength="1" /></svg></span><span class="chip-n">05</span>{method[4].title}</div>
     </div>
     <div class="container hero-inner">
       <div class="hero-copy">

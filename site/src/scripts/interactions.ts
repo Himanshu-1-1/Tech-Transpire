@@ -241,45 +241,63 @@ function heroDepth() {
   on(hero, 'pointerleave', () => set(0, 0));
 }
 
-/** Hero data path: circuit-style traces linking the floating chips, drawn from their measured
- *  positions every frame while the hero is on screen, so they stay attached as the chips float
- *  (pointer depth, scroll, resize). Right angles with rounded corners; dot at the start, arrow
- *  into the next step. Leg 0: chip 01 → chip 04. Leg 1: chip 04 → chip 05. */
+/** Hero method story: the three floating chips are linked by circuit-style traces drawn from
+ *  their measured positions every frame while the hero is on screen, so the traces stay attached
+ *  as the chips float (pointer depth, scroll, resize). On load the story plays once and rests:
+ *  s1 chip 01 on → s2 trace to 04 draws → s3 chip 04 on → s4 trace to 05 draws → s5 chip 05
+ *  completes with a check. Hovering a chip highlights it and its traces. */
 type Pt = [number, number];
+const f1 = (n: number) => n.toFixed(1);
 const trace = (pts: Pt[], r = 14) => pts.reduce((d, [x, y], i) => {
-  if (i === 0) return `M${x.toFixed(1)} ${y.toFixed(1)}`;
-  if (i === pts.length - 1) return `${d} L${x.toFixed(1)} ${y.toFixed(1)}`;
+  if (i === 0) return `M${f1(x)} ${f1(y)}`;
+  if (i === pts.length - 1) return `${d} L${f1(x)} ${f1(y)}`;
   const [px, py] = pts[i - 1];
   const [nx, ny] = pts[i + 1];
   const k = Math.min(r, Math.hypot(x - px, y - py) / 2, Math.hypot(nx - x, ny - y) / 2);
   const ux = Math.sign(x - px), uy = Math.sign(y - py), vx = Math.sign(nx - x), vy = Math.sign(ny - y);
-  return `${d} L${(x - ux * k).toFixed(1)} ${(y - uy * k).toFixed(1)} Q${x.toFixed(1)} ${y.toFixed(1)} ${(x + vx * k).toFixed(1)} ${(y + vy * k).toFixed(1)}`;
+  return `${d} L${f1(x - ux * k)} ${f1(y - uy * k)} Q${f1(x)} ${f1(y)} ${f1(x + vx * k)} ${f1(y + vy * k)}`;
 }, '');
+// Arrowhead with its tip at (x, y), pointing along dir (+1 right, -1 left).
+const arrow = (x: number, y: number, dir: number) => `M${f1(x)} ${f1(y)} L${f1(x - dir * 8)} ${f1(y - 4.5)} L${f1(x - dir * 8)} ${f1(y + 4.5)} Z`;
 function heroFlow() {
   const wrap = document.querySelector<HTMLElement>('.hero-chips');
   const svg = wrap?.querySelector<SVGSVGElement>('.hero-flow');
   const chips = wrap ? [...wrap.querySelectorAll<HTMLElement>('.chip-float')] : [];
   if (!wrap || !svg || chips.length < 3 || getComputedStyle(wrap).display === 'none') return;
-  const legs = [0, 1].map((i) => [...svg.querySelectorAll<SVGPathElement>(`path[data-leg="${i}"]`)]);
+  const q = <T extends Element>(sel: string, leg: number) => svg.querySelector<T>(`${sel}[data-leg="${leg}"]`)!;
   let last = '';
   const draw = () => {
     const o = wrap.getBoundingClientRect();
-    const [a, b, c] = chips.map((el) => { const r = el.getBoundingClientRect(); return { l: r.left - o.left, r: r.right - o.left, t: r.top - o.top, b: r.bottom - o.top, cx: r.left - o.left + r.width / 2, cy: r.top - o.top + r.height / 2 }; });
+    const [a, b, c] = chips.map((el) => { const r = el.getBoundingClientRect(); return { l: r.left - o.left, r: r.right - o.left, b: r.bottom - o.top, cy: r.top - o.top + r.height / 2 }; });
     // Leg 0: out of chip 01's right edge, across, down, into chip 04's left edge.
     const midX = b.l > a.r + 40 ? (a.r + b.l) / 2 : a.r + 24;
-    const leg0 = trace([[a.r + 4, a.cy], [midX, a.cy], [midX, b.cy], [b.l - 4, b.cy]]);
+    const s0: Pt = [a.r + 6, a.cy];
+    const leg0 = trace([s0, [midX, a.cy], [midX, b.cy], [b.l - 11, b.cy]]);
     // Leg 1: down from under chip 04, across into chip 05's right edge.
     const downX = Math.max(b.l + 26, c.r + 40);
-    const leg1 = trace([[downX, b.b + 4], [downX, c.cy], [c.r + 4, c.cy]]);
+    const s1: Pt = [downX, b.b + 6];
+    const leg1 = trace([s1, [downX, c.cy], [c.r + 11, c.cy]]);
     const key = leg0 + leg1;
     if (key === last) return;
     last = key;
-    svg.setAttribute('viewBox', `0 0 ${o.width.toFixed(1)} ${o.height.toFixed(1)}`);
-    legs[0].forEach((el) => el.setAttribute('d', leg0));
-    legs[1].forEach((el) => el.setAttribute('d', leg1));
+    svg.setAttribute('viewBox', `0 0 ${f1(o.width)} ${f1(o.height)}`);
+    q<SVGPathElement>('.flow-base', 0).setAttribute('d', leg0);
+    q<SVGPathElement>('.flow-base', 1).setAttribute('d', leg1);
+    q<SVGPathElement>('.flow-arrow', 0).setAttribute('d', arrow(b.l - 3, b.cy, 1));
+    q<SVGPathElement>('.flow-arrow', 1).setAttribute('d', arrow(c.r + 3, c.cy, -1));
+    [s0, s1].forEach(([x, y], i) => { const dot = q<SVGCircleElement>('.flow-dot', i); dot.setAttribute('cx', f1(x)); dot.setAttribute('cy', f1(y)); });
   };
   draw();
-  if (reduced()) return;
+  const steps = ['s1', 's2', 's3', 's4', 's5'];
+  if (reduced()) { wrap.classList.add(...steps); return; }
+  // The story: plays once per page view, then rests.
+  const timers = [1700, 1950, 2900, 3150, 4100].map((ms, i) => setTimeout(() => wrap.classList.add(steps[i]), ms));
+  // Hover: highlight a chip and the traces it touches (01 → leg 0, 04 → both, 05 → leg 1).
+  const touches = [[0], [0, 1], [1]];
+  chips.forEach((chip, i) => {
+    on(chip, 'pointerenter', () => { wrap.dataset.hot = touches[i].join(' '); chip.classList.add('is-hot'); });
+    on(chip, 'pointerleave', () => { delete wrap.dataset.hot; chip.classList.remove('is-hot'); });
+  });
   let frame = 0;
   let live = true;
   const loop = () => { if (live) draw(); frame = requestAnimationFrame(loop); };
@@ -287,7 +305,7 @@ function heroFlow() {
   const io = new IntersectionObserver(([en]) => { live = en.isIntersecting; }, { rootMargin: '80px' });
   io.observe(wrap);
   observers.push(io);
-  page!.signal.addEventListener('abort', () => cancelAnimationFrame(frame));
+  page!.signal.addEventListener('abort', () => { cancelAnimationFrame(frame); timers.forEach(clearTimeout); });
 }
 
 // No custom cursor: the system cursor is used everywhere (company request, 2026-10-30).
