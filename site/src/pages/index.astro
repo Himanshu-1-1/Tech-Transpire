@@ -47,8 +47,12 @@ const themes = [
 const showThemeLines = isReview || approvals.outcomeThemeCopy;
 
 const featured = [...visibleById(['TT-INS-003', 'TT-INS-006', 'TT-INS-008']), ...visibleInsights].filter((v, i, a) => a.indexOf(v) === i).slice(0, 3);
-const heroPhoto = photo('skyline');
-const ctaPhoto = photo('lounge');
+// Hero: the executive lounge photo when present (company request 2026-10-30), else the glass
+// office skyline. The closing band keeps its brand-blue gradient.
+const lounge = photo('hero section') ?? photo('lounge');
+const heroPhoto = lounge ?? photo('skyline');
+const heroAlt = lounge ? 'Executives in conversation in a lounge overlooking a city skyline at dusk' : 'Glass-walled office overlooking a city skyline at sunrise';
+const ctaPhoto = undefined;
 const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution.'];
 ---
 <Base
@@ -60,9 +64,9 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
 
   <!-- 1 · Brand statement -->
   <section class="hero" aria-labelledby="hero-h" data-parallax>
-    <div class="hero-media">
+    <div class="hero-media" style={lounge ? '--hero-pos: 100% 50%' : undefined}>
       {heroPhoto
-        ? <Image src={heroPhoto} alt="Glass-walled office overlooking a city skyline at sunrise" widths={[900, 1400, 2000]} sizes="(max-width: 899px) 100vw, 60vw" loading="eager" fetchpriority="high" />
+        ? <Image src={heroPhoto} alt={heroAlt} widths={[900, 1400, 2000]} sizes="(max-width: 899px) 100vw, 60vw" loading="eager" fetchpriority="high" />
         : <div class="media-fallback"><Blueprint idSuffix="hero" /></div>}
     </div>
     <div class="hero-light" aria-hidden="true"></div>
@@ -70,11 +74,12 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
         linked by a live data path. Decorative duplicates of the Method section. */}
     <div class="hero-chips" aria-hidden="true">
       <svg class="hero-flow" viewBox="0 0 100 100" preserveAspectRatio="none" focusable="false">
-        <path d="M18 22 C 40 22, 52 40, 72 46 S 70 74, 44 78" vector-effect="non-scaling-stroke" />
+        <path d={lounge ? 'M10 15 C 30 10, 50 14, 62 24 S 50 38, 34 41' : 'M18 22 C 40 22, 52 40, 72 46 S 70 74, 44 78'} vector-effect="non-scaling-stroke" />
       </svg>
-      <div class="chip-float" style="--depth:22;--top:18%;--left:12%;--d:9"><span class="chip-node"></span><span class="chip-n">01</span>{method[0].title}</div>
-      <div class="chip-float" style="--depth:36;--top:42%;--left:62%;--d:10"><span class="chip-node"></span><span class="chip-n">04</span>{method[3].title}</div>
-      <div class="chip-float" style="--depth:28;--top:72%;--left:30%;--d:11"><span class="chip-node chip-node--end"></span><span class="chip-n">05</span>{method[4].title}</div>
+      {/* With the lounge photo the chips sit in the sky, clear of the people (lower right). */}
+      <div class="chip-float" style={`--depth:22;--top:${lounge ? '10%' : '18%'};--left:${lounge ? '6%' : '12%'};--d:9`}><span class="chip-node"></span><span class="chip-n">01</span>{method[0].title}</div>
+      <div class="chip-float" style={`--depth:36;--top:${lounge ? '21%' : '42%'};--left:${lounge ? '58%' : '62%'};--d:10`}><span class="chip-node"></span><span class="chip-n">04</span>{method[3].title}</div>
+      <div class="chip-float" style={`--depth:28;--top:${lounge ? '38%' : '72%'};--left:${lounge ? '30%' : '30%'};--d:11`}><span class="chip-node chip-node--end"></span><span class="chip-n">05</span>{method[4].title}</div>
     </div>
     <div class="container hero-inner">
       <div class="hero-copy">

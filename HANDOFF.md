@@ -81,6 +81,7 @@ The machine used on 2026-10-29 had no system Node; a portable Node 22 from the s
 | 2026-10-30 | **On-page review markers off** (company request): amber tags, "Review build" strip and review notes hidden by default; `npm run dev:markers` / `REVIEW_MARKERS=1` brings them back. Items stay tracked in 12 and 19. Review build still shows unverified content and stays `noindex`; public build unchanged |
 | 2026-10-30 | **Mack Akhani photo** supplied by the company and placed (D-33, TT-AS-025): Home founder card and About team tile, framed per placement; rights to confirm |
 | 2026-10-30 | **Flip statements + dot cursor:** "Sounds Familiar?" statements flip in 3D on desktop to animated drawings (simple front cards on phones); trailing cursor ring removed, dot only. QA 49/49 |
+| 2026-10-30 | **New hero photo** (`Hero section.jpg`, executive lounge at dusk, TT-AS-026): anchored right so all four people show; chips and data path moved into the sky; glass-office photo kept as backup. Rights to confirm |
 
 ## 5. Approved decisions (full text in 12 §5)
 
