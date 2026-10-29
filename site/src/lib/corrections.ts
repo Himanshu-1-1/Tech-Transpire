@@ -9,7 +9,7 @@ export type Correction = {
   field?: 'text' | 'heading';
   before: string;
   after: string;
-  kind: 'spelling' | 'capitalization' | 'punctuation' | 'temporary omission';
+  kind: 'spelling' | 'capitalization' | 'punctuation' | 'temporary omission' | 'content update';
   approval: string;
 };
 
@@ -20,6 +20,7 @@ export const corrections: Correction[] = [
   { id: 'E-04a', block: 'TT-PG-004-B04', before: "TechTranspire's financial backbone", after: "Tech Transpire's financial backbone", kind: 'spelling', approval: 'D-11' },
   { id: 'E-04b', block: 'TT-INS-010-B10', before: 'CTA: Talk to TechTranspire >', after: 'CTA: Talk to Tech Transpire >', kind: 'spelling', approval: 'D-11 (link URL untouched)' },
   { id: 'E-09', block: 'TT-INS-003-B06', before: ' Twelve other programs subsequently replicated it.', after: '', kind: 'temporary omission', approval: 'D-24; restore when C-14 is verified' },
+  { id: 'E-10', block: 'TT-PG-004-B04', before: 'Mack brings over a decade of experience', after: 'Mack brings over two decades of experience', kind: 'content update', approval: 'D-35: the company, 2026-10-30 ("make it two decade"); also updates the Home founder intro' },
   // F-01–F-04 (page punctuation) were withdrawn on 2026-10-30: the company chose the exact live wording.
   { id: 'F-07a', block: 'TT-INS-008-B01', before: 'Handoffs - Not the Steps', after: 'Handoffs — Not the Steps', kind: 'punctuation', approval: 'F-01–F-07 approval (punctuation only)' },
   { id: 'F-07b', block: 'TT-INS-008-B02', field: 'heading', before: 'Handoffs - Not the Steps', after: 'Handoffs — Not the Steps', kind: 'punctuation', approval: 'F-01–F-07 approval (punctuation only)' },

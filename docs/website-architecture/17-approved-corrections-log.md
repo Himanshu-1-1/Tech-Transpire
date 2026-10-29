@@ -19,6 +19,7 @@ Approval basis:
 | E-04a | TT-PG-004-B04 | Spelling | `TechTranspire's financial backbone` | `Tech Transpire's financial backbone` |
 | E-04b | TT-INS-010-B10 | Spelling | `CTA: Talk to TechTranspire >` | `CTA: Talk to Tech Transpire >` |
 | E-05 | TT-INS-001-B10 / B11 | Formatting | Card title "Poor preparation and no pilot" exported as a section heading after a dangling `process` icon key | Rendered as the fourth card of B10 (icon `process`). No words changed |
+| E-10 | TT-PG-004-B04 | Content update (D-35, 2026-10-30) | `Mack brings over a decade of experience` | `Mack brings over two decades of experience` (the company asked for "two decade"; written grammatically). Also changes the Home founder intro, which quotes this sentence. C-10 now refers to "over two decades" |
 | E-09 | TT-INS-003-B06 | Temporary omission | ` Twelve other programs subsequently replicated it.` | *(omitted)*. Restore when C-14 is verified |
 | F-01 | TT-PG-001-B02 | Punctuation | `transformation points - moments` | `transformation points, moments` |
 | F-02 | TT-PG-001-B03 | Punctuation | `different directions invisible` | `different directions, invisible` |
