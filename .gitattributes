@@ -1,0 +1,5 @@
+# Keep LF everywhere so the verbatim source archive stays byte-exact
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.docx binary
