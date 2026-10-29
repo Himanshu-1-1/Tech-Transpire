@@ -1,5 +1,9 @@
 # 14 — Phase 1 Approval Checklist
 
+**Version 1.2, 2026-10-29.** The company has **approved the Phase 1 information architecture in principle to proceed into Phase 2.** Phase 2 (UI/UX, Concept 06) is authorised to start. Remaining verification, legal and publication requirements are documented here and in [12 §3](12-gaps-and-decisions.md); they are **launch** gates, not Phase 2 gates, and nothing unverified is published.
+
+**Sign-off recorded (approval in principle):** company stakeholder, 2026-10-29. Blocking IA items (§E) are accepted to proceed; any item below still marked ☐ is carried as a launch-readiness confirmation.
+
 **Version 1.1, updated 2026-10-29 with the company's decisions.** Phase 2 (UI/UX, Concept 06) can start once every **Blocking** item is ☑.
 
 **Company rule:** pending claims and credentials do **not** block the structure. They stay in the approval register (12 §3) and are not published until verified.
@@ -35,7 +39,7 @@
 | ☑ | D-03 No AI & Digital Enablement page at launch | Yes |
 | ☑ | D-04 Pre-founding attribution wording | Yes |
 | ☑ | D-05 Two separate $3M outcomes, never combined | Yes |
-| ◐ | D-06 Industries: approved if the Healthcare page is approved. **Review [drafts/healthcare-page-draft.md](drafts/healthcare-page-draft.md)** | Yes, for the navigation set (both variants are specified in 05, so it does not block Phase 2) |
+| ☑ | D-06 Industries: **approved** — include with Healthcare as the initial industry, built from approved source content; hidden from nav until content is ready if not approved by launch | Yes (both nav variants specified in 05; does not block Phase 2) |
 | ◐ | D-07 Team profiles: publish individually as confirmed | No |
 | ◐ | D-08 Akhani LLC footer + About paragraph: pick Option A or B; legal wording review | No |
 | ☐ | D-09 Article title handling (recommendation in 12) | No |

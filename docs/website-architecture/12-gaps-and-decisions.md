@@ -104,7 +104,7 @@ Drafts are in [`drafts/`](drafts/).
 | D-03 | AI & Digital Enablement | ✅ **Approved** | No page at launch; revisit when an offering and evidence exist |
 | D-04 | Attribution of pre-founding results | ✅ **Approved** | Wording: "Engagement led by Mack Akhani prior to founding Tech Transpire." Applied wherever such a result appears (articles, Home stats, Healthcare page). Still to confirm which articles it covers (C-18) |
 | D-05 | "$3M" | ✅ **Resolved** | Two separate outcomes, never combined, never labelled "revenue impact"; each pending evidence (C-02, C-03) |
-| D-06 | Industries in navigation | ✅◐ **Approved with condition** | Include if the Healthcare page is approved. The draft shows it can be built from real experience. If it isn't approved by launch, Industries is deferred and navigation runs with five items (05) |
+| D-06 | Industries in navigation | ✅ **Approved** (2026-10-29, company) | Include Industries in the structure, Healthcare as the initial industry, built from **approved source content only** (no unverified claims). If sufficient approved content is not ready by launch, Industries is **hidden from primary navigation** until it is — the page and nav are specified for both the shown and hidden states (05), so this does not block Phase 2 |
 | D-07 | Team profiles | ✅◐ | Mack: approved subject to C-10. Kranthi: pending C-12. Devjet: pending C-13. Hemang: confirm (C-20). Unconfirmed profiles are hidden, not deleted |
 | D-08 | Akhani LLC disclosure | ✅ **Approved**, subject to legal wording | Footer line + short About paragraph; True Lean Solutions not promoted elsewhere |
 | D-09 | Article titles (Sheet vs Doc) | 🟦 | Doc H1 as page H1; Sheet title as card and SEO title |
