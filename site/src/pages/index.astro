@@ -139,9 +139,12 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
         <div class="section-head">
           <h2 id="familiar-h" data-split>{opening.prompt}</h2>
           <p class="lead">{seeWhatBreaks.statement}</p>
+        </div>
+        {/* "Want to learn more?" sits under the graphic (company mark-up, 2026-10-30). */}
+        <div class="ch-art">
+          <FaultLines />
           <a class="link-arrow" href="#method">{seeWhatBreaks.prompt} <span class="arr" aria-hidden="true">→</span></a>
         </div>
-        <FaultLines />
       </div>
       <div class="statements">
         {statements.map((s, i) => <FlipStatement n={i} statement={s.statement} prompt={s.prompt} link={{ label: seeWhatBreaks.prompt, href: '#method' }} />)}

@@ -189,7 +189,7 @@ p { text-wrap: pretty; }
 .hero-media > img, .hero-media > .media-fallback { position: absolute; inset: -14px; width: calc(100% + 28px); max-width: none; height: calc(100% + 28px); object-fit: cover; object-position: var(--hero-pos, 62% 50%); transform: translate3d(calc(var(--px, 0) * -14px), calc(var(--py, 0) * -10px), 0); transition: transform 600ms var(--ease-out); }
 .hero-light { position: absolute; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(600px circle at calc(70% + var(--px, 0) * 20%) calc(35% + var(--py, 0) * 20%), rgba(255, 255, 255, .28), transparent 60%); }
 .hero-media::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 26%; background: linear-gradient(180deg, rgba(255, 255, 255, 0), #fff); }
-.hero-inner { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); align-content: center; min-height: clamp(560px, calc(100vh - 210px), 700px); padding-block: 40px 128px; }
+.hero-inner { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); align-content: center; min-height: max(560px, calc(100svh - var(--header-h) - 40px)); padding-block: 40px 128px; }
 .hero-copy { max-width: 800px; display: grid; gap: 24px; }
 /* Two lines of equal width. In Newsreader at weight 520 with the display tracking, line 2 renders
    at the width of line 1 when set at .72em (measured in the browser at 320–1440px, 2026-10-30).
@@ -820,9 +820,13 @@ a.v:hover { color: var(--blue); }
 /* =========================================================================
    Challenge ("Sounds Familiar?"): clean white, interactive fault lines, premium cards
    ========================================================================= */
-.challenge { position: relative; isolation: isolate; background: var(--paper); }
-.ch-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: clamp(24px, 4vw, 64px); align-items: end; margin-bottom: clamp(40px, 4.5vw, 64px); }
-.ch-head .section-head { margin-bottom: 0; }
+.challenge { position: relative; isolation: isolate; background: var(--paper); padding-top: clamp(40px, 4.5vw, 64px); }
+.ch-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: clamp(24px, 4vw, 64px); align-items: start; margin-bottom: clamp(40px, 4.5vw, 64px); }
+.ch-head .section-head { margin-bottom: 0; padding-top: clamp(4px, 1.5vw, 24px); }
+/* Sits 20% of the graphic's height lower than its top (company request, 2026-10-30). */
+@media (min-width: 900px) { .ch-head .section-head { padding-top: calc(clamp(4px, 1.5vw, 24px) + clamp(150px, 20vw, 280px) * .2); } }
+.ch-art { display: grid; justify-items: center; gap: 18px; }
+.ch-art .fault { justify-self: stretch; }
 @media (max-width: 899px) { .ch-head { grid-template-columns: minmax(0, 1fr); } }
 
 /* Fault lines (FaultLines.astro): loose grey paths, aligned blue copies clipped to the lens. */
