@@ -84,6 +84,7 @@ The machine used on 2026-10-29 had no system Node; a portable Node 22 from the s
 | 2026-10-30 | **New hero photo** (`Hero section.jpg`, executive lounge at dusk, TT-AS-026): anchored right so all four people show; chips and data path moved into the sky; glass-office photo kept as backup. Rights to confirm |
 | 2026-10-30 | **Polish round:** hero headline two equal-width lines (line 2 at .72em) and lead broken after "execution,"; tagline "Clarity. Alignment. Execution." moved under the logo (Home); statement cards redesigned as blue quote panels with mirrored quote marks at equal gaps, question on the back only (desktop; kept on phones); card numbers and dashes removed; "Want to learn more?" aligned to the fault-lines graphic. QA 49/49 |
 | 2026-10-30 | **Hero method story + system cursor:** custom cursor removed (system cursor). The hero chips now play the method once and rest: 01 on, trace draws to 04, 04 on, trace draws to 05, 05 completes with a check; circuit-style traces measured live so they stay attached; hover highlights a step and its traces. No endless loops. QA 48/48 |
+| 2026-10-30 | **Hero route light + outcome dock:** a light runs 01 → 04 → 05 on a loop and each step glows on arrival; Mack bio "over two decades" (E-10, D-35); outcome row rebuilt as a liquid-glass dock (glass orbs with ring, gliding glass lens that stretches as it moves, per-icon micro-motions, one welcome sweep). QA 48/48 |
 
 ## 5. Approved decisions (full text in 12 §5)
 

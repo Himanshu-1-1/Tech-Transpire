@@ -110,11 +110,15 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
     </div>
   </section>
 
-  <nav class="container outcome-bar enter" style="--d:6" aria-label="What we help you achieve">
+  {/* Outcome dock: glass bar of the four approved outcome themes. Desktop: a gradient highlight
+      glides to the hovered outcome (and sweeps across once after the hero), icon orbs draw a ring
+      and play a small motion of their own. Phones: the same items, static. */}
+  <nav class="container outcome-bar enter" style="--d:6" aria-label="What we help you achieve" data-dock>
     <ul>
       {themes.map((t) => (
-        <li><a href="#outcomes"><Icon name={t.icon} /><span>{t.title.split(' ')[0]}<small>{t.title.split(' ').slice(1).join(' ')}</small></span></a></li>
+        <li class="ob-item" data-k={t.icon}><a href="#outcomes"><span class="ob-orb"><Icon name={t.icon} /></span><span class="ob-text">{t.title.split(' ')[0]}<small>{t.title.split(' ').slice(1).join(' ')}</small></span><span class="ob-arrow" aria-hidden="true">→</span></a></li>
       ))}
+      <li class="ob-glider" aria-hidden="true"></li>
     </ul>
   </nav>
 

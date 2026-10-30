@@ -308,6 +308,42 @@ function heroFlow() {
   page!.signal.addEventListener('abort', () => { cancelAnimationFrame(frame); timers.forEach(clearTimeout); });
 }
 
+/** Outcome dock (Home): a gradient highlight glides to the hovered or focused outcome. Once,
+ *  after the hero has settled, it sweeps across all four and rests. Desktop pointers only. */
+function dockFx() {
+  const ul = document.querySelector<HTMLElement>('[data-dock] ul');
+  const glider = ul?.querySelector<HTMLElement>('.ob-glider');
+  const items = ul ? [...ul.querySelectorAll<HTMLElement>('.ob-item')] : [];
+  if (!ul || !glider || !items.length) return;
+  let hovering = false;
+  let settle = 0;
+  const go = (item: HTMLElement | null) => {
+    items.forEach((el) => el.classList.toggle('is-active', el === item));
+    ul.classList.toggle('is-on', !!item);
+    if (!item) return;
+    // Liquid: stretch while travelling to a new outcome, then settle.
+    if (ul.classList.contains('is-on') && glider.style.getPropertyValue('--x') !== `${item.offsetLeft}px`) {
+      glider.classList.add('is-moving');
+      clearTimeout(settle);
+      settle = window.setTimeout(() => glider.classList.remove('is-moving'), 240);
+    }
+    glider.style.setProperty('--x', `${item.offsetLeft}px`);
+    glider.style.setProperty('--y', `${item.offsetTop}px`);
+    glider.style.setProperty('--w', `${item.offsetWidth}px`);
+    glider.style.setProperty('--h', `${item.offsetHeight}px`);
+  };
+  items.forEach((item) => {
+    on(item, 'pointerenter', () => { hovering = true; go(item); });
+    on(item, 'focusin', () => go(item));
+    on(item, 'focusout', () => { if (!hovering) go(null); });
+  });
+  on(ul, 'pointerleave', () => { hovering = false; go(null); });
+  // Welcome sweep: 01 → 04 once, then rest (skipped if the visitor is already pointing at it).
+  const timers = items.map((item, i) => setTimeout(() => { if (!hovering) go(item); }, 2600 + i * 420));
+  timers.push(setTimeout(() => { if (!hovering) go(null); }, 2600 + items.length * 420 + 300));
+  page!.signal.addEventListener('abort', () => timers.forEach(clearTimeout));
+}
+
 // No custom cursor: the system cursor is used everywhere (company request, 2026-10-30).
 
 /* ---------- Lifecycle ---------- */
@@ -332,6 +368,7 @@ function init() {
     tilt();
     glow();
     heroDepth();
+    dockFx();
   } else {
     root.classList.remove('fx-pointer');
     if (!reduced()) currentOnScroll();
