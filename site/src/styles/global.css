@@ -229,6 +229,8 @@ p { text-wrap: pretty; }
 /* The highlight is a glass lens tinted blue; it stretches toward its direction of travel and settles (.is-moving). */
 .ob-glider { position: absolute; z-index: 0; left: 0; top: 0; width: var(--w, 0px); height: var(--h, 0px); translate: var(--x, 0px) var(--y, 0px); scale: 1 1; border-radius: 16px; pointer-events: none; opacity: 0; background: radial-gradient(90% 120% at 20% 0%, rgba(255, 255, 255, .75), transparent 55%), linear-gradient(135deg, rgba(62, 159, 222, .30), rgba(42, 115, 217, .20) 60%, rgba(124, 196, 240, .28)); -webkit-backdrop-filter: blur(8px) saturate(210%); backdrop-filter: blur(8px) saturate(210%); border: 1px solid rgba(255, 255, 255, .85); box-shadow: inset 0 1.5px 1px rgba(255, 255, 255, .95), inset 0 -10px 18px -6px rgba(42, 115, 217, .28), inset 0 0 0 1px rgba(255, 255, 255, .25), 0 14px 30px -14px rgba(24, 89, 179, .55); transition: translate 620ms cubic-bezier(.2, .9, .25, 1), width 620ms cubic-bezier(.2, .9, .25, 1), height 620ms cubic-bezier(.2, .9, .25, 1), scale 420ms cubic-bezier(.3, 1.4, .5, 1), opacity 320ms var(--ease-out); }
 .ob-glider.is-moving { scale: 1.07 .9; }
+/* The hover highlight lens is switched off (company request, 2026-10-30); the ring, text colour, arrow and icon motion remain. */
+.ob-glider { display: none; }
 .ob-glider::after { content: ''; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, .55) 50%, transparent 65%); background-size: 250% 100%; background-position: 120% 0; transition: background-position 900ms var(--ease-out); }
 .outcome-bar ul.is-on .ob-glider { opacity: 1; }
 .outcome-bar ul.is-on .ob-glider::after { background-position: -30% 0; }
@@ -239,7 +241,6 @@ p { text-wrap: pretty; }
 .outcome-bar .ob-item.is-active .ob-orb::after { --ring: 1; }
 .outcome-bar .ob-item.is-active .icon { color: var(--blue); }
 .outcome-bar .ob-item.is-active .ob-arrow { opacity: 1; translate: 0 0; color: var(--blue); }
-.outcome-bar ul.is-on .ob-item::before, .outcome-bar ul.is-on .ob-item.is-active + .ob-item::before { opacity: 0; }
 /* Each icon moves in its own way. */
 .outcome-bar .icon { transform-box: fill-box; transform-origin: 50% 100%; }
 .ob-item[data-k='bars'].is-active .icon { animation: ob-bars 800ms var(--ease-emph); }
