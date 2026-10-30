@@ -985,7 +985,7 @@ a.v:hover { color: var(--blue); }
 .site-footer { position: relative; isolation: isolate; overflow: hidden; }
 
 /* Footer watermark */
-.foot-watermark { padding-inline: var(--gutter) var(--gutter-r); margin-top: -12px; font: 500 clamp(3rem, 1rem + 8.6vw, 9.5rem)/.95 var(--f-display); letter-spacing: -0.03em; white-space: nowrap; color: transparent; -webkit-text-stroke: 1px rgba(168, 186, 209, .16); background: linear-gradient(90deg, rgba(62, 159, 222, .18), transparent 60%); -webkit-background-clip: text; background-clip: text; user-select: none; text-align: center; overflow: hidden; }
+.foot-watermark { padding-inline: var(--gutter) var(--gutter-r); margin-top: -12px; font: 500 clamp(1.3rem, .2rem + 6.1vw, 6.9rem)/.95 var(--f-display); letter-spacing: -0.03em; white-space: nowrap; color: transparent; -webkit-text-stroke: 1px rgba(168, 186, 209, .16); background: linear-gradient(90deg, rgba(62, 159, 222, .18), transparent 60%); -webkit-background-clip: text; background-clip: text; user-select: none; text-align: center; overflow: hidden; }
 
 /* Section rail (Home, wide screens) */
 .rail { position: fixed; right: max(20px, env(safe-area-inset-right, 0px)); top: 50%; z-index: 55; display: grid; gap: 14px; transform: translate(12px, -50%); opacity: 0; pointer-events: none; transition: opacity var(--t-card), transform var(--t-card) var(--ease-out); }

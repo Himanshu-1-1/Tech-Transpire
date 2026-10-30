@@ -11,7 +11,8 @@ Last updated: 2026-10-29 (third working session).
 Rebuilding **www.techtranspire.com** from scratch: preserve existing content verbatim, and improve structure, positioning, UX, visual quality and the technical foundation. Visitor journey: **understand the challenge → establish credibility → explain the approach → demonstrate outcomes → start a conversation.**
 
 - **Brand:** Tech Transpire, a business advisory and transformation consulting brand. DBA of **Akhani LLC**. Based in **Dallas–Fort Worth, Texas** (D-27).
-- **Brand statement (H1):** *Clarity Before Change. Confidence Through Execution.* Supporting line: *Clarity · Alignment · Execution*.
+- **Brand statement (H1):** *Clarity Before Change. Confidence Through Execution.*
+- **Motto (D-36):** ***Clarity. Alignment. Execution.*** The company's motto, written exactly this way (full stops). Used under the logo on Home and as the footer watermark on every page. Treat it as the brand's signature line wherever a motto belongs.
 - **Signature offer:** *Implementation Clarity & Execution Blueprint*. **Engagements:** Discovery · Execution Blueprint · Guided Implementation · Transformation Recovery. **Components:** Clarity & Discovery · Design & Alignment · Execution & Delivery · Transformation Recovery · Adoption & Outcomes · Ongoing Support.
 - **Outcome themes (approved):** Better Decisions · Improved Performance · Efficient Operations · Sustainable Transformation (homepage only, no separate pages).
 - **Visual direction:** Concept 06 plus the company's reference first-fold image (light, architectural photography, blue, selective navy sections). **Typography: Version B, serif** (Newsreader + Libre Franklin), confirmed twice by the company (D-28), even where a brief says "Typography A".
