@@ -146,6 +146,12 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
       <div class="statements">
         {statements.map((s, i) => <FlipStatement n={i} statement={s.statement} prompt={s.prompt} link={{ label: seeWhatBreaks.prompt, href: '#method' }} />)}
       </div>
+      {/* Intro to the problem cards. Copy supplied by the company in its mockup (2026-10-30, D-37). */}
+      <div class="ch-intro reveal">
+        <p class="ch-rule"><span>Things we look for</span></p>
+        <h3 class="ch-title" data-split>Complexity Isn't the Problem. Lack of Clarity Is.</h3>
+        <p class="ch-sub">The patterns below are often the first signs that a transformation is heading off course.</p>
+      </div>
       <ul class="grid grid-3 ch-cards">
         {problems.map((p, i) => (
           <li class="card reveal" data-tilt>
