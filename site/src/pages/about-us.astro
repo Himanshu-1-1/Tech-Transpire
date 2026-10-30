@@ -120,6 +120,7 @@ const people = team(teamBlock).filter((p) => isReview || isVerified(...gates[p.n
                 <details class="adv-bio">
                   <summary><span class="adv-lead">{a.bio[0]}</span><span class="adv-more">See more</span></summary>
                   {a.bio.slice(1).map((p) => <p>{p}</p>)}
+                  <button class="adv-less" type="button" data-adv-less>See less <span aria-hidden="true">↑</span></button>
                 </details>
               </div>
             </li>
@@ -149,3 +150,20 @@ const people = team(teamBlock).filter((p) => isReview || isVerified(...gates[p.n
 
   <CtaBand line={closingLine} ctas={[workWithUs, caseStudies]} />
 </Base>
+
+<script>
+  // Advisors: "See less" closes the bio and brings the card back into view if it scrolled away.
+  document.addEventListener('astro:page-load', () => {
+    document.querySelectorAll<HTMLButtonElement>('[data-adv-less]:not([data-wired])').forEach((btn) => {
+      btn.dataset.wired = '';
+      btn.addEventListener('click', () => {
+        const details = btn.closest('details');
+        if (!details) return;
+        details.open = false;
+        const card = details.closest<HTMLElement>('.advisor');
+        if (card && card.getBoundingClientRect().top < 80) card.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+        details.querySelector('summary')?.focus({ preventScroll: true });
+      });
+    });
+  });
+</script>

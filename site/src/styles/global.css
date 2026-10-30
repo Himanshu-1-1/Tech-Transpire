@@ -709,7 +709,7 @@ a.v:hover { color: var(--blue); }
 /* Advisors (About, D-38). Glass cards (the shared card recipe) with a portrait placeholder until
    photographs arrive, blue role line, LinkedIn badge, and a bio that opens with "See more". */
 .advisors { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(18px, 2vw, 28px); align-items: start; }
-.advisor.card { padding: 0; gap: 0; }
+.advisor.card { padding: 0; gap: 0; scroll-margin-top: calc(var(--header-h) + 16px); }
 .adv-photo { position: relative; aspect-ratio: 4 / 3.4; display: grid; place-items: center; align-content: center; gap: 10px; overflow: hidden; border-radius: calc(var(--radius-lg) - 1px) calc(var(--radius-lg) - 1px) 0 0; background: radial-gradient(80% 70% at 78% 18%, rgba(124, 196, 240, .55), transparent 60%), radial-gradient(70% 60% at 12% 100%, rgba(42, 115, 217, .28), transparent 65%), linear-gradient(160deg, #EEF5FD, #D8E8FA); }
 .adv-photo::after { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(90deg, rgba(255, 255, 255, .0) 0 46px, rgba(255, 255, 255, .35) 46px 47px); -webkit-mask-image: linear-gradient(180deg, #000, transparent 85%); mask-image: linear-gradient(180deg, #000, transparent 85%); pointer-events: none; }
 .adv-initials { position: relative; z-index: 1; display: grid; place-items: center; width: 96px; height: 96px; border-radius: 50%; font: 500 2.1rem/1 var(--f-display); letter-spacing: .02em; color: var(--blue); background: linear-gradient(180deg, rgba(255, 255, 255, .78) 0%, rgba(255, 255, 255, .22) 48%, rgba(255, 255, 255, 0) 52%), radial-gradient(circle at 35% 28%, rgba(255, 255, 255, .85), rgba(240, 247, 255, .5) 70%); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); box-shadow: inset 0 1.5px 1px #fff, inset -3px -5px 9px rgba(42, 115, 217, .18), inset 0 0 0 1px rgba(255, 255, 255, .7), 0 0 0 1px rgba(100, 116, 139, .18), 0 18px 30px -16px rgba(24, 89, 179, .5); }
@@ -728,6 +728,9 @@ a.v:hover { color: var(--blue); }
 .adv-more { justify-self: start; font-size: 13.5px; font-weight: 600; color: var(--blue); }
 .adv-more::after { content: ' →'; }
 .adv-bio[open] .adv-more { display: none; }
+.adv-less { margin-top: 12px; padding: 0; border: 0; background: none; cursor: pointer; font: 600 13.5px/1.4 var(--f-body); color: var(--blue); }
+.adv-less:hover { color: var(--navy); }
+.adv-less:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; border-radius: 4px; }
 .adv-bio summary:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; border-radius: 4px; }
 @media (max-width: 1023px) { .advisors { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 639px) { .advisors { grid-template-columns: minmax(0, 1fr); } }
