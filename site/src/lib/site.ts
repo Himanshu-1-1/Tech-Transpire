@@ -13,6 +13,7 @@ export const approvals = {
   outcomeThemeCopy: false, // N-02 lines and the section heading
   akhaniParagraph: false, // N-06, legal wording
   newFormOptions: false, // N-16 "Event or presentation", "Existing client or colleague"
+  advisors: false, // D-38: imported from trueleansolutions.com; bios name TLS and carry unverified figures
 };
 
 export const showIndustries = isReview || approvals.healthcarePage;
