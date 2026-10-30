@@ -1,12 +1,12 @@
 ---
 // About (/about-us, D-23). Profiles publish individually once confirmed (D-07); the Akhani LLC
 // paragraph is N-06 Option B, subject to legal wording (D-08).
-import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import Icon from '../components/Icon.astro';
 import Flag from '../components/Flag.astro';
 import CtaBand from '../components/CtaBand.astro';
+import PersonCard from '../components/PersonCard.astro';
 import { block, lines, cards, team, ctas } from '../lib/content';
 import { isVerified } from '../lib/claims';
 import type { ImageMetadata } from 'astro';
@@ -37,11 +37,11 @@ const portraits: Record<string, ImageMetadata | undefined> = {
   'Kranthi Kumar Goli': undefined,
   'Devjet Bag': undefined,
 };
-// Framing per portrait in the 4:5 tile: focal point and zoom (Mack's photo is a 2:3 full-length shot).
-const framing: Record<string, string> = {
-  'Mack Akhani': '--fp: 62% 20%; --fz: 1.6',
+// Focal point per portrait in the tall card (Mack's photo is a 2:3 full-length shot).
+const focus: Record<string, string> = {
+  'Mack Akhani': '58% 16%',
+  'Hemang Dwivedi': '50% 22%',
 };
-const initials =(name: string) => name.split(' ').filter((p) => /^[A-Z]/.test(p)).slice(0, 2).map((p) => p[0]).join('');
 const people = team(teamBlock).filter((p) => isReview || isVerified(...gates[p.name]));
 ---
 <Base title="About | Tech Transpire" description="We built the company we always wanted to be part of: one that embraces complexity, challenges assumptions and refuses to execute without clarity.">
@@ -69,22 +69,11 @@ const people = team(teamBlock).filter((p) => isReview || isVerified(...gates[p.n
     <section class="section" id="team" aria-labelledby="team-h">
       <div class="container">
         <div class="section-head"><h2 id="team-h">{teamBlock.heading}</h2></div>
-        <ul class="team">
+        <ul class="people people--team">
           {people.map((p) => (
-            <li class="person reveal" data-tilt>
-              <div class="portrait" style={framing[p.name]}>
-                {portraits[p.name]
-                  ? <Image src={portraits[p.name]!} alt={`${p.name}, ${p.role}`} widths={[300, 600]} sizes="(max-width: 519px) 120px, 148px" />
-                  : <div class="monogram" aria-hidden="true">{initials(p.name)}</div>}
-              </div>
-              <div>
-                <h3>{p.name}</h3>
-                <p class="role">{p.role}</p>
-                <div class="bio">{p.bio.map((b) => <p>{b}</p>)}</div>
-                <a class="li" href={p.linkedin} target="_blank" rel="noopener">LinkedIn profile →</a>
-                <Flag label={`Publishes when confirmed: ${gates[p.name].join(', ')}${portraits[p.name] ? '' : ' · approved photo needed (AI-generated image not used)'}`} block />
-              </div>
-            </li>
+            <PersonCard name={p.name} role={p.role} bio={p.bio} linkedin={p.linkedin} photo={portraits[p.name]} focus={focus[p.name]}>
+              <Flag label={`Publishes when confirmed: ${gates[p.name].join(', ')}${portraits[p.name] ? '' : ' · approved photo needed (AI-generated image not used)'}`} block />
+            </PersonCard>
           ))}
         </ul>
       </div>
@@ -102,29 +91,8 @@ const people = team(teamBlock).filter((p) => isReview || isVerified(...gates[p.n
           <h2 id="advisors-h" data-split>{advisorData.title}</h2>
           <p class="lead">{advisorData.lead}</p>
         </div>
-        <ul class="advisors">
-          {advisorData.advisors.map((a) => (
-            <li class="advisor card reveal">
-              <div class="adv-photo" aria-hidden="true">
-                <span class="adv-initials">{initials(a.name.replace(/^Dr\.\s*/, ''))}</span>
-                <span class="adv-pending">Photo coming soon</span>
-              </div>
-              <div class="adv-body">
-                <div class="adv-head">
-                  <div>
-                    <h3>{a.name}</h3>
-                    <p class="adv-role">{a.role}</p>
-                  </div>
-                  <a class="adv-li" href={a.linkedin} target="_blank" rel="noopener" aria-label={`${a.name.split(',')[0]} on LinkedIn`}>in</a>
-                </div>
-                <details class="adv-bio">
-                  <summary><span class="adv-lead">{a.bio[0]}</span><span class="adv-more">See more</span></summary>
-                  {a.bio.slice(1).map((p) => <p>{p}</p>)}
-                  <button class="adv-less" type="button" data-adv-less>See less <span aria-hidden="true">↑</span></button>
-                </details>
-              </div>
-            </li>
-          ))}
+        <ul class="people people--advisors">
+          {advisorData.advisors.map((a) => <PersonCard name={a.name} role={a.role} bio={a.bio} linkedin={a.linkedin} />)}
         </ul>
       </div>
     </section>
@@ -152,15 +120,15 @@ const people = team(teamBlock).filter((p) => isReview || isVerified(...gates[p.n
 </Base>
 
 <script>
-  // Advisors: "See less" closes the bio and brings the card back into view if it scrolled away.
+  // Profile cards: "See less" closes the bio and brings the card back into view if it scrolled away.
   document.addEventListener('astro:page-load', () => {
-    document.querySelectorAll<HTMLButtonElement>('[data-adv-less]:not([data-wired])').forEach((btn) => {
+    document.querySelectorAll<HTMLButtonElement>('[data-pc-less]:not([data-wired])').forEach((btn) => {
       btn.dataset.wired = '';
       btn.addEventListener('click', () => {
         const details = btn.closest('details');
         if (!details) return;
         details.open = false;
-        const card = details.closest<HTMLElement>('.advisor');
+        const card = details.closest<HTMLElement>('.pcard');
         if (card && card.getBoundingClientRect().top < 80) card.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
         details.querySelector('summary')?.focus({ preventScroll: true });
       });
