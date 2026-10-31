@@ -1,0 +1,43 @@
+---
+// Contact page header art: a conversation. A visitor and Tech Transpire are joined by an arc;
+// pulses travel both ways, ripples spread from each side and a "typing" bubble waits in between.
+// Draws in on load; loops while the header is on screen (CSS only; data-ambient pauses it
+// off-screen; static under reduced motion). Decorative.
+const ARC = 'M150 250 C 230 90, 410 90, 490 250';
+---
+<div class="ct-art" data-ambient data-pv aria-hidden="true">
+  <svg viewBox="0 0 640 420" preserveAspectRatio="xMidYMid meet" focusable="false">
+    <defs>
+      <linearGradient id="ca-node" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#FFFFFF" />
+        <stop offset="1" stop-color="#DCEDFA" />
+      </linearGradient>
+      <linearGradient id="ca-brand" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#3E9FDE" />
+        <stop offset="1" stop-color="#1859B3" />
+      </linearGradient>
+    </defs>
+    <g class="ca-ripples">
+      {[0, 1, 2].map((k) => <circle class="ca-ripple" style={`--k:${k}`} cx="150" cy="250" r="46" />)}
+      {[0, 1, 2].map((k) => <circle class="ca-ripple ca-ripple--b" style={`--k:${k}`} cx="490" cy="250" r="46" />)}
+    </g>
+    <path class="ca-arc" pathLength="1" d={ARC} />
+    <path class="ca-pulse" pathLength="1" d={ARC} />
+    <path class="ca-pulse ca-pulse--back" pathLength="1" d={ARC} />
+    <g class="ca-bubble">
+      <rect x="276" y="96" width="88" height="44" rx="22" />
+      <path d="M306 139 L298 154 L318 140 Z" />
+      {[0, 1, 2].map((k) => <circle class="ca-dot" style={`--k:${k}`} cx={302 + k * 18} cy="118" r="5" />)}
+    </g>
+    <g class="ca-you">
+      <circle cx="150" cy="250" r="46" fill="url(#ca-node)" />
+      <circle class="ca-icon" cx="150" cy="238" r="11" />
+      <path class="ca-icon" d="M128 274 C 130 258, 170 258, 172 274" />
+    </g>
+    <g class="ca-tt">
+      <circle cx="490" cy="250" r="46" fill="url(#ca-node)" />
+      <path d="M470 232 L492 250 L470 268 L476 250 Z" fill="url(#ca-brand)" />
+      <path d="M488 232 L510 250 L488 268 L494 250 Z" fill="#7CC4F0" />
+    </g>
+  </svg>
+</div>

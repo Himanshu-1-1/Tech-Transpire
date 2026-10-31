@@ -187,6 +187,117 @@ function steps() {
   observers.push(io);
 }
 
+/** Contact stage: an animated background (soft light, flowing signal waves, ripples, a dot grid)
+ *  drawn on a 2D canvas at reduced resolution, and on desktop the liquid-glass engine rendering
+ *  the four cards over it so the waves bend at their edges. Elsewhere the cards are CSS frosted
+ *  glass over the same canvas. Runs only while the stage is on screen; one still frame under
+ *  reduced motion. */
+function contactStage() {
+  const stage = document.querySelector<HTMLElement>('.contact-stage');
+  const bg = stage?.querySelector<HTMLCanvasElement>('.ct-bg');
+  const glCanvas = stage?.querySelector<HTMLCanvasElement>('.ct-glass');
+  const ctx = bg?.getContext('2d');
+  if (!stage || !bg || !glCanvas || !ctx) return;
+  const signal = page!.signal;
+  const motion = !reduced();
+  const SCALE = 0.6; // soft art: drawn small, scaled up by the browser or the engine
+  let W = 0, H = 0, tick = 0, last = 0, live = false;
+  let glass: any = null;
+
+  const resize = () => {
+    const r = stage.getBoundingClientRect();
+    W = Math.max(1, Math.round(r.width * SCALE));
+    H = Math.max(1, Math.round(r.height * SCALE));
+    if (bg.width !== W || bg.height !== H) { bg.width = W; bg.height = H; }
+    draw(performance.now());
+    glass?.setBackground(bg).catch(() => {});
+  };
+
+  const draw = (t: number) => {
+    const g = ctx.createLinearGradient(0, 0, 0, H);
+    g.addColorStop(0, '#F7FAFE'); g.addColorStop(1, '#E7F0FB');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    // Drifting light.
+    const blobs: [number, number, number, string][] = [
+      [0.18, 0.28, 0.0, 'rgba(124,196,240,0.55)'],
+      [0.82, 0.22, 2.1, 'rgba(42,115,217,0.30)'],
+      [0.55, 0.85, 4.2, 'rgba(62,159,222,0.38)'],
+    ];
+    for (const [bx, by, k, c] of blobs) {
+      const x = W * (bx + 0.07 * Math.sin(t * 0.00011 + k)), y = H * (by + 0.06 * Math.cos(t * 0.00009 + k));
+      const rad = Math.max(W, H) * 0.42;
+      const rg = ctx.createRadialGradient(x, y, 0, x, y, rad);
+      rg.addColorStop(0, c); rg.addColorStop(1, 'rgba(124,196,240,0)');
+      ctx.fillStyle = rg; ctx.fillRect(0, 0, W, H);
+    }
+    // Dot grid.
+    ctx.fillStyle = 'rgba(24,89,179,0.13)';
+    const step = 28 * SCALE;
+    for (let y = step / 2; y < H; y += step) for (let x = step / 2; x < W; x += step) ctx.fillRect(x, y, 1, 1);
+    // Signal waves.
+    ctx.lineWidth = 1.4;
+    for (let i = 0; i < 7; i++) {
+      const y0 = H * (0.12 + i * 0.13), amp = (18 + i * 3) * SCALE, len = (520 + i * 60) * SCALE, ph = t * 0.0005 * (1 + i * 0.12) + i;
+      ctx.strokeStyle = `rgba(42,115,217,${0.16 + (i % 3) * 0.06})`;
+      ctx.beginPath();
+      for (let x = 0; x <= W; x += 6) { const y = y0 + Math.sin((x / len) * Math.PI * 2 + ph) * amp; x ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+      ctx.stroke();
+    }
+    // Ripples, as if a call were coming in.
+    for (const [cx, cy, k] of [[0.2, 0.46, 0], [0.76, 0.2, 1.7]] as const) {
+      for (let j = 0; j < 4; j++) {
+        const p = ((t * 0.00012 + j / 4 + k) % 1);
+        ctx.strokeStyle = `rgba(62,159,222,${0.45 * (1 - p)})`;
+        ctx.lineWidth = 1.6;
+        ctx.beginPath(); ctx.arc(W * cx, H * cy, (30 + p * 260) * SCALE, 0, Math.PI * 2); ctx.stroke();
+      }
+    }
+  };
+
+  const loop = (t: number) => {
+    tick = 0;
+    if (!live || signal.aborted) return;
+    tick = requestAnimationFrame(loop);
+    if (t - last < 40) return; // about 25 fps is plenty for slow drift
+    last = t;
+    draw(t);
+    glass?.updateBackground();
+  };
+
+  resize();
+  on(window, 'resize', raf(resize), { passive: true });
+  const io = new IntersectionObserver(([en]) => {
+    live = en.isIntersecting && motion;
+    if (live && !tick) tick = requestAnimationFrame(loop);
+    if (glass) en.isIntersecting ? glass.resume() : glass.pause();
+  }, { rootMargin: '100px' });
+  io.observe(stage);
+  observers.push(io);
+  signal.addEventListener('abort', () => { cancelAnimationFrame(tick); glass?.destroy(); });
+
+  // Liquid glass on desktop pointers only; phones keep the CSS frosted cards.
+  if (!finePointer() || window.innerWidth < 940) return;
+  const cards = [...stage.querySelectorAll<HTMLElement>('.glass-card')];
+  import('../vendor/liquid-glass.js').then((mod: any) => {
+    const LG = mod?.default?.create ? mod.default : (globalThis as any).LiquidGlass;
+    if (signal.aborted || !LG?.isSupported()) return;
+    glass = LG.create(glCanvas, {
+      background: bg,
+      backgroundColor: '#EEF5FD',
+      maxDpr: 1.25,
+      params: {
+        thickness: 24, ior: 1.45, refraction: 0.05, dispersion: 5, blur: 16,
+        tint: [255, 255, 255, 0.6], fresnelStrength: 32, glareStrength: 80, glareAngle: -50,
+        shadowStrength: 12, shadowSpread: 34, shadowOffset: [0, 14],
+      },
+      shapes: cards.map((element) => ({ element, roundness: 4 })),
+      onError: (e: unknown) => console.warn('[contact glass]', e),
+    });
+    if (!glass) return;
+    glass.ready.then(() => stage.classList.add('is-glass'), () => { glass?.destroy(); glass = null; });
+  }, () => {});
+}
+
 /* ---------- Ambient animations pause off-screen ---------- */
 function ambient() {
   const els = document.querySelectorAll<HTMLElement>('[data-ambient]');
@@ -497,6 +608,7 @@ function init() {
   reveals();
   countUp();
   steps();
+  contactStage();
   ambient();
   sectionRail();
   readingProgress();

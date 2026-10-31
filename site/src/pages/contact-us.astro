@@ -5,6 +5,7 @@
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import Flag from '../components/Flag.astro';
+import ContactArt from '../components/ContactArt.astro';
 import { block, lines, paragraph } from '../lib/content';
 import { contact, approvals, isReview, location, showPrivacy, isPagesPreview } from '../lib/site';
 
@@ -32,32 +33,38 @@ const privacyLive = showPrivacy;
 const sources = ['LinkedIn', 'Facebook', 'Referral', 'Search', ...(isReview || approvals.newFormOptions ? ['Event or presentation', 'Existing client or colleague'] : []), 'Other'];
 ---
 <Base title="Contact | Tech Transpire" description="Start a conversation with Tech Transpire. Book an intro call or send us a message — we will respond within one business day.">
-  <PageHeader eyebrow={eyebrow} title={startHeading} crumbs={[{ label: 'Home', href: '/' }, { label: 'Contact' }]} art={false} />
+  <PageHeader eyebrow={eyebrow} title={startHeading} crumbs={[{ label: 'Home', href: '/' }, { label: 'Contact' }]} art={false}>
+    <ContactArt slot="art" />
+  </PageHeader>
 
-  <section class="section">
+  <section class="section contact-stage" data-ambient>
+    <canvas class="ct-bg" aria-hidden="true"></canvas>
+    <canvas class="ct-glass" aria-hidden="true"></canvas>
     <div class="container contact-grid">
-      <div style="display:grid;gap:40px">
+      <div class="ct-side">
+        <div class="ct-card glass-card">
         <ul class="contact-list" aria-label="Contact details">
           <li><span class="k">Email</span><a class="v" href={`mailto:${contact.email}`}>{contact.email}</a></li>
           <li><span class="k">Phone</span><a class="v" href={`tel:${contact.tel}`}>{contact.phone}</a></li>
           <li><span class="k">LinkedIn</span><a class="v" href={contact.linkedin} target="_blank" rel="noopener">Tech Transpire</a></li>
           <li><span class="k">Location</span><span class="v">{location.label}</span></li>
         </ul>
+        </div>
 
-        <aside class="panel panel--navy on-navy" style="grid-template-columns:minmax(0,1fr);gap:16px" aria-labelledby="book-h">
+        <aside class="ct-card ct-book glass-card" aria-labelledby="book-h">
           <p class="eyebrow">{fastest}</p>
           <h2 id="book-h" class="panel-title" style="margin:0">{booking.heading}</h2>
           <p class="panel-body">{bookingText}</p>
-          <div><a class="btn btn-light" href={contact.booking} target="_blank" rel="noopener">Book your intro call <span class="arr" aria-hidden="true">→</span></a></div>
+          <div><a class="btn btn-primary" href={contact.booking} target="_blank" rel="noopener">Book your intro call <span class="arr" aria-hidden="true">→</span></a></div>
         </aside>
 
-        <div>
+        <div class="ct-card glass-card">
           <h2 style="font-size:1.4rem;margin-bottom:18px">{next.heading}</h2>
           <ol class="next-steps">{nextSteps.map((s, n) => <li>{s}{n === 0 && <Flag label="C-17 · confirm" />}</li>)}</ol>
         </div>
       </div>
 
-      <div class="form-card">
+      <div class="form-card glass-card">
         <h2 style="font-size:1.75rem">{form.heading}</h2>
         <p class="muted" style="margin-top:8px">{formIntro}</p>
         <form class="form" id="inquiry" action="/api/inquiry" method="post" novalidate data-success={success} data-preview={isPagesPreview ? '' : undefined}>
