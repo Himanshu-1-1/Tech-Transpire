@@ -29,6 +29,45 @@ function header() {
   on(window, 'scroll', raf(update), { passive: true });
 }
 
+/* ---------- Site search ----------
+ * The header's search icon (or "/" and Ctrl/⌘+K) opens a dialog listing every page and article in
+ * this build (rendered by Header.astro). Typing filters it: every word must match. Enter opens
+ * the first result; Escape, the Esc button or a click outside closes it. */
+function siteSearch() {
+  const btn = document.querySelector<HTMLButtonElement>('.search-btn');
+  const dlg = document.getElementById('site-search') as HTMLDialogElement | null;
+  const input = dlg?.querySelector<HTMLInputElement>('#search-q');
+  const items = dlg ? [...dlg.querySelectorAll<HTMLLIElement>('#search-results li')] : [];
+  const empty = dlg?.querySelector<HTMLElement>('.search-empty');
+  if (!btn || !dlg || !input || !empty || typeof dlg.showModal !== 'function') return;
+  const filter = () => {
+    const words = input.value.toLowerCase().split(/\s+/).filter(Boolean);
+    let shown = 0;
+    items.forEach((li) => {
+      const hit = words.length ? words.every((w) => li.dataset.k!.includes(w)) : li.hasAttribute('data-page');
+      li.hidden = !hit;
+      if (hit) shown++;
+    });
+    empty.textContent = shown ? '' : `No results for “${input.value.trim()}”.`;
+  };
+  const open = () => { if (!dlg.open) { dlg.showModal(); input.select(); filter(); } };
+  on(btn, 'click', open);
+  on(input, 'input', filter);
+  on(input, 'keydown', (e: KeyboardEvent) => {
+    // A search field's own Escape only clears the text; here it closes the dialog.
+    if (e.key === 'Escape') { e.preventDefault(); dlg.close(); return; }
+    if (e.key !== 'Enter') return;
+    e.preventDefault();
+    items.find((li) => !li.hidden)?.querySelector('a')?.click();
+  });
+  on(dlg, 'click', (e: MouseEvent) => { if (e.target === dlg || (e.target as Element).closest('.search-close')) dlg.close(); });
+  on(dlg, 'close', () => btn.focus());
+  on(document, 'keydown', (e: KeyboardEvent) => {
+    const typing = e.target instanceof HTMLElement && e.target.matches('input, textarea, select, [contenteditable]');
+    if ((e.key === 'k' && (e.metaKey || e.ctrlKey)) || (e.key === '/' && !typing)) { e.preventDefault(); open(); }
+  });
+}
+
 /* ---------- Mobile menu ---------- */
 function mobileMenu() {
   const btn = document.querySelector<HTMLButtonElement>('.menu-btn');
@@ -395,6 +434,7 @@ function init() {
   const root = document.documentElement;
   root.classList.add('js');
   header();
+  siteSearch();
   mobileMenu();
   splitWords();
   reveals();

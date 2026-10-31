@@ -1,10 +1,33 @@
 ---
 import { Image } from 'astro:assets';
-import { primaryNav } from '../lib/site';
+import Icon from './Icon.astro';
+import { primaryNav, showIndustries } from '../lib/site';
 import { logo } from '../lib/images';
+import { visibleInsights, insightHref, TYPE_LABEL } from '../lib/insights';
+import { CASE_STUDIES, hasCaseStudiesPage } from '../lib/routes';
 
 const path = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/';
-const current = (href: string) => (path === href ? 'page' : path.startsWith(href + '/') ? 'true' : undefined);
+const current = (href: string) => (path === href ? 'page' : href !== '/' && path.startsWith(href + '/') ? 'true' : undefined);
+
+// Site search: every page and article in this build, filtered in the browser (interactions.ts
+// siteSearch). Built from the same gating as the pages, so it never lists an unpublished page.
+// Titles and existing card excerpts only; no new copy.
+type Entry = { title: string; section: string; href: string; text?: string; page?: boolean };
+const pages: Entry[] = [
+  { title: 'Home', section: 'Page', href: '/' },
+  { title: 'About', section: 'Page', href: '/about-us', text: 'company team leadership advisors founder' },
+  { title: 'Services', section: 'Implementation Clarity & Execution Blueprint', href: '/services', text: 'expertise discovery execution blueprint guided implementation' },
+  { title: 'Transformation Recovery', section: 'Services', href: '/services/transformation-recovery' },
+  { title: 'Insights', section: 'Page', href: '/insights', text: 'articles blog' },
+  ...(hasCaseStudiesPage ? [{ title: 'Case studies', section: 'Insights', href: CASE_STUDIES }] : []),
+  ...(showIndustries ? [{ title: 'Industries', section: 'Page', href: '/industries' }, { title: 'Healthcare', section: 'Industries', href: '/industries/healthcare' }] : []),
+  { title: 'Contact Us', section: 'Page', href: '/contact-us', text: 'email phone call message conversation' },
+].map((p) => ({ ...p, page: true }));
+const entries: Entry[] = [
+  ...pages,
+  ...visibleInsights.map((i) => ({ title: i.cardTitle, section: `Insights · ${TYPE_LABEL[i.type]}`, href: insightHref(i), text: [i.excerpt, i.category, i.industry ?? ''].join(' ') })),
+];
+const haystack = (e: Entry) => [e.title, e.section, e.text ?? ''].join(' ').toLowerCase();
 ---
 <header class="site-header">
   <div class="container hdr">
@@ -21,16 +44,28 @@ const current = (href: string) => (path === href ? 'page' : path.startsWith(href
         {primaryNav.map((item) => <li><a href={item.href} aria-current={current(item.href)}>{item.label}</a></li>)}
       </ul>
     </nav>
-    <a class="btn btn-primary hdr-cta" href="/contact-us" data-magnetic aria-current={current('/contact-us')}><span class="btn-label">Contact</span></a>
+    <button class="search-btn" type="button" aria-label="Search" aria-haspopup="dialog" aria-controls="site-search"><Icon name="search" /></button>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-nav">
       <span class="menu-icon" aria-hidden="true"><i></i><i></i><i></i></span>Menu
     </button>
   </div>
   <nav id="mobile-nav" class="mobile-nav" aria-label="Primary (mobile)" hidden>
     <ul class="container">
-      <li><a href="/" aria-current={current('/')}>Home</a></li>
       {primaryNav.map((item) => <li><a href={item.href} aria-current={current(item.href)}>{item.label}</a></li>)}
-      <li><a href="/contact-us" aria-current={current('/contact-us')}>Contact</a></li>
     </ul>
   </nav>
 </header>
+<dialog id="site-search" class="search-dialog" aria-labelledby="search-label">
+  <div class="search-form" role="search">
+    <label id="search-label" for="search-q" class="visually-hidden">Search the site</label>
+    <Icon name="search" />
+    <input id="search-q" type="search" placeholder="Search pages and insights" autocomplete="off" spellcheck="false" aria-controls="search-results" />
+    <button class="search-close" type="button" aria-label="Close search">Esc</button>
+  </div>
+  <ul id="search-results" class="search-results">
+    {entries.map((e) => (
+      <li data-k={haystack(e)} data-page={e.page ? '' : undefined} hidden={!e.page}><a href={e.href}><span class="sr-title">{e.title}</span><span class="sr-section">{e.section}</span></a></li>
+    ))}
+  </ul>
+  <p class="search-empty" role="status" aria-live="polite"></p>
+</dialog>

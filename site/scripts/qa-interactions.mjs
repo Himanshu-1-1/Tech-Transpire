@@ -107,7 +107,7 @@ try {
     const page = await browser.newPage();
     await page.setViewport({ width: 1440, height: 900 });
     await page.goto(base + '/', { waitUntil: 'networkidle0' });
-    await page.click('.hdr-cta');
+    await page.click('.nav a[href="/contact-us"]');
     await page.waitForFunction(() => location.pathname === '/contact-us' && document.getElementById('inquiry'), { timeout: 8000 });
     await new Promise((r) => setTimeout(r, 400));
     await page.click('button[type=submit]');

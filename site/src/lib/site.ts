@@ -19,11 +19,14 @@ export const approvals = {
 export const showIndustries = isReview || approvals.healthcarePage;
 
 export type NavItem = { label: string; href: string };
+// Header order and labels match the company's reference header (2026-11-01, D-41). Industries
+// stays reachable from the footer and search.
 export const primaryNav: NavItem[] = [
-  { label: 'Expertise', href: '/services' },
-  ...(showIndustries ? [{ label: 'Industries', href: '/industries' }] : []),
-  { label: 'Insights', href: '/insights' },
+  { label: 'Home', href: '/' },
   { label: 'About', href: '/about-us' },
+  { label: 'Services', href: '/services' },
+  { label: 'Insights', href: '/insights' },
+  { label: 'Contact Us', href: '/contact-us' },
 ];
 
 // [E] TT-PG-005-B02, B03: exact values.
