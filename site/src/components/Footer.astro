@@ -26,16 +26,16 @@ const showPrivacy = isReview || approvals.privacyPolicy;
         <li><a href="/insights">Insights</a></li>
         {hasCaseStudiesPage && <li><a href="/insights/case-studies">Case studies</a></li>}
         <li><a href="/about-us">About</a></li>
-        <li><a href="/contact-us">Contact</a></li>
+        <li><a href="/contact-us">Contact Us</a></li>
       </ul>
     </nav>
     <div class="foot-col">
       <h2>Get in touch</h2>
       <ul>
-        <li><a href={`mailto:${contact.email}`}>{contact.email}</a></li>
+        <li class="wide"><a href={`mailto:${contact.email}`}>{contact.email}</a></li>
         <li><a href={`tel:${contact.tel}`}>{contact.phone}</a></li>
         <li><a href={contact.linkedin} rel="noopener" target="_blank">LinkedIn</a></li>
-        <li><a href={contact.booking} rel="noopener" target="_blank">Book your intro call</a></li>
+        <li class="wide"><a href={contact.booking} rel="noopener" target="_blank">Book your intro call</a></li>
       </ul>
     </div>
   </div>

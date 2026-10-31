@@ -34,13 +34,14 @@ const gates: Record<string, string[]> = {
 const portraits: Record<string, ImageMetadata | undefined> = {
   'Mack Akhani': photo('mack akhani'),
   'Hemang Dwivedi': asset('TT-AS-004'), // Drive: Hemang_TT_HeadShot.png
-  'Kranthi Kumar Goli': undefined,
+  'Kranthi Kumar Goli': photo('kranthi kumar goli'), // supplied in chat 2026-11-01 (TT-AS-027)
   'Devjet Bag': undefined,
 };
-// Focal point per portrait in the tall card (Mack's photo is a 2:3 full-length shot).
+// Focal point per portrait in the tall card (Mack's and Kranthi's photos are 2:3 three-quarter shots).
 const focus: Record<string, string> = {
   'Mack Akhani': '58% 16%',
   'Hemang Dwivedi': '50% 22%',
+  'Kranthi Kumar Goli': '62% 18%',
 };
 const people = team(teamBlock).filter((p) => isReview || isVerified(...gates[p.name]));
 ---

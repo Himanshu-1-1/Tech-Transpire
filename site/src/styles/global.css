@@ -194,7 +194,7 @@ html:not(.js) .search-btn { display: none; }
 .menu-btn[aria-expanded='true'] .menu-icon i:nth-child(3) { transform: translateY(-5px) rotate(-45deg); }
 .mobile-nav { border-top: 1px solid var(--line); background: var(--paper); clip-path: inset(0 0 100% 0); opacity: 0; transition: clip-path var(--t-card) var(--ease-emph), opacity var(--t-hover); }
 .mobile-nav.is-open { clip-path: inset(0 0 0 0); opacity: 1; }
-.mobile-nav ul { list-style: none; padding: 8px 0 22px; }
+.mobile-nav ul { list-style: none; padding-block: 8px 22px; }
 .mobile-nav li { opacity: 0; transform: translateY(-6px); transition: opacity var(--t-button) var(--ease-out), transform var(--t-button) var(--ease-out); }
 .mobile-nav.is-open li { opacity: 1; transform: none; }
 .mobile-nav.is-open li:nth-child(2) { transition-delay: 30ms; } .mobile-nav.is-open li:nth-child(3) { transition-delay: 60ms; } .mobile-nav.is-open li:nth-child(4) { transition-delay: 90ms; } .mobile-nav.is-open li:nth-child(5) { transition-delay: 120ms; } .mobile-nav.is-open li:nth-child(6) { transition-delay: 150ms; }
@@ -203,7 +203,10 @@ html:not(.js) .search-btn { display: none; }
 .has-hero-header .site-header:has(.mobile-nav.is-open) { background: #fff; }
 @media (max-width: 939px) { .nav { display: none; } .menu-btn { display: inline-flex; margin-left: 0; } .search-btn { margin-left: auto; } .hdr { gap: 12px; } }
 @media (min-width: 940px) { .mobile-nav { display: none !important; } }
-@media (max-width: 379px) { .hdr { gap: 4px; } .search-btn { width: 36px; } .menu-btn { padding: 0 10px; gap: 8px; } }
+/* Phones: the brand gives way, never the controls; Menu becomes a square icon button (label kept for screen readers). */
+.brand { min-width: 0; } .search-btn, .menu-btn { flex: none; }
+@media (max-width: 519px) { .hdr { gap: 8px; } .menu-btn { width: 44px; padding: 0; justify-content: center; } .menu-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } }
+@media (max-width: 379px) { .wordmark { font-size: 17px !important; } .brand { gap: 8px; } .brand img { width: 32px !important; height: 32px !important; } .brand-tag { font-size: 6.6px !important; letter-spacing: .1em !important; } }
 @media (max-width: 519px) { .search-dialog { margin-top: 16px; } .wordmark { font-size: 19px; } .brand img { width: 38px; height: 38px; } .brand-tag { font-size: 7.5px; letter-spacing: .12em; } }
 
 /* =========================================================================
@@ -296,6 +299,14 @@ html:not(.js) .search-btn { display: none; }
   .outcome-bar ul { padding: 6px; border-radius: 18px; } .outcome-bar a { padding: 12px 10px; gap: 10px; }
   .ob-orb { width: 38px; height: 38px; } .outcome-bar .icon { width: 20px; height: 20px; }
   .ob-text { font-size: .92rem; } .ob-text small { font-size: .88rem; } .ob-arrow { display: none; }
+}
+/* Phones: the two hero actions are one matched pair, full width and the same height (company mark-up 2026-11-01). */
+@media (max-width: 639px) {
+  .hero-inner { padding-block: 24px 16px; }
+  .hero-copy { gap: 20px; }
+  .hero .ctas { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; margin-top: 4px; }
+  .hero .ctas > a:is(.btn, .link-arrow) { width: 100%; min-height: 54px; padding: 0 20px; justify-content: center; border-radius: 999px; font-size: 16px; }
+  .hero .ctas .btn-primary { box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, .9), inset 0 -10px 18px -8px rgba(160, 220, 255, .5), 0 14px 26px -16px rgba(42, 115, 217, .75); }
 }
 @media (max-width: 379px) { .outcome-bar ul { grid-template-columns: minmax(0, 1fr); } .outcome-bar .ob-item::before { display: none; } .outcome-bar .ob-item + .ob-item { border-top: 1px solid rgba(42, 115, 217, .1); } }
 
@@ -714,6 +725,12 @@ a.v:hover { color: var(--blue); }
 .legal { border-top: 1px solid #1B2F4C; padding-block: 22px 30px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px; font-size: 13.5px; }
 .legal ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 20px; }
 @media (max-width: 819px) { .foot-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; } }
+/* Phones and tablets: footer links in two columns so the right half isn't empty; long contact items take a full row. */
+@media (max-width: 819px) {
+  .foot-grid { padding-block: 56px 40px; }
+  .foot-col ul { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 20px; }
+  .foot-col li.wide { grid-column: 1 / -1; }
+}
 
 /* =========================================================================
    Team

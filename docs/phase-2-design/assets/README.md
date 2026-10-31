@@ -9,6 +9,7 @@ Put company-owned or properly licensed photography here, **keeping the original 
 | `Hero section.jpg` (1280×720) | Saved by the company, 2026-10-30 (the Drive "Executive Lounge Meeting Overlooking the City" scene) | **Home hero** since 2026-10-30, anchored right (`--hero-pos: 100% 50%`) so all four people show; method chips moved into the sky | **Unconfirmed**: confirm ownership or licence before production (TT-AS-026). A higher-resolution copy (≥ 1920px wide) would look sharper on large screens |
 | `hero-glass-office-skyline.png` (1672×941) | By the company in chat, 2026-10-29 | Backup hero: used only if no "hero section"/"lounge" photo is present | **Unconfirmed**: confirm ownership or licence before production (`assets.csv` TT-AS-024) |
 | `Mack Akhani.png` (1024×1536) | By the company in chat, 2026-10-30, as "the Mack Akhani image" | **Home "Built from experience"** (focal 50% 16%) and **About team tile** (focal 62% 20%, zoom 1.6) | Company-approved for use (D-33). Confirm ownership/licence before production (TT-AS-025) |
+| `Kranthi Kumar Goli.png` (1024×1536) | By the company in chat, 2026-11-01, as "goli photo" | **About team tile** (focal 62% 18%), replacing the initials placeholder | Supplied as his photo; replaces the AI-generated archive image TT-AS-005, which stays unused. Confirm ownership/licence before production (TT-AS-027) |
 
 ## Still requested
 
