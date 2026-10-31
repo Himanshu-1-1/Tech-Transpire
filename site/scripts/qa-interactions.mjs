@@ -110,6 +110,10 @@ try {
     await page.click('.nav a[href="/contact-us"]');
     await page.waitForFunction(() => location.pathname === '/contact-us' && document.getElementById('inquiry'), { timeout: 8000 });
     await new Promise((r) => setTimeout(r, 400));
+    // The site scrolls smoothly, so bring the button into view first; otherwise the click can land
+    // mid-scroll on whatever is passing under the old coordinates.
+    await page.$eval('button[type=submit]', (el) => el.scrollIntoView({ block: 'center', behavior: 'instant' }));
+    await new Promise((r) => setTimeout(r, 200));
     await page.click('button[type=submit]');
     const errs = await page.evaluate(() => document.querySelectorAll('.field .err').length);
     check('After client-side navigation, the contact form is wired (validation runs)', errs >= 4, `${errs} errors shown`);
