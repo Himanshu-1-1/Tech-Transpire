@@ -1,5 +1,5 @@
 {
-  "source": "Background facts copied verbatim from https://www.trueleansolutions.com/about-us/ (Advisors section), retrieved 2026-10-31 (D-38). The sentences about each person's role were rewritten at the company's direction to describe Tech Transpire's work (D-40, draft for approval); no new facts were added. Only the advisors ticked by the company are included (not Nirav Kambodi or Mayank Pujara).",
+  "source": "Background facts copied verbatim from https://www.trueleansolutions.com/about-us/ (Advisors section), retrieved 2026-10-31 (D-38). The sentences about each person's role were rewritten at the company's direction to describe Tech Transpire's work (D-40, draft for approval); no new facts were added. On 2026-11-01 every profile was reframed around consulting with no technology content (D-44, D-45); Dr. Potts's facts come from the resume and bio sheet he supplied. Only the advisors ticked by the company are included (not Nirav Kambodi or Mayank Pujara).",
   "eyebrow": "Advisors",
   "title": "Guidance from experienced leaders.",
   "lead": "Experienced leaders who guide our strategy and help us deliver greater value to our clients.",
@@ -20,7 +20,7 @@
       "linkedin": "https://www.linkedin.com/in/sanket-thakkar/",
       "bio": [
         "Sanket advises Tech Transpire on growth strategy and market expansion, bringing a builder's view of what it takes to turn a validated plan into delivery that scales.",
-        "He is a serial entrepreneur and the CEO & Co-Founder of IConflux Technologies, a software development company with a team of 100+ developers serving Fintech, Manufacturing, and Tech Startups globally. With over 13 years of building and scaling technology ventures, Sanket brings deep expertise in business growth, digital transformation, and POD-based delivery models."
+        "A serial entrepreneur with over 13 years of building and scaling ventures, he is a CEO and co-founder who has grown a team of 100+ serving clients in fintech, manufacturing and high-growth startups globally. He brings deep expertise in business growth and pod-based delivery models."
       ]
     },
     {
@@ -34,12 +34,12 @@
     },
     {
       "name": "Saurabh Kumar",
-      "role": "Technical Advisor — AI Strategy & Deep Tech",
+      "role": "Advisor — Strategic Assessment & Risk",
       "linkedin": "https://www.linkedin.com/in/saurabh-kumar-26891a4/",
       "bio": [
-        "Saurabh advises the CEO of Tech Transpire on AI strategy and deep technology. He helps clients separate real opportunity from hype before they commit to a technology direction, and reviews engagements hands-on where architecture, security or embedded systems decisions carry real risk.",
-        "A technology executive with 25+ years of experience, Saurabh was most recently Director and Principal Engineer at Samsung Research America. There he led a 25-person global R&D team across agentic AI, developer productivity and open source. He represented Samsung at board level in the Linux Foundation and the Agentic AI Foundation. He led the company's evaluation of AI coding agents through benchmarking and harness engineering, and briefed the CTO on adopting emerging technologies.",
-        "His AI advice rests on two decades of hardware work for some of the world's largest consumer electronics companies. At Marvell he did SoC firmware and silicon bring-up for Hisense, Vizio, Lenovo and TPVision. At Samsung SmartThings he shipped firmware to millions of hubs. He is active on the standards bodies behind the major smart home and low-power mesh protocols used in smart home and industrial applications. Through his consultancy, Wanderlight Creative Group, he designed a way to upgrade IoT devices already in the field to post-quantum cryptography with no new silicon."
+        "Saurabh advises the CEO of Tech Transpire on assessing new opportunities with discipline. He helps clients separate real opportunity from hype before they commit to a direction, and reviews engagements hands-on where a decision carries real risk.",
+        "An executive with 25+ years of experience, Saurabh was most recently a Director at Samsung Research America, where he led a 25-person global team, represented the company at board level in industry foundations, led company-wide evaluations of emerging approaches and briefed senior leadership on adoption decisions.",
+        "He has delivered for some of the world's largest consumer electronics companies, including Hisense, Vizio, Lenovo and TPVision, and runs his own consultancy, Wanderlight Creative Group."
       ]
     },
     {
@@ -47,8 +47,8 @@
       "role": "Advisor — Healthcare Operations & Solutions",
       "linkedin": "https://www.linkedin.com/in/dharmendra-mistry-05470723/",
       "bio": [
-        "Dharmendra advises Tech Transpire on healthcare operations and client delivery. He helps healthcare clients uncover the gaps between clinical teams, processes and systems, so the real problem is defined and agreed before change begins.",
-        "A healthcare and medical technology executive with more than 30 years of experience, he built Biomet India from inception to about $10 million in four years, led the Zimmer Biomet integration in India, and headed Lumenis across India and South Asia. As co-founder of Valiant Care, he built and ran a 24/7 care service for seafarers, giving him first-hand experience of how clinical workflows really run."
+        "Dharmendra advises Tech Transpire on healthcare operations and client delivery. He helps healthcare clients uncover the gaps between clinical teams, processes and operations, so the real problem is defined and agreed before change begins.",
+        "A healthcare executive with more than 30 years of experience, he built Biomet India from inception to about $10 million in four years, led the Zimmer Biomet integration in India, and headed Lumenis across India and South Asia. As co-founder of Valiant Care, he built and ran a 24/7 care service for seafarers, giving him first-hand experience of how clinical workflows really run."
       ]
     }
   ]
