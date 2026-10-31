@@ -16,6 +16,7 @@ Put company-owned or properly licensed photography here, **keeping the original 
 | `Sanket Thakkar.png` (1254×1254) | By the company in chat, 2026-11-01, as "sanket" | **About advisor card** for Sanket Thakkar (focal 50% 34%), replacing the initials | The office backdrop with the Tech Transpire sign looks generated. Confirm his consent and ownership/licence before production (TT-AS-031) |
 | `Ketul Thakker.png` (1254×1254) | By the company in chat, 2026-11-01 (identified as Ketul when asked) | **About advisor card** for Ketul Thakker (focal 47% 32%), replacing the initials | The office backdrop with the Tech Transpire sign looks generated. Confirm his consent and ownership/licence before production (TT-AS-032) |
 | `Saurabh Kumar.png` (1254×1254) | By the company in chat, 2026-11-01 (identified as Saurabh when asked) | **About advisor card** for Saurabh Kumar (focal 47% 34%), replacing the initials | The office backdrop with the Tech Transpire sign looks generated. Confirm his consent and ownership/licence before production (TT-AS-033) |
+| `Dharmendra Mistry.png` (1254×1254) | By the company in chat, 2026-11-01 (sent unnamed; the last advisor without a photo) | **About advisor card** for Dharmendra Mistry (focal 46% 34%), replacing the initials | The office backdrop with the Tech Transpire sign looks generated. Confirm it is him, his consent and ownership/licence before production (TT-AS-034) |
 
 ## Still requested
 
