@@ -15,6 +15,7 @@ Put company-owned or properly licensed photography here, **keeping the original 
 | `Wally Potts.png` (1254×1254) | By the company in chat, 2026-11-01, with his resume and bio sheet | **About advisor card** for Dr. Wally Potts (focal 52% 30%), replacing the initials | Matches the portrait on his own bio sheet; the office backdrop with the Tech Transpire sign looks generated. Confirm his consent and ownership/licence before production (TT-AS-030) |
 | `Sanket Thakkar.png` (1254×1254) | By the company in chat, 2026-11-01, as "sanket" | **About advisor card** for Sanket Thakkar (focal 50% 34%), replacing the initials | The office backdrop with the Tech Transpire sign looks generated. Confirm his consent and ownership/licence before production (TT-AS-031) |
 | `Ketul Thakker.png` (1254×1254) | By the company in chat, 2026-11-01 (identified as Ketul when asked) | **About advisor card** for Ketul Thakker (focal 47% 32%), replacing the initials | The office backdrop with the Tech Transpire sign looks generated. Confirm his consent and ownership/licence before production (TT-AS-032) |
+| `Saurabh Kumar.png` (1254×1254) | By the company in chat, 2026-11-01 (identified as Saurabh when asked) | **About advisor card** for Saurabh Kumar (focal 47% 34%), replacing the initials | The office backdrop with the Tech Transpire sign looks generated. Confirm his consent and ownership/licence before production (TT-AS-033) |
 
 ## Still requested
 
