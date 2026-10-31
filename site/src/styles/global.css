@@ -495,6 +495,7 @@ html:not(.js) .search-btn { display: none; }
 .panel--navy .panel-title, .section--navy .panel-title, .panel--navy h3 { color: #fff; }
 .panel--navy .panel-body, .section--navy .panel-body { color: var(--on-navy-muted); }
 .panel--navy .tag, .section--navy .tag { color: var(--on-navy); border-color: #22395B; }
+.scope-note { font-size: 14.5px; line-height: 1.6; }
 .panel--navy .eyebrow { color: var(--sky); }
 @media (max-width: 899px) { .panel { grid-template-columns: minmax(0, 1fr); } }
 

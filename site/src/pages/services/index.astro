@@ -53,7 +53,9 @@ const evidence: Record<string, string[]> = {
         </div>
         <div class="panel-body">
           {signature.body.map((p) => <p>{p}</p>)}
-          {signature.tag && showTimeframe ? <p class="tag">{signature.tag}<Flag label="C-15 · hidden in public until confirmed" /></p> : null}
+          {signature.tag && showTimeframe ? <p class="tag">{signature.tag}</p> : null}
+          {/* Engagement scope, as defined by the company 2026-11-01 (D-43). */}
+          {showTimeframe && <p class="scope-note">The 6–8 weeks covers discovery and the execution blueprint. Discovery typically takes 2–6 weeks within that period, depending on complexity and stakeholder availability. Guided implementation is scoped separately based on the approved blueprint.</p>}
         </div>
       </aside>
     </div>
@@ -67,7 +69,7 @@ const evidence: Record<string, string[]> = {
           <li class="path-step" data-spotlight>
             <span class="n">Step {i + 1}</span>
             <h3 class="display-3">{s.title}</h3>
-            <p>{s.body}{i === 0 && <Flag label="C-15 · “2 to 6 weeks” must be confirmed before launch" />}</p>
+            <p>{s.body}</p>
           </li>
         ))}
       </ol>

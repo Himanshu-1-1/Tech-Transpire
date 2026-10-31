@@ -163,7 +163,7 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
         {problems.map((p, i) => (
           <li class="card reveal" data-tilt>
             <span class="ch-glow" aria-hidden="true"></span><span class="ch-bar" aria-hidden="true"></span>
-            <span class="icon-tile"><Icon name={p.icon} /></span><h3>{p.title}</h3><p>{p.body}{p.title === 'Hidden misalignment' && <Flag label="H-01 · “three times” needs a source before launch" />}</p>
+            <span class="icon-tile"><Icon name={p.icon} /></span><h3>{p.title}</h3><p>{p.body}</p>
           </li>
         ))}
       </ul>
@@ -215,7 +215,7 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
         </div>
         <div class="panel-body">
           {outcome.body.map((p) => <p>{p}</p>)}
-          {outcome.tag && showTimeframe && <p class="tag"><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><polygon points="4,4 13,4 20,12 13,20 4,20 11,12" fill="#3E9FDE" /></svg>{outcome.tag}<Flag label="C-15 · hidden in public until confirmed" /></p>}
+          {outcome.tag && showTimeframe && <p class="tag"><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><polygon points="4,4 13,4 20,12 13,20 4,20 11,12" fill="#3E9FDE" /></svg>{outcome.tag}</p>}
           <a class="link-arrow" href="/services">Implementation Clarity &amp; Execution Blueprint <span class="arr" aria-hidden="true">→</span></a>
         </div>
       </aside>

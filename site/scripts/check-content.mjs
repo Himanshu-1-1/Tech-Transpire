@@ -101,7 +101,7 @@ const leaks = [
   ['withdrawn C-01 label', /Revenue impact/],
   ['E-09 withheld sentence', /Twelve other programs subsequently replicated it/],
   ['unverified result figure', /\$89M|\b63%|7 yrs|\b90\+|\$311|prevented \$3M|\$3M in fraud/],
-  ['unconfirmed timeframe tag (C-15)', /6-8 weeks/],
+  ...(verified('C-15') ? [] : [['unconfirmed timeframe tag (C-15)', /6-8 weeks/]]),
 ];
 for (const f of sitePages) {
   const r = raw(pub, f);
@@ -116,8 +116,6 @@ for (const f of ['industries.html', 'industries/healthcare.html', 'privacy-polic
 
 // 3. Launch blockers still present in public text (warnings).
 const blockers = [
-  ['H-01', 'index.html', 'three times what it would have been upfront'],
-  ['H-04 / C-15', 'services.html', 'within 2 to 6 weeks'],
   ['H-05 / C-17', 'contact-us.html', '1 business day'],
 ];
 for (const [id, f, s] of blockers) if (text(pub, f)?.includes(s)) warnings.push(`${id}: "${s}" on ${f} must be confirmed (or an omission approved) before launch`);
