@@ -502,19 +502,72 @@ html:not(.js) .search-btn { display: none; }
 /* =========================================================================
    Selected Experience (results)
    ========================================================================= */
-.results { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); list-style: none; padding: 0; border-top: 1px solid var(--line-strong); }
-.result { padding: 34px clamp(16px, 2.4vw, 32px) 38px 0; border-bottom: 1px solid var(--line); display: grid; gap: 12px; align-content: start; }
-.result:not(:nth-child(3n + 1)) { padding-left: clamp(16px, 2.4vw, 32px); border-left: 1px solid var(--line); }
-.result-value { font: 500 clamp(2.6rem, 1.8rem + 2.4vw, 3.8rem)/1 var(--f-display); letter-spacing: -0.02em; color: var(--blue-deep); font-variant-numeric: lining-nums; }
+/* The experience ledger: deep navy band, faint blueprint grid, dark liquid-glass cards. Each card
+   leads with a small diagram of its own result that draws in on reveal; the figure counts up. */
+.results-band { background: radial-gradient(60% 70% at 92% 0%, rgba(42, 115, 217, .38), transparent 62%), radial-gradient(50% 60% at 0% 100%, rgba(62, 159, 222, .2), transparent 64%), linear-gradient(180deg, var(--navy-3), var(--navy) 46%, var(--navy-2)); }
+.results-grid { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; color: rgba(124, 196, 240, .085); -webkit-mask-image: radial-gradient(80% 70% at 70% 30%, #000, transparent 78%); mask-image: radial-gradient(80% 70% at 70% 30%, #000, transparent 78%); pointer-events: none; }
+.results-band .section-head .muted { color: var(--on-navy-muted); }
+.results-band .results-cta { color: #fff; min-height: 46px; padding: 0 20px; border-radius: 999px; background: linear-gradient(180deg, rgba(255, 255, 255, .14), rgba(255, 255, 255, .05)); border: 1px solid rgba(255, 255, 255, .22); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .28), 0 12px 28px -16px rgba(0, 0, 0, .6); -webkit-backdrop-filter: blur(14px) saturate(160%); backdrop-filter: blur(14px) saturate(160%); text-decoration: none; transition: box-shadow var(--t-hover), transform var(--t-hover) var(--ease-out); }
+.results-band .results-cta:hover { color: #fff; transform: translateY(-1px); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .34), 0 0 0 1px rgba(124, 196, 240, .35), 0 16px 34px -14px rgba(42, 115, 217, .65); }
+.results { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(14px, 1.6vw, 22px); list-style: none; padding: 0; margin: 0; }
+.result { position: relative; isolation: isolate; display: grid; grid-template-rows: auto auto auto 1fr auto; gap: 12px; align-content: start; padding: 24px 26px 26px; border-radius: 22px; color: var(--on-navy); border: 1px solid transparent; background: linear-gradient(160deg, rgba(255, 255, 255, .085), rgba(255, 255, 255, .025) 55%, rgba(124, 196, 240, .05)) padding-box, linear-gradient(150deg, rgba(255, 255, 255, .42), rgba(124, 196, 240, .14) 30%, rgba(255, 255, 255, .04) 60%, rgba(124, 196, 240, .3)) border-box; -webkit-backdrop-filter: blur(16px) saturate(150%); backdrop-filter: blur(16px) saturate(150%); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .16), inset 0 -24px 40px -30px rgba(62, 159, 222, .35), 0 28px 60px -34px rgba(0, 0, 0, .7); overflow: hidden; transition: transform var(--t-card) var(--ease-out), box-shadow var(--t-card) var(--ease-out); }
+.result::before { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(90% 60% at 12% -10%, rgba(255, 255, 255, .07), transparent 60%); }
+.results-band [data-spotlight]::after { background: radial-gradient(240px circle at var(--sx, 50%) var(--sy, 50%), rgba(124, 196, 240, .16), transparent 65%); }
+.fx-pointer .results .result.is-in:hover { transform: translateY(-4px); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .22), inset 0 -24px 40px -28px rgba(62, 159, 222, .5), 0 0 0 1px rgba(124, 196, 240, .22), 0 36px 70px -32px rgba(0, 0, 0, .75), 0 20px 50px -30px rgba(42, 115, 217, .6); }
+.result-value { font: 500 clamp(2.6rem, 1.8rem + 2.4vw, 3.8rem)/1 var(--f-display); letter-spacing: -0.02em; color: var(--blue-deep); font-variant-numeric: lining-nums tabular-nums; }
+.results-band .result-value { color: #fff; background: linear-gradient(180deg, #fff 30%, #BFE2FA 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 22px rgba(124, 196, 240, .3)); }
 .result-label { font-size: 15.5px; color: var(--ink-2); max-width: 34ch; }
+.results-band .result-label { color: var(--on-navy); line-height: 1.55; }
 .result-attr { font-size: 13px; color: var(--muted); font-style: italic; }
+.results-band .result-attr { display: inline-flex; align-items: center; gap: 8px; align-self: end; justify-self: start; padding: 6px 12px; border-radius: 999px; font-size: 12px; font-style: normal; letter-spacing: .01em; line-height: 1.35; color: var(--on-navy-muted); background: rgba(255, 255, 255, .05); border: 1px solid rgba(255, 255, 255, .1); }
+.results-band .result-attr i { flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--sky); box-shadow: 0 0 8px var(--sky); }
 .result a { font-size: 14.5px; }
-@media (max-width: 899px) {
-  .results { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .result:not(:nth-child(3n + 1)) { padding-left: 0; border-left: 0; }
-  .result:nth-child(even) { padding-left: clamp(16px, 2.4vw, 32px); border-left: 1px solid var(--line); }
-}
-@media (max-width: 559px) { .results { grid-template-columns: minmax(0, 1fr); } .result:nth-child(even) { padding-left: 0; border-left: 0; } }
+.results-band .result a { justify-self: start; display: inline-flex; gap: 8px; align-items: center; padding-top: 6px; color: #BFE2FA; text-decoration: none; font-weight: 600; }
+.results-band .result a .arr { transition: transform var(--t-hover) var(--ease-out); }
+.results-band .result a:hover { color: #fff; }
+.results-band .result a:hover .arr { transform: translateX(4px); }
+/* Result diagrams (ResultViz.astro). */
+.rviz { width: 100%; max-width: 100%; height: 68px; overflow: visible; margin-bottom: 6px; }
+.rv-t { font: 600 11px/1 var(--f-body); fill: var(--on-navy-muted); letter-spacing: .04em; }
+.rv-t--hi { fill: #BFE2FA; }
+.rv-track { fill: rgba(255, 255, 255, .05); }
+.rv-bar { transform-box: fill-box; transform-origin: left center; }
+.rv-bar--old { fill: rgba(168, 186, 209, .32); }
+.rv-bar--new { fill: var(--sky); filter: drop-shadow(0 0 6px rgba(62, 159, 222, .7)); }
+.rv-draw { fill: none; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+.rv-dim { stroke: rgba(168, 186, 209, .42); }
+.rv-hi { stroke: var(--sky); stroke-width: 1.8; }
+.rv-shield { stroke: #BFE2FA; stroke-width: 1.8; fill: rgba(62, 159, 222, .1); }
+.rv-check { stroke: #fff; stroke-width: 2.2; }
+.rv-node { fill: rgba(168, 186, 209, .7); }
+.rv-node--hi { fill: var(--sky); filter: drop-shadow(0 0 5px var(--sky)); }
+.rv-hub { fill: rgba(62, 159, 222, .18); stroke: var(--sky); stroke-width: 1.4; }
+.rv-hub-core { fill: #fff; filter: drop-shadow(0 0 6px var(--sky)); }
+.rv-seg, .rv-bar, .rv-col, .rv-hub { transform-box: fill-box; }
+.rv-seg { transform-origin: left center; }
+.rv-seg--done { fill: rgba(62, 159, 222, .75); }
+.rv-seg--saved { fill: none; stroke: rgba(168, 186, 209, .45); stroke-width: 1.2; stroke-dasharray: 3 3; }
+.rv-col { transform-origin: center bottom; }
+.rv-col--old { fill: rgba(168, 186, 209, .4); }
+.rv-col--new { fill: var(--sky); }
+/* Draw-in once the card is revealed (scripts add .is-in): lines trace, bars grow, nodes appear.
+   Dashed guides (their own stroke-dasharray) fade in instead of tracing. */
+.js .result .rv-draw:not([stroke-dasharray]) { stroke-dasharray: 1 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1300ms var(--ease-emph) calc(var(--d, 0ms) + 250ms); }
+.js .result .rv-draw[stroke-dasharray] { opacity: 0; transition: opacity 900ms var(--ease-out) 900ms; }
+.js .result .rv-bar { transform: scaleX(0); transition: transform 1100ms var(--ease-emph) calc(var(--d, 0ms) + 200ms); }
+.js .result .rv-seg { transform: scaleX(0); transition: transform 600ms var(--ease-emph) calc(var(--d, 0ms) + 200ms); }
+.js .result .rv-col { transform: scaleY(0); transition: transform 900ms var(--ease-emph) calc(var(--d, 0ms) + 200ms); }
+.js .result :is(.rv-node, .rv-hub, .rv-hub-core, .rv-t) { opacity: 0; transition: opacity 700ms var(--ease-out) 700ms; }
+.js .result.is-in .rv-draw:not([stroke-dasharray]) { stroke-dashoffset: 0; }
+.js .result.is-in .rv-draw[stroke-dasharray] { opacity: 1; }
+.js .result.is-in :is(.rv-bar, .rv-seg, .rv-col) { transform: none; }
+.js .result.is-in :is(.rv-node, .rv-hub, .rv-hub-core, .rv-t) { opacity: 1; }
+/* A slow pulse on each hub keeps the ledger alive without moving the text. */
+.result.is-in .rv-hub { transform-origin: center; animation: rv-pulse 3.2s var(--ease-out) 1.6s infinite; }
+@keyframes rv-pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.25); opacity: .55; } }
+@media (prefers-reduced-motion: reduce) { .result.is-in .rv-hub { animation: none; } }
+@media (max-width: 899px) { .results { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 559px) { .results { grid-template-columns: minmax(0, 1fr); } .result { padding: 22px 20px; } }
 
 /* =========================================================================
    Fit list

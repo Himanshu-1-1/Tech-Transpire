@@ -136,6 +136,36 @@ function reveals() {
   observers.push(io);
 }
 
+/* ---------- Count-up: a result figure ("63%", "$89M", "7 yrs") counts from 0 as its card
+   reveals. The final text is in the HTML; it is only swapped while the count runs. ---------- */
+function countUp() {
+  const els = document.querySelectorAll<HTMLElement>('[data-count]');
+  if (reduced() || !('IntersectionObserver' in window)) return;
+  const io = new IntersectionObserver((entries) => {
+    for (const en of entries) {
+      if (!en.isIntersecting) continue;
+      io.unobserve(en.target);
+      const el = en.target as HTMLElement;
+      const final = el.dataset.count ?? '';
+      const m = final.match(/^(\D*)(\d+)(.*)$/);
+      if (!m) continue;
+      const [, pre, num, post] = m;
+      const to = Number(num);
+      const t0 = performance.now() + 250;
+      const step = (now: number) => {
+        const p = Math.min(1, Math.max(0, (now - t0) / 1400));
+        el.textContent = `${pre}${Math.round(to * (1 - Math.pow(1 - p, 3)))}${post}`;
+        if (p < 1 && !page?.signal.aborted) requestAnimationFrame(step);
+        else el.textContent = final;
+      };
+      el.textContent = `${pre}0${post}`;
+      requestAnimationFrame(step);
+    }
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+  els.forEach((el) => io.observe(el));
+  observers.push(io);
+}
+
 /* ---------- Ambient animations pause off-screen ---------- */
 function ambient() {
   const els = document.querySelectorAll<HTMLElement>('[data-ambient]');
@@ -438,6 +468,7 @@ function init() {
   mobileMenu();
   splitWords();
   reveals();
+  countUp();
   ambient();
   sectionRail();
   readingProgress();

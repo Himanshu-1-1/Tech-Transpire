@@ -1,0 +1,80 @@
+---
+// Small line diagram for each "Selected Experience" result (Home). Decorative: it restates the
+// result's own label as a picture (no new figures), and draws itself in when the card reveals.
+// Paths use pathLength="1" so global.css can draw them with one dash offset.
+interface Props { claim: string }
+const { claim } = Astro.props;
+// 90+ locations: a ring of sites, each linked to one hub.
+const ring = Array.from({ length: 18 }, (_, i) => {
+  const a = (i / 18) * Math.PI * 2 - Math.PI / 2;
+  return [120 + Math.cos(a) * 92, 34 + Math.sin(a) * 26].map((n) => +n.toFixed(1));
+});
+// $3M standardization: uneven spend on the left settles into one standard on the right.
+const uneven = [30, 14, 38, 22, 44, 18];
+---
+<svg class="rviz" viewBox="0 0 240 68" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+  {claim === 'C-05' && (
+    <g>
+      {/* 209 days to 78: the same work, a shorter bar. */}
+      <text class="rv-t" x="0" y="17">209</text>
+      <rect class="rv-track" x="34" y="9" width="206" height="10" rx="5" />
+      <rect class="rv-bar rv-bar--old" x="34" y="9" width="206" height="10" rx="5" />
+      <text class="rv-t rv-t--hi" x="0" y="49">78</text>
+      <rect class="rv-track" x="34" y="41" width="206" height="10" rx="5" />
+      <rect class="rv-bar rv-bar--new" x="34" y="41" width="77" height="10" rx="5" />
+      <path class="rv-draw rv-dim" pathLength="1" d="M111 30 V60" />
+      <path class="rv-draw rv-dim" pathLength="1" d="M240 30 V60" />
+      <path class="rv-draw rv-hi" pathLength="1" d="M116 36 H236" stroke-dasharray="2 5" />
+    </g>
+  )}
+  {claim === 'C-06' && (
+    <g>
+      {/* Purchasing from many sources centralized into one. */}
+      {[6, 18, 30, 42, 54, 64].map((y, i) => <path class="rv-draw rv-dim" pathLength="1" style={`--d:${i * 70}ms`} d={`M8 ${y} C 90 ${y}, 120 34, 186 34`} />)}
+      {[6, 18, 30, 42, 54, 64].map((y) => <circle class="rv-node" cx="8" cy={y} r="2.6" />)}
+      <path class="rv-draw rv-hi" pathLength="1" d="M186 34 H226" />
+      <circle class="rv-hub" cx="186" cy="34" r="9" />
+      <circle class="rv-hub-core" cx="186" cy="34" r="3.4" />
+      <circle class="rv-node rv-node--hi" cx="230" cy="34" r="3.4" />
+    </g>
+  )}
+  {claim === 'C-07' && (
+    <g>
+      {/* A seven-year plan closed two years early. */}
+      {Array.from({ length: 7 }, (_, i) => <rect class:list={['rv-seg', i < 5 ? 'rv-seg--done' : 'rv-seg--saved']} style={`--d:${i * 90}ms`} x={4 + i * 33} y="26" width="29" height="14" rx="3" />)}
+      <path class="rv-draw rv-hi" pathLength="1" d="M169 18 V48" />
+      <circle class="rv-hub" cx="169" cy="12" r="7" />
+      <path class="rv-draw rv-check" pathLength="1" d="M165.5 12.2 l2.4 2.4 4.6 -4.8" />
+      <path class="rv-draw rv-dim" pathLength="1" d="M173 56 H235" stroke-dasharray="3 4" />
+      <path class="rv-draw rv-dim" pathLength="1" d="M173 52 V60 M235 52 V60" />
+    </g>
+  )}
+  {claim === 'C-03' && (
+    <g>
+      {/* Purchasing standardized: uneven bars settle to one level. */}
+      {uneven.map((h, i) => <rect class="rv-col rv-col--old" style={`--d:${i * 60}ms`} x={6 + i * 17} y={62 - h} width="9" height={h} rx="2" />)}
+      <path class="rv-draw rv-dim" pathLength="1" d="M112 34 H128" />
+      <path class="rv-draw rv-dim" pathLength="1" d="M123 29 L129 34 L123 39" />
+      {uneven.map((_, i) => <rect class="rv-col rv-col--new" style={`--d:${300 + i * 60}ms`} x={136 + i * 17} y="38" width="9" height="24" rx="2" />)}
+      <path class="rv-draw rv-hi" pathLength="1" d="M132 33 H238" stroke-dasharray="2 4" />
+    </g>
+  )}
+  {claim === 'C-04' && (
+    <g>
+      {/* 90+ locations served by one centralized supply chain. */}
+      {ring.map(([x, y], i) => <path class="rv-draw rv-dim" pathLength="1" style={`--d:${i * 30}ms`} d={`M120 34 L${x} ${y}`} />)}
+      {ring.map(([x, y]) => <circle class="rv-node" cx={x} cy={y} r="2.4" />)}
+      <circle class="rv-hub" cx="120" cy="34" r="9" />
+      <circle class="rv-hub-core" cx="120" cy="34" r="3.4" />
+    </g>
+  )}
+  {claim === 'C-02' && (
+    <g>
+      {/* Fraud losses stopped at a shield. */}
+      <path class="rv-draw rv-dim" pathLength="1" d="M4 34 L22 34 L30 18 L40 50 L50 22 L60 44 L68 30 L78 38 L96 34 L150 34" />
+      <path class="rv-draw rv-hi" pathLength="1" d="M190 34 H236" />
+      <path class="rv-draw rv-shield" pathLength="1" d="M170 6 L190 13 V32 C190 46 181 56 170 62 C159 56 150 46 150 32 V13 Z" />
+      <path class="rv-draw rv-check" pathLength="1" d="M162 33 l6 6 11 -12" />
+    </g>
+  )}
+</svg>

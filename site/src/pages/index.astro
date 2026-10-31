@@ -17,6 +17,7 @@ import { block, lines, cards, steps, callout, fitlist, carouselPairs, ctas, team
 import { insightById, insightHref, visibleInsights, visibleById } from '../lib/insights';
 import { isVisibleInsight, CASE_STUDIES } from '../lib/routes';
 import { visibleResults } from '../lib/results';
+import ResultViz from '../components/ResultViz.astro';
 import { isVerified, claims } from '../lib/claims';
 import { photo, asset } from '../lib/images';
 import { approvals, isReview, showMarkers, contact } from '../lib/site';
@@ -245,21 +246,24 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
   </section>
 
   {visibleResults.length > 0 && (
-    <section class="section section--mist" aria-labelledby="results-h">
+    <section class="section section--navy results-band" aria-labelledby="results-h" data-glow>
+      {/* Blueprint grid and light: the experience ledger sits on deep navy (2026-11-01). */}
+      <svg class="results-grid" aria-hidden="true" focusable="false"><defs><pattern id="rg-cell" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M48 0H0V48" fill="none" stroke="currentColor" stroke-width="1" /></pattern></defs><rect width="100%" height="100%" fill="url(#rg-cell)" /></svg>
       <div class="container">
         <div class="section-head section-head--split">
           <div style="display:grid;gap:14px">
             <h2 id="results-h" data-split>Selected Experience</h2>
             <p class="muted" style="max-width:62ch">Engagements led by our team, including before Tech Transpire Brand was created. Each is labelled accordingly.</p>
           </div>
-          <a class="link-arrow" href={CASE_STUDIES}>Read the case studies <span class="arr" aria-hidden="true">→</span></a>
+          <a class="link-arrow results-cta" href={CASE_STUDIES}>Read the case studies <span class="arr" aria-hidden="true">→</span></a>
         </div>
         <ul class="results">
           {visibleResults.map((r) => (
-            <li class="result reveal">
-              <span class="result-value">{r.value}</span>
+            <li class="result reveal" data-spotlight>
+              <ResultViz claim={r.claim} />
+              <span class="result-value" data-count={r.value}>{r.value}</span>
               <span class="result-label">{r.label}</span>
-              {r.attribution && <span class="result-attr">{r.attribution}</span>}
+              {r.attribution && <span class="result-attr"><i aria-hidden="true"></i>{r.attribution}</span>}
               <span><Flag label={`${r.claim} · ${claims[r.claim]?.status === 'verified' ? 'verified' : 'pending verification'}${r.attributionPending ? ' · attribution pending (C-18)' : ''}`} /></span>
               {r.insightSlug && isVisibleInsight(r.insightId!) && <a href={`/insights/${r.insightSlug}`}>Read the engagement <span class="arr" aria-hidden="true">→</span></a>}
             </li>
