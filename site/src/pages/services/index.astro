@@ -11,6 +11,8 @@ import { visibleById, insightHref } from '../../lib/insights';
 import { isVerified } from '../../lib/claims';
 import { isReview } from '../../lib/site';
 import SystemNodes from '../../components/SystemNodes.astro';
+import ServicesArt from '../../components/ServicesArt.astro';
+import ScopeTimeline from '../../components/ScopeTimeline.astro';
 
 const showTimeframe = isReview || isVerified('C-15');
 
@@ -38,15 +40,17 @@ const evidence: Record<string, string[]> = {
   description="A structured engagement that gives you clarity and confidence before you commit to execution: discovery, blueprint, guided implementation and recovery."
   jsonLd={[{ '@context': 'https://schema.org', '@type': 'Service', name: title, provider: { '@type': 'Organization', name: 'Tech Transpire' }, description: lead }]}
 >
-  <PageHeader eyebrow={eyebrow} title={title} lead={lead} crumbs={[{ label: 'Home', href: '/' }, { label: 'Services' }]} />
+  <PageHeader eyebrow={eyebrow} title={title} lead={lead} crumbs={[{ label: 'Home', href: '/' }, { label: 'Services' }]} art={false}>
+    <ServicesArt slot="art" />
+  </PageHeader>
 
-  <section class="section" aria-labelledby="offer-h">
+  <section class="section svc-offer" aria-labelledby="offer-h">
     <div class="container two-col">
-      <div class="section-head" style="margin:0"><h2 id="offer-h">{offer.heading}</h2></div>
+      <div class="section-head" style="margin:0"><h2 id="offer-h" data-split>{offer.heading}</h2></div>
       <div class="prose">{offer.text.map((p) => <p>{p}</p>)}</div>
     </div>
     <div class="container" style="margin-top: clamp(40px, 5vw, 64px)">
-      <aside class="panel panel--navy on-navy" aria-labelledby="sig-h">
+      <aside class="panel panel--navy on-navy sig-panel reveal" aria-labelledby="sig-h" data-glow data-ambient>
         <div>
           <p class="eyebrow" id="sig-h">{signature.title}</p>
           <p class="panel-title">{signature.lead}</p>
@@ -55,18 +59,20 @@ const evidence: Record<string, string[]> = {
           {signature.body.map((p) => <p>{p}</p>)}
           {signature.tag && showTimeframe ? <p class="tag">{signature.tag}</p> : null}
           {/* Engagement scope, as defined by the company 2026-11-01 (D-43). */}
+          {showTimeframe && <ScopeTimeline discovery={discovery.title} blueprint={blueprint.title} guided={guided.title} />}
           {showTimeframe && <p class="scope-note">The 6–8 weeks covers discovery and the execution blueprint. Discovery typically takes 2–6 weeks within that period, depending on complexity and stakeholder availability. Guided implementation is scoped separately based on the approved blueprint.</p>}
         </div>
       </aside>
     </div>
   </section>
 
-  <section class="section section--mist" id="engagement" aria-labelledby="eng-h">
+  <section class="section section--mist svc-engagement" id="engagement" aria-labelledby="eng-h" data-ambient>
     <div class="container">
-      <div class="section-head"><h2 id="eng-h">{engagement.heading}</h2></div>
-      <ol class="path reveal">
+      <div class="section-head"><h2 id="eng-h" data-split>{engagement.heading}</h2></div>
+      <ol class="path path--route reveal" data-sp>
         {[discovery, blueprint, guided].map((s, i) => (
-          <li class="path-step" data-spotlight>
+          <li class="path-step" data-spotlight style={`--i:${i}`}>
+            <span class="rt-node" aria-hidden="true"></span>
             <span class="n">Step {i + 1}</span>
             <h3 class="display-3">{s.title}</h3>
             <p>{s.body}</p>
@@ -77,6 +83,13 @@ const evidence: Record<string, string[]> = {
         <div>
           <p class="eyebrow">Already under way?<Flag label="New label · approve" /></p>
           <h3 class="panel-title" id="rec-h">{recovery.title}</h3>
+          <svg class="detour" viewBox="0 0 300 90" aria-hidden="true" focusable="false">
+            <path class="dt-plan" d="M6 60 H294" />
+            <path class="dt-route" pathLength="1" d="M6 60 H96 C 120 60, 128 20, 160 18 C 196 16, 206 44, 190 56 C 178 66, 150 60, 170 60 H294" />
+            <path class="dt-flow" pathLength="1" d="M6 60 H96 C 120 60, 128 20, 160 18 C 196 16, 206 44, 190 56 C 178 66, 150 60, 170 60 H294" />
+            <circle class="dt-x" cx="96" cy="60" r="6" />
+            <circle class="dt-ok" cx="232" cy="60" r="6" />
+          </svg>
         </div>
         <div class="panel-body">
           <p>{recovery.body}</p>
@@ -86,16 +99,20 @@ const evidence: Record<string, string[]> = {
     </div>
   </section>
 
-  <section class="section" id="components" aria-labelledby="comp-h">
+  <section class="section svc-components" id="components" aria-labelledby="comp-h" data-sp data-ambient>
+    <svg class="values-orbit" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+      <g class="vo-spin"><ellipse cx="500" cy="560" rx="470" ry="290" pathLength="1" /><ellipse cx="500" cy="560" rx="320" ry="430" pathLength="1" /></g>
+      <g class="vo-spin vo-spin--rev"><ellipse cx="500" cy="560" rx="390" ry="200" pathLength="1" /><circle cx="500" cy="560" r="140" pathLength="1" /></g>
+    </svg>
     <div class="container">
       <div class="two-col" style="align-items:center;margin-bottom:clamp(40px,4.5vw,64px)">
-        <div class="section-head" style="margin:0"><h2 id="comp-h">{components.heading}</h2></div>
+        <div class="section-head" style="margin:0"><h2 id="comp-h" data-split>{components.heading}</h2></div>
         <SystemNodes />
       </div>
       <ul class="grid grid-3">
         {cards(components).map((c) => (
-          <li class="card reveal" id={c.title.toLowerCase().replace(/[^a-z]+/g, '-')} data-tilt>
-            <span class="icon-tile"><Icon name={c.icon} /></span>
+          <li class="card value-card reveal" id={c.title.toLowerCase().replace(/[^a-z]+/g, '-')} data-tilt>
+            <span class="icon-tile vc-icon"><Icon name={c.icon} /></span>
             <h3>{c.title}</h3>
             <p>{c.body}</p>
             {c.title === 'Transformation Recovery' ? (
@@ -111,7 +128,7 @@ const evidence: Record<string, string[]> = {
 
   <section class="section section--mist" id="fit" aria-labelledby="fit-h">
     <div class="container">
-      <div class="section-head"><h2 id="fit-h">{audience.heading}</h2></div>
+      <div class="section-head"><h2 id="fit-h" data-split>{audience.heading}</h2></div>
       <FitList items={fitlist(audience)} />
       <p class="muted" style="margin-top:24px">
         Know an organization facing a high-stakes change? Introduce us, or <a href="/contact-us?interest=referral">choose “Referral or partnership” when you get in touch</a>.<Flag label="N-13 · draft" />

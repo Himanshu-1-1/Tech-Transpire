@@ -1,0 +1,32 @@
+---
+// Signature offer scope as a live timeline (D-43): the 6–8 weeks covers discovery and the execution
+// blueprint; discovery takes 2–6 weeks within it; guided implementation is scoped separately.
+// The discovery bar breathes between 2 and 6 weeks and the blueprint's end between 6 and 8, so the
+// range reads at a glance. Decorative: the scope note beside it states the same in words.
+interface Props { discovery: string; blueprint: string; guided: string }
+const { discovery, blueprint, guided } = Astro.props;
+const W = (wk: number) => 20 + wk * 52; // x for a week mark (0–8 weeks over 416 px)
+---
+<div class="scope" aria-hidden="true">
+  <svg viewBox="0 0 560 92" focusable="false">
+    <rect class="sc-track" x={W(0)} y="34" width={W(8) - W(0)} height="14" rx="7" />
+    <rect class="sc-total" x={W(0)} y="34" width={W(8) - W(0)} height="14" rx="7" />
+    <rect class="sc-disc" x={W(0)} y="34" width={W(6) - W(0)} height="14" rx="7" />
+    <path class="sc-guided" d={`M${W(8) + 10} 41 H${W(8) + 96}`} />
+    <path class="sc-guided-head" d={`M${W(8) + 90} 35 L${W(8) + 98} 41 L${W(8) + 90} 47`} />
+    {[0, 2, 4, 6, 8].map((wk) => (
+      <g class="sc-tick">
+        <path d={`M${W(wk)} 54 V60`} />
+        <text x={W(wk)} y="76">{wk}</text>
+      </g>
+    ))}
+    <text class="sc-unit" x={W(8) + 14} y="76">weeks</text>
+    <path class="sc-range" d={`M${W(2)} 22 H${W(6)} M${W(2)} 17 V27 M${W(6)} 17 V27`} />
+    <path class="sc-range sc-range--total" d={`M${W(6)} 10 H${W(8)} M${W(6)} 5 V15 M${W(8)} 5 V15`} />
+  </svg>
+  <ul class="sc-legend">
+    <li><i class="sc-dot sc-dot--disc"></i>{discovery} <span>2–6 weeks</span></li>
+    <li><i class="sc-dot sc-dot--plan"></i>{blueprint} <span>within 6–8 weeks</span></li>
+    <li><i class="sc-dot sc-dot--guided"></i>{guided} <span>scoped separately</span></li>
+  </ul>
+</div>

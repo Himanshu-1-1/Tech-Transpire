@@ -6,13 +6,13 @@ const { items, yesTitle = 'This is for you if', noTitle = 'We may not be the rig
 const yes = items.filter((i) => i.fit);
 const no = items.filter((i) => !i.fit);
 ---
-<div class="fit-grid">
+<div class="fit-grid reveal">
   <div class="fit-col fit-col--yes">
     <h3><Icon name="check" />{yesTitle}</h3>
-    <ul>{yes.map((i) => <li><Icon name="yes" class="" /><span>{i.text}</span></li>)}</ul>
+    <ul>{yes.map((i, k) => <li style={`--k:${k}`}><Icon name="yes" class="" /><span>{i.text}</span></li>)}</ul>
   </div>
   <div class="fit-col fit-col--no">
     <h3><Icon name="shield" />{noTitle}</h3>
-    <ul>{no.map((i) => <li><Icon name="no" class="" /><span>{i.text}</span></li>)}</ul>
+    <ul>{no.map((i, k) => <li style={`--k:${k}`}><Icon name="no" class="" /><span>{i.text}</span></li>)}</ul>
   </div>
 </div>

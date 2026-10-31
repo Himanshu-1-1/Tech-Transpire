@@ -1,0 +1,65 @@
+---
+// Services page header art: the clarity lens. Scattered rays wander in from the left, pass through
+// a glass lens, converge on one focal point, and leave as a single beam that hits the target.
+// Draws in on load; light keeps travelling along the rays while the header is on screen (CSS only;
+// data-ambient pauses it off-screen; static under reduced motion). Decorative.
+const LENS_X = 300;
+const FOCUS: [number, number] = [468, 210];
+// Deterministic scatter for the incoming rays.
+let seed = 11;
+const rnd = () => ((seed = (seed * 9301 + 49297) % 233280) / 233280);
+const rays = [70, 112, 154, 196, 238, 280, 322].map((hitY, i) => {
+  const y0 = 40 + rnd() * 340;
+  const c1 = [90 + rnd() * 60, 30 + rnd() * 360];
+  const c2 = [200 + rnd() * 50, hitY + (rnd() - 0.5) * 90];
+  const r = (n: number) => Math.round(n);
+  return {
+    i,
+    inbound: `M20 ${r(y0)} C ${r(c1[0])} ${r(c1[1])}, ${r(c2[0])} ${r(c2[1])}, ${LENS_X - 8} ${hitY}`,
+    outbound: `M${LENS_X + 8} ${hitY} L${FOCUS[0]} ${FOCUS[1]}`,
+  };
+});
+---
+<div class="svc-art" data-ambient data-pv aria-hidden="true">
+  <svg viewBox="0 0 640 420" preserveAspectRatio="xMidYMid meet" focusable="false">
+    <defs>
+      <linearGradient id="sl-glass" x1="0" x2="1">
+        <stop offset="0" stop-color="#FFFFFF" stop-opacity=".95" />
+        <stop offset=".45" stop-color="#DCEDFA" stop-opacity=".55" />
+        <stop offset="1" stop-color="#7CC4F0" stop-opacity=".45" />
+      </linearGradient>
+      <radialGradient id="sl-focus" cx="50%" cy="50%" r="50%">
+        <stop offset="0" stop-color="#FFFFFF" />
+        <stop offset=".35" stop-color="#7CC4F0" stop-opacity=".9" />
+        <stop offset="1" stop-color="#7CC4F0" stop-opacity="0" />
+      </radialGradient>
+    </defs>
+    <g class="sl-in">
+      {rays.map((r) => (
+        <g style={`--i:${r.i}`}>
+          <path class="sl-ray" pathLength="1" d={r.inbound} />
+          <path class="sl-spark" pathLength="1" d={r.inbound} />
+        </g>
+      ))}
+    </g>
+    <g class="sl-out">
+      {rays.map((r) => (
+        <g style={`--i:${r.i}`}>
+          <path class="sl-conv" pathLength="1" d={r.outbound} />
+          <path class="sl-spark sl-spark--out" pathLength="1" d={r.outbound} />
+        </g>
+      ))}
+    </g>
+    <ellipse class="sl-lens" cx={LENS_X} cy="210" rx="30" ry="168" fill="url(#sl-glass)" />
+    <path class="sl-lens-glint" d={`M${LENS_X - 12} 70 C ${LENS_X - 24} 140, ${LENS_X - 24} 280, ${LENS_X - 12} 350`} />
+    <path class="sl-beam" pathLength="1" d={`M${FOCUS[0]} ${FOCUS[1]} H572`} />
+    <path class="sl-spark sl-spark--beam" pathLength="1" d={`M${FOCUS[0]} ${FOCUS[1]} H572`} />
+    <circle class="sl-focus" cx={FOCUS[0]} cy={FOCUS[1]} r="26" fill="url(#sl-focus)" />
+    <g class="sl-target">
+      <circle cx="584" cy="210" r="44" />
+      <circle cx="584" cy="210" r="29" />
+      <circle cx="584" cy="210" r="14" />
+      <circle class="sl-bull" cx="584" cy="210" r="5.5" />
+    </g>
+  </svg>
+</div>
