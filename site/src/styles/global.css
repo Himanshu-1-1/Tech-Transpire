@@ -194,7 +194,8 @@ html:not(.js) .search-btn { display: none; }
 .menu-btn[aria-expanded='true'] .menu-icon i:nth-child(3) { transform: translateY(-5px) rotate(-45deg); }
 .mobile-nav { border-top: 1px solid var(--line); background: var(--paper); clip-path: inset(0 0 100% 0); opacity: 0; transition: clip-path var(--t-card) var(--ease-emph), opacity var(--t-hover); }
 .mobile-nav.is-open { clip-path: inset(0 0 0 0); opacity: 1; }
-.mobile-nav ul { list-style: none; padding-block: 8px 22px; }
+.mobile-nav ul { list-style: none; padding-block: 4px 0; }
+.mobile-nav li:last-child a { border-bottom: 0; }
 .mobile-nav li { opacity: 0; transform: translateY(-6px); transition: opacity var(--t-button) var(--ease-out), transform var(--t-button) var(--ease-out); }
 .mobile-nav.is-open li { opacity: 1; transform: none; }
 .mobile-nav.is-open li:nth-child(2) { transition-delay: 30ms; } .mobile-nav.is-open li:nth-child(3) { transition-delay: 60ms; } .mobile-nav.is-open li:nth-child(4) { transition-delay: 90ms; } .mobile-nav.is-open li:nth-child(5) { transition-delay: 120ms; } .mobile-nav.is-open li:nth-child(6) { transition-delay: 150ms; }
