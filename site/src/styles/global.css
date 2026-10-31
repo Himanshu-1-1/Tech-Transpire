@@ -1051,7 +1051,13 @@ a.v:hover { color: var(--blue); }
 .fx-pointer .flip:is(:hover, :focus-within) .tray--bottom { transform: translateY(calc(100% - 22px)); }
 .fx-pointer .tray .art { max-width: 240px; }
 .fx-pointer .tray .flip-q { font-size: clamp(1.3rem, 1rem + .7vw, 1.6rem); }
-.fx-pointer .tray--bottom .flip-link { justify-self: end; }
+.fx-pointer .tray--bottom .flip-link { justify-self: end; position: static; }
+/* The whole bottom tray is the link (stretched over the tray), so a click anywhere on it goes to its destination. */
+.fx-pointer .tray--bottom .flip-link::before { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: inherit; }
+.fx-pointer .tray--bottom { cursor: pointer; transition: transform 700ms cubic-bezier(.2, .85, .25, 1), opacity 260ms var(--ease-out) 380ms, filter 250ms var(--ease-out); }
+.fx-pointer .tray--bottom:hover { filter: brightness(1.08); }
+.fx-pointer .tray--bottom:hover .flip-link { color: #fff; }
+.fx-pointer .tray--bottom:hover .flip-link .arr { transform: translateX(4px); }
 /* A light sweep across each tray as it arrives. */
 .fx-pointer .tray::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, .2) 50%, transparent 65%); transform: translateX(-120%); }
 .fx-pointer .flip:is(:hover, :focus-within) .tray::after { animation: card-sweep 1100ms var(--ease-out) 420ms both; }
