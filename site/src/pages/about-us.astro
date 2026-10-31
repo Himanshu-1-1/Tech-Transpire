@@ -125,7 +125,7 @@ const people = team(teamBlock).filter((p) => isReview || isVerified(...gates[p.n
         {statements.reverse().map((s) => { const [lead, rest] = pledge(s); return (
           <li class="pledge" data-step>
             <span class="pl-mark" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path pathLength="1" d="M6 12.5 l4 4 8-9" /></svg></span>
-            <p><strong class="pl-lead">{lead}</strong> {rest}</p>
+            <p><strong class="pl-lead">{lead}</strong>{' '}{rest}</p>
           </li>
         ); })}
       </ol>

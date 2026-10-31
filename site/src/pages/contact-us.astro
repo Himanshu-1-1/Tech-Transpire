@@ -32,7 +32,7 @@ const interests = [
 const privacyLive = showPrivacy;
 const sources = ['LinkedIn', 'Facebook', 'Referral', 'Search', ...(isReview || approvals.newFormOptions ? ['Event or presentation', 'Existing client or colleague'] : []), 'Other'];
 ---
-<Base title="Contact | Tech Transpire" description="Start a conversation with Tech Transpire. Book an intro call or send us a message — we will respond within one business day.">
+<Base title="Contact | Tech Transpire" description="Start a conversation with Tech Transpire. Book an intro call or send us a message. We aim to respond within one business day.">
   <PageHeader eyebrow={eyebrow} title={startHeading} crumbs={[{ label: 'Home', href: '/' }, { label: 'Contact' }]} art={false}>
     <ContactArt slot="art" />
   </PageHeader>
@@ -93,7 +93,8 @@ const sources = ['LinkedIn', 'Facebook', 'Referral', 'Search', ...(isReview || a
           </div>
           <div class="hp" aria-hidden="true"><label for="f-website">Website</label><input id="f-website" name="website" tabindex="-1" autocomplete="off" /></div>
           <input type="hidden" name="startedAt" id="f-started" />
-          <div class="field field--full">
+          {/* Hidden on the review preview: it cannot send and the Privacy Policy is not published (review 2026-11-01). */}
+          <div class="field field--full" hidden={isPagesPreview}>
             <label class="consent" for="f-consent"><input id="f-consent" name="consent" type="checkbox" required data-msg="Please confirm you agree to the Privacy Policy so we can respond." /><span>I agree that Tech Transpire may use the information I've provided to respond to my enquiry, as described in the {privacyLive ? <a href="/privacy-policy">Privacy Policy</a> : 'Privacy Policy'}.</span></label>
           </div>
           {isPagesPreview && <p class="form-status form-status--error field--full" id="f-preview" role="note">This review preview has no mail server, so the form cannot send. Please email <a href={`mailto:${contact.email}`}>{contact.email}</a> instead.</p>}

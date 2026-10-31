@@ -93,3 +93,9 @@ Approved by the company after the external review: "Approved. Apply 'Sound Famil
 | F-13b | TT-PG-005-B04 | Punctuation, capitalization | `If not - Honest redirect` | `If not: honest redirect` |
 
 **New copy (not a correction):** Services, signature offer panel, under the "6-8 weeks" tag: "The 6–8 weeks covers discovery and the execution blueprint. Discovery typically takes 2–6 weeks within that period, depending on complexity and stakeholder availability. Guided implementation is scoped separately based on the approved blueprint." The company's definition (D-43). C-15 is verified, so the timeframe tags now appear in the public build.
+
+## Applied 2026-11-01 (D-46)
+
+| ID | Block | Kind | Before (exact) | After (exact) |
+|---|---|---|---|---|
+| H-05a | TT-PG-005-B05 | Content update | `and we will respond within one business day.` | `and we aim to respond within one business day.` |

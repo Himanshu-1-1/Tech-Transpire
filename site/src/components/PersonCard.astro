@@ -21,7 +21,7 @@ const initials = plain.split(' ').filter((p) => /^[A-Z]/.test(p)).slice(0, 2).ma
     <h3 class="pc-name">{name}</h3>
     <p class="pc-role">{role}</p>
     <details class="pc-bio">
-      <summary><span class="pc-lead">{bio[0]}</span><span class="pc-more">See more</span></summary>
+      <summary><span class="pc-lead">{bio[0]}</span>{' '}<span class="pc-more">See more</span></summary>
       {bio.slice(1).map((p) => <p>{p}</p>)}
       <button class="pc-less" type="button" data-pc-less>See less <span aria-hidden="true">↑</span></button>
     </details>

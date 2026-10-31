@@ -77,7 +77,10 @@ const jsonLd = [
           <ol>{crumbs.map((c) => <li><a href={c.href}>{c.label}</a></li>)}<li><span aria-current="page">{i.cardTitle}</span></li></ol>
         </nav>
         <p class="eyebrow">{TYPE_LABEL[i.type]}{i.industry ? ` · ${i.industry}` : ''}</p>
-        <h1 id="article-title">{i.h1}</h1>
+        {/* The article opens with the same title as its card, tab and breadcrumb (review 2026-11-01); where the
+            source headline differs it follows as the subheading, word for word. */}
+        <h1 id="article-title">{i.cardTitle}</h1>
+        {i.h1 !== i.cardTitle && <p class="article-dek">{i.h1}</p>}
         {i.standfirst && <p class="standfirst">{i.standfirst}</p>}
         <p class="article-meta"><span>{i.author}</span><time datetime={i.dateIso}>{i.dateLabel}</time><span>{i.readTime}</span></p>
         {reviewNotes[i.id] && <Flag label={reviewNotes[i.id]} block />}

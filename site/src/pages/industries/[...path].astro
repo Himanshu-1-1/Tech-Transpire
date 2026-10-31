@@ -80,7 +80,7 @@ const cta = [{ label: 'Start a Conversation', href: '/contact-us?interest=discov
             <li class="card reveal" data-tilt>
               <span class="icon-tile"><Icon name={a.c.icon} /></span>
               <h3>{a.c.title}</h3>
-              <p><strong style="color:var(--ink)">{a.why}.</strong> {a.c.body}</p>
+              <p><strong style="color:var(--ink)">{a.why}.</strong>{' '}{a.c.body}</p>
               {evidenceLinks(a.ev).length > 0 && <div class="card-links">{evidenceLinks(a.ev).map((i) => <a href={insightHref(i)}>{i.cardTitle}</a>)}</div>}
             </li>
           ))}
