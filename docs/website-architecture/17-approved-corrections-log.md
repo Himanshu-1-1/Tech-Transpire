@@ -100,3 +100,20 @@ Approved by the company after the external review: "Approved. Apply 'Sound Famil
 |---|---|---|---|---|
 | H-05a | TT-PG-005-B05 | Content update | `and we will respond within one business day.` | `and we aim to respond within one business day.` |
 | F-15 | TT-PG-001-B01 | Content update (D-47) | `Want to learn more?` | `Learn More` |
+
+## Applied 2026-11-01 (D-48): "Things we look for" in the buyer's voice
+
+| ID | Block | Before (exact, as published after earlier corrections) | After (exact, company mockup) |
+|---|---|---|---|
+| G-01 | TT-PG-001-B03 | `Hidden misalignment` | `Everyone’s Busy. But Are You Moving Forward?` |
+| G-02 | TT-PG-001-B03 | `Processes and teams pulling in different directions, invisible until execution fails. By then, resolving the misalignment can be significantly more expensive than addressing it upfront.` | `Your teams are working hard, but in different directions. Progress suffers, costs rise, and alignment comes too late.` |
+| G-03 | TT-PG-001-B03 | `Executing the wrong plan` | `What If You’re Executing the Wrong Plan?` |
+| G-04 | TT-PG-001-B03 | `Leadership investing time and money in a direction that hasn't been fully validated. The initiative looks right until it doesn't.` | `You’ve committed time, money, and people. But what if the assumptions behind your strategy were wrong from the start?` |
+| G-05 | TT-PG-001-B03 | `Stalled or failing implementations` | `Another Deadline. Another Disappointment.` |
+| G-06 | TT-PG-001-B03 | `Projects that lose momentum mid-execution. Teams frustrated. Vendors misaligned. No clear path forward.` | `Milestones slip. Costs climb. Confidence fades. You need a clear path to recovery, not another status report.` |
+| G-07 | TT-PG-001-B03 | `High-stakes decisions under pressure` | `Big Decisions. Not Enough Confidence.` |
+| G-08 | TT-PG-001-B03 | `ERP selections, vendor contracts, process redesigns made without full confidence in the problem definition or the plan.` | `Technology investments, vendor choices, major changes. The pressure to act is real. So is the cost of getting it wrong.` |
+| G-09 | TT-PG-001-B03 | `Root causes masked as symptoms` | `Why Do the Same Problems Keep Coming Back?` |
+| G-10 | TT-PG-001-B03 | `Organizations solving for the wrong problem because they never got to the real one. Speed-to-execution with no clarity upfront.` | `New tools. New processes. Same frustrations. What if you’re fixing symptoms while the real problem goes untouched?` |
+| G-11 | TT-PG-001-B03 | `No clear ownership` | `Everyone’s Involved. Who’s Accountable?` |
+| G-12 | TT-PG-001-B03 | `Accountability gaps across functions. Handoffs that fall through. No one carrying the end-to-end problem.` | `Decisions stall. Handoffs fail. Problems bounce between teams. Yet nobody truly owns the outcome.` |

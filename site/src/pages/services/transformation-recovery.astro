@@ -14,7 +14,8 @@ import RecoveryPath from '../../components/RecoveryPath.astro';
 
 const step = steps(block('TT-PG-002-B04')).find((s) => s.title === 'Transformation Recovery')!;
 const card = cards(block('TT-PG-002-B05')).find((c) => c.title === 'Transformation Recovery')!;
-const signs = cards(block('TT-PG-001-B03')).filter((c) => ['Stalled or failing implementations', 'Executing the wrong plan', 'No clear ownership'].includes(c.title));
+// Stalled implementations, the wrong plan and unclear ownership, picked by icon (titles changed in D-48).
+const signs = cards(block('TT-PG-001-B03')).filter((c) => ['process', 'target', 'lightning'].includes(c.icon));
 const evidence = visibleById(['TT-INS-003', 'TT-INS-002', 'TT-INS-007']);
 const cta = { label: 'Talk to Us About a Stalled Initiative', href: '/contact-us?interest=recovery' }; // [E] TT-INS-002-B09
 ---

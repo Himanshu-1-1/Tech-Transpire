@@ -1146,13 +1146,13 @@ a.v:hover { color: var(--blue); }
    becomes .is-current while scrolling, so phones get the same feedback. */
 .ch-glow { position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none; opacity: 0; background: radial-gradient(380px circle at var(--sx, 50%) var(--sy, 0%), rgba(62, 159, 222, .16), rgba(42, 115, 217, .05) 45%, transparent 70%); transition: opacity 400ms var(--ease-out); }
 .ch-bar { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: linear-gradient(90deg, var(--sky), var(--blue), #0D3A72); transform: scaleX(0); transform-origin: left; transition: transform 700ms var(--ease-emph); }
-.challenge .card .icon-tile svg * { stroke-dasharray: 80; stroke-dashoffset: 0; }
+.challenge .card .icon-tile svg:not(.pi) * { stroke-dasharray: 80; stroke-dashoffset: 0; }
 .challenge .card h3 { transition: color var(--t-card) var(--ease-out), translate 400ms var(--ease-emph); }
 .challenge .card:is(:hover, .is-current) .ch-glow { opacity: 1; }
 .challenge .card:is(:hover, .is-current) .ch-bar { transform: scaleX(1); }
 .challenge .card:is(:hover, .is-current) h3 { color: var(--blue); translate: 0 -2px; }
 .challenge .card:is(:hover, .is-current) .icon-tile { background: var(--grad-primary); color: #fff; transform: rotate(-4deg) scale(1.06); box-shadow: 0 14px 28px -12px rgba(24, 89, 179, .7); }
-.challenge .card:is(:hover, .is-current) .icon-tile svg * { animation: icon-draw 900ms var(--ease-emph) both; }
+.challenge .card:is(:hover, .is-current) .icon-tile svg:not(.pi) * { animation: icon-draw 900ms var(--ease-emph) both; }
 .challenge .card.is-current { background: radial-gradient(120% 70% at 18% -20%, #fff, transparent 55%) padding-box, radial-gradient(90% 60% at 100% 120%, rgba(124, 196, 240, .3), transparent 60%) padding-box, linear-gradient(180deg, rgba(255, 255, 255, .86), rgba(255, 255, 255, .68)) padding-box, linear-gradient(135deg, rgba(255, 255, 255, .95), rgba(255, 255, 255, .15) 40%, rgba(124, 196, 240, .45) 75%, rgba(255, 255, 255, .8)) border-box; }
 .fx-pointer .challenge .card:hover { box-shadow: 0 40px 70px -34px rgba(24, 89, 179, .5), 0 0 0 1px rgba(62, 159, 222, .25), inset 0 1px 0 #fff; }
 @keyframes icon-draw { from { stroke-dashoffset: 80; } to { stroke-dashoffset: 0; } }
@@ -1585,3 +1585,35 @@ a.v:hover { color: var(--blue); }
 .ct-art { width: min(36%, 430px); }
 .contact-stage { padding-top: clamp(40px, 4.5vw, 64px); }
 @media (max-width: 899px) { .ct-art { width: min(100% - 48px, 380px); margin-top: -44px; margin-bottom: 4px; } }
+
+/* "Things we look for" working icons (ProblemIcon.astro, D-48). Each loops a small story while the
+   cards are on screen (.ch-cards.is-live); strokes follow the tile colour, so hover turns them white. */
+.pi-tile { width: 64px; height: 64px; border-radius: 18px; }
+.pi { width: 44px; height: 44px; overflow: visible; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.pi .pi-fill { fill: currentColor; stroke: none; }
+.pi :is(.pi-a1, .pi-a2, .pi-dart, .pi-runner, .pi-shield, .pi-bang, .pi-lens, .pi-ring, .pi-p) { transform-box: fill-box; transform-origin: center; }
+.ch-cards.is-live .pi-a1 { animation: pi-push-l 1.5s ease-in-out infinite alternate; }
+.ch-cards.is-live .pi-a2 { animation: pi-push-r 1.5s ease-in-out infinite alternate; }
+@keyframes pi-push-l { from { transform: translateX(2px); } to { transform: translateX(-2.5px); } }
+@keyframes pi-push-r { from { transform: translateX(-2px); } to { transform: translateX(2.5px); } }
+.ch-cards.is-live .pi-dart { animation: pi-dart 3.4s cubic-bezier(.2, .9, .3, 1) infinite; }
+@keyframes pi-dart { 0% { opacity: 0; transform: translate(7px, -7px); } 22% { opacity: 1; transform: translate(0, 0); } 26% { transform: translate(-.6px, .6px); } 30%, 82% { opacity: 1; transform: translate(0, 0); } 100% { opacity: 0; transform: translate(0, 0); } }
+.ch-cards.is-live .pi-runner { animation: pi-run 3.2s ease-in-out infinite; }
+@keyframes pi-run { 0% { transform: translateX(0); opacity: 1; } 40% { transform: translateX(10px); } 68% { transform: translateX(17px); opacity: 1; } 78%, 100% { transform: translateX(17px); opacity: 0; } }
+.ch-cards.is-live .pi--2 .pi-x { animation: pi-fail 3.2s ease-in-out infinite; }
+@keyframes pi-fail { 0%, 62% { opacity: .25; } 72%, 92% { opacity: 1; } 100% { opacity: .25; } }
+.ch-cards.is-live .pi-shield { animation: pi-shake 3s ease-in-out infinite; }
+@keyframes pi-shake { 0%, 60%, 100% { transform: rotate(0); } 66% { transform: rotate(-6deg); } 72% { transform: rotate(5deg); } 78% { transform: rotate(-3deg); } 84% { transform: rotate(0); } }
+.ch-cards.is-live .pi-bang { animation: pi-pulse 1.5s ease-in-out infinite; }
+@keyframes pi-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .3; } }
+.ch-cards.is-live .pi-lens { animation: pi-scan 2.8s ease-in-out infinite alternate; }
+@keyframes pi-scan { from { transform: translate(-2px, 0); } to { transform: translate(3px, 2px); } }
+.pi--4 .pi-roots { stroke-dasharray: 22; }
+.ch-cards.is-live .pi--4 .pi-roots { animation: pi-roots 2.8s ease-in-out infinite alternate; }
+@keyframes pi-roots { from { stroke-dashoffset: 22; opacity: .3; } to { stroke-dashoffset: 0; opacity: 1; } }
+.ch-cards.is-live .pi-ring { animation: pi-turn 6s linear infinite; }
+@keyframes pi-turn { to { transform: rotate(360deg); } }
+.ch-cards.is-live .pi-p { animation: pi-pulse 2.4s ease-in-out infinite; }
+.ch-cards.is-live .pi-p2 { animation-delay: .8s; }
+.ch-cards.is-live .pi-p3 { animation-delay: 1.6s; }
+@media (prefers-reduced-motion: reduce) { .pi * { animation: none !important; } }

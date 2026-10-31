@@ -13,6 +13,7 @@ import NodeGrid from '../components/NodeGrid.astro';
 import FaultLines from '../components/FaultLines.astro';
 import FitList from '../components/FitList.astro';
 import FlipStatement from '../components/FlipStatement.astro';
+import ProblemIcon from '../components/ProblemIcon.astro';
 import { block, lines, cards, steps, callout, fitlist, carouselPairs, ctas, team } from '../lib/content';
 import { insightById, insightHref, visibleInsights, visibleById } from '../lib/insights';
 import { isVisibleInsight, CASE_STUDIES } from '../lib/routes';
@@ -160,11 +161,11 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
         <h3 class="ch-title" data-split>Complexity Isn't the Problem. Lack of Clarity Is.</h3>
         <p class="ch-sub">The patterns below are often the first signs that a transformation is heading off course.</p>
       </div>
-      <ul class="grid grid-3 ch-cards">
+      <ul class="grid grid-3 ch-cards" data-ambient>
         {problems.map((p, i) => (
           <li class="card reveal" data-tilt>
             <span class="ch-glow" aria-hidden="true"></span><span class="ch-bar" aria-hidden="true"></span>
-            <span class="icon-tile"><Icon name={p.icon} /></span><h3>{p.title}</h3><p>{p.body}</p>
+            <span class="icon-tile pi-tile"><ProblemIcon n={i} /></span><h3>{p.title}</h3><p>{p.body}</p>
           </li>
         ))}
       </ul>
