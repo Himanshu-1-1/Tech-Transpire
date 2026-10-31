@@ -1,0 +1,42 @@
+---
+// About page header art: three threads, Clarity · Alignment · Execution (the company's motto,
+// D-29), start apart and converge into the brand's forward arrow. Draws in on load, then light
+// keeps flowing along each thread while the header is on screen (CSS only; data-ambient pauses it
+// off-screen; static under reduced motion). Decorative.
+const threads = [
+  { label: 'Clarity', y: 70, d: 'M60 70 C 200 70, 250 96, 330 150 S 430 210, 470 210' },
+  { label: 'Alignment', y: 210, d: 'M60 210 C 190 210, 280 210, 470 210' },
+  { label: 'Execution', y: 350, d: 'M60 350 C 200 350, 250 324, 330 270 S 430 210, 470 210' },
+];
+---
+<div class="about-art" data-ambient data-pv aria-hidden="true">
+  <svg viewBox="0 0 640 420" preserveAspectRatio="xMidYMid meet" focusable="false">
+    <defs>
+      <radialGradient id="aa-glow" cx="50%" cy="50%" r="50%">
+        <stop offset="0" stop-color="#7CC4F0" stop-opacity=".55" />
+        <stop offset="1" stop-color="#7CC4F0" stop-opacity="0" />
+      </radialGradient>
+      <linearGradient id="aa-arrow" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#3E9FDE" />
+        <stop offset="1" stop-color="#1859B3" />
+      </linearGradient>
+    </defs>
+    <circle class="aa-halo" cx="520" cy="210" r="120" fill="url(#aa-glow)" />
+    <g class="aa-rings">
+      <circle cx="520" cy="210" r="74" />
+      <circle cx="520" cy="210" r="104" />
+    </g>
+    {threads.map((t, i) => (
+      <g class="aa-thread" style={`--i:${i}`}>
+        <path class="aa-line" pathLength="1" d={t.d} />
+        <path class="aa-flow" pathLength="1" d={t.d} />
+        <circle class="aa-node" cx="60" cy={t.y} r="6" />
+        <text class="aa-label" x="60" y={t.y - 18}>{t.label}</text>
+      </g>
+    ))}
+    <g class="aa-arrow">
+      <path d="M486 168 L540 210 L486 252 L500 210 Z" fill="url(#aa-arrow)" />
+      <path d="M530 168 L584 210 L530 252 L544 210 Z" fill="#7CC4F0" />
+    </g>
+  </svg>
+</div>

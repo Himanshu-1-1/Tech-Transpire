@@ -170,6 +170,23 @@ function countUp() {
   observers.push(io);
 }
 
+/* ---------- Steps: in a scroll story ([data-step], About), the step crossing the middle of the
+   screen is current and the ones above it are passed. Without motion every step shows. ---------- */
+function steps() {
+  const els = [...document.querySelectorAll<HTMLElement>('[data-step]')];
+  if (!els.length || reduced() || !('IntersectionObserver' in window)) return;
+  const io = new IntersectionObserver((entries) => {
+    for (const en of entries) {
+      if (!en.isIntersecting) continue;
+      const sibs = [...(en.target.parentElement?.children ?? [])] as HTMLElement[];
+      const at = sibs.indexOf(en.target as HTMLElement);
+      sibs.forEach((el, i) => { el.classList.toggle('is-current', i === at); el.classList.toggle('is-passed', i < at); });
+    }
+  }, { rootMargin: '-42% 0px -48% 0px' });
+  els.forEach((el) => io.observe(el));
+  observers.push(io);
+}
+
 /* ---------- Ambient animations pause off-screen ---------- */
 function ambient() {
   const els = document.querySelectorAll<HTMLElement>('[data-ambient]');
@@ -242,7 +259,7 @@ function scrollFx() {
     const io = new IntersectionObserver((entries) => {
       for (const en of entries) en.isIntersecting ? live.add(en.target as HTMLElement) : live.delete(en.target as HTMLElement);
     }, { rootMargin: '80px' });
-    document.querySelectorAll<HTMLElement>('.photo-card .ph, [data-pv]').forEach((el) => io.observe(el));
+    document.querySelectorAll<HTMLElement>('.photo-card .ph, [data-pv], [data-sp]').forEach((el) => io.observe(el));
     observers.push(io);
   }
   const update = () => {
@@ -252,7 +269,13 @@ function scrollFx() {
     if (bar) bar.style.transform = `scaleX(${max > 0 ? Math.min(1, y / max).toFixed(4) : 0})`;
     if (!motion) return;
     if (hero) hero.style.setProperty('--hp', Math.min(1, y / Math.max(1, hero.offsetHeight)).toFixed(4));
-    live.forEach((el) => { const r = el.getBoundingClientRect(); el.style.setProperty('--pv', Math.max(-1, Math.min(1, (r.top + r.height / 2 - vh / 2) / vh)).toFixed(4)); });
+    live.forEach((el) => {
+      const r = el.getBoundingClientRect();
+      // --pv: -1…1, the element's centre against the viewport centre (parallax).
+      // --sp: 0…1, how far the element has travelled through the viewport (scroll-drawn art).
+      if (el.hasAttribute('data-sp')) el.style.setProperty('--sp', Math.max(0, Math.min(1, (vh - r.top) / (vh + r.height))).toFixed(4));
+      else el.style.setProperty('--pv', Math.max(-1, Math.min(1, (r.top + r.height / 2 - vh / 2) / vh)).toFixed(4));
+    });
     if (mark && footer) mark.style.setProperty('--dx', `${Math.min(420, Math.max(0, footer.getBoundingClientRect().bottom - vh) * 0.5).toFixed(1)}px`);
   };
   update();
@@ -473,6 +496,7 @@ function init() {
   splitWords();
   reveals();
   countUp();
+  steps();
   ambient();
   sectionRail();
   readingProgress();

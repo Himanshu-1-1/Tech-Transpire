@@ -7,6 +7,7 @@ import Icon from '../components/Icon.astro';
 import Flag from '../components/Flag.astro';
 import CtaBand from '../components/CtaBand.astro';
 import PersonCard from '../components/PersonCard.astro';
+import AboutArt from '../components/AboutArt.astro';
 import { block, lines, cards, team, ctas } from '../lib/content';
 import { isVerified } from '../lib/claims';
 import type { ImageMetadata } from 'astro';
@@ -46,25 +47,39 @@ const focus: Record<string, string> = {
 };
 // Advisor portraits supplied by the company, matched by name: [name in advisors.json, photo, focal point].
 const advisorPhotos = ([['Wally Potts', photo('wally potts'), '52% 30%'], ['Sanket Thakkar', photo('sanket thakkar'), '50% 34%'], ['Ketul Thakker', photo('ketul thakker'), '47% 32%'], ['Saurabh Kumar', photo('saurabh kumar'), '47% 34%'], ['Dharmendra Mistry', photo('dharmendra mistry'), '46% 34%']] as [string, ImageMetadata | undefined, string][]).filter(([, img]) => img);
+// Our Message pledges: the commitment (first sentence) leads, the reason follows. Same words, same order.
+const pledge = (s: string) => { const i = s.indexOf('. '); return i < 0 ? [s, ''] : [s.slice(0, i + 1), s.slice(i + 2)]; };
 const people = team(teamBlock).filter((p) => isReview || isVerified(...gates[p.name]));
 ---
 <Base title="About | Tech Transpire" description="We built the company we always wanted to be part of: one that embraces complexity, challenges assumptions and refuses to execute without clarity.">
-  <PageHeader eyebrow={eyebrow} title={title} lead={lead} crumbs={[{ label: 'Home', href: '/' }, { label: 'About' }]}>
+  <PageHeader eyebrow={eyebrow} title={title} lead={lead} crumbs={[{ label: 'Home', href: '/' }, { label: 'About' }]} art={false}>
+    <AboutArt slot="art" />
     <p class="muted">Based in {location.label}.</p>
   </PageHeader>
 
-  <section class="section" id="story" aria-labelledby="story-h">
+  <section class="section about-story" id="story" aria-labelledby="story-h" data-sp>
     <div class="container two-col">
-      <div class="section-head" style="margin:0"><h2 id="story-h">{story.heading}</h2></div>
-      <div class="prose">{story.text.map((p) => <p>{p}</p>)}</div>
+      <div class="story-head">
+        <h2 id="story-h" data-split>{story.heading}</h2>
+        <svg class="story-ring" viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+          <circle class="sr-track" cx="60" cy="60" r="52" />
+          <circle class="sr-fill" cx="60" cy="60" r="52" pathLength="1" />
+          <path class="sr-arrow" d="M44 42 L66 60 L44 78 L50 60 Z M60 42 L82 60 L60 78 L66 60 Z" />
+        </svg>
+      </div>
+      <ol class="story-flow">{story.text.map((p, i) => <li class:list={['story-step', i === 0 && 'story-step--lead']} data-step><p>{p}</p></li>)}</ol>
     </div>
   </section>
 
-  <section class="section section--mist" id="values" aria-labelledby="values-h">
+  <section class="section section--mist about-values" id="values" aria-labelledby="values-h" data-sp data-ambient>
+    <svg class="values-orbit" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+      <g class="vo-spin"><ellipse cx="500" cy="500" rx="460" ry="300" pathLength="1" /><ellipse cx="500" cy="500" rx="330" ry="420" pathLength="1" /></g>
+      <g class="vo-spin vo-spin--rev"><ellipse cx="500" cy="500" rx="400" ry="210" pathLength="1" /><circle cx="500" cy="500" r="150" pathLength="1" /></g>
+    </svg>
     <div class="container">
-      <div class="section-head"><h2 id="values-h">{values.heading}</h2></div>
-      <ul class="grid grid-3">
-        {cards(values).map((v) => <li class="card reveal" data-tilt><span class="icon-tile"><Icon name={v.icon} /></span><h3>{v.title}</h3><p>{v.body}</p></li>)}
+      <div class="section-head"><h2 id="values-h" data-split>{values.heading}</h2></div>
+      <ul class="grid grid-3 value-grid">
+        {cards(values).map((v) => <li class="card value-card reveal" data-tilt><span class="icon-tile vc-icon"><Icon name={v.icon} /></span><h3>{v.title}</h3><p>{v.body}</p></li>)}
       </ul>
     </div>
   </section>
@@ -102,12 +117,18 @@ const people = team(teamBlock).filter((p) => isReview || isVerified(...gates[p.n
     </section>
   )}
 
-  <section class="section section--mist" id="message" aria-labelledby="message-h">
+  <section class="section section--navy pledge-band" id="message" aria-labelledby="message-h" data-glow data-ambient>
+    <svg class="results-grid" aria-hidden="true" focusable="false"><defs><pattern id="pl-cell" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M48 0H0V48" fill="none" stroke="currentColor" stroke-width="1" /></pattern></defs><rect width="100%" height="100%" fill="url(#pl-cell)" /></svg>
     <div class="container">
-      <div class="section-head"><h2 id="message-h">{message.heading}</h2></div>
-      <div class="quote-list" style="max-width:860px">
-        {statements.reverse().map((s) => <blockquote class="reveal">{s}</blockquote>)}
-      </div>
+      <div class="section-head"><h2 id="message-h" data-split>{message.heading}</h2></div>
+      <ol class="pledges">
+        {statements.reverse().map((s) => { const [lead, rest] = pledge(s); return (
+          <li class="pledge" data-step>
+            <span class="pl-mark" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path pathLength="1" d="M6 12.5 l4 4 8-9" /></svg></span>
+            <p><strong class="pl-lead">{lead}</strong> {rest}</p>
+          </li>
+        ); })}
+      </ol>
     </div>
   </section>
 

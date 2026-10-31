@@ -6,6 +6,7 @@ const { eyebrow, title, lead, crumbs = [], art = true } = Astro.props;
 ---
 <section class="page-header">
   {art && <div class="page-header-art"><LineField tone="light" /></div>}
+  <slot name="art" />
   <div class="container">
     {crumbs.length > 0 && (
       <nav class="breadcrumbs" aria-label="Breadcrumb">

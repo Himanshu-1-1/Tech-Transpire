@@ -11,7 +11,7 @@ const plain = name.replace(/^Dr\.\s*/, '').split(',')[0];
 const initials = plain.split(' ').filter((p) => /^[A-Z]/.test(p)).slice(0, 2).map((p) => p[0]).join('');
 ---
 <li class="card pcard reveal" data-tilt>
-  <div class="pc-photo" style={`--fp: ${focus}`}>
+  <div class="pc-photo" style={`--fp: ${focus}`} data-pv>
     {photo
       ? <Image src={photo} alt={`${plain}, ${role}`} widths={[420, 840]} sizes="(max-width: 639px) 92vw, (max-width: 1099px) 46vw, 300px" />
       : <div class="pc-ph" aria-hidden="true"><span class="pc-initials">{initials}</span></div>}
