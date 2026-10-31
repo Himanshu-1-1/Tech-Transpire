@@ -1017,8 +1017,8 @@ a.v:hover { color: var(--blue); }
 
 /* Statements: frosted glass panels with a drawn gradient rule and an outlined index numeral. */
 .challenge .statements { gap: clamp(18px, 2vw, 28px); }
-/* Flip statements (FlipStatement.astro). Mobile, touch and reduced motion: the front card only.
-   Desktop with a mouse (.fx-pointer): a 3D flip to a brand-blue back with an animated drawing. */
+/* Statement cards (FlipStatement.astro). Mobile, touch and reduced motion: the front card only.
+   Desktop with a mouse (.fx-pointer): two trays slide out from behind the card (below). */
 .flip { position: relative; display: grid; }
 .flip-inner { position: relative; display: grid; }
 .flip-face { grid-area: 1 / 1; position: relative; display: grid; align-content: start; gap: 18px; padding: 34px clamp(24px, 2.4vw, 32px) 30px; border-radius: var(--radius-lg); overflow: hidden; }
@@ -1034,21 +1034,33 @@ a.v:hover { color: var(--blue); }
 .fx-pointer .flip figcaption { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; box-shadow: none; }
 .flip-back, .flip-hint { display: none; }
 
-.fx-pointer .flip { perspective: 1400px; min-height: 290px; }
-.fx-pointer .flip-inner { transform-style: preserve-3d; transition: transform 950ms cubic-bezier(.2, .85, .25, 1); }
-.fx-pointer .flip-face { -webkit-backface-visibility: hidden; backface-visibility: hidden; }
-.fx-pointer .flip-back { display: grid; transform: rotateY(180deg); gap: 14px; color: #fff; border: 1px solid rgba(255, 255, 255, .14); background: radial-gradient(120% 90% at 88% -10%, rgba(124, 196, 240, .38), transparent 55%), linear-gradient(140deg, #0D3A72, #1452A6 55%, #2A73D9); box-shadow: 0 40px 70px -34px rgba(13, 58, 114, .65); }
-.fx-pointer .flip:is(:hover, :focus-within) .flip-inner { transform: rotateY(180deg); }
-/* Depth while turning: the card lifts and its shadow spreads. */
-.fx-pointer .flip::after { content: ''; position: absolute; inset: 12% 8% -4%; z-index: -1; border-radius: 30px; background: rgba(24, 89, 179, .35); filter: blur(28px); opacity: 0; transition: opacity 600ms var(--ease-out); }
-.fx-pointer .flip:is(:hover, :focus-within)::after { opacity: 1; }
-/* Light sweep across the back as it arrives. */
-.fx-pointer .flip-back::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, .22) 50%, transparent 65%); transform: translateX(-120%); }
-.fx-pointer .flip:is(:hover, :focus-within) .flip-back::after { animation: card-sweep 1100ms var(--ease-out) 420ms both; }
+/* Desktop with a mouse: two trays slide out from behind the card on hover or keyboard focus (company
+   request 2026-11-01, replacing the 3D flip). Top tray: the drawing. Bottom tray: the prompt and the
+   link. Both keep the deep-blue colours of the former back face; 22px stays tucked behind the card,
+   so each reads as a drawer pulled from it. */
+.fx-pointer .flip { z-index: 1; min-height: 290px; transition: z-index 0s 650ms; }
+.fx-pointer .flip:is(:hover, :focus-within) { z-index: 6; transition-delay: 0s; }
+.fx-pointer .flip-inner { position: relative; display: grid; }
+.fx-pointer .flip-front { z-index: 2; transition: transform 650ms var(--ease-emph), box-shadow 650ms var(--ease-out); }
+.fx-pointer .flip:is(:hover, :focus-within) .flip-front { transform: scale(1.02); box-shadow: 0 40px 70px -40px rgba(13, 58, 114, .6), inset 0 1px 0 rgba(255, 255, 255, .9); }
+.fx-pointer .tray { position: absolute; z-index: 1; left: 16px; right: 16px; display: grid; justify-items: center; align-content: center; gap: 12px; color: #fff; border: 1px solid rgba(255, 255, 255, .14); border-radius: 20px; overflow: hidden; background: radial-gradient(120% 90% at 88% -10%, rgba(124, 196, 240, .38), transparent 55%), linear-gradient(140deg, #0D3A72, #1452A6 55%, #2A73D9); box-shadow: 0 30px 60px -30px rgba(13, 58, 114, .65), inset 0 1px 0 rgba(255, 255, 255, .16); opacity: 0; transition: transform 700ms cubic-bezier(.2, .85, .25, 1), opacity 260ms var(--ease-out) 380ms; }
+.fx-pointer .tray--top { top: 0; padding: 18px 22px 40px; }
+.fx-pointer .tray--bottom { bottom: 0; justify-items: start; padding: 40px 26px 22px; }
+.fx-pointer .flip:is(:hover, :focus-within) .tray { opacity: 1; transition: transform 700ms cubic-bezier(.2, .85, .25, 1) 60ms, opacity 160ms var(--ease-out); }
+.fx-pointer .flip:is(:hover, :focus-within) .tray--top { transform: translateY(calc(-100% + 22px)); }
+.fx-pointer .flip:is(:hover, :focus-within) .tray--bottom { transform: translateY(calc(100% - 22px)); }
+.fx-pointer .tray .art { max-width: 240px; }
+.fx-pointer .tray .flip-q { font-size: clamp(1.3rem, 1rem + .7vw, 1.6rem); }
+/* A light sweep across each tray as it arrives. */
+.fx-pointer .tray::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, .2) 50%, transparent 65%); transform: translateX(-120%); }
+.fx-pointer .flip:is(:hover, :focus-within) .tray::after { animation: card-sweep 1100ms var(--ease-out) 420ms both; }
 @keyframes card-sweep { to { transform: translateX(120%); } }
+/* Depth: the glow spreads to cover the opened trays. */
+.fx-pointer .flip::after { content: ''; position: absolute; inset: -18% 6% -18%; z-index: -1; border-radius: 30px; background: rgba(24, 89, 179, .32); filter: blur(34px); opacity: 0; transition: opacity 600ms var(--ease-out); }
+.fx-pointer .flip:is(:hover, :focus-within)::after { opacity: 1; }
 .fx-pointer .flip-hint { position: absolute; top: 16px; right: 16px; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; color: var(--blue); background: #fff; box-shadow: inset 0 0 0 1px rgba(42, 115, 217, .16); transition: transform 600ms var(--ease-emph); }
 .fx-pointer .flip-hint svg { width: 16px; height: 16px; }
-.fx-pointer .flip:hover .flip-hint { transform: rotate(180deg); }
+.fx-pointer .flip:is(:hover, :focus-within) .flip-hint { transform: scaleY(1.25); }
 .flip-q { position: relative; font: 500 clamp(1.6rem, 1.2rem + 1vw, 2.1rem)/1.15 var(--f-display); letter-spacing: -0.01em; }
 .flip-link { position: relative; justify-self: start; display: inline-flex; gap: 8px; align-items: center; font-size: 15px; font-weight: 600; color: #BFE3FA; text-decoration: none; }
 .flip-link:hover { color: #fff; }

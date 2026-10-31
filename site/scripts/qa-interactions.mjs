@@ -79,7 +79,7 @@ try {
     await page.close();
   }
 
-  // 3a. Flip statements: 3D flip on desktop hover; front card only on phones.
+  // 3a. Statement cards: two trays slide out (up and down) on desktop hover; front card only on phones.
   {
     const page = await browser.newPage();
     await page.setViewport({ width: 1440, height: 900 });
@@ -89,16 +89,20 @@ try {
     const fb = await (await page.$('.flip')).boundingBox();
     await page.mouse.move(fb.x + fb.width / 2, fb.y + fb.height / 2, { steps: 4 });
     await new Promise((r) => setTimeout(r, 1200));
-    const t = await page.evaluate(() => getComputedStyle(document.querySelector('.flip-inner')).transform);
-    // rotateY(180deg) → matrix3d(-1, 0, …)
-    const flipped = /^matrix3d\(-1,/.test(t.replace(/\s/g, ''));
-    check('Desktop: statement card flips on hover', flipped, t.slice(0, 40));
+    // Open: the top tray sits above the card and the bottom tray below it, both visible.
+    const trays = await page.evaluate(() => {
+      const f = document.querySelector('.flip-front').getBoundingClientRect();
+      const t = document.querySelector('.tray--top'), b = document.querySelector('.tray--bottom');
+      const tr = t.getBoundingClientRect(), br = b.getBoundingClientRect();
+      return { up: Math.round(f.top - tr.top), down: Math.round(br.bottom - f.bottom), shown: getComputedStyle(t).opacity === '1' && getComputedStyle(b).opacity === '1' };
+    });
+    check('Desktop: statement card opens two trays on hover (drawing up, prompt down)', trays.shown && trays.up > 60 && trays.down > 60, JSON.stringify(trays));
     await page.close();
     const m = await browser.newPage();
     await m.setViewport({ width: 390, height: 844, isMobile: true, hasTouch: true });
     await m.goto(base + '/', { waitUntil: 'networkidle0' });
     const mob = await m.evaluate(() => ({ back: getComputedStyle(document.querySelector('.flip-back')).display, quote: !!document.querySelector('.flip-front blockquote')?.textContent.trim() }));
-    check('Phone: statement cards stay simple (front only, no flip)', mob.back === 'none' && mob.quote, JSON.stringify(mob));
+    check('Phone: statement cards stay simple (front only, no trays)', mob.back === 'none' && mob.quote, JSON.stringify(mob));
     await m.close();
   }
 

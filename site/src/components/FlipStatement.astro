@@ -1,24 +1,24 @@
 ---
-// "Sounds Familiar?" statement as a 3D flip card. Front: the statement and its prompt, verbatim.
-// Back: an animated drawing that acts the statement out, the prompt repeated large (decorative,
-// aria-hidden) and a link to Our Method. Desktop with a mouse only (.fx-pointer): flips on hover
-// and on keyboard focus (the link); the drawings replay on every flip. Phones, touch screens and
-// reduced motion show the front card alone (the company asked for a simple mobile version).
-import Icon from './Icon.astro';
+// "Sound Familiar?" statement card with two trays (company request 2026-11-01, replacing the flip).
+// Front: the statement and its prompt, verbatim. On hover or keyboard focus (desktop with a mouse,
+// .fx-pointer) two deep-blue trays slide out from behind it: the top one carries an animated drawing
+// that acts the statement out, the bottom one the prompt (decorative, aria-hidden) and a link to Our
+// Method, so the whole idea is in view at once. The drawings replay on every opening. Phones, touch
+// screens and reduced motion show the front card alone (the company asked for a simple mobile version).
 interface Props { n: number; statement: string; prompt: string; link: { label: string; href: string } }
 const { n, statement, prompt, link } = Astro.props;
 ---
 <figure class="flip reveal" data-flip>
   <div class="flip-inner">
     <div class="flip-face flip-front">
-      <span class="flip-hint" aria-hidden="true"><Icon name="repeat" /></span>
+      <span class="flip-hint" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M8 9l4-4 4 4M8 15l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg></span>
       <span class="flip-quote" aria-hidden="true">“</span>
       <blockquote>{statement}</blockquote>
       {/* Closing mark: the opening glyph turned 180°, so both sit the same distance from the sentence. */}
       <span class="flip-quote flip-quote--end" aria-hidden="true">“</span>
       <figcaption>{prompt}</figcaption>
     </div>
-    <div class="flip-face flip-back">
+    <div class="flip-back tray tray--top" aria-hidden="true">
       {n === 0 && (
         /* Budget drains away before the first line of code appears. */
         <svg class="art art--budget" viewBox="0 0 260 100" aria-hidden="true" focusable="false">
@@ -49,6 +49,8 @@ const { n, statement, prompt, link } = Astro.props;
           <g class="a-cross"><circle cx="66" cy="50" r="36" /><path d="M66 6 v16 M66 78 v16 M22 50 h16 M94 50 h16" /></g>
         </svg>
       )}
+    </div>
+    <div class="flip-back tray tray--bottom">
       <p class="flip-q" aria-hidden="true">{prompt}</p>
       <a class="flip-link" href={link.href}>{link.label} <span class="arr" aria-hidden="true">→</span></a>
     </div>
