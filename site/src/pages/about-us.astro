@@ -35,13 +35,14 @@ const portraits: Record<string, ImageMetadata | undefined> = {
   'Mack Akhani': photo('mack akhani'),
   'Hemang Dwivedi': asset('TT-AS-004'), // Drive: Hemang_TT_HeadShot.png
   'Kranthi Kumar Goli': photo('kranthi kumar goli'), // supplied in chat 2026-11-01 (TT-AS-027)
-  'Devjet Bag': undefined,
+  'Devjet Bag': photo('devjet bag'), // supplied in chat 2026-11-01 (TT-AS-028)
 };
-// Focal point per portrait in the tall card (Mack's and Kranthi's photos are 2:3 three-quarter shots).
+// Focal point per portrait in the tall card (Mack's, Kranthi's and Devjet's photos are tall three-quarter shots).
 const focus: Record<string, string> = {
   'Mack Akhani': '58% 16%',
   'Hemang Dwivedi': '50% 22%',
   'Kranthi Kumar Goli': '62% 18%',
+  'Devjet Bag': '50% 24%',
 };
 const people = team(teamBlock).filter((p) => isReview || isVerified(...gates[p.name]));
 ---
