@@ -897,6 +897,8 @@ a.v:hover { color: var(--blue); }
 .btn-primary:hover::after, .btn-light:hover::after { transform: translateX(130%); transition: transform 800ms var(--ease-emph); }
 .btn-light > * { position: relative; z-index: 2; }
 .btn-primary > * { z-index: 2; }
+/* The hover glow sits behind the label: a plain-text label is not positioned, so a glow above it hid the text on hover. */
+.btn-primary::before { z-index: -1; }
 
 /* Word-by-word heading reveal */
 .split .w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .1em; margin-bottom: -.1em; }
