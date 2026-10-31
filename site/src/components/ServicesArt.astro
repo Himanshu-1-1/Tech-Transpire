@@ -51,6 +51,7 @@ const rays = [70, 112, 154, 196, 238, 280, 322].map((hitY, i) => {
       ))}
     </g>
     <ellipse class="sl-lens" cx={LENS_X} cy="210" rx="30" ry="168" fill="url(#sl-glass)" />
+    <text class="sl-label" x={LENS_X + 4} y="210" transform={`rotate(-90 ${LENS_X + 4} 210)`}>Clarity</text>
     <path class="sl-lens-glint" d={`M${LENS_X - 12} 70 C ${LENS_X - 24} 140, ${LENS_X - 24} 280, ${LENS_X - 12} 350`} />
     <path class="sl-beam" pathLength="1" d={`M${FOCUS[0]} ${FOCUS[1]} H572`} />
     <path class="sl-spark sl-spark--beam" pathLength="1" d={`M${FOCUS[0]} ${FOCUS[1]} H572`} />
