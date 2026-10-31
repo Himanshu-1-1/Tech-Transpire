@@ -186,7 +186,7 @@ p { text-wrap: pretty; }
    ========================================================================= */
 .hero { position: relative; isolation: isolate; background: var(--paper); margin-top: calc(-1 * var(--header-h)); padding-top: var(--header-h); overflow: hidden; }
 .hero-media { position: absolute; top: var(--header-h); right: 0; bottom: 0; width: 60%; z-index: -1; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent 0%, transparent 6%, rgba(0, 0, 0, .55) 26%, #000 46%); mask-image: linear-gradient(90deg, transparent 0%, transparent 6%, rgba(0, 0, 0, .55) 26%, #000 46%); animation: hero-media 1100ms var(--ease-emph) 200ms both; }
-.hero-media > img, .hero-media > .media-fallback { position: absolute; inset: -14px; width: calc(100% + 28px); max-width: none; height: calc(100% + 28px); object-fit: cover; object-position: var(--hero-pos, 62% 50%); transform: translate3d(calc(var(--px, 0) * -14px), calc(var(--py, 0) * -10px), 0); transition: transform 600ms var(--ease-out); }
+.hero-media > img, .hero-media > .media-fallback, .hero-media > .hero-glass { position: absolute; inset: -14px; width: calc(100% + 28px); max-width: none; height: calc(100% + 28px); object-fit: cover; object-position: var(--hero-pos, 62% 50%); transform: translate3d(calc(var(--px, 0) * -14px), calc(var(--py, 0) * -10px), 0); transition: transform 600ms var(--ease-out); }
 .hero-light { position: absolute; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(600px circle at calc(70% + var(--px, 0) * 20%) calc(35% + var(--py, 0) * 20%), rgba(255, 255, 255, .28), transparent 60%); }
 .hero-media::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 26%; background: linear-gradient(180deg, rgba(255, 255, 255, 0), #fff); }
 .hero-inner { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); align-content: center; min-height: max(560px, calc(100svh - var(--header-h) - 40px)); padding-block: 40px 128px; }
@@ -858,7 +858,7 @@ a.v:hover { color: var(--blue); }
    The hero copy lifts and fades as it leaves, the photo drifts slower and eases in closer, the chips
    rise at their own depths, card photos shift inside their frames, the footer line slides into place. */
 .fx-scroll .hero-copy { opacity: calc(1 - var(--hp, 0) * .85); translate: 0 calc(var(--hp, 0) * -80px); }
-.fx-scroll .hero-media > img { translate: 0 calc(var(--hp, 0) * 110px); scale: calc(1 + var(--hp, 0) * .08); }
+.fx-scroll .hero-media > :is(img, .hero-glass) { translate: 0 calc(var(--hp, 0) * 110px); scale: calc(1 + var(--hp, 0) * .08); }
 .fx-scroll .chip-float { top: calc(var(--top) - var(--hp, 0) * var(--depth) * 5px); }
 .fx-scroll .hero-flow { opacity: calc(1 - var(--hp, 0) * 3); }
 .fx-scroll .photo-card .ph img { scale: 1.14; translate: 0 calc(var(--pv, 0) * -8%); }
@@ -1131,6 +1131,14 @@ a.v:hover { color: var(--blue); }
 .chip { background: var(--lg-spec), var(--lg-fill); -webkit-backdrop-filter: var(--lg-blur); backdrop-filter: var(--lg-blur); border: var(--lg-edge); box-shadow: var(--lg-rim), 0 8px 18px -12px rgba(13, 58, 114, .35); }
 .chip[aria-pressed='true'] { background: radial-gradient(120% 100% at 22% -12%, rgba(255, 255, 255, .45), transparent 46%), linear-gradient(135deg, #1452A6, #0D3A72); border-color: rgba(255, 255, 255, .35); }
 .chip-float { background: var(--lg-spec), linear-gradient(180deg, rgba(255, 255, 255, .78), rgba(255, 255, 255, .5)); border-color: rgba(255, 255, 255, .92); box-shadow: inset 0 1.5px 0 #fff, inset 0 0 14px rgba(255, 255, 255, .35), 0 18px 40px -18px rgba(11, 30, 56, .45); }
+/* Hero chips as rendered liquid glass (heroGlass in interactions.ts): the canvas behind them draws
+   the refraction, rim and glare, so the chip drops its CSS fill and keeps a hairline edge and its drop shadow.
+   :nth-of-type(n) lifts this over the story's highlighted-chip fill; the blue ring still shows. */
+.hero-glass { display: block; opacity: 0; transition: opacity 500ms var(--ease-out); }
+.hero-glass.is-ready { opacity: 1; }
+@media (max-width: 1099px) { .hero-glass { display: none; } }
+.hero-chips .chip-float[data-lg='glass']:nth-of-type(n) { background: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+.chip-float[data-lg='glass'] { border-color: rgba(255, 255, 255, .6); box-shadow: 0 18px 40px -18px rgba(11, 30, 56, .45); }
 
 /* Header: a liquid glass bar once the page scrolls; the mobile menu is a glass sheet. */
 .site-header.is-scrolled { background: linear-gradient(180deg, rgba(255, 255, 255, .74), rgba(255, 255, 255, .55)); -webkit-backdrop-filter: blur(22px) saturate(180%); backdrop-filter: blur(22px) saturate(180%); border-bottom-color: rgba(255, 255, 255, .8); box-shadow: inset 0 -1px 0 rgba(42, 115, 217, .1), 0 12px 30px -22px rgba(13, 58, 114, .45); }

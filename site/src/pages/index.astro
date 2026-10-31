@@ -70,6 +70,10 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
       {heroPhoto
         ? <Image src={heroPhoto} alt={heroAlt} widths={[900, 1400, 2000]} sizes="(max-width: 899px) 100vw, 60vw" loading="eager" fetchpriority="high" />
         : <div class="media-fallback"><Blueprint idSuffix="hero" /></div>}
+      {/* Liquid glass (desktop): redraws the photo with the floating chips as refracting glass
+          (interactions.ts heroGlass). Hidden until it has the photo; without WebGL2 the chips keep
+          their frosted CSS look. */}
+      {heroPhoto && <canvas class="hero-glass" aria-hidden="true"></canvas>}
     </div>
     <div class="hero-light" aria-hidden="true"></div>
     {/* Floating method chips: three of the five step titles [E], at different parallax depths.

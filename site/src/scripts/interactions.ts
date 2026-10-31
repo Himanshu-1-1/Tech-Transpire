@@ -308,6 +308,47 @@ function heroFlow() {
   page!.signal.addEventListener('abort', () => { cancelAnimationFrame(frame); timers.forEach(clearTimeout); });
 }
 
+/** Hero liquid glass (desktop): a WebGL2 canvas over the hero photo redraws it with the three
+ *  floating chips as refracting glass (vendor/liquid-glass.js, loaded only here). The canvas sits
+ *  in .hero-media, so it shares the photo's box, mask, parallax and entrance; it shows once the
+ *  photo is uploaded, and the chips turn to glass after their entrance has played. Without WebGL2
+ *  the engine returns null and the chips keep their frosted CSS look. */
+function heroGlass() {
+  const canvas = document.querySelector<HTMLCanvasElement>('.hero-glass');
+  const img = canvas?.parentElement?.querySelector('img');
+  const chips = [...document.querySelectorAll<HTMLElement>('.hero-chips .chip-float')];
+  if (!canvas || !img || !chips.length || getComputedStyle(canvas).display === 'none') return;
+  const signal = page!.signal;
+  // UMD file: the build wraps it as a CommonJS default export; served raw it sets a global.
+  import('../vendor/liquid-glass.js').then((mod: any) => {
+    const LG = mod?.default?.create ? mod.default : (globalThis as any).LiquidGlass;
+    if (signal.aborted || !LG?.isSupported()) return;
+    // Same crop as the <img>: object-fit cover at its object-position.
+    const pos = getComputedStyle(img).objectPosition.split(' ').map((v) => (parseFloat(v) || 50) / 100);
+    const glass = LG.create(canvas, {
+      background: img,
+      position: [pos[0], pos[1] ?? 0.5],
+      backgroundColor: '#fff',
+      maxDpr: 1.5,
+      params: {
+        thickness: 10, refraction: 0.05, dispersion: 5, blur: 6, tint: [255, 255, 255, 0.42],
+        // No engine shadow: it darkens a ridge inside the glass. The chips keep their CSS drop shadow.
+        fresnelStrength: 28, glareStrength: 70, shadowStrength: 0,
+      },
+      onError: (e: unknown) => console.warn('[hero glass]', e),
+    });
+    if (!glass) return;
+    glass.ready.then(() => canvas.classList.add('is-ready'), () => glass.destroy());
+    Promise.all(chips.flatMap((el) => el.getAnimations().map((a) => a.finished))).then(() => {
+      if (!signal.aborted) glass.setShapes(chips.map((element) => ({ element })));
+    }, () => {});
+    const io = new IntersectionObserver(([en]) => (en.isIntersecting ? glass.resume() : glass.pause()));
+    io.observe(canvas);
+    observers.push(io);
+    signal.addEventListener('abort', () => glass.destroy());
+  }, () => {});
+}
+
 /** Outcome dock (Home): a gradient highlight glides to the hovered or focused outcome. Once,
  *  after the hero has settled, it sweeps across all four and rests. Desktop pointers only. */
 function dockFx() {
@@ -362,6 +403,7 @@ function init() {
   readingProgress();
   scrollFx();
   heroFlow();
+  heroGlass();
   if (finePointer() && !reduced()) {
     root.classList.add('fx-pointer');
     magnetic();
