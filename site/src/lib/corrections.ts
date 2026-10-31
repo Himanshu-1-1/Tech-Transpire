@@ -45,6 +45,7 @@ export const corrections: Correction[] = [
   { id: 'F-12d', block: 'TT-PG-002-B05', before: 'Transformation Blueprint current to future state', after: 'Transformation Blueprint, current to future state', kind: 'punctuation', approval: 'D-43' },
   { id: 'F-12e', block: 'TT-PG-002-B05', before: 'augmentation only when tied', after: 'augmentation, only when tied', kind: 'punctuation', approval: 'D-43' },
   { id: 'F-13a', block: 'TT-PG-005-B04', before: 'If aligned - Clear next steps', after: 'If aligned: clear next steps', kind: 'punctuation', approval: 'D-43 (punctuation and capitalization)' },
+  { id: 'F-15', block: 'TT-PG-001-B01', before: 'Want to learn more?', after: 'Learn More', kind: 'content update', approval: 'D-47: the company, 2026-11-01 ("instead of want to learn more write Learn More")' },
   { id: 'H-05a', block: 'TT-PG-005-B05', before: 'and we will respond within one business day.', after: 'and we aim to respond within one business day.', kind: 'content update', approval: 'D-46: review 2026-11-01 (a firm promise softened while C-17 is unconfirmed)' },
   { id: 'F-13b', block: 'TT-PG-005-B04', before: 'If not - Honest redirect', after: 'If not: honest redirect', kind: 'punctuation', approval: 'D-43 (punctuation and capitalization)' },
   { id: 'F-07a', block: 'TT-INS-008-B01', before: 'Handoffs - Not the Steps', after: 'Handoffs — Not the Steps', kind: 'punctuation', approval: 'F-01–F-07 approval (punctuation only)' },

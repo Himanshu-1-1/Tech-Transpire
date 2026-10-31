@@ -99,3 +99,4 @@ Approved by the company after the external review: "Approved. Apply 'Sound Famil
 | ID | Block | Kind | Before (exact) | After (exact) |
 |---|---|---|---|---|
 | H-05a | TT-PG-005-B05 | Content update | `and we will respond within one business day.` | `and we aim to respond within one business day.` |
+| F-15 | TT-PG-001-B01 | Content update (D-47) | `Want to learn more?` | `Learn More` |
