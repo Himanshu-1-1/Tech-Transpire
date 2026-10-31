@@ -10,7 +10,7 @@ import PersonCard from '../components/PersonCard.astro';
 import { block, lines, cards, team, ctas } from '../lib/content';
 import { isVerified } from '../lib/claims';
 import type { ImageMetadata } from 'astro';
-import { asset, photo } from '../lib/images';
+import { photo } from '../lib/images';
 import { isReview, approvals, location } from '../lib/site';
 import advisorData from '../data/advisors.json';
 
@@ -33,14 +33,14 @@ const gates: Record<string, string[]> = {
 // images in Drive ("ChatGPT Image…", "Gemini_Generated_Image…") and are not used.
 const portraits: Record<string, ImageMetadata | undefined> = {
   'Mack Akhani': photo('mack akhani'),
-  'Hemang Dwivedi': asset('TT-AS-004'), // Drive: Hemang_TT_HeadShot.png
+  'Hemang Dwivedi': photo('hemang dwivedi'), // supplied in chat 2026-11-01 (TT-AS-029); replaces TT-AS-004
   'Kranthi Kumar Goli': photo('kranthi kumar goli'), // supplied in chat 2026-11-01 (TT-AS-027)
   'Devjet Bag': photo('devjet bag'), // supplied in chat 2026-11-01 (TT-AS-028)
 };
 // Focal point per portrait in the tall card (Mack's, Kranthi's and Devjet's photos are tall three-quarter shots).
 const focus: Record<string, string> = {
   'Mack Akhani': '58% 16%',
-  'Hemang Dwivedi': '50% 22%',
+  'Hemang Dwivedi': '46% 30%',
   'Kranthi Kumar Goli': '62% 18%',
   'Devjet Bag': '50% 24%',
 };
