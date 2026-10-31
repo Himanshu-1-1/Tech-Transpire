@@ -5,6 +5,8 @@ export const isReview = MODE === 'review';
 // at the company's request (2026-10-30); REVIEW_MARKERS=1 shows them for an approval session.
 // The items they mark stay tracked in docs/website-architecture/12 and 19.
 export const showMarkers = isReview && __REVIEW_MARKERS__;
+// The static GitHub Pages review preview: no server, so the contact form cannot deliver.
+export const isPagesPreview = __PAGES__;
 
 // Approval switches. Each flips to true when the decisions register records the approval.
 export const approvals = {
@@ -15,6 +17,10 @@ export const approvals = {
   newFormOptions: false, // N-16 "Event or presentation", "Existing client or colleague"
   advisors: false, // D-38–D-40: imported from trueleansolutions.com, role lines rewritten for Tech Transpire (draft); figures and each advisor's agreement to confirm
 };
+
+// The Privacy Policy draft carries counsel notes and placeholders, so it is shown only in an
+// approval session (REVIEW_MARKERS=1) until counsel approves it (N-07), never on the shared preview.
+export const showPrivacy = showMarkers || approvals.privacyPolicy;
 
 export const showIndustries = isReview || approvals.healthcarePage;
 

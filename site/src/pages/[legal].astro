@@ -3,10 +3,10 @@
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import * as privacy from '../../../docs/website-architecture/drafts/privacy-policy-draft.md';
-import { isReview, approvals } from '../lib/site';
+import { showPrivacy } from '../lib/site';
 
 export function getStaticPaths() {
-  return isReview || approvals.privacyPolicy ? [{ params: { legal: 'privacy-policy' } }] : [];
+  return showPrivacy ? [{ params: { legal: 'privacy-policy' } }] : [];
 }
 // The draft's drafting notes link to other Phase 1 documents; point those at the repository.
 const REPO = 'https://github.com/Himanshu-1-1/Tech-Transpire/blob/main/docs/website-architecture/';

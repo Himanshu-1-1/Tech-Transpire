@@ -6,7 +6,7 @@ import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import Flag from '../components/Flag.astro';
 import { block, lines, paragraph } from '../lib/content';
-import { contact, approvals, isReview, location } from '../lib/site';
+import { contact, approvals, isReview, location, showPrivacy, isPagesPreview } from '../lib/site';
 
 const [, eyebrow] = lines(block('TT-PG-005-B01'));
 const startHeading = block('TT-PG-005-B02').heading;
@@ -28,7 +28,7 @@ const interests = [
   { value: 'other', label: 'Something else' },
 ];
 // The Privacy Policy is a launch blocker (N-07, legal review); link it once it is published.
-const privacyLive = isReview || approvals.privacyPolicy;
+const privacyLive = showPrivacy;
 const sources = ['LinkedIn', 'Facebook', 'Referral', 'Search', ...(isReview || approvals.newFormOptions ? ['Event or presentation', 'Existing client or colleague'] : []), 'Other'];
 ---
 <Base title="Contact | Tech Transpire" description="Start a conversation with Tech Transpire. Book an intro call or send us a message — we will respond within one business day.">
@@ -89,6 +89,7 @@ const sources = ['LinkedIn', 'Facebook', 'Referral', 'Search', ...(isReview || a
           <div class="field field--full">
             <label class="consent" for="f-consent"><input id="f-consent" name="consent" type="checkbox" required data-msg="Please confirm you agree to the Privacy Policy so we can respond." /><span>I agree that Tech Transpire may use the information I've provided to respond to my enquiry, as described in the {privacyLive ? <a href="/privacy-policy">Privacy Policy</a> : 'Privacy Policy'}.</span></label>
           </div>
+          {isPagesPreview && <p class="form-status form-status--error field--full" role="note">This is a review preview without a mail server, so messages sent from this form are not delivered. Please email <a href={`mailto:${contact.email}`}>{contact.email}</a> instead.</p>}
           <div class="field field--full"><button class="btn btn-primary" type="submit" style="justify-self:start">Send message</button></div>
           <div class="form-status form-status--ok" id="form-ok" role="status" hidden></div>
         </form>
