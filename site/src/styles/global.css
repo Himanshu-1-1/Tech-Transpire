@@ -562,10 +562,32 @@ html:not(.js) .search-btn { display: none; }
 .js .result.is-in .rv-draw[stroke-dasharray] { opacity: 1; }
 .js .result.is-in :is(.rv-bar, .rv-seg, .rv-col) { transform: none; }
 .js .result.is-in :is(.rv-node, .rv-hub, .rv-hub-core, .rv-t) { opacity: 1; }
-/* A slow pulse on each hub keeps the ledger alive without moving the text. */
-.result.is-in .rv-hub { transform-origin: center; animation: rv-pulse 3.2s var(--ease-out) 1.6s infinite; }
+/* Live diagrams (company request 2026-11-01): once drawn, each keeps working. Short lights flow
+   along the lines (stroke-dashoffset), bars and blocks breathe (transform), hubs pulse. CSS only,
+   composited and tiny, and it runs only while the band is on screen (.is-live from ambient()),
+   never under reduced motion. */
+.rv-flow { fill: none; stroke: #BFE2FA; stroke-width: 2; stroke-linecap: round; stroke-dasharray: .1 .9; stroke-dashoffset: 1; opacity: 0; filter: drop-shadow(0 0 3px rgba(124, 196, 240, .9)); }
+.rv-flow--bar { stroke: #fff; stroke-width: 6; stroke-dasharray: .22 .78; opacity: 0; filter: blur(1.5px); }
+.rv-flow--signal { stroke: #fff; stroke-dasharray: .08 .92; }
+.results-band.is-live .result.is-in .rv-flow { opacity: .95; animation: rv-flow 2.6s linear var(--fd, 0s) infinite; }
+.results-band.is-live .result.is-in .rv-flow--bar { opacity: .5; animation-duration: 2.2s; }
+.results-band.is-live .result.is-in .rv-flow--fast { animation-duration: 1.3s; }
+.results-band.is-live .result.is-in .rv-flow--signal { animation-duration: 3.2s; }
+@keyframes rv-flow { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+.results-band.is-live .result.is-in .rv-hub { transform-origin: center; animation: rv-pulse 3.2s var(--ease-out) 1.6s infinite; }
 @keyframes rv-pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.25); opacity: .55; } }
-@media (prefers-reduced-motion: reduce) { .result.is-in .rv-hub { animation: none; } }
+/* 7 yrs: a light wave runs across the five completed years. */
+.results-band.is-live .result.is-in .rv-seg--done { animation: rv-wave 2.8s ease-in-out calc(1.4s + var(--w, 0s)) infinite; }
+@keyframes rv-wave { 0%, 60%, 100% { fill: rgba(62, 159, 222, .75); } 25% { fill: #BFE2FA; } }
+/* $3M standardization: the uneven bars keep fluctuating; the standard ones hold steady and glint. */
+.results-band.is-live .result.is-in .rv-col--old { animation: rv-jitter 2.4s ease-in-out var(--w, 0s) infinite alternate; }
+@keyframes rv-jitter { from { transform: scaleY(1); } to { transform: scaleY(.55); } }
+.results-band.is-live .result.is-in .rv-col--new { animation: rv-wave2 2.6s ease-in-out calc(1.2s + var(--w, 0s)) infinite; }
+@keyframes rv-wave2 { 0%, 55%, 100% { fill: var(--sky); } 25% { fill: #BFE2FA; } }
+/* The shield breathes as it stops the signal. */
+.results-band.is-live .result.is-in .rv-shield { animation: rv-guard 3.2s ease-in-out 1.6s infinite; }
+@keyframes rv-guard { 0%, 100% { fill: rgba(62, 159, 222, .1); } 50% { fill: rgba(62, 159, 222, .3); } }
+@media (prefers-reduced-motion: reduce) { .results-band .result .rv-flow { display: none; } .results-band .result * { animation: none !important; } }
 @media (max-width: 899px) { .results { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 559px) { .results { grid-template-columns: minmax(0, 1fr); } .result { padding: 22px 20px; } }
 
