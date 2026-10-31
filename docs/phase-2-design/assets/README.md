@@ -12,6 +12,7 @@ Put company-owned or properly licensed photography here, **keeping the original 
 | `Kranthi Kumar Goli.png` (1024×1536) | By the company in chat, 2026-11-01, as "goli photo" | **About team tile** (focal 62% 18%), replacing the initials placeholder | Supplied as his photo; replaces the AI-generated archive image TT-AS-005, which stays unused. Confirm ownership/licence before production (TT-AS-027) |
 | `Devjet Bag.png` (1083×1452) | By the company in chat, 2026-11-01, as "devjet photo" | **About team tile** (focal 50% 24%), replacing the initials placeholder | Supplied as his photo; replaces the AI-generated archive image TT-AS-006, which stays unused. Confirm ownership/licence before production (TT-AS-028) |
 | `Hemang Dwivedi.png` (1254×1254) | By the company in chat, 2026-11-01, as "hemang" | **About team tile** (focal 46% 30%), replacing the Drive headshot TT-AS-004 | Confirm ownership/licence before production (TT-AS-029) |
+| `Wally Potts.png` (1254×1254) | By the company in chat, 2026-11-01, with his resume and bio sheet | **About advisor card** for Dr. Wally Potts (focal 52% 30%), replacing the initials | Matches the portrait on his own bio sheet; the office backdrop with the Tech Transpire sign looks generated. Confirm his consent and ownership/licence before production (TT-AS-030) |
 
 ## Still requested
 
