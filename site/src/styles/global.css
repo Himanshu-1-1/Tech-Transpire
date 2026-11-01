@@ -399,6 +399,7 @@ html:not(.js) .search-btn { display: none; }
 .founder-photo figcaption span { font-size: 13.5px; color: var(--muted); }
 .founder-copy { display: grid; gap: 22px; }
 .founder-more { justify-self: end; }
+.founder-copy .founder-role { margin-top: -10px; font-size: clamp(1.05rem, .95rem + .3vw, 1.2rem); color: var(--ink); }
 .founder--solo { grid-template-columns: minmax(0, 1fr); max-width: 860px; }
 .credentials { display: flex; flex-wrap: wrap; gap: 10px; list-style: none; padding: 0; }
 .credentials li { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line-strong); border-radius: 999px; padding: 7px 14px; font-size: 14px; font-weight: 500; }

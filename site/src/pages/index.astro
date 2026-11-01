@@ -35,7 +35,6 @@ const fit = fitlist(block('TT-PG-001-B07'));
 const [startConversation, seeOurWork] = ctas(block('TT-PG-001-B09'));
 const [aboutEyebrow, aboutTitle, aboutSub] = lines(block('TT-PG-004-B01'));
 const mack = team(block('TT-PG-004-B04'))[0];
-const founderIntro = mack.bio[0].split('. ')[0] + '.';
 const showFounder = isReview || isVerified('C-10');
 const showTimeframe = isReview || isVerified('C-15');
 // Leadership photography: only the labelled original (not the AI-generated archive image).
@@ -186,11 +185,23 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
       )}
       <div class="founder-copy reveal">
         <p class="eyebrow">{aboutEyebrow}</p>
-        <h2 id="built-h" data-split>{aboutTitle}</h2>
-        <p class="lead">{aboutSub}</p>
-        {showFounder && <p>{founderIntro}<Flag label="C-10 · confirm “over two decades”" /></p>}
-        {/* No credential badges here, and the link sits at the right (company mockup, 2026-11-01). */}
-        <a class="link-arrow founder-more" href="/about-us">About Tech Transpire <span class="arr" aria-hidden="true">→</span></a>
+        {showFounder ? (
+          <>
+            {/* Mack introduces himself, in his voice (company mockup 2026-11-01, D-50). No credential
+                badges; the link sits at the bottom right. */}
+            <h2 id="built-h" data-split>Hi, I’m Mack.</h2>
+            <p class="lead founder-role">{mack.role}, Tech Transpire</p>
+            <p>My journey began as an entrepreneur, where I learned that every business decision carries real consequences. Over the past two decades, I’ve helped leaders navigate complexity, challenge assumptions, and move forward with clarity.<Flag label="C-10 · confirm “two decades”" /></p>
+            <p>With a foundation in Lean, Scrum, and project management—and the disciplined problem-solving mindset of a Lean Six Sigma Black Belt—I built Tech Transpire to bring clarity before change and confidence through execution.<Flag label="C-11 ✓ · wording to approve" ok /></p>
+            <a class="link-arrow founder-more" href="/about-us#team">Get to Know Me <span class="arr" aria-hidden="true">→</span></a>
+          </>
+        ) : (
+          <>
+            <h2 id="built-h" data-split>{aboutTitle}</h2>
+            <p class="lead">{aboutSub}</p>
+            <a class="link-arrow founder-more" href="/about-us">About Tech Transpire <span class="arr" aria-hidden="true">→</span></a>
+          </>
+        )}
       </div>
     </div>
   </section>
