@@ -326,7 +326,7 @@ html:not(.js) .search-btn { display: none; }
 .section--tight { padding-block: clamp(56px, 6vw, 88px); }
 .section--navy { position: relative; isolation: isolate; overflow: hidden; background: var(--navy); color: var(--on-navy); }
 .section--navy h2, .section--navy h3 { color: #fff; }
-.section--navy .eyebrow { color: var(--sky); }
+.section--navy .eyebrow, .on-navy .eyebrow { color: var(--sky); }
 .section--navy .lead { color: var(--on-navy); }
 .section--navy .muted { color: var(--on-navy-muted); }
 .section-head { display: grid; gap: 16px; max-width: 780px; margin-bottom: clamp(40px, 4.5vw, 64px); }

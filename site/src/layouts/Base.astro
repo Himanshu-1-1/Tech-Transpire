@@ -23,10 +23,14 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href.replace(/\/$/, ''
 const og = await getImage({ src: ogImage ?? logo, width: 1200, format: 'jpg' });
 const ogUrl = new URL(og.src, Astro.site).href;
 const favicon = await getImage({ src: logo, width: 64, format: 'png' });
+const orgLogo = await getImage({ src: logo, width: 512, format: 'png' });
 const org = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
+  '@id': new URL('/#organization', Astro.site).href,
   name: SITE_NAME,
+  logo: new URL(orgLogo.src, Astro.site).href,
+  image: new URL(orgLogo.src, Astro.site).href,
   legalName: 'Akhani LLC',
   url: Astro.site!.href,
   email: 'info@techtranspire.com',

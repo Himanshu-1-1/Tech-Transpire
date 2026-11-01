@@ -1,13 +1,13 @@
 ---
 // Article template. Every block renders verbatim in source order (07 §3), with approved
 // corrections applied in lib/corrections. Case studies publish as authored (D-25).
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
 import Flag from '../../components/Flag.astro';
 import FitList from '../../components/FitList.astro';
 import InsightCard from '../../components/InsightCard.astro';
-import { blocksOf, cards, steps, stats, callout, fitlist, ctas, lines, ICON_KEYS, type Block, type Card } from '../../lib/content';
+import { block, team, blocksOf, cards, steps, stats, callout, fitlist, ctas, lines, ICON_KEYS, type Block, type Card } from '../../lib/content';
 import { visibleInsights, visibleById, TYPE_LABEL, type Insight } from '../../lib/insights';
 import { blockingClaims, omittedBlocks } from '../../lib/claims';
 import { isReview } from '../../lib/site';
@@ -63,8 +63,20 @@ const reviewNotes: Record<string, string> = {
   'TT-INS-010': 'C-18 · confirm pre-founding attribution',
 };
 const site = Astro.site!.href.replace(/\/$/, '');
+// Article markup: the cover as image, the author's public profile, and the publisher tied to the
+// site-wide Organization (Base.astro). No edit history is kept, so dateModified = datePublished.
+const cover = i.cover ? asset(i.cover) : undefined;
+const coverJpg = cover && (await getImage({ src: cover, width: 1200, format: 'jpg' }));
+const authorProfile = team(block('TT-PG-004-B04')).find((p) => p.name === i.author)?.linkedin;
 const jsonLd = [
-  { '@context': 'https://schema.org', '@type': 'Article', headline: i.h1, description: i.excerpt, datePublished: i.dateIso, author: { '@type': 'Person', name: i.author }, publisher: { '@type': 'Organization', name: 'Tech Transpire' }, mainEntityOfPage: `${site}/insights/${i.slug}` },
+  {
+    '@context': 'https://schema.org', '@type': 'Article', headline: i.h1, description: i.excerpt,
+    ...(coverJpg ? { image: [new URL(coverJpg.src, Astro.site).href] } : {}),
+    datePublished: i.dateIso, dateModified: i.dateIso,
+    author: { '@type': 'Person', name: i.author, ...(authorProfile ? { url: authorProfile } : {}) },
+    publisher: { '@id': `${site}/#organization`, '@type': 'Organization', name: 'Tech Transpire' },
+    mainEntityOfPage: `${site}/insights/${i.slug}`,
+  },
   { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [...crumbs, { label: i.cardTitle, href: `/insights/${i.slug}` }].map((c, n) => ({ '@type': 'ListItem', position: n + 1, name: c.label, item: `${site}${c.href}` })) },
 ];
 ---

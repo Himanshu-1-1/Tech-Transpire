@@ -31,7 +31,8 @@ const haystack = (e: Entry) => [e.title, e.section, e.text ?? ''].join(' ').toLo
 ---
 <header class="site-header">
   <div class="container hdr">
-    <a class="brand" href="/" aria-label="Tech Transpire home">
+    {/* No aria-label: the link's name is its visible text, the wordmark and the motto. */}
+    <a class="brand" href="/">
       <Image src={logo} alt="" width={96} height={96} loading="eager" />
       <span class="brand-text">
         <span class="wordmark"><b>Tech</b> Transpire</span>

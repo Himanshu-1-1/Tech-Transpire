@@ -523,34 +523,41 @@ function heroGlass() {
   const chips = [...document.querySelectorAll<HTMLElement>('.hero-chips .chip-float')];
   if (!canvas || !img || !chips.length || getComputedStyle(canvas).display === 'none') return;
   const signal = page!.signal;
-  // UMD file: the build wraps it as a CommonJS default export; served raw it sets a global.
-  import('../vendor/liquid-glass.js').then((mod: any) => {
-    const LG = mod?.default?.create ? mod.default : (globalThis as any).LiquidGlass;
-    if (signal.aborted || !LG?.isSupported()) return;
-    // Same crop as the <img>: object-fit cover at its object-position.
-    const pos = getComputedStyle(img).objectPosition.split(' ').map((v) => (parseFloat(v) || 50) / 100);
-    const glass = LG.create(canvas, {
-      background: img,
-      position: [pos[0], pos[1] ?? 0.5],
-      backgroundColor: '#fff',
-      maxDpr: 1.5,
-      params: {
-        thickness: 10, refraction: 0.05, dispersion: 5, blur: 6, tint: [255, 255, 255, 0.42],
-        // No engine shadow: it darkens a ridge inside the glass. The chips keep their CSS drop shadow.
-        fresnelStrength: 28, glareStrength: 70, shadowStrength: 0,
-      },
-      onError: (e: unknown) => console.warn('[hero glass]', e),
-    });
-    if (!glass) return;
-    glass.ready.then(() => canvas.classList.add('is-ready'), () => glass.destroy());
-    Promise.all(chips.flatMap((el) => el.getAnimations().map((a) => a.finished))).then(() => {
-      if (!signal.aborted) glass.setShapes(chips.map((element) => ({ element })));
+  // Building the WebGL engine is one long task (about 1 s with software rendering), so it waits
+  // for the visitor's first mouse movement instead of blocking the page as it loads. Until then
+  // the chips keep their frosted CSS look; the canvas fades in once ready.
+  const startGlass = () => {
+    if (signal.aborted) return;
+    // UMD file: the build wraps it as a CommonJS default export; served raw it sets a global.
+    import('../vendor/liquid-glass.js').then((mod: any) => {
+      const LG = mod?.default?.create ? mod.default : (globalThis as any).LiquidGlass;
+      if (signal.aborted || !LG?.isSupported()) return;
+      // Same crop as the <img>: object-fit cover at its object-position.
+      const pos = getComputedStyle(img).objectPosition.split(' ').map((v) => (parseFloat(v) || 50) / 100);
+      const glass = LG.create(canvas, {
+        background: img,
+        position: [pos[0], pos[1] ?? 0.5],
+        backgroundColor: '#fff',
+        maxDpr: 1.5,
+        params: {
+          thickness: 10, refraction: 0.05, dispersion: 5, blur: 6, tint: [255, 255, 255, 0.42],
+          // No engine shadow: it darkens a ridge inside the glass. The chips keep their CSS drop shadow.
+          fresnelStrength: 28, glareStrength: 70, shadowStrength: 0,
+        },
+        onError: (e: unknown) => console.warn('[hero glass]', e),
+      });
+      if (!glass) return;
+      glass.ready.then(() => canvas.classList.add('is-ready'), () => glass.destroy());
+      Promise.all(chips.flatMap((el) => el.getAnimations().map((a) => a.finished))).then(() => {
+        if (!signal.aborted) glass.setShapes(chips.map((element) => ({ element })));
+      }, () => {});
+      const io = new IntersectionObserver(([en]) => (en.isIntersecting ? glass.resume() : glass.pause()));
+      io.observe(canvas);
+      observers.push(io);
+      signal.addEventListener('abort', () => glass.destroy());
     }, () => {});
-    const io = new IntersectionObserver(([en]) => (en.isIntersecting ? glass.resume() : glass.pause()));
-    io.observe(canvas);
-    observers.push(io);
-    signal.addEventListener('abort', () => glass.destroy());
-  }, () => {});
+  };
+  on(window, 'pointermove', startGlass, { once: true });
 }
 
 /** Outcome dock (Home): a gradient highlight glides to the hovered or focused outcome. Once,
