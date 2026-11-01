@@ -399,16 +399,7 @@ html:not(.js) .search-btn { display: none; }
 .founder-photo figcaption span { font-size: 13.5px; color: var(--muted); }
 .founder-copy { display: grid; gap: 22px; }
 .founder-role span { white-space: nowrap; }
-.founder-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; }
-.founder-actions .founder-more { margin-left: auto; }
-.founder-toggle { padding: 0; border: 0; background: none; cursor: pointer; font: 600 14.5px/1.4 var(--f-body); color: var(--blue); }
-.founder-toggle::after { content: ' ↓'; }
-.founder-toggle[aria-expanded='true']::after { content: ' ↑'; }
-.founder-toggle:hover { text-decoration: underline; text-underline-offset: 4px; }
-.founder-toggle:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; border-radius: 4px; }
-.founder-copy [data-more-text]:not([hidden]) { animation: founder-more-in 450ms var(--ease-out) both; }
-@keyframes founder-more-in { from { opacity: 0; transform: translateY(8px); } }
-@media (prefers-reduced-motion: reduce) { .founder-copy [data-more-text] { animation: none !important; } }
+.founder-bio { display: grid; gap: 14px; max-width: 62ch; }
 .founder-more { justify-self: end; }
 .founder-copy .founder-role { margin-top: -10px; font-size: clamp(1rem, .92rem + .25vw, 1.12rem); font-weight: 600; color: var(--ink); }
 .founder--solo { grid-template-columns: minmax(0, 1fr); max-width: 860px; }

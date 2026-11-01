@@ -553,18 +553,6 @@ function heroGlass() {
   }, () => {});
 }
 
-/** "See more" (Home founder): hides the extra paragraph behind a toggle once JavaScript runs. */
-function moreToggle() {
-  document.querySelectorAll<HTMLButtonElement>('[data-more]').forEach((btn) => {
-    const text = document.getElementById(btn.getAttribute('aria-controls') ?? '');
-    if (!text) return;
-    const set = (open: boolean) => { text.hidden = !open; btn.setAttribute('aria-expanded', String(open)); btn.textContent = open ? 'See less' : 'See more'; };
-    set(false);
-    btn.hidden = false;
-    on(btn, 'click', () => set(text.hidden));
-  });
-}
-
 /** Outcome dock (Home): a gradient highlight glides to the hovered or focused outcome. Once,
  *  after the hero has settled, it sweeps across all four and rests. Desktop pointers only. */
 function dockFx() {
@@ -617,7 +605,6 @@ function init() {
   reveals();
   countUp();
   steps();
-  moreToggle();
   contactStage();
   ambient();
   sectionRail();
