@@ -117,3 +117,13 @@ Approved by the company after the external review: "Approved. Apply 'Sound Famil
 | G-10 | TT-PG-001-B03 | `Organizations solving for the wrong problem because they never got to the real one. Speed-to-execution with no clarity upfront.` | `New tools. New processes. Same frustrations. What if you’re fixing symptoms while the real problem goes untouched?` |
 | G-11 | TT-PG-001-B03 | `No clear ownership` | `Everyone’s Involved. Who’s Accountable?` |
 | G-12 | TT-PG-001-B03 | `Accountability gaps across functions. Handoffs that fall through. No one carrying the end-to-end problem.` | `Decisions stall. Handoffs fail. Problems bounce between teams. Yet nobody truly owns the outcome.` |
+
+## Applied 2026-11-01 (D-51): method step titles
+
+| ID | Block | Before | After |
+|---|---|---|---|
+| F-16a | TT-PG-001-B05 | `Deep discovery` | `Deep Discovery` |
+| F-16b | TT-PG-001-B05 | `Uncover the truth` | `Uncover the Truth` |
+| F-16c | TT-PG-001-B05 | `Quick wins and momentum` | `Quick Wins` |
+| F-16d | TT-PG-001-B05 | `Execution blueprint` | `Execution Blueprint` |
+| F-16e | TT-PG-001-B05 | `Guided execution` | `Guided Execution` |

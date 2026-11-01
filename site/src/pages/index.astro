@@ -187,13 +187,18 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
         <p class="eyebrow">{aboutEyebrow}</p>
         {showFounder ? (
           <>
-            {/* Mack introduces himself, in his voice (company mockup 2026-11-01, D-50). No credential
-                badges; the link sits at the bottom right. */}
-            <h2 id="built-h" data-split>Hi, I’m Mack.</h2>
-            <p class="lead founder-role">{mack.role}, Tech Transpire</p>
-            <p>My journey began as an entrepreneur, where I learned that every business decision carries real consequences. Over the past two decades, I’ve helped leaders navigate complexity, challenge assumptions, and move forward with clarity.<Flag label="C-10 · confirm “two decades”" /></p>
-            <p>With a foundation in Lean, Scrum, and project management—and the disciplined problem-solving mindset of a Lean Six Sigma Black Belt—I built Tech Transpire to bring clarity before change and confidence through execution.<Flag label="C-11 ✓ · wording to approve" ok /></p>
-            <a class="link-arrow founder-more" href="/about-us#team">Get to Know Me <span class="arr" aria-hidden="true">→</span></a>
+            {/* Mack introduces himself, in his voice (company copy 2026-11-01, D-50). Two paragraphs show;
+                the third, a complete thought on its own, opens with "See more" (moreToggle in
+                interactions.ts; without JavaScript all three show). */}
+            <h2 id="built-h" data-split>Hi, I’m Mack Akhani.</h2>
+            <p class="lead founder-role"><span>{mack.role}, Tech Transpire |</span>{' '}<span>Entrepreneur |</span>{' '}<span>Transformation Leader</span></p>
+            <p>My journey began as an entrepreneur, where I learned firsthand that every business decision carries real consequences—for people, investments, and the future of an organization. Over the past two decades, I’ve brought that owner’s perspective to complex business and technology transformations across industries.<Flag label="C-10 · confirm “two decades”" /></p>
+            <p>With a foundation in Lean, Scrum, and project management, and the disciplined problem-solving mindset of a <strong>Lean Six Sigma Black Belt</strong>, I help leaders uncover what truly matters, challenge assumptions, and move forward with clarity and confidence.<Flag label="C-11 ✓ · wording to approve" ok /></p>
+            <p id="mack-more" data-more-text><strong>I believe even successful businesses can be better—and struggling initiatives deserve a path forward.</strong>{' '}That’s why I built Tech Transpire: to bring clarity before change and confidence through execution.</p>
+            <div class="founder-actions">
+              <button type="button" class="founder-toggle" aria-controls="mack-more" aria-expanded="false" data-more hidden>See more</button>
+              <a class="link-arrow founder-more" href="/about-us#team">Get to Know Me <span class="arr" aria-hidden="true">→</span></a>
+            </div>
           </>
         ) : (
           <>
