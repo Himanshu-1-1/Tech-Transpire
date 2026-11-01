@@ -118,15 +118,16 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
 
   {/* Outcome dock: glass bar of the four approved outcome themes. Desktop: a gradient highlight
       glides to the hovered outcome (and sweeps across once after the hero), icon orbs draw a ring
-      and play a small motion of their own. Phones: the same items, static. */}
-  <nav class="container outcome-bar enter" style="--d:6" aria-label="What we help you achieve" data-dock>
+      and play a small motion of their own. Phones: the same items, static. A banner, not links: the
+      items do not jump down the page (company request 2026-11-01). */}
+  <div class="container outcome-bar enter" style="--d:6" role="region" aria-label="What we help you achieve" data-dock>
     <ul>
       {themes.map((t) => (
-        <li class="ob-item" data-k={t.icon}><a href="#outcomes"><span class="ob-orb"><Icon name={t.icon} /></span><span class="ob-text">{t.title.split(' ')[0]}<small>{t.title.split(' ').slice(1).join(' ')}</small></span><span class="ob-arrow" aria-hidden="true">→</span></a></li>
+        <li class="ob-item" data-k={t.icon}><span class="ob-link"><span class="ob-orb"><Icon name={t.icon} /></span><span class="ob-text">{t.title.split(' ')[0]}<small>{t.title.split(' ').slice(1).join(' ')}</small></span></span></li>
       ))}
       <li class="ob-glider" aria-hidden="true"></li>
     </ul>
-  </nav>
+  </div>
 
   <!-- Section rail (desktop): where you are on the page -->
   <nav class="rail" aria-label="Sections on this page">
@@ -188,8 +189,8 @@ const [first, second] = ['Clarity Before Change.', 'Confidence Through Execution
         <h2 id="built-h" data-split>{aboutTitle}</h2>
         <p class="lead">{aboutSub}</p>
         {showFounder && <p>{founderIntro}<Flag label="C-10 · confirm “over two decades”" /></p>}
-        {showFounder && isVerified('C-11') && <ul class="credentials"><li><Icon name="award" />Lean Six Sigma Black Belt<Flag label="C-11 ✓ · wording to approve" ok /></li></ul>}
-        <a class="link-arrow" href="/about-us">About Tech Transpire <span class="arr" aria-hidden="true">→</span></a>
+        {/* No credential badges here, and the link sits at the right (company mockup, 2026-11-01). */}
+        <a class="link-arrow founder-more" href="/about-us">About Tech Transpire <span class="arr" aria-hidden="true">→</span></a>
       </div>
     </div>
   </section>

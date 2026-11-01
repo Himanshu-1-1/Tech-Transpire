@@ -347,7 +347,7 @@ function readingProgress() {
   on(window, 'scroll', raf(update), { passive: true });
 }
 
-/* ---------- Scroll-linked motion: page progress, hero exit, image parallax, footer drift ----------
+/* ---------- Scroll-linked motion: page progress, hero exit, image parallax ----------
  * Values go into CSS variables; the styles that read them apply only under .fx-scroll,
  * so without JS or under reduced motion nothing moves. */
 function scrollFx() {
@@ -363,8 +363,6 @@ function scrollFx() {
     document.body.append(bar);
   }
   const hero = document.querySelector<HTMLElement>('.hero');
-  const mark = document.querySelector<HTMLElement>('.foot-watermark');
-  const footer = mark?.closest<HTMLElement>('.site-footer');
   const live = new Set<HTMLElement>();
   if (motion && 'IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries) => {
@@ -387,7 +385,6 @@ function scrollFx() {
       if (el.hasAttribute('data-sp')) el.style.setProperty('--sp', Math.max(0, Math.min(1, (vh - r.top) / (vh + r.height))).toFixed(4));
       else el.style.setProperty('--pv', Math.max(-1, Math.min(1, (r.top + r.height / 2 - vh / 2) / vh)).toFixed(4));
     });
-    if (mark && footer) mark.style.setProperty('--dx', `${Math.min(420, Math.max(0, footer.getBoundingClientRect().bottom - vh) * 0.5).toFixed(1)}px`);
   };
   update();
   on(window, 'scroll', raf(update), { passive: true });
