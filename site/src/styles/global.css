@@ -428,7 +428,6 @@ html:not(.js) .search-btn { display: none; }
 .method-svg { display: block; width: 100%; height: auto; overflow: visible; }
 .method-end { position: absolute; top: 0; font: 650 11.5px/1 var(--f-body); letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
 .method-end--start { left: 0; }
-.method-end--end { right: 0; color: var(--blue); }
 .m-particles circle { fill: #7FA6D1; opacity: .55; animation: drift 7s ease-in-out infinite alternate; animation-delay: calc(var(--i) * -.9s); transform-box: fill-box; }
 @keyframes drift { 0% { transform: translate(0, 0); } 50% { transform: translate(6px, -5px); } 100% { transform: translate(14px, 3px); opacity: .25; } }
 .m-complex path { fill: none; stroke-width: 1.4; opacity: .85; stroke-dasharray: 1; stroke-dashoffset: 0; transition: opacity 1200ms var(--ease-out) 1700ms; }
