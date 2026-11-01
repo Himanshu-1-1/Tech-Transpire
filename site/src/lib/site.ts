@@ -40,7 +40,7 @@ export const contact = {
   email: 'info@techtranspire.com',
   phone: '+1 (979) 479-2779',
   tel: '+19794792779',
-  linkedin: 'https://www.linkedin.com/company/techtranspire',
+  linkedin: 'https://www.linkedin.com/company/techtranspire/',
   booking: 'https://outlook.office.com/book/IntroCallwithTechTranspire@techtranspire.com/?ismsaljsauthenabled',
 };
 
