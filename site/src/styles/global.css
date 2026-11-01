@@ -154,7 +154,8 @@ p { text-wrap: pretty; }
 .wordmark { font: 400 22px/1 var(--f-body); letter-spacing: -0.025em; color: var(--ink); }
 .wordmark b { font-weight: 700; }
 .brand-text { display: grid; gap: 6px; }
-.brand-tag { font: 600 9.5px/1 var(--f-body); letter-spacing: .17em; text-transform: uppercase; color: var(--blue); white-space: nowrap; }
+.brand-tag > span { display: block; }
+.brand-tag { display: grid; gap: 3px; font: 600 9.5px/1 var(--f-body); letter-spacing: .17em; text-transform: uppercase; color: var(--blue); white-space: nowrap; }
 .brand:hover { color: var(--ink); }
 .nav { margin-left: auto; }
 /* Reference header (D-41): plain text links, the current page in bold, then a search icon. */

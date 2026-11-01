@@ -35,8 +35,8 @@ const haystack = (e: Entry) => [e.title, e.section, e.text ?? ''].join(' ').toLo
       <Image src={logo} alt="" width={96} height={96} loading="eager" />
       <span class="brand-text">
         <span class="wordmark"><b>Tech</b> Transpire</span>
-        {/* The motto sits under the logo on every page (D-29; moved here from the footer 2026-11-01, D-49). */}
-        <span class="brand-tag">Clarity. Alignment. Execution.</span>
+        {/* The positioning line sits under the logo on every page, on two lines (D-53: swapped with the footer motto). */}
+        <span class="brand-tag"><span>Clarity Before Change.</span>{' '}<span>Confidence Through Execution.</span></span>
       </span>
     </a>
     <nav class="nav" aria-label="Primary">
