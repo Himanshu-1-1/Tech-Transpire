@@ -127,3 +127,19 @@ Approved by the company after the external review: "Approved. Apply 'Sound Famil
 | F-16c | TT-PG-001-B05 | `Quick wins and momentum` | `Quick Wins` |
 | F-16d | TT-PG-001-B05 | `Execution blueprint` | `Execution Blueprint` |
 | F-16e | TT-PG-001-B05 | `Guided execution` | `Guided Execution` |
+
+## Applied 2026-11-01 (D-52): About values, from Mack Akhani
+
+| ID | Block | Before (as published after F-11) | After |
+|---|---|---|---|
+| V-01 | TT-PG-004-B03 | `We do not start work until there is full clarity of intent, priorities, and direction.` | `We align on the real problem, priorities, and path forward before taking action.` |
+| V-02 | TT-PG-004-B03 | `Ownership Without Permission` | `We Own the Outcome` |
+| V-03 | TT-PG-004-B03 | `We take responsibility without waiting to be told. We act like owners, not employees.` | `No excuses. No finger-pointing. We take responsibility and follow through.` |
+| V-04 | TT-PG-004-B03 | `Solve the Right Problem` | `Root Causes. Real Solutions.` |
+| V-05 | TT-PG-004-B03 | `We don't treat symptoms, we find root causes. Challenge assumptions. Go deep before acting. Design solutions that actually work.` | `We challenge assumptions and fix what’s actually holding you back.` |
+| V-06 | TT-PG-004-B03 | `Outcomes Over Activity` | `Results Over Activity` |
+| V-07 | TT-PG-004-B03 | `Effort means nothing without results. Focus on meaningful impact. Complete what we start. Avoid busywork.` | `Busy isn’t progress. We measure success by meaningful business outcomes.` |
+| V-08 | TT-PG-004-B03 | `High Standards, Always` | `Excellence. No Shortcuts.` |
+| V-09 | TT-PG-004-B03 | `Quality is the baseline, not an aspiration. No unverified or half-baked output. Think before sending. Represent excellence in every interaction.` | `We hold every recommendation, decision, and deliverable to a higher standard.` |
+| V-10 | TT-PG-004-B03 | `Honesty, Integrity, and Transparency` | `Truth. Even When It’s Hard.` |
+| V-11 | TT-PG-004-B03 | `We operate with complete openness, especially when it is uncomfortable. No hidden work, no hidden intent.` | `Straight answers. Risks surfaced early. No hidden agendas.` |
